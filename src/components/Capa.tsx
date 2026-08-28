@@ -5,10 +5,14 @@ import { MARCA, SELOS, zap } from "@/dados";
 export default function Capa() {
   return (
     <header id="topo" className="relative">
-      <div className="mx-auto w-[min(100%-2.5rem,1120px)] pb-14 pt-12 sm:pb-20 sm:pt-16">
-        <img src={logotipo} alt={MARCA.nome} className="w-[min(100%,440px)]" />
+      <div className="mx-auto w-[min(100%-2rem,1120px)] pb-14 pt-10 sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-16">
+        <img
+          src={logotipo}
+          alt={MARCA.nome}
+          className="mx-auto w-[min(100%,540px)]"
+        />
 
-        <div className="mt-5 flex items-center gap-3">
+        <div className="mt-5 flex items-center justify-center gap-3 text-center">
           <Grao size={13} />
           <span className="eyebrow">
             {MARCA.descritor} · {MARCA.regiao}
@@ -27,11 +31,11 @@ export default function Capa() {
               {MARCA.local}, onde meu bisavô plantou os primeiros pés no início do século 20.
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-3" data-print-hide>
-              <Botao href={zap("Olá! Quero conhecer os cafés do Vô Juca.")}>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap" data-print-hide>
+              <Botao href={zap("Olá! Quero conhecer os cafés do Vô Juca.")} largo>
                 Pedir pelo WhatsApp
               </Botao>
-              <Botao href="#cafes" tom="vazio">
+              <Botao href="#cafes" tom="vazio" largo>
                 Ver os cafés
               </Botao>
             </div>

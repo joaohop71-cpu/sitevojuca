@@ -23,7 +23,7 @@ function SeletorMoagem({
           type="button"
           onClick={() => aoTrocar(m)}
           aria-pressed={valor === m}
-          className="px-4 py-2 transition-colors"
+          className="px-5 py-3 transition-colors sm:px-4 sm:py-2"
           style={{
             fontFamily: '"Courier Prime", monospace',
             fontSize: 12,
@@ -96,7 +96,7 @@ function Cartao({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
   return (
     <article
       id={cafe.id}
-      className="flex flex-col border border-[rgba(58,39,27,0.22)] bg-[rgba(255,250,240,0.4)] p-6 sm:p-8"
+      className="flex flex-col border border-[rgba(58,39,27,0.22)] bg-[rgba(255,250,240,0.4)] p-5 sm:p-8"
       style={{ scrollMarginTop: 96 }}
     >
       <div className="flex items-start justify-between gap-4">

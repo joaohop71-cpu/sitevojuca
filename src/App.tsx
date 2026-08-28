@@ -5,7 +5,6 @@ import Sobre from "@/components/Sobre";
 import Precos from "@/components/Precos";
 import Origem from "@/components/Origem";
 import Processo from "@/components/Processo";
-import Galeria from "@/components/Galeria";
 import Contato from "@/components/Contato";
 
 export default function App() {
@@ -19,7 +18,6 @@ export default function App() {
         <Precos />
         <Origem />
         <Processo />
-        <Galeria />
         <Contato />
       </main>
     </div>

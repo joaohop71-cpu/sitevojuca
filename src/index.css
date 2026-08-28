@@ -58,6 +58,23 @@
   ::selection { background: rgb(140 58 32 / 0.2); }
   :focus-visible { outline: 2px solid #8c3a20; outline-offset: 3px; }
   img { display: block; max-width: 100%; }
+
+  /* toque: sem flash cinza do webkit e sem atraso de 300 ms */
+  a, button, label, input, summary {
+    -webkit-tap-highlight-color: rgb(140 58 32 / 0.12);
+    touch-action: manipulation;
+  }
+
+  /* palavras longas (e-mail, nomes) nunca estouram a largura no celular */
+  h1, h2, h3, h4, p, a, dd, dt, li { overflow-wrap: break-word; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {

@@ -5,7 +5,7 @@ export default function Contato() {
   return (
     <>
       <Faixa id="contato" className="py-16 sm:py-24">
-        <Rubrica num="07">Contato</Rubrica>
+        <Rubrica num="06">Contato</Rubrica>
 
         <h2 className="mt-6 max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
           Quem responde aqui sou eu
@@ -61,11 +61,15 @@ export default function Contato() {
           </dl>
 
           <div>
-            <div className="flex flex-wrap gap-3" data-print-hide>
-              <Botao href={zap("Olá! Quero fazer um pedido dos cafés do Vô Juca.")}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap" data-print-hide>
+              <Botao href={zap("Olá! Quero fazer um pedido dos cafés do Vô Juca.")} largo>
                 Pedir pelo WhatsApp
               </Botao>
-              <Botao href={`mailto:${MARCA.email}?subject=Proposta%20para%20revenda`} tom="vazio">
+              <Botao
+                href={`mailto:${MARCA.email}?subject=Proposta%20para%20revenda`}
+                tom="vazio"
+                largo
+              >
                 Proposta para revenda
               </Botao>
             </div>
@@ -81,23 +85,15 @@ export default function Contato() {
       </Faixa>
 
       <footer className="border-t border-[rgba(58,39,27,0.2)]">
-        <div className="mx-auto w-[min(100%-2.5rem,1120px)] py-10">
+        <div className="mx-auto w-[min(100%-2rem,1120px)] py-10 sm:w-[min(100%-2.5rem,1120px)]">
           <Ornamento />
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
             <span className="ficha text-[12.5px] text-[#8c7a66]">
               {MARCA.nome} · {MARCA.descritor}
             </span>
             <span className="ficha text-[12.5px] text-[#8c7a66]">
               {MARCA.local} — {MARCA.regiao}
             </span>
-            <button
-              type="button"
-              onClick={() => window.print()}
-              data-print-hide
-              className="ficha border border-[rgba(58,39,27,0.3)] px-4 py-2 text-[11.5px] uppercase tracking-[0.14em] text-[#6b4526] transition-colors hover:border-[#3a271b] hover:text-[#3a271b]"
-            >
-              Imprimir catálogo
-            </button>
           </div>
         </div>
       </footer>

@@ -18,8 +18,10 @@ export function Faixa({
       ? "bg-[#2c1d14] text-[#efe3cc]"
       : "";
   return (
-    <section id={id} className={`relative ${bg} ${className}`} style={{ scrollMarginTop: 76 }}>
-      <div className="relative mx-auto w-[min(100%-2.5rem,1120px)]">{children}</div>
+    <section id={id} className={`relative ${bg} ${className}`} style={{ scrollMarginTop: 84 }}>
+      <div className="relative mx-auto w-[min(100%-2rem,1120px)] sm:w-[min(100%-2.5rem,1120px)]">
+        {children}
+      </div>
     </section>
   );
 }
@@ -103,15 +105,19 @@ export function Botao({
   tom = "cheio",
   onClick,
   type,
+  largo = false,
 }: {
   href?: string;
   children: ReactNode;
   tom?: "cheio" | "vazio" | "claro";
   onClick?: () => void;
   type?: "button";
+  /** ocupa a linha inteira no mobile — alvo de toque maior */
+  largo?: boolean;
 }) {
-  const base =
-    "inline-flex items-center justify-center px-6 py-3 text-[14px] tracking-[0.1em] uppercase transition-colors duration-150 border";
+  const base = `inline-flex items-center justify-center px-6 py-3.5 text-[14px] tracking-[0.1em] uppercase transition-colors duration-150 border sm:py-3 ${
+    largo ? "w-full sm:w-auto" : ""
+  }`;
   const estilos = {
     cheio: "bg-[#3a271b] text-[#efe3cc] border-[#3a271b] hover:bg-[#8c3a20] hover:border-[#8c3a20]",
     vazio:

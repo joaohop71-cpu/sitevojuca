@@ -8,13 +8,13 @@ const ITENS = [
   { href: "#precos", rotulo: "Preços" },
   { href: "#origem", rotulo: "A terra" },
   { href: "#processo", rotulo: "Processo" },
-  { href: "#fotos", rotulo: "Fotos" },
   { href: "#contato", rotulo: "Contato" },
 ];
 
 export default function Navegacao() {
   const [rolou, setRolou] = useState(false);
   const [ativo, setAtivo] = useState("");
+  const [aberto, setAberto] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setRolou(window.scrollY > 40);
@@ -38,22 +38,48 @@ export default function Navegacao() {
     return () => obs.disconnect();
   }, []);
 
+  /* com o menu aberto: trava o corpo e fecha no Esc */
+  useEffect(() => {
+    if (!aberto) return;
+    const antes = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setAberto(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = antes;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [aberto]);
+
+  const rotulo = {
+    fontFamily: '"Courier Prime", monospace',
+    letterSpacing: "0.15em",
+    textTransform: "uppercase",
+  } as const;
+
   return (
     <nav
       data-print-hide
       className="sticky top-0 z-50 transition-all duration-300"
       style={{
-        background: rolou ? "rgba(239,227,204,0.93)" : "rgba(239,227,204,0.7)",
+        background: rolou || aberto ? "rgba(239,227,204,0.96)" : "rgba(239,227,204,0.7)",
         backdropFilter: "blur(10px)",
-        borderBottom: rolou ? "1px solid rgba(58,39,27,0.16)" : "1px solid transparent",
+        borderBottom:
+          rolou || aberto ? "1px solid rgba(58,39,27,0.16)" : "1px solid transparent",
       }}
       aria-label="Navegação principal"
     >
-      <div className="mx-auto flex h-[76px] w-[min(100%-2.5rem,1120px)] items-center justify-between gap-5">
-        <a href="#topo" className="flex shrink-0 items-center gap-2.5">
-          <img src={selo} alt={MARCA.nome} style={{ height: 50, width: 50 }} />
+      <div className="mx-auto flex h-[72px] w-[min(100%-2rem,1120px)] items-center justify-between gap-4 sm:h-[76px] sm:w-[min(100%-2.5rem,1120px)]">
+        <a
+          href="#topo"
+          onClick={() => setAberto(false)}
+          className="flex shrink-0 items-center gap-2.5"
+        >
+          <img src={selo} alt={MARCA.nome} className="h-11 w-11 sm:h-[50px] sm:w-[50px]" />
           <span
-            className="hidden text-[18px] leading-none sm:block"
+            className="text-[17px] leading-none sm:text-[18px]"
             style={{
               fontFamily: "Fraunces, Georgia, serif",
               fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 24',
@@ -65,17 +91,16 @@ export default function Navegacao() {
           </span>
         </a>
 
-        <div className="flex min-w-0 flex-1 items-center justify-end gap-5 overflow-x-auto sm:gap-6">
+        {/* links inline — só no desktop */}
+        <div className="hidden min-w-0 flex-1 items-center justify-end gap-5 lg:flex lg:gap-6">
           {ITENS.map((i) => (
             <a
               key={i.href}
               href={i.href}
               className="whitespace-nowrap py-2 transition-colors"
               style={{
-                fontFamily: '"Courier Prime", monospace',
+                ...rotulo,
                 fontSize: 11.5,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
                 color: ativo === i.href ? "#8c3a20" : "#6b4526",
                 borderBottom: `1px solid ${ativo === i.href ? "#8c3a20" : "transparent"}`,
               }}
@@ -87,18 +112,77 @@ export default function Navegacao() {
             href={zap("Olá! Quero conhecer os cafés do Vô Juca.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden shrink-0 border border-[#3a271b] bg-[#3a271b] px-4 py-2 text-[#efe3cc] transition-colors hover:border-[#8c3a20] hover:bg-[#8c3a20] md:inline-flex"
-            style={{
-              fontFamily: '"Courier Prime", monospace',
-              fontSize: 12,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-            }}
+            className="inline-flex shrink-0 border border-[#3a271b] bg-[#3a271b] px-4 py-2 text-[#efe3cc] transition-colors hover:border-[#8c3a20] hover:bg-[#8c3a20]"
+            style={{ ...rotulo, fontSize: 12, letterSpacing: "0.14em" }}
           >
             Pedir
           </a>
         </div>
+
+        {/* mobile: atalho de pedido + menu */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <a
+            href={zap("Olá! Quero conhecer os cafés do Vô Juca.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 items-center border border-[#3a271b] bg-[#3a271b] px-3.5 text-[#efe3cc]"
+            style={{ ...rotulo, fontSize: 11.5, letterSpacing: "0.12em" }}
+          >
+            Pedir
+          </a>
+          <button
+            type="button"
+            onClick={() => setAberto((a) => !a)}
+            aria-expanded={aberto}
+            aria-controls="menu-mobile"
+            aria-label={aberto ? "Fechar menu" : "Abrir menu"}
+            className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] border border-[rgba(58,39,27,0.35)] transition-colors active:bg-[rgba(58,39,27,0.08)]"
+          >
+            <span
+              className="block h-px w-5 bg-[#3a271b] transition-transform duration-200"
+              style={aberto ? { transform: "translateY(6px) rotate(45deg)" } : undefined}
+            />
+            <span
+              className="block h-px w-5 bg-[#3a271b] transition-opacity duration-200"
+              style={aberto ? { opacity: 0 } : undefined}
+            />
+            <span
+              className="block h-px w-5 bg-[#3a271b] transition-transform duration-200"
+              style={aberto ? { transform: "translateY(-6px) rotate(-45deg)" } : undefined}
+            />
+          </button>
+        </div>
       </div>
+
+      {/* painel do menu mobile */}
+      {aberto && (
+        <div
+          id="menu-mobile"
+          className="border-t border-[rgba(58,39,27,0.16)] lg:hidden"
+          style={{ background: "rgba(239,227,204,0.98)" }}
+        >
+          <div className="mx-auto w-[min(100%-2rem,1120px)] py-2">
+            {ITENS.map((i) => (
+              <a
+                key={i.href}
+                href={i.href}
+                onClick={() => setAberto(false)}
+                className="flex items-center justify-between border-b border-[rgba(58,39,27,0.14)] py-4 last:border-b-0"
+                style={{
+                  ...rotulo,
+                  fontSize: 13,
+                  color: ativo === i.href ? "#8c3a20" : "#3a271b",
+                }}
+              >
+                {i.rotulo}
+                <span aria-hidden="true" className="text-[#8c7a66]">
+                  →
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

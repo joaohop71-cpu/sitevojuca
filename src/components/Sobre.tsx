@@ -1,4 +1,5 @@
 import { Faixa, Ornamento, Rubrica } from "./base";
+import Galeria from "./Galeria";
 import { MARCA } from "@/dados";
 
 const MARCOS = [
@@ -85,6 +86,10 @@ export default function Sobre() {
 
       <div className="mt-14">
         <Ornamento />
+      </div>
+
+      <div id="fotos" className="mt-14" style={{ scrollMarginTop: 84 }}>
+        <Galeria />
       </div>
     </Faixa>
   );

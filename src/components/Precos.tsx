@@ -99,17 +99,17 @@ export default function Precos() {
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-0" data-print-hide>
+                        <div className="flex shrink-0 items-center gap-0" data-print-hide>
                           <button
                             type="button"
                             onClick={() => ajustar(l.chave, -1)}
                             aria-label={`Remover um ${l.nome} ${l.moagem}`}
-                            className="flex h-8 w-8 items-center justify-center border border-[rgba(58,39,27,0.3)] text-[#6b4526] transition-colors hover:bg-[rgba(58,39,27,0.07)]"
+                            className="flex h-11 w-11 items-center justify-center border border-[rgba(58,39,27,0.3)] text-[18px] text-[#6b4526] transition-colors hover:bg-[rgba(58,39,27,0.07)] sm:h-9 sm:w-9 sm:text-[15px]"
                           >
                             −
                           </button>
                           <span
-                            className="num flex h-8 w-10 items-center justify-center border-y border-[rgba(58,39,27,0.3)] text-[15px]"
+                            className="num flex h-11 w-12 items-center justify-center border-y border-[rgba(58,39,27,0.3)] text-[16px] sm:h-9 sm:w-10 sm:text-[15px]"
                             aria-live="polite"
                           >
                             {qtd[l.chave] ?? 0}
@@ -118,7 +118,7 @@ export default function Precos() {
                             type="button"
                             onClick={() => ajustar(l.chave, 1)}
                             aria-label={`Adicionar um ${l.nome} ${l.moagem}`}
-                            className="flex h-8 w-8 items-center justify-center border border-[rgba(58,39,27,0.3)] text-[#6b4526] transition-colors hover:bg-[rgba(58,39,27,0.07)]"
+                            className="flex h-11 w-11 items-center justify-center border border-[rgba(58,39,27,0.3)] text-[18px] text-[#6b4526] transition-colors hover:bg-[rgba(58,39,27,0.07)] sm:h-9 sm:w-9 sm:text-[15px]"
                           >
                             +
                           </button>
@@ -208,7 +208,7 @@ export default function Precos() {
             )}
 
             <div className="mt-6" data-print-hide>
-              <Botao href={zap(mensagem)}>
+              <Botao href={zap(mensagem)} largo>
                 {itens.length ? "Enviar no WhatsApp" : "Falar com a gente"}
               </Botao>
             </div>
