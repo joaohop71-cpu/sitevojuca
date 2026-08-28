@@ -12,12 +12,12 @@ export default function Capa() {
           className="mx-auto w-[min(100%,540px)]"
         />
 
-        <div className="mt-5 flex items-center justify-center gap-3 text-center">
-          <Grao size={13} />
-          <span className="eyebrow">
+        <p className="eyebrow mt-5 text-center leading-relaxed">
+          <Grao size={12} />
+          <span className="ml-2.5">
             {MARCA.descritor} · {MARCA.regiao}
           </span>
-        </div>
+        </p>
 
         <div className="mt-9 grid gap-x-16 gap-y-8 lg:grid-cols-[1.15fr_0.85fr]">
           <h1 className="text-[clamp(34px,5.6vw,62px)]">

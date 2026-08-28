@@ -16,6 +16,9 @@ dist-ssr
 bundle.html
 .parcel-cache
 
+# servidor local de preview — nao vai para o GitHub nem para o Vercel
+servidor-local/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
