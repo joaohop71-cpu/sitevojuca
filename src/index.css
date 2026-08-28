@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Karla:ital,wght@0,300..700;1,300..600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --papel: #efe3cc;
+    --tinta: #3a271b;
+    --radius: 0.25rem;
+    --background: 40 41% 87%;
+    --foreground: 22 37% 17%;
+    --border: 30 22% 66%;
+    --ring: 18 62% 33%;
+    --muted-foreground: 25 22% 40%;
+  }
+
+  * { border-color: rgb(58 39 27 / 0.16); }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background-color: #efe3cc;
+    color: #3a271b;
+    font-family: Karla, system-ui, sans-serif;
+    font-size: 16.5px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image:
+      radial-gradient(rgb(58 39 27 / 0.055) 0.5px, transparent 0.5px),
+      radial-gradient(rgb(58 39 27 / 0.035) 0.5px, transparent 0.5px);
+    background-size: 3px 3px, 5px 5px;
+    background-position: 0 0, 1px 2px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: Fraunces, Georgia, serif;
+    font-variation-settings: "SOFT" 15, "WONK" 1, "opsz" 72;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    line-height: 1.03;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  ::selection { background: rgb(140 58 32 / 0.2); }
+  :focus-visible { outline: 2px solid #8c3a20; outline-offset: 3px; }
+  img { display: block; max-width: 100%; }
+}
+
+@layer components {
+  .eyebrow {
+    font-family: "Courier Prime", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8c3a20;
+  }
+  .eyebrow-cru {
+    font-family: "Courier Prime", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6b4526;
+  }
+  .ficha {
+    font-family: "Courier Prime", monospace;
+    font-size: 13.5px;
+    letter-spacing: 0.03em;
+  }
+  .num { font-variant-numeric: tabular-nums; }
+  .fio-duplo {
+    border-top: 2px solid rgb(58 39 27 / 0.85);
+    border-bottom: 1px solid rgb(58 39 27 / 0.3);
+    height: 5px;
+  }
+  .foto { filter: sepia(0.2) saturate(0.86) contrast(1.05); background-color: #ddcdb0; }
+  .foto-tinta { filter: sepia(0.22) saturate(0.72) contrast(1.06) brightness(0.92); }
+  .link-sublinhado {
+    border-bottom: 1px solid rgb(140 58 32 / 0.45);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .link-sublinhado:hover { border-bottom-color: #8c3a20; color: #8c3a20; }
+}
+
+@media print {
+  body::before { display: none; }
+  [data-print-hide] { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  section { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  @page { size: A4; margin: 16mm; }
+}
