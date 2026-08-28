@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { CAFES, Cafe, Moagem, brl, porQuilo, zap } from "@/dados";
+import { CAFES, brl, porQuilo, zap } from "@/dados";
+import type { Cafe, Moagem } from "@/dados";
 import { Botao, Faixa, Grao, Rubrica } from "./base";
 
 function SeletorMoagem({
