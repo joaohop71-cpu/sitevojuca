@@ -21,7 +21,7 @@ export default function Contato() {
         <div className="mt-10 grid gap-x-16 gap-y-10 lg:grid-cols-[1.1fr_0.9fr]">
           <dl className="border-t-2 border-[#3a271b]">
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-              <dt className="ficha text-[11.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
+              <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
                 WhatsApp
               </dt>
               <dd className="m-0">
@@ -37,7 +37,7 @@ export default function Contato() {
               </dd>
             </div>
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-              <dt className="ficha text-[11.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
+              <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
                 E-mail
               </dt>
               <dd className="m-0">
@@ -51,7 +51,7 @@ export default function Contato() {
               </dd>
             </div>
             <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-              <dt className="ficha text-[11.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
+              <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
                 Onde ficamos
               </dt>
               <dd className="ficha m-0 text-right text-[#3a271b]">
@@ -88,10 +88,10 @@ export default function Contato() {
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-10 sm:w-[min(100%-2.5rem,1120px)]">
           <Ornamento />
           <div className="mt-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-            <span className="ficha text-[12.5px] text-[#8c7a66]">
+            <span className="ficha text-[13.5px] text-[#8c7a66]">
               {MARCA.nome} · {MARCA.descritor}
             </span>
-            <span className="ficha text-[12.5px] text-[#8c7a66]">
+            <span className="ficha text-[13.5px] text-[#8c7a66]">
               {MARCA.local} — {MARCA.regiao}
             </span>
           </div>

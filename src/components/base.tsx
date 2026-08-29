@@ -115,7 +115,7 @@ export function Botao({
   /** ocupa a linha inteira no mobile — alvo de toque maior */
   largo?: boolean;
 }) {
-  const base = `inline-flex items-center justify-center px-6 py-3.5 text-[14px] tracking-[0.1em] uppercase transition-colors duration-150 border sm:py-3 ${
+  const base = `inline-flex items-center justify-center px-6 py-3.5 text-[15px] tracking-[0.1em] uppercase transition-colors duration-150 border sm:py-3 ${
     largo ? "w-full sm:w-auto" : ""
   }`;
   const estilos = {

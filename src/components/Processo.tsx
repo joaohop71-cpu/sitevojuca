@@ -25,15 +25,15 @@ export default function Processo() {
             className="border-b border-[rgba(192,171,140,0.25)] py-6 lg:border-b-0 lg:border-r lg:px-5 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
           >
             <div
-              className="num text-[13px] tracking-[0.2em] text-[#8c3a20]"
+              className="num text-[14px] tracking-[0.2em] text-[#8c3a20]"
               style={{ fontFamily: '"Courier Prime", monospace' }}
             >
               {e.n}
             </div>
             <h3 className="mt-3 text-[24px] text-[#f2e7d3]">{e.nome}</h3>
-            <p className="mt-2.5 text-[14.5px] leading-relaxed text-[#bda88d]">{e.texto}</p>
+            <p className="mt-2.5 text-[15.5px] leading-relaxed text-[#bda88d]">{e.texto}</p>
             {i === ETAPAS.length - 1 && (
-              <p className="ficha mt-4 text-[11.5px] leading-snug text-[#8c3a20]">
+              <p className="ficha mt-4 text-[12.5px] leading-snug text-[#8c3a20]">
                 É por isso que o pó chega mais fresco.
               </p>
             )}

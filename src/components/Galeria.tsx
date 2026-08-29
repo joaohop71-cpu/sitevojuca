@@ -131,11 +131,11 @@ function Lightbox({
           >
             {f.legenda}
           </span>
-          <span className="ficha num shrink-0 text-[12px] text-[#bda88d]">
+          <span className="ficha num shrink-0 text-[13px] text-[#bda88d]">
             {String(i + 1).padStart(2, "0")} / {String(FOTOS.length).padStart(2, "0")}
           </span>
         </figcaption>
-        <p className="ficha mt-1 w-full max-w-[640px] text-left text-[12.5px] text-[#bda88d]">
+        <p className="ficha mt-1 w-full max-w-[640px] text-left text-[13.5px] text-[#bda88d]">
           {f.ficha}
         </p>
       </figure>
@@ -170,7 +170,7 @@ export default function Galeria() {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <h3 className="text-[clamp(22px,3vw,30px)]">A propriedade, sem produção</h3>
-        <span className="ficha num text-[12px] text-[#8c7a66]">
+        <span className="ficha num text-[13px] text-[#8c7a66]">
           {String(FOTOS.length).padStart(2, "0")} imagens · toque para ampliar
         </span>
       </div>
@@ -197,12 +197,12 @@ export default function Galeria() {
               />
             </button>
             <figcaption className="mt-2 flex items-baseline justify-between gap-3">
-              <span className="ficha text-[12.5px] text-[#3a271b]">{f.legenda}</span>
-              <span className="ficha num shrink-0 text-[11px] text-[#8c7a66]">
+              <span className="ficha text-[13.5px] text-[#3a271b]">{f.legenda}</span>
+              <span className="ficha num shrink-0 text-[12px] text-[#8c7a66]">
                 {String(i + 1).padStart(2, "0")}
               </span>
             </figcaption>
-            <p className="ficha mt-0.5 text-[11.5px] leading-snug text-[#8c7a66]">{f.ficha}</p>
+            <p className="ficha mt-0.5 text-[12.5px] leading-snug text-[#8c7a66]">{f.ficha}</p>
           </figure>
         ))}
       </div>

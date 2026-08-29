@@ -26,7 +26,7 @@ function SeletorMoagem({
           className="px-5 py-3 transition-colors sm:px-4 sm:py-2"
           style={{
             fontFamily: '"Courier Prime", monospace',
-            fontSize: 12,
+            fontSize: 13,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             background: valor === m ? "#3a271b" : "transparent",
@@ -82,10 +82,10 @@ function Fichas({ cafe }: { cafe: Cafe }) {
               : ""
           }`}
         >
-          <dt className="ficha text-[11.5px] uppercase tracking-[0.12em] text-[#8c7a66]">
+          <dt className="ficha min-w-0 shrink text-[12.5px] uppercase tracking-[0.12em] text-[#8c7a66]">
             {f.rotulo}
           </dt>
-          <dd className="ficha m-0 text-right text-[#3a271b]">{f.valor}</dd>
+          <dd className="ficha m-0 min-w-0 shrink text-right text-[#3a271b]">{f.valor}</dd>
         </div>
       ))}
     </dl>
@@ -106,7 +106,7 @@ function Cartao({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
             className="shrink-0 border border-[#8c3a20] px-2.5 py-1 text-[#8c3a20]"
             style={{
               fontFamily: '"Courier Prime", monospace',
-              fontSize: 10.5,
+              fontSize: 11.5,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
             }}
@@ -125,11 +125,11 @@ function Cartao({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
         {cafe.chamada}
       </p>
 
-      <p className="mt-4 text-[15.5px] text-[#5c4635]">{cafe.descricao}</p>
+      <p className="mt-4 text-[16.5px] text-[#5c4635]">{cafe.descricao}</p>
 
       {cafe.notas && (
         <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <span className="ficha text-[11.5px] uppercase tracking-[0.14em] text-[#8c7a66]">
+          <span className="ficha text-[12.5px] uppercase tracking-[0.14em] text-[#8c7a66]">
             Notas
           </span>
           {cafe.notas.map((n) => (
@@ -147,22 +147,22 @@ function Cartao({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
         <div className="mt-6 grid gap-5 sm:grid-cols-2">
           {cafe.sub.map((s, i) => (
             <div key={s.nome} className="border-l-2 border-[#8c3a20] pl-4">
-              <div className="ficha num text-[11.5px] text-[#8c7a66]">
+              <div className="ficha num text-[12.5px] text-[#8c7a66]">
                 Cultivar {String(i + 1).padStart(2, "0")}
               </div>
               <h4 className="mt-1 text-[21px]">{s.nome}</h4>
               <p
-                className="mt-1.5 text-[15px] leading-snug text-[#6b4526]"
+                className="mt-1.5 text-[16px] leading-snug text-[#6b4526]"
                 style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
               >
                 {s.chamada}
               </p>
-              <p className="mt-2 text-[14.5px] leading-relaxed text-[#5c4635]">{s.descricao}</p>
+              <p className="mt-2 text-[15.5px] leading-relaxed text-[#5c4635]">{s.descricao}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {s.fichas.map((f) => (
                   <span
                     key={f}
-                    className="ficha border border-[rgba(58,39,27,0.25)] px-2 py-0.5 text-[11.5px] text-[#6b4526]"
+                    className="ficha border border-[rgba(58,39,27,0.25)] px-2 py-0.5 text-[12.5px] text-[#6b4526]"
                   >
                     {f}
                   </span>
@@ -203,7 +203,7 @@ export default function Cafes() {
           </p>
         </div>
         <div data-print-hide>
-          <div className="ficha mb-2 text-[11.5px] uppercase tracking-[0.14em] text-[#8c7a66]">
+          <div className="ficha mb-2 text-[12.5px] uppercase tracking-[0.14em] text-[#8c7a66]">
             Preços em
           </div>
           <SeletorMoagem valor={moagem} aoTrocar={setMoagem} />

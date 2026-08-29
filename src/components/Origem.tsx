@@ -52,7 +52,7 @@ export default function Origem() {
             >
               {d.n}
             </dt>
-            <dd className="ficha mt-2.5 text-[12px] leading-snug text-[#6b4526]">{d.r}</dd>
+            <dd className="ficha mt-2.5 text-[13px] leading-snug text-[#6b4526]">{d.r}</dd>
           </div>
         ))}
       </dl>

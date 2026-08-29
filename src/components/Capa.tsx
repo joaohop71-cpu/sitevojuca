@@ -1,4 +1,4 @@
-import { logotipo } from "@/imagens";
+import { logotipo, selo } from "@/imagens";
 import { Botao, Grao, Ornamento } from "./base";
 import { MARCA, SELOS, zap } from "@/dados";
 
@@ -6,11 +6,19 @@ export default function Capa() {
   return (
     <header id="topo" className="relative">
       <div className="mx-auto w-[min(100%-2rem,1120px)] pb-14 pt-10 sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-16">
-        <img
-          src={logotipo}
-          alt={MARCA.nome}
-          className="mx-auto w-[min(100%,540px)]"
-        />
+        <div className="mx-auto flex w-fit items-center justify-center gap-4 sm:gap-6">
+          <img
+            src={selo}
+            alt=""
+            aria-hidden="true"
+            className="w-[clamp(52px,13vw,110px)] shrink-0"
+          />
+          <img
+            src={logotipo}
+            alt={MARCA.nome}
+            className="w-[clamp(180px,54vw,460px)]"
+          />
+        </div>
 
         <p className="eyebrow mt-5 text-center leading-relaxed">
           <Grao size={12} />

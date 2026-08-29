@@ -100,7 +100,7 @@ export default function Navegacao() {
               className="whitespace-nowrap py-2 transition-colors"
               style={{
                 ...rotulo,
-                fontSize: 11.5,
+                fontSize: 12.5,
                 color: ativo === i.href ? "#8c3a20" : "#6b4526",
                 borderBottom: `1px solid ${ativo === i.href ? "#8c3a20" : "transparent"}`,
               }}
@@ -113,7 +113,7 @@ export default function Navegacao() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex shrink-0 border border-[#3a271b] bg-[#3a271b] px-4 py-2 text-[#efe3cc] transition-colors hover:border-[#8c3a20] hover:bg-[#8c3a20]"
-            style={{ ...rotulo, fontSize: 12, letterSpacing: "0.14em" }}
+            style={{ ...rotulo, fontSize: 13, letterSpacing: "0.14em" }}
           >
             Pedir
           </a>
@@ -126,7 +126,7 @@ export default function Navegacao() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-11 items-center border border-[#3a271b] bg-[#3a271b] px-3.5 text-[#efe3cc]"
-            style={{ ...rotulo, fontSize: 11.5, letterSpacing: "0.12em" }}
+            style={{ ...rotulo, fontSize: 12.5, letterSpacing: "0.12em" }}
           >
             Pedir
           </a>
@@ -170,7 +170,7 @@ export default function Navegacao() {
                 className="flex items-center justify-between border-b border-[rgba(58,39,27,0.14)] py-4 last:border-b-0"
                 style={{
                   ...rotulo,
-                  fontSize: 13,
+                  fontSize: 14,
                   color: ativo === i.href ? "#8c3a20" : "#3a271b",
                 }}
               >
