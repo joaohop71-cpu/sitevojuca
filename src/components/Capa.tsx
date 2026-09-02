@@ -26,7 +26,7 @@ export default function Capa() {
 
           <div className="lg:pt-2">
             <p className="max-w-[46ch] text-[17px] text-[#5c4635]">
-              Café plantado, colhido, seco, torrado e moído no{" "}
+              Café plantado, colhido, seco, torrado e moído nos{" "}
               <strong className="font-semibold text-[#3a271b]">{MARCA.sitio}</strong>, em{" "}
               {MARCA.local}, onde meu bisavô plantou os primeiros pés no início do século 20.
             </p>

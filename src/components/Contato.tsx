@@ -20,46 +20,68 @@ export default function Contato() {
         </p>
 
         <div className="reveal mt-10 grid gap-x-16 gap-y-10 lg:grid-cols-[1.1fr_0.9fr]">
-          <dl className="border-t-2 border-[#3a271b]">
-            <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-              <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
-                WhatsApp
-              </dt>
-              <dd className="m-0">
-                <a
-                  href={zap("Olá! Vim pelo site do Vô Juca.")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-sublinhado num text-[20px]"
-                  style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
-                >
-                  {MARCA.whatsappVisivel}
-                </a>
-              </dd>
+          <div>
+            <dl className="border-t-2 border-[#3a271b]">
+              <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
+                <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
+                  WhatsApp
+                </dt>
+                <dd className="m-0">
+                  <a
+                    href={zap("Olá! Vim pelo site do Vô Juca.")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-sublinhado num text-[20px]"
+                    style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
+                  >
+                    {MARCA.whatsappVisivel}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
+                <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
+                  E-mail
+                </dt>
+                <dd className="m-0">
+                  <a
+                    href={`mailto:${MARCA.email}`}
+                    className="link-sublinhado break-all text-[19px]"
+                    style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
+                  >
+                    {MARCA.email}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
+                <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
+                  Onde ficamos
+                </dt>
+                <dd className="ficha m-0 text-right text-[#3a271b]">
+                  {MARCA.sitio} · {MARCA.local}
+                </dd>
+              </div>
+            </dl>
+
+            <div className="moldura mt-6 p-2.5" data-print-hide>
+              <iframe
+                title={`Mapa: ${MARCA.sitio}`}
+                src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=15&output=embed`}
+                className="block h-[220px] w-full sm:h-[260px]"
+                style={{ border: 0, filter: "sepia(0.4) saturate(0.65) contrast(1.05)" }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
-            <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-              <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
-                E-mail
-              </dt>
-              <dd className="m-0">
-                <a
-                  href={`mailto:${MARCA.email}`}
-                  className="link-sublinhado break-all text-[19px]"
-                  style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
-                >
-                  {MARCA.email}
-                </a>
-              </dd>
-            </div>
-            <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-              <dt className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#8c7a66]">
-                Onde ficamos
-              </dt>
-              <dd className="ficha m-0 text-right text-[#3a271b]">
-                {MARCA.sitio} · {MARCA.local}
-              </dd>
-            </div>
-          </dl>
+            <a
+              href={MARCA.mapaLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-sublinhado ficha mt-3 inline-block text-[12.5px] uppercase tracking-[0.1em] text-[#6b4526]"
+              data-print-hide
+            >
+              Ver no Google Maps →
+            </a>
+          </div>
 
           <div>
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap" data-print-hide>

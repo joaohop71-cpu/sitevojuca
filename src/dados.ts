@@ -10,11 +10,15 @@ export const MARCA = {
   bisnetoNasc: 2002,
   anosEntreOsJucas: 115,
   local: "Santa Rita do Sapucaí",
-  sitio: "Sítio Dois Coqueiros",
+  sitio: "Sítios Dois Coqueiros e JR",
   regiao: "Sul de Minas",
   whatsapp: "5548991127997",
   whatsappVisivel: "(48) 99112-7997",
   email: "cafeminassanta@gmail.com",
+  mapaLat: -22.2098652,
+  mapaLng: -45.6187367,
+  mapaLink:
+    "https://www.google.com/maps/place/S%C3%ADtios+Dois+Coqueiros+e+JR/@-22.2100134,-45.6209657,847m/data=!3m1!1e3!4m6!3m5!1s0x94cba1004ad44a0f:0xbab140c06250648f!8m2!3d-22.2098652!4d-45.6187367!16s%2Fg%2F11n3zp72d7",
 };
 
 export function zap(mensagem: string) {

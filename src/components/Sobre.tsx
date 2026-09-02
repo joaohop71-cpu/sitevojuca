@@ -13,7 +13,7 @@ const MARCOS = [
     ano: "Início do séc. XX",
     titulo: "Os primeiros pés de café",
     texto:
-      "Ainda jovem, o Juca planta café no Sítio Dois Coqueiros. É a lavoura que segue na família até hoje.",
+      "Ainda jovem, o Juca planta café nos Sítios Dois Coqueiros e JR. É a lavoura que segue na família até hoje.",
   },
   {
     ano: "1976",
@@ -57,7 +57,7 @@ export default function Sobre() {
           Meu bisavô se chamava{" "}
           <strong className="font-semibold text-[#3a271b]">{MARCA.fundador}</strong>, mas
           ninguém o chamava assim. Ele era o Juca Chaves — filho de portugueses, nascido em{" "}
-          {MARCA.local} em 1887, e o primeiro da família a plantar café no{" "}
+          {MARCA.local} em 1887, e o primeiro da família a plantar café nos{" "}
           {MARCA.sitio}. Morreu em 1976, na mesma cidade onde nasceu.
         </p>
         <p className="text-[17px] text-[#5c4635]">
