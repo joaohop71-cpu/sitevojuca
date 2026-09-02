@@ -25,7 +25,7 @@ export default function Processo() {
             className="border-b border-[rgba(192,171,140,0.25)] py-6 lg:border-b-0 lg:border-r lg:px-5 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
           >
             <div
-              className="num text-[14px] tracking-[0.2em] text-[#8c3a20]"
+              className="num text-[15px] tracking-[0.2em] text-[#8c3a20]"
               style={{ fontFamily: '"Courier Prime", monospace' }}
             >
               {e.n}

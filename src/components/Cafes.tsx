@@ -26,7 +26,7 @@ function SeletorMoagem({
           className="px-5 py-3 transition-colors sm:px-4 sm:py-2"
           style={{
             fontFamily: '"Courier Prime", monospace',
-            fontSize: 13,
+            fontSize: 14,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             background: valor === m ? "#3a271b" : "transparent",
@@ -106,7 +106,7 @@ function Cartao({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
             className="shrink-0 border border-[#8c3a20] px-2.5 py-1 text-[#8c3a20]"
             style={{
               fontFamily: '"Courier Prime", monospace',
-              fontSize: 11.5,
+              fontSize: 12.5,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
             }}

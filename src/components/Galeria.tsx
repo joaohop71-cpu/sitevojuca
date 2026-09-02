@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   cerejaDetalhe,
+  cerejaGota,
   cerejas,
+  cerejasSerra,
   jucaLavoura,
+  linhasCafezal,
   montanhas,
   poente,
   talhoes,
@@ -25,10 +28,22 @@ const FOTOS: Foto[] = [
     ficha: "Plantio novo, terra vermelha",
   },
   {
+    src: linhasCafezal,
+    alt: "Renques de café já formados, com palha entre as linhas e as montanhas do Sul de Minas ao fundo",
+    legenda: "Os renques formados",
+    ficha: "Cafezal adulto, carreador coberto",
+  },
+  {
     src: cerejas,
     alt: "Cacho de cerejas de café maduras entre as folhas",
     legenda: "Cerejas maduras",
     ficha: "O ponto da colheita",
+  },
+  {
+    src: cerejasSerra,
+    alt: "Ramo carregado de cerejas vermelhas em primeiro plano, com a lavoura e as montanhas do Sul de Minas ao fundo",
+    legenda: "Fruto e paisagem",
+    ficha: "Cereja no pé, serra atrás",
   },
   {
     src: montanhas,
@@ -53,6 +68,12 @@ const FOTOS: Foto[] = [
     alt: "Detalhe aproximado dos frutos vermelhos agarrados ao ramo",
     legenda: "O fruto de perto",
     ficha: "Detalhe do ramo",
+  },
+  {
+    src: cerejaGota,
+    alt: "Gota d'água escorrendo de uma folha sobre cerejas de café, com o carreador desfocado ao fundo",
+    legenda: "Manhã na lavoura",
+    ficha: "Orvalho, cedo da manhã",
   },
 ];
 
