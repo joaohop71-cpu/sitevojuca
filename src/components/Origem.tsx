@@ -4,9 +4,9 @@ import { MARCA } from "@/dados";
 export default function Origem() {
   return (
     <Faixa id="origem" className="py-16 sm:py-24">
-      <Rubrica num="04">A terra</Rubrica>
+      <Rubrica num="05">A terra</Rubrica>
 
-      <h2 className="mt-6 max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
+      <h2 className="reveal mt-6 max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
         Por que a origem muda o que vai na xícara
       </h2>
 
@@ -24,7 +24,7 @@ export default function Origem() {
         </p>
       </div>
 
-      <blockquote className="mt-12 border-y border-[rgba(58,39,27,0.25)] py-8">
+      <blockquote className="reveal mt-12 border-y border-[rgba(58,39,27,0.25)] py-8">
         <p
           className="max-w-[30ch] text-[clamp(24px,3.4vw,40px)] leading-tight text-[#6b4526]"
           style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic", fontWeight: 400 }}
@@ -33,11 +33,11 @@ export default function Origem() {
         </p>
       </blockquote>
 
-      <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+      <dl className="reveal mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
         {[
           { n: "4", r: "gerações na mesma terra" },
           { n: "115", r: "anos entre os dois Jucas" },
-          { n: "830", r: "metros acima do mar" },
+          { n: "998", r: "metros acima do mar" },
           { n: "100%", r: "arábica" },
           { n: "5", r: "etapas dentro do sítio" },
         ].map((d) => (

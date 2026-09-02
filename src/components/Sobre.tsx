@@ -40,11 +40,19 @@ export default function Sobre() {
     <Faixa id="sobre" fundo="creme" className="py-16 sm:py-24">
       <Rubrica num="02">Sobre nós</Rubrica>
 
-      <h2 className="mt-6 max-w-[24ch] text-[clamp(30px,4.4vw,52px)]">
-        O apelido sumiu por três gerações e voltou por acidente
+      <h2 className="reveal mt-6 max-w-[16ch] text-[clamp(32px,5vw,58px)]">
+        Juca era o apelido do meu bisavô.{" "}
+        <em className="block" style={{ fontStyle: "italic", color: "#6b4526" }}>
+          115 anos depois, virou o meu.
+        </em>
       </h2>
 
-      <div className="mt-6 grid gap-x-16 gap-y-4 lg:grid-cols-2">
+      <p className="reveal mt-7 max-w-[48ch] text-[17px] text-[#6b4526]">
+        Por força do destino, e sem ninguém planejar — e com o apelido veio também a
+        paixão pelo café.
+      </p>
+
+      <div className="reveal mt-10 grid gap-x-16 gap-y-4 lg:grid-cols-2">
         <p className="text-[17px] text-[#5c4635]">
           Meu bisavô se chamava{" "}
           <strong className="font-semibold text-[#3a271b]">{MARCA.fundador}</strong>, mas
@@ -53,15 +61,15 @@ export default function Sobre() {
           {MARCA.sitio}. Morreu em 1976, na mesma cidade onde nasceu.
         </p>
         <p className="text-[17px] text-[#5c4635]">
-          Nasci em 2002, 115 anos depois dele. Em algum momento meus amigos começaram a me
-          chamar de Juca — sem saber que existiu um Juca antes de mim, e sem nenhuma
-          ligação com café. Levei anos para achar graça na coincidência. Este projeto é o
-          que fiz com ela: o mesmo apelido e o mesmo café, quatro gerações depois.
+          Nasci em 2002. Em algum momento meus amigos começaram a me chamar de Juca — sem
+          saber que existiu um Juca antes de mim, e sem nenhuma ligação com café. Levei
+          anos para achar graça na coincidência. Este projeto é o que fiz com ela: o mesmo
+          apelido e o mesmo café, quatro gerações depois.
         </p>
       </div>
 
       {/* linha do tempo do apelido */}
-      <ol className="mt-14 grid gap-0 border-t-2 border-[#3a271b] sm:grid-cols-2 lg:grid-cols-5">
+      <ol className="reveal mt-14 grid gap-0 border-t-2 border-[#3a271b] sm:grid-cols-2 lg:grid-cols-5">
         {MARCOS.map((m) => (
           <li
             key={m.ano}
@@ -88,7 +96,7 @@ export default function Sobre() {
         <Ornamento />
       </div>
 
-      <div id="fotos" className="mt-14" style={{ scrollMarginTop: 84 }}>
+      <div id="fotos" className="reveal mt-14" style={{ scrollMarginTop: 84 }}>
         <Galeria />
       </div>
     </Faixa>

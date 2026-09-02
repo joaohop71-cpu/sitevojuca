@@ -49,7 +49,7 @@ const FOTOS: Foto[] = [
     src: montanhas,
     alt: "Lavoura de café adulta com as montanhas do Sul de Minas ao fundo",
     legenda: "A lavoura e a serra",
-    ficha: "Café adulto, 830 m",
+    ficha: "Café adulto, 998 m",
   },
   {
     src: poente,

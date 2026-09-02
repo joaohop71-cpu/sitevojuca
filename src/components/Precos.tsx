@@ -51,9 +51,9 @@ export default function Precos() {
 
   return (
     <Faixa id="precos" fundo="creme" className="py-16 sm:py-24">
-      <Rubrica num="03">Preços e pedido</Rubrica>
+      <Rubrica num="04">Preços e pedido</Rubrica>
 
-      <div className="mt-6 max-w-[60ch]">
+      <div className="reveal mt-6 max-w-[60ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)]">Monte o pedido aqui</h2>
         <p className="mt-4 text-[#5c4635]">
           Pacotes de 250 g. Some o que quiser na tabela e o WhatsApp já abre com o pedido
@@ -138,7 +138,7 @@ export default function Precos() {
         </div>
 
         {/* resumo */}
-        <aside className="lg:sticky lg:top-24 lg:self-start">
+        <aside className="reveal lg:sticky lg:top-24 lg:self-start">
           <div className="border border-[rgba(58,39,27,0.3)] bg-[rgba(255,250,240,0.6)] p-6">
             <div className="eyebrow">Seu pedido</div>
 

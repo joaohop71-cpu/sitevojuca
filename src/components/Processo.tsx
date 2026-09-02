@@ -4,11 +4,11 @@ import { Faixa, Rubrica } from "./base";
 export default function Processo() {
   return (
     <Faixa id="processo" fundo="tinta" className="py-16 sm:py-24">
-      <Rubrica num="05" claro>
+      <Rubrica num="06" claro>
         O processo
       </Rubrica>
 
-      <div className="mt-6 max-w-[58ch]">
+      <div className="reveal mt-6 max-w-[58ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)] text-[#f2e7d3]">
           Cinco etapas, todas dentro do sítio
         </h2>

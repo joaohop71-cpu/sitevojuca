@@ -96,7 +96,7 @@ function Cartao({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
   return (
     <article
       id={cafe.id}
-      className="flex flex-col border border-[rgba(58,39,27,0.22)] bg-[rgba(255,250,240,0.4)] p-5 sm:p-8"
+      className="reveal flex flex-col border border-[rgba(58,39,27,0.22)] bg-[rgba(255,250,240,0.4)] p-5 sm:p-8"
       style={{ scrollMarginTop: 96 }}
     >
       <div className="flex items-start justify-between gap-4">
@@ -192,7 +192,7 @@ export default function Cafes() {
     <Faixa id="cafes" className="py-16 sm:py-24">
       <Rubrica num="01">Os cafés</Rubrica>
 
-      <div className="mt-6 flex flex-wrap items-end justify-between gap-6">
+      <div className="reveal mt-6 flex flex-wrap items-end justify-between gap-6">
         <div>
           <h2 className="max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
             Quatro linhas, uma lavoura só
