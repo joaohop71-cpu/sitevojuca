@@ -2,13 +2,25 @@ import { useMemo, useState } from "react";
 import { CAFES, brl, porQuilo, zap } from "@/dados";
 import { Botao, Faixa, Rubrica } from "./base";
 
-type Linha = { chave: string; nome: string; moagem: "grao" | "moido"; preco: number };
+type Linha = {
+  chave: string;
+  nome: string;
+  moagem: "grao" | "moido";
+  preco: number;
+  gramas: number;
+};
+
+/** nome cheio: as duas Heranças só se distinguem pelo lote */
+function rotuloCafe(c: (typeof CAFES)[number]) {
+  return c.lote ? `${c.nome} ${c.lote}` : c.nome;
+}
 
 const LINHAS: Linha[] = CAFES.flatMap((c) => {
   const out: Linha[] = [];
+  const base = { nome: rotuloCafe(c), gramas: c.gramas };
   if (c.preco.grao !== null)
-    out.push({ chave: `${c.id}-grao`, nome: c.nome, moagem: "grao", preco: c.preco.grao });
-  out.push({ chave: `${c.id}-moido`, nome: c.nome, moagem: "moido", preco: c.preco.moido });
+    out.push({ ...base, chave: `${c.id}-grao`, moagem: "grao", preco: c.preco.grao });
+  out.push({ ...base, chave: `${c.id}-moido`, moagem: "moido", preco: c.preco.moido });
   return out;
 });
 
@@ -26,6 +38,8 @@ export default function Precos() {
   const subtotal = itens.reduce((s, l) => s + l.preco * (qtd[l.chave] ?? 0), 0);
   const total = primeira ? subtotal * (1 - DESCONTO) : subtotal;
   const pacotes = itens.reduce((s, l) => s + (qtd[l.chave] ?? 0), 0);
+  /* os pacotes têm pesos diferentes (300 g e 500 g), então o peso vem de cada linha */
+  const quilos = itens.reduce((s, l) => s + (l.gramas / 1000) * (qtd[l.chave] ?? 0), 0);
 
   function ajustar(chave: string, d: number) {
     setQtd((q) => {
@@ -39,9 +53,9 @@ export default function Precos() {
     const linhas = itens
       .map(
         (l) =>
-          `• ${qtd[l.chave]}x ${l.nome} — ${l.moagem === "grao" ? "em grão" : "moído"} (${brl(
-            l.preco
-          )} cada)`
+          `• ${qtd[l.chave]}x ${l.nome} ${l.gramas} g — ${
+            l.moagem === "grao" ? "em grão" : "moído"
+          } (${brl(l.preco)} cada)`
       )
       .join("\n");
     return `Olá! Quero fazer este pedido:\n\n${linhas}\n\nSubtotal: ${brl(subtotal)}${
@@ -56,8 +70,8 @@ export default function Precos() {
       <div className="reveal mt-6 max-w-[60ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)]">Monte o pedido aqui</h2>
         <p className="mt-4 text-[#5c4635]">
-          Pacotes de 250 g. Some o que quiser na tabela e o WhatsApp já abre com o pedido
-          escrito — sem formulário, sem cadastro.
+          Pacotes de 300 g, e de 500 g no Minas Santa. Some o que quiser na tabela e o
+          WhatsApp já abre com o pedido escrito — sem formulário, sem cadastro.
         </p>
       </div>
 
@@ -66,7 +80,8 @@ export default function Precos() {
         <div>
           <div className="border-t-2 border-[#3a271b]">
             {CAFES.map((c) => {
-              const doCafe = LINHAS.filter((l) => l.nome === c.nome);
+              /* pelo id, e não pelo nome: as duas Heranças se chamam igual */
+              const doCafe = LINHAS.filter((l) => l.chave.startsWith(`${c.id}-`));
               return (
                 <div
                   key={c.id}
@@ -74,10 +89,10 @@ export default function Precos() {
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                     <a href={`#${c.id}`} className="link-sublinhado text-[22px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
-                      {c.nome}
+                      {rotuloCafe(c)}
                     </a>
                     <span className="ficha text-[12.5px] uppercase tracking-[0.12em] text-[#8c7a66]">
-                      {c.categoria}
+                      {c.tarja} · {c.gramas} g
                     </span>
                   </div>
 
@@ -95,7 +110,7 @@ export default function Precos() {
                             {brl(l.preco)}
                           </span>
                           <span className="ficha num text-[12.5px] text-[#8c7a66]">
-                            {porQuilo(l.preco)}/kg
+                            {porQuilo(l.preco, l.gramas)}/kg
                           </span>
                         </div>
 
@@ -140,7 +155,7 @@ export default function Precos() {
         {/* resumo */}
         <aside className="reveal lg:sticky lg:top-24 lg:self-start">
           <div className="border border-[rgba(58,39,27,0.3)] bg-[rgba(255,250,240,0.6)] p-6">
-            <div className="eyebrow">Seu pedido</div>
+            <div className="eyebrow">Seu carrinho</div>
 
             {itens.length === 0 ? (
               <p className="mt-4 text-[16px] text-[#6b4526]">
@@ -183,7 +198,8 @@ export default function Precos() {
                       Total
                     </div>
                     <div className="ficha num text-[12.5px] text-[#8c7a66]">
-                      {pacotes} {pacotes === 1 ? "pacote" : "pacotes"} · {(pacotes * 0.25).toLocaleString("pt-BR")} kg
+                      {pacotes} {pacotes === 1 ? "pacote" : "pacotes"} ·{" "}
+                      {quilos.toLocaleString("pt-BR", { maximumFractionDigits: 2 })} kg
                     </div>
                   </div>
                   <div className="text-right">

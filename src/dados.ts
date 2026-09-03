@@ -19,6 +19,7 @@ export const MARCA = {
   mapaLng: -45.6187367,
   mapaLink:
     "https://www.google.com/maps/place/S%C3%ADtios+Dois+Coqueiros+e+JR/@-22.2100134,-45.6209657,847m/data=!3m1!1e3!4m6!3m5!1s0x94cba1004ad44a0f:0xbab140c06250648f!8m2!3d-22.2098652!4d-45.6187367!16s%2Fg%2F11n3zp72d7",
+  safra: "2025 / 2026",
 };
 
 export function zap(mensagem: string) {
@@ -27,96 +28,126 @@ export function zap(mensagem: string) {
 
 export type Moagem = "grao" | "moido";
 
+/** Cor da tinta do rótulo — uma por linha de café. */
+export type CorRotulo = "vinho" | "verde" | "tinta";
+
 export type Cafe = {
   id: string;
   nome: string;
-  categoria: string;
+  /** cultivar impresso sob o nome, quando a linha tem mais de um lote */
+  lote?: string;
+  /** tarja do canto superior direito do rótulo */
+  tarja: string;
+  /** linhas de qualificação acima do nome */
+  qualificacao: string[];
+  /** frase em itálico sob o nome */
   chamada: string;
-  descricao: string;
-  notas?: string[];
+  notas: string[];
   fichas: { rotulo: string; valor: string }[];
+  /** 1 a 5 */
+  intensidade: number;
+  gramas: number;
+  /** como o café é entregue, impresso no pé do rótulo */
+  formato: string;
+  cor: CorRotulo;
+  descricao: string;
   preco: { grao: number | null; moido: number };
-  destaque?: boolean;
-  sub?: { nome: string; chamada: string; descricao: string; fichas: string[] }[];
 };
 
 export const CAFES: Cafe[] = [
   {
-    id: "jukafe",
-    nome: "O Jukafé",
-    categoria: "Tradicional",
-    chamada: "O café do dia a dia, com origem e regularidade.",
-    descricao:
-      "Café tradicional do dia a dia, feito para quem preza qualidade em cada xícara. É o carro-chefe da casa — presente na rotina de quem não abre mão de um bom café, seja em casa, no escritório ou em qualquer momento do dia.",
+    id: "juca-chaves",
+    nome: "Juca Chaves",
+    tarja: "Seleção especial",
+    qualificacao: ["Café especial · 100% arábica", "Torra e colheita artesanal"],
+    chamada: "Da nossa lavoura, o sabor suave de sempre",
+    notas: ["Frutado", "Doce", "Floral"],
     fichas: [
-      { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Bebida", valor: "Dura riada 3/7" },
-      { rotulo: "Peneira", valor: "14+" },
-      { rotulo: "Cata", valor: "10%" },
+      { rotulo: "Tipo", valor: "100% arábica" },
+      { rotulo: "Seleção", valor: "Manual" },
+      { rotulo: "Pontuação SCA", valor: "82 pontos +" },
+      { rotulo: "Peneira", valor: "16 +" },
+      { rotulo: "Variedade", valor: "Arara" },
+      { rotulo: "Altitude", valor: "998 m" },
     ],
-    preco: { grao: 35.9, moido: 37.9 },
-    destaque: true,
+    intensidade: 3,
+    gramas: 300,
+    formato: "Torrado em grãos",
+    cor: "verde",
+    descricao:
+      "Café especial colhido e torrado na própria propriedade. Perfil suave, doce e floral — o rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
+    preco: { grao: 43.08, moido: 45.48 },
   },
   {
-    id: "premium",
-    nome: "Café Blend Premium",
-    categoria: "Especial",
-    chamada: "Equilíbrio e sofisticação para subir de nível.",
-    descricao:
-      "Corpo encorpado, acidez cítrica e finalização doce e longa. O rótulo certo para quem já valoriza cafés melhores sem abrir mão de um perfil amplo e agradável.",
-    notas: ["Caramelo", "Chocolate", "Malte", "Rapadura"],
+    id: "herancas-2sl",
+    nome: "Heranças",
+    lote: "2 SL",
+    tarja: "Coleção limitada",
+    qualificacao: ["Café especial · Microlote", "100% arábica · Colheita manual"],
+    chamada: "Coleção limitada de uma experiência sensorial única",
+    notas: ["Mel", "Floral", "Capim-limão"],
     fichas: [
-      { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Classificação", valor: "Café especial" },
-      { rotulo: "Pontuação", valor: "82 pontos+" },
-      { rotulo: "Peneira", valor: "15+" },
+      { rotulo: "Tipo", valor: "100% arábica" },
+      { rotulo: "Seleção", valor: "Manual" },
+      { rotulo: "Pontuação SCA", valor: "84 pontos +" },
+      { rotulo: "Peneira", valor: "16 +" },
+      { rotulo: "Variedade", valor: "Catucaí Amarelo" },
+      { rotulo: "Altitude", valor: "998 m" },
+    ],
+    intensidade: 3,
+    gramas: 300,
+    formato: "Torrado em grãos",
+    cor: "vinho",
+    descricao:
+      "Notas florais e aroma de mel, com sabor de mel e capim-limão. Corpo licoroso, acidez cítrica e finalização longa e doce. Microlote de Catucaí 2SL colhido à mão.",
+    preco: { grao: 49.8, moido: 52.2 },
+  },
+  {
+    id: "herancas-24-137",
+    nome: "Heranças",
+    lote: "24 / 137",
+    tarja: "Coleção limitada",
+    qualificacao: ["Café especial · Microlote", "100% arábica · Colheita manual"],
+    chamada: "Coleção limitada de uma experiência sensorial única",
+    notas: ["Floral", "Frutas amarelas", "Pêssego em calda"],
+    fichas: [
+      { rotulo: "Tipo", valor: "100% arábica" },
+      { rotulo: "Seleção", valor: "Manual" },
+      { rotulo: "Pontuação SCA", valor: "84 pontos +" },
+      { rotulo: "Peneira", valor: "16 +" },
+      { rotulo: "Variedade", valor: "Catucaí Amarelo" },
+      { rotulo: "Altitude", valor: "998 m" },
+    ],
+    intensidade: 3,
+    gramas: 300,
+    formato: "Torrado em grãos",
+    cor: "vinho",
+    descricao:
+      "Notas florais e aroma de frutas cítricas, com sabor de frutas amarelas e pêssego em calda. Corpo encorpado, acidez cítrica e finalização longa e doce. Microlote de Catucaí 24-137.",
+    preco: { grao: 49.8, moido: 52.2 },
+  },
+  {
+    id: "minas-santa",
+    nome: "Minas Santa",
+    tarja: "Para o dia a dia",
+    qualificacao: ["Café superior · Blend 100% arábica", "Torra e colheita artesanal"],
+    chamada: "Corpo e presença para o seu dia a dia",
+    notas: ["Encorpado", "Sabor marcante", "Tradicional"],
+    fichas: [
+      { rotulo: "Tipo", valor: "Blend 100% arábica" },
+      { rotulo: "Peneira", valor: "14 +" },
+      { rotulo: "Catação", valor: "10 %" },
       { rotulo: "Torra", valor: "Média" },
+      { rotulo: "Variedade", valor: "Arara" },
+      { rotulo: "Altitude", valor: "998 m" },
     ],
-    preco: { grao: 39.9, moido: 41.9 },
-  },
-  {
-    id: "cultivares",
-    nome: "Cafés Cultivares",
-    categoria: "Cultivares especiais",
-    chamada: "Microlotes para quem valoriza sensorial e experiência.",
+    intensidade: 4,
+    gramas: 500,
+    formato: "Torrado e moído · moagem fina",
+    cor: "tinta",
     descricao:
-      "A faixa mais alta do portfólio: 84 pontos+, peneira 16+ e identidade varietal nítida. Dois cultivares colhidos na própria lavoura, indicados para presente, degustação e revenda diferenciada.",
-    fichas: [
-      { rotulo: "Pontuação", valor: "84 pontos+" },
-      { rotulo: "Peneira", valor: "16+" },
-      { rotulo: "Lote", valor: "Microlote" },
-    ],
-    preco: { grao: 41.5, moido: 43.5 },
-    sub: [
-      {
-        nome: "Catucaí 24-137",
-        chamada: "Delicadeza floral e notas de pêssego.",
-        descricao:
-          "Notas florais e aroma de frutas cítricas, sabor de frutas amarelas e pêssego em calda. Corpo encorpado, acidez cítrica e finalização longa e doce.",
-        fichas: ["Frutado", "Floral", "Pêssego"],
-      },
-      {
-        nome: "Catucaí 2SL",
-        chamada: "Mel, capim-limão e personalidade marcante.",
-        descricao:
-          "Notas florais e aroma de mel, sabor de mel, floral e capim-limão. Corpo licoroso, acidez cítrica e finalização longa e doce.",
-        fichas: ["Mel", "Capim-limão", "Licoroso"],
-      },
-    ],
-  },
-  {
-    id: "primeiro-gole",
-    nome: "Café Primeiro Gole",
-    categoria: "Mais acessível",
-    chamada: "Intenso, prático e direto ao ponto.",
-    descricao:
-      "Torra mais forte e sabor pronunciado, para quem prioriza intensidade, rendimento e preço. Uma alternativa superior aos tradicionais de mercado: origem controlada e seleção criteriosa, sem torra excessiva para mascarar impurezas.",
-    fichas: [
-      { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Torra", valor: "Mais forte" },
-      { rotulo: "Perfil", valor: "Intenso" },
-    ],
-    preco: { grao: null, moido: 27.5 },
+      "O café da rotina, feito para quem preza qualidade em cada xícara. É o carro-chefe da casa — presente no dia de quem não abre mão de um bom café, em casa, no escritório ou a qualquer hora.",
+    preco: { grao: null, moido: 55.0 },
   },
 ];
 
@@ -159,6 +190,10 @@ export function brl(v: number) {
   return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
-export function porQuilo(v: number) {
-  return (v * 4).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+/** Preço por quilo — os pacotes têm pesos diferentes, então o peso entra na conta. */
+export function porQuilo(preco: number, gramas: number) {
+  return ((preco * 1000) / gramas).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
 }

@@ -81,6 +81,58 @@ export function Grao({
   );
 }
 
+/* folhas e frutos posicionados ao longo do galho — angulo em graus,
+   medido a partir do eixo x; 180+ aponta para a esquerda */
+const FOLHAS = [
+  { x: 62, y: 30, a: 206, e: 1 },
+  { x: 62, y: 30, a: 154, e: 0.86 },
+  { x: 84, y: 30, a: 214, e: 0.8 },
+  { x: 138, y: 30, a: -26, e: 1 },
+  { x: 138, y: 30, a: 26, e: 0.86 },
+  { x: 116, y: 30, a: -34, e: 0.8 },
+];
+
+const FRUTOS = [
+  { x: 74, y: 41, r: 4.4 }, { x: 83, y: 44, r: 4 }, { x: 66, y: 45, r: 3.6 },
+  { x: 92, y: 39, r: 3.4 },
+  { x: 126, y: 41, r: 4.4 }, { x: 117, y: 44, r: 4 }, { x: 134, y: 45, r: 3.6 },
+  { x: 108, y: 39, r: 3.4 },
+  { x: 100, y: 46, r: 4.6 },
+];
+
+/** ramo de café — ornamento central dos rótulos */
+export function RamoCafe({
+  verde = "#4f5b3f",
+  fruto = "#8c3a20",
+  className = "",
+}: {
+  verde?: string;
+  fruto?: string;
+  className?: string;
+}) {
+  const folha = "M0 0C7-7.5 21-7.5 28 0C21 7.5 7 7.5 0 0Z";
+  return (
+    <svg viewBox="0 0 200 60" className={className} aria-hidden="true">
+      <path
+        d="M28 30C60 22 140 22 172 30"
+        fill="none"
+        stroke={verde}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      {FOLHAS.map((f, i) => (
+        <g key={i} transform={`translate(${f.x} ${f.y}) rotate(${f.a}) scale(${f.e})`}>
+          <path d={folha} fill={verde} />
+          <path d="M2 0H26" stroke="#e7d9bb" strokeWidth="1" opacity="0.5" />
+        </g>
+      ))}
+      {FRUTOS.map((c, i) => (
+        <circle key={i} cx={c.x} cy={c.y} r={c.r} fill={fruto} />
+      ))}
+    </svg>
+  );
+}
+
 export function Ornamento({
   cor = "rgba(58,39,27,0.32)",
   grao = "#8c3a20",
