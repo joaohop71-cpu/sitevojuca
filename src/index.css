@@ -134,7 +134,7 @@
 
   .rotulo-interno {
     border: 1px solid color-mix(in srgb, var(--acento) 45%, transparent);
-    padding: clamp(18px, 3.2vw, 38px);
+    padding: clamp(16px, 2.7vw, 31px);
   }
 
   /* cantoneiras em L nos quatro cantos */
@@ -163,14 +163,36 @@
 
   .rotulo-nome {
     font-family: Fraunces, Georgia, serif;
-    font-variation-settings: "SOFT" 20, "WONK" 0, "opsz" 120;
+    font-variation-settings: "SOFT" 20, "WONK" 0, "opsz" 144;
     font-weight: 800;
-    letter-spacing: 0.015em;
-    line-height: 0.98;
+    letter-spacing: 0.02em;
+    line-height: 0.96;
     color: var(--acento);
-    font-size: clamp(30px, 6.4vw, 62px);
+    font-size: clamp(31px, 7.4vw, 84px);
+    text-transform: uppercase;
     text-wrap: balance;
   }
+
+  /* quadradinho que arremata os fios do divisor central */
+  .rotulo-quadro {
+    width: 5px;
+    height: 5px;
+    flex: none;
+    background: var(--acento);
+  }
+
+  /* pontinhos que ladeiam o selo, as 3 e as 9 horas */
+  .rotulo-ponto {
+    position: absolute;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--acento);
+    transform: translateY(-50%);
+  }
+  .rotulo-ponto[data-lado="e"] { left: 5.5%; }
+  .rotulo-ponto[data-lado="d"] { right: 5.5%; }
 
   /* linha pontilhada que liga rotulo e valor nas fichas tecnicas */
   .rotulo-fio {

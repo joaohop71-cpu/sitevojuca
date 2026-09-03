@@ -56,8 +56,8 @@ export type Cafe = {
 
 export const CAFES: Cafe[] = [
   {
-    id: "juca-chaves",
-    nome: "Juca Chaves",
+    id: "cafe-vo-juca",
+    nome: "Café Vô Juca",
     tarja: "Seleção especial",
     qualificacao: ["Café especial · 100% arábica", "Torra e colheita artesanal"],
     chamada: "Da nossa lavoura, o sabor suave de sempre",

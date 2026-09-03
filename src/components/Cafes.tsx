@@ -1,13 +1,14 @@
-import { useState, type CSSProperties } from "react";
+import { Fragment, useState, type CSSProperties } from "react";
 import { CAFES, MARCA, brl, porQuilo } from "@/dados";
 import type { Cafe, CorRotulo, Moagem } from "@/dados";
 import { Botao, Faixa, RamoCafe, Rubrica } from "./base";
 import { selo } from "@/imagens";
 
+/* tintas medidas nos rótulos impressos */
 const TINTA: Record<CorRotulo, string> = {
-  vinho: "#8c3a20",
-  verde: "#4f5b3f",
-  tinta: "#3a271b",
+  vinho: "#8a2e1e",
+  verde: "#44562c",
+  tinta: "#2e2015",
 };
 
 /* cinza-tinta envelhecido dos rotulos secundarios — igual nas tres cores */
@@ -119,11 +120,11 @@ function Rotulo({ cafe }: { cafe: Cafe }) {
             </div>
             <div className="rotulo-tracejado mt-2.5" />
 
-            <div className="mt-6 text-center">
+            <div className="mt-5 text-center">
               {cafe.qualificacao.map((q) => (
                 <p
                   key={q}
-                  className="ficha text-[11.5px] uppercase tracking-[0.16em] sm:text-[13px]"
+                  className="ficha text-[11.5px] font-bold uppercase leading-snug tracking-[0.17em] sm:text-[13.5px]"
                   style={{ color: "var(--acento)" }}
                 >
                   {q}
@@ -134,7 +135,7 @@ function Rotulo({ cafe }: { cafe: Cafe }) {
 
               {cafe.lote && (
                 <p
-                  className="ficha mt-1.5 text-[14px] uppercase tracking-[0.3em]"
+                  className="ficha mt-1.5 text-[14px] uppercase leading-none tracking-[0.42em] sm:text-[16px]"
                   style={{ color: "var(--acento)" }}
                 >
                   {cafe.lote}
@@ -142,7 +143,7 @@ function Rotulo({ cafe }: { cafe: Cafe }) {
               )}
 
               <p
-                className="mt-3 text-[clamp(15px,1.9vw,21px)] leading-snug"
+                className="mt-3 text-[clamp(15px,2.1vw,23px)] leading-snug"
                 style={{
                   fontFamily: "Fraunces, Georgia, serif",
                   fontStyle: "italic",
@@ -154,34 +155,49 @@ function Rotulo({ cafe }: { cafe: Cafe }) {
               </p>
 
               <p
-                className="ficha mt-3.5 text-[11.5px] uppercase tracking-[0.16em] sm:text-[13px]"
+                className="ficha mt-3 flex flex-wrap items-center justify-center gap-x-4 text-[11.5px] font-bold uppercase leading-snug tracking-[0.17em] sm:text-[13.5px]"
                 style={{ color: "var(--acento)" }}
               >
-                {cafe.notas.join("  ·  ")}
+                {cafe.notas.map((n, i) => (
+                  <Fragment key={n}>
+                    {i > 0 && (
+                      <span aria-hidden="true" className="opacity-55">
+                        ·
+                      </span>
+                    )}
+                    <span>{n}</span>
+                  </Fragment>
+                ))}
               </p>
             </div>
 
-            {/* fio — ramo — fio */}
-            <div className="mt-5 flex items-center gap-4" aria-hidden="true">
+            {/* quadradinho — fio — ramo — fio — quadradinho */}
+            <div className="mt-5 flex items-center gap-3.5" aria-hidden="true">
+              <span className="rotulo-quadro" />
               <span
                 className="h-px flex-1"
-                style={{ background: `color-mix(in srgb, ${cor} 45%, transparent)` }}
+                style={{ background: `color-mix(in srgb, ${cor} 60%, transparent)` }}
               />
-              <RamoCafe verde="#4f5b3f" fruto="#8c3a20" className="h-11 w-[150px] shrink-0" />
+              <RamoCafe
+                verde="#4f5b3f"
+                fruto="#8c3a20"
+                className="h-11 w-[180px] shrink-0 sm:h-12 sm:w-[215px]"
+              />
               <span
                 className="h-px flex-1"
-                style={{ background: `color-mix(in srgb, ${cor} 45%, transparent)` }}
+                style={{ background: `color-mix(in srgb, ${cor} 60%, transparent)` }}
               />
+              <span className="rotulo-quadro" />
             </div>
 
-            <dl className="mt-5 grid gap-x-8 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            <dl className="mt-4 grid gap-x-8 gap-y-2.5 sm:grid-cols-2 lg:grid-cols-3">
               {cafe.fichas.map((f) => (
                 <Ficha key={f.rotulo} rotulo={f.rotulo} valor={f.valor} />
               ))}
             </dl>
 
             <div
-              className="mt-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1.5 border-t pt-3.5"
+              className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1.5 border-t pt-3"
               style={{ borderColor: `color-mix(in srgb, ${cor} 35%, transparent)` }}
             >
               <span
@@ -201,8 +217,10 @@ function Rotulo({ cafe }: { cafe: Cafe }) {
 
           {/* coluna do selo */}
           <div className="flex flex-col items-center gap-6 md:w-[clamp(150px,17vw,215px)]">
-            <div className="rotulo-aro relative w-[clamp(120px,15vw,200px)] shrink-0">
-              <div className="aspect-square p-[9%]">
+            <div className="rotulo-aro relative w-[clamp(124px,16vw,210px)] shrink-0">
+              <span className="rotulo-ponto" data-lado="e" aria-hidden="true" />
+              <span className="rotulo-ponto" data-lado="d" aria-hidden="true" />
+              <div className="aspect-square p-[10%]">
                 <div
                   className="rotulo-selo h-full w-full"
                   role="img"
