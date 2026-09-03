@@ -34,6 +34,12 @@ export type CorRotulo = "vinho" | "verde" | "tinta";
 export type Cafe = {
   id: string;
   nome: string;
+  /**
+   * Nome-base do rótulo em /public/banners — o site monta a partir dele
+   * `banner_<base>_1x.webp`, `_2x.webp` e `_1x.png`.
+   * Sem isto, o rótulo é desenhado em CSS a partir dos campos abaixo.
+   */
+  banner?: string;
   /** cultivar impresso sob o nome, quando a linha tem mais de um lote */
   lote?: string;
   /** tarja do canto superior direito do rótulo */
@@ -58,6 +64,7 @@ export const CAFES: Cafe[] = [
   {
     id: "cafe-vo-juca",
     nome: "Café Vô Juca",
+    banner: "vojuca",
     tarja: "Seleção especial",
     qualificacao: ["Café especial · 100% arábica", "Torra e colheita artesanal"],
     chamada: "Da nossa lavoura, o sabor suave de sempre",

@@ -100,6 +100,40 @@ function Ficha({ rotulo, valor }: { rotulo: string; valor: string }) {
   );
 }
 
+/** o rótulo impresso, servido como imagem (webp com png de reserva) */
+function RotuloImagem({ cafe }: { cafe: Cafe }) {
+  const base = `/banners/banner_${cafe.banner}`;
+  const descricao = [
+    cafe.nome,
+    cafe.lote,
+    "—",
+    cafe.qualificacao.join(", "),
+    "·",
+    cafe.notas.join(", "),
+    `· ${cafe.formato}, ${cafe.gramas} g`,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <picture>
+      <source
+        type="image/webp"
+        srcSet={`${base}_1x.webp 1x, ${base}_2x.webp 2x`}
+      />
+      <img
+        src={`${base}_1x.png`}
+        alt={descricao}
+        width={1200}
+        height={580}
+        loading="lazy"
+        decoding="async"
+        className="block w-full"
+      />
+    </picture>
+  );
+}
+
 /** o rótulo do pacote, reproduzido como cartão do café */
 function Rotulo({ cafe }: { cafe: Cafe }) {
   const cor = TINTA[cafe.cor];
@@ -306,7 +340,20 @@ export default function Cafes() {
       <div className="mt-10 grid gap-12 sm:gap-14">
         {CAFES.map((c) => (
           <article key={c.id} id={c.id} className="reveal" style={{ scrollMarginTop: 96 }}>
-            <Rotulo cafe={c} />
+            {c.banner ? (
+              <>
+                {/* o rótulo impresso só é legível com largura: abaixo de lg
+                    a letra miúda ficaria com 3 px, então entra a versão que reflui */}
+                <div className="hidden lg:block">
+                  <RotuloImagem cafe={c} />
+                </div>
+                <div className="lg:hidden">
+                  <Rotulo cafe={c} />
+                </div>
+              </>
+            ) : (
+              <Rotulo cafe={c} />
+            )}
             <Compra cafe={c} moagem={moagem} />
           </article>
         ))}
