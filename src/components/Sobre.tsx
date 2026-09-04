@@ -1,6 +1,7 @@
 import { Faixa, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import Arquivo from "./Arquivo";
+import ramoCafe from "@/assets/ramo-cafe.webp";
 import { MARCA } from "@/dados";
 
 const MARCOS = [
@@ -95,7 +96,7 @@ export default function Sobre() {
 
       <div className="mt-12 sm:mt-14">
         <img
-          src="/img/ramo-cafe.webp"
+          src={ramoCafe}
           alt=""
           aria-hidden="true"
           width={1200}
@@ -112,7 +113,7 @@ export default function Sobre() {
 
       <div className="mt-12 sm:mt-14">
         <img
-          src="/img/ramo-cafe.webp"
+          src={ramoCafe}
           alt=""
           aria-hidden="true"
           width={1200}

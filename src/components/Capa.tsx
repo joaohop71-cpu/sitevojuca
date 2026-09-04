@@ -1,4 +1,6 @@
 import { logoSecundaria } from "@/imagens";
+import capaTerra from "@/assets/capa-terra.webp";
+import ramoCafe from "@/assets/ramo-cafe.webp";
 import { Botao, Grao } from "./base";
 import { MARCA, SELOS, zap } from "@/dados";
 
@@ -13,7 +15,7 @@ export default function Capa() {
       <div className="relative isolate overflow-hidden">
       {/* a terra ao fim da tarde, por baixo de tudo */}
       <img
-        src="/img/capa-terra.webp"
+        src={capaTerra}
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"
@@ -29,14 +31,26 @@ export default function Capa() {
             "linear-gradient(180deg, rgba(24,15,10,0.9) 0%, rgba(44,29,20,0.76) 38%, rgba(36,23,15,0.84) 74%, rgba(28,18,12,0.94) 100%)",
         }}
       />
-      {/* dissolve do escuro para o papel, no pé do bloco */}
+      {/*
+        Passagem do escuro para o papel, no pé do bloco.
+        Primeiro a foto se apaga contra o próprio tom da capa; só depois a cor
+        sobe, já opaca, por marrom e areia até o papel. Véu claro por cima do
+        escuro passaria por cinza no meio e sujaria a emenda.
+      */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[130px] sm:h-[170px]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[170px] sm:h-[220px]"
         style={{
           zIndex: 2,
           background:
-            "linear-gradient(180deg, rgba(239,227,204,0) 0%, rgba(239,227,204,0.42) 40%, rgba(239,227,204,0.85) 74%, #efe3cc 100%)",
+            "linear-gradient(180deg," +
+            " rgba(30,20,13,0) 0%," +
+            " rgba(30,20,13,0.72) 26%," +
+            " rgb(30,20,13) 46%," +
+            " rgb(84,62,42) 66%," +
+            " rgb(158,133,101) 84%," +
+            " rgb(213,196,166) 94%," +
+            " #efe3cc 100%)",
         }}
       />
 
@@ -122,7 +136,7 @@ export default function Capa() {
       {/* o ramo fecha a capa já sobre o papel, onde a tinta escura da arte aparece */}
       <div style={{ background: "#efe3cc" }}>
         <img
-          src="/img/ramo-cafe.webp"
+          src={ramoCafe}
           alt=""
           aria-hidden="true"
           width={1200}
