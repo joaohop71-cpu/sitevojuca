@@ -4,7 +4,7 @@ import { Faixa, Rubrica } from "./base";
 export default function Processo() {
   return (
     <Faixa id="processo" fundo="tinta" className="py-16 sm:py-24">
-      <Rubrica num="06" claro>
+      <Rubrica num="05" claro>
         O processo
       </Rubrica>
 

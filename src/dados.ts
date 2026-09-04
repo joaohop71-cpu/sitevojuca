@@ -14,7 +14,7 @@ export const MARCA = {
   regiao: "Sul de Minas",
   whatsapp: "5548991127997",
   whatsappVisivel: "(48) 99112-7997",
-  email: "cafeminassanta@gmail.com",
+  email: "vojuca@gmail.com",
   mapaLat: -22.2098652,
   mapaLng: -45.6187367,
   mapaLink:

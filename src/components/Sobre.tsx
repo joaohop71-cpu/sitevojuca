@@ -1,5 +1,6 @@
 import { Faixa, Rubrica } from "./base";
 import Galeria from "./Galeria";
+import Arquivo from "./Arquivo";
 import { MARCA } from "@/dados";
 
 const MARCOS = [
@@ -38,7 +39,7 @@ const MARCOS = [
 export default function Sobre() {
   return (
     <Faixa id="sobre" fundo="creme" className="py-16 sm:py-24">
-      <Rubrica num="02">Sobre nós</Rubrica>
+      <Rubrica num="03">Sobre nós</Rubrica>
 
       <h2 className="reveal mt-6 max-w-[16ch] text-[clamp(32px,5vw,58px)]">
         Juca era o apelido do meu bisavô.{" "}
@@ -92,19 +93,36 @@ export default function Sobre() {
         o que se perdeu e o que ficou. Elas entram aqui conforme eu apurar.
       </p>
 
-      <div className="mt-14">
+      <div className="mt-12 sm:mt-14">
         <img
           src="/img/ramo-cafe.webp"
           alt=""
           aria-hidden="true"
-          width={1000}
-          height={227}
+          width={1200}
+          height={235}
           loading="lazy"
-          className="mx-auto w-[min(100%,380px)]"
+          className="mx-auto w-[min(100%,420px)]"
         />
       </div>
 
-      <div id="fotos" className="reveal mt-14" style={{ scrollMarginTop: 84 }}>
+      {/* o arquivo do bisavô, agora dentro da mesma seção */}
+      <div id="arquivo" className="mt-10 sm:mt-12" style={{ scrollMarginTop: 84 }}>
+        <Arquivo />
+      </div>
+
+      <div className="mt-12 sm:mt-14">
+        <img
+          src="/img/ramo-cafe.webp"
+          alt=""
+          aria-hidden="true"
+          width={1200}
+          height={235}
+          loading="lazy"
+          className="mx-auto w-[min(100%,420px)]"
+        />
+      </div>
+
+      <div id="fotos" className="reveal mt-10 sm:mt-12" style={{ scrollMarginTop: 84 }}>
         <Galeria />
       </div>
     </Faixa>

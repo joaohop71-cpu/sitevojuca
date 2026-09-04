@@ -4,9 +4,8 @@ import { MARCA, zap } from "@/dados";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
-  { href: "#sobre", rotulo: "Sobre nós" },
-  { href: "#arquivo", rotulo: "O arquivo" },
   { href: "#precos", rotulo: "Preços" },
+  { href: "#sobre", rotulo: "Sobre nós" },
   { href: "#origem", rotulo: "A terra" },
   { href: "#processo", rotulo: "Processo" },
   { href: "#contato", rotulo: "Contato" },

@@ -8,27 +8,42 @@ export default function Capa() {
        para debaixo dela, e o padding do miolo devolve o espaco do conteudo */
     <header
       id="topo"
-      className="relative isolate -mt-[73px] overflow-hidden sm:-mt-[77px]"
+      className="relative -mt-[73px] sm:-mt-[77px]"
     >
+      <div className="relative isolate overflow-hidden">
       {/* a terra ao fim da tarde, por baixo de tudo */}
       <img
         src="/img/capa-terra.webp"
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 -z-20 h-full w-full object-cover"
-        style={{ objectPosition: "center 62%" }}
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: "center 62%", zIndex: 0 }}
         fetchPriority="high"
       />
       {/* véu de tinta: escurece a foto o bastante para o texto ficar legível */}
       <div
-        className="absolute inset-0 -z-10"
+        className="absolute inset-0"
         style={{
+          zIndex: 1,
           background:
             "linear-gradient(180deg, rgba(24,15,10,0.9) 0%, rgba(44,29,20,0.76) 38%, rgba(36,23,15,0.84) 74%, rgba(28,18,12,0.94) 100%)",
         }}
       />
+      {/* dissolve do escuro para o papel, no pé do bloco */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[130px] sm:h-[170px]"
+        style={{
+          zIndex: 2,
+          background:
+            "linear-gradient(180deg, rgba(239,227,204,0) 0%, rgba(239,227,204,0.42) 40%, rgba(239,227,204,0.85) 74%, #efe3cc 100%)",
+        }}
+      />
 
-      <div className="mx-auto w-[min(100%-2rem,1120px)] pb-14 pt-[117px] text-center sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-[145px]">
+      <div
+        className="relative mx-auto w-[min(100%-2rem,1120px)] pb-[140px] pt-[117px] text-center sm:w-[min(100%-2.5rem,1120px)] sm:pb-[180px] sm:pt-[145px]"
+        style={{ zIndex: 3 }}
+      >
         {/* o brasão, pintado em creme a partir da própria arte */}
         <div
           className="mx-auto w-[clamp(148px,26vw,208px)]"
@@ -102,16 +117,17 @@ export default function Capa() {
           ))}
         </dl>
       </div>
+      </div>
 
       {/* o ramo fecha a capa já sobre o papel, onde a tinta escura da arte aparece */}
-      <div className="relative" style={{ background: "#efe3cc" }}>
+      <div style={{ background: "#efe3cc" }}>
         <img
           src="/img/ramo-cafe.webp"
           alt=""
           aria-hidden="true"
-          width={1000}
-          height={227}
-          className="mx-auto w-[min(100%-2rem,430px)] py-9 sm:py-11"
+          width={1200}
+          height={235}
+          className="mx-auto w-[min(100%-2rem,460px)] pb-10 sm:pb-12"
         />
       </div>
     </header>

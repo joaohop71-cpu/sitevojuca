@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  cerejaDetalhe,
   cerejaGota,
-  cerejas,
   cerejasSerra,
   jucaLavoura,
   linhasCafezal,
-  montanhas,
   poente,
   talhoes,
-  varanda,
 } from "@/imagens";
 
 type Foto = { src: string; alt: string; legenda: string; ficha: string };
@@ -34,40 +30,16 @@ const FOTOS: Foto[] = [
     ficha: "Cafezal adulto, carreador coberto",
   },
   {
-    src: cerejas,
-    alt: "Cacho de cerejas de café maduras entre as folhas",
-    legenda: "Cerejas maduras",
-    ficha: "O ponto da colheita",
-  },
-  {
     src: cerejasSerra,
     alt: "Ramo carregado de cerejas vermelhas em primeiro plano, com a lavoura e as montanhas do Sul de Minas ao fundo",
     legenda: "Fruto e paisagem",
     ficha: "Cereja no pé, serra atrás",
   },
   {
-    src: montanhas,
-    alt: "Lavoura de café adulta com as montanhas do Sul de Minas ao fundo",
-    legenda: "A lavoura e a serra",
-    ficha: "Café adulto, 998 m",
-  },
-  {
     src: poente,
     alt: "Céu de fim de tarde em tons de rosa e laranja sobre as montanhas",
     legenda: "O poente da sede",
     ficha: "Fim de tarde na propriedade",
-  },
-  {
-    src: varanda,
-    alt: "Vista da varanda da sede, com palmeiras, cerca de madeira e a serra ao fundo",
-    legenda: "A vista da varanda",
-    ficha: "Onde se toma o café",
-  },
-  {
-    src: cerejaDetalhe,
-    alt: "Detalhe aproximado dos frutos vermelhos agarrados ao ramo",
-    legenda: "O fruto de perto",
-    ficha: "Detalhe do ramo",
   },
   {
     src: cerejaGota,

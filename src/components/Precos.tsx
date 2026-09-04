@@ -65,7 +65,7 @@ export default function Precos() {
 
   return (
     <Faixa id="precos" fundo="creme" className="py-16 sm:py-24">
-      <Rubrica num="04">Preços e pedido</Rubrica>
+      <Rubrica num="02">Preços e pedido</Rubrica>
 
       <div className="reveal mt-6 max-w-[60ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)]">Monte o pedido aqui</h2>

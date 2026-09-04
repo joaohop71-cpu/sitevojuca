@@ -1,5 +1,4 @@
 import { jucaCavalo, jucaEstudio, jucaLinho, jucaRetratoSelo } from "@/imagens";
-import { Faixa, Rubrica } from "./base";
 import { MARCA } from "@/dados";
 
 type Retrato = { src: string; alt: string; legenda: string; nota: string };
@@ -31,32 +30,28 @@ const RETRATOS: Retrato[] = [
   },
 ];
 
+/** os retratos do bisavô — bloco dentro da seção "Sobre nós" */
 export default function Arquivo() {
   return (
-    <Faixa id="arquivo" fundo="creme" className="py-16 sm:py-24">
-      <Rubrica num="03">O arquivo</Rubrica>
-
-      <div className="mt-6 grid gap-x-16 gap-y-6 lg:grid-cols-[0.5fr_1fr]">
-        <h2 className="reveal text-[clamp(28px,4vw,44px)]">O que sobrou dele</h2>
-
-        <div className="reveal max-w-[60ch]">
-          <p className="text-[17px] text-[#5c4635]">
-            Ele plantou café em {MARCA.local}. Chamavam ele de Juca. O apelido atravessou a
-            família e caiu em mim três gerações depois — a única coisa desta marca que não
-            foi decidida numa reunião.
-          </p>
-          <p className="mt-5 text-[17px] text-[#6b4526]">
-            O que ficou dele são estes retratos e as histórias de quem ainda lembra.
-          </p>
-        </div>
+    <div>
+      <div className="reveal flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+        <h3 className="text-[clamp(22px,3vw,30px)]">O que sobrou dele</h3>
+        <span className="ficha num text-[13px] text-[#8c7a66]">
+          04 retratos · arraste para o lado
+        </span>
       </div>
 
-      <div className="reveal mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-6">
+      <p className="reveal mt-3 max-w-[60ch] text-[#5c4635]">
+        Ele plantou café em {MARCA.local}. Chamavam ele de Juca. O que ficou são estes
+        retratos e as histórias de quem ainda lembra.
+      </p>
+
+      <div className="reveal mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-6">
         {RETRATOS.map((r, i) => (
           <figure
             key={r.legenda}
             className="m-0 shrink-0 snap-start"
-            style={{ width: "min(74vw, 250px)" }}
+            style={{ width: "min(70vw, 240px)" }}
           >
             <div className="moldura p-2.5">
               <img
@@ -68,10 +63,8 @@ export default function Arquivo() {
               />
             </div>
             <figcaption className="ficha mt-3 text-[12.5px] leading-relaxed text-[#6b4526]">
-              <span className="num text-[#8c3a20]">
-                {String(i + 1).padStart(2, "0")}
-              </span>{" "}
-              — {r.legenda}
+              <span className="num text-[#8c3a20]">{String(i + 1).padStart(2, "0")}</span> —{" "}
+              {r.legenda}
               <br />
               <span className="opacity-65">[{r.nota}]</span>
             </figcaption>
@@ -79,10 +72,9 @@ export default function Arquivo() {
         ))}
       </div>
 
-      <p className="ficha reveal mt-6 max-w-[58ch] text-[12.5px] leading-relaxed text-[#8c7a66]">
-        Arraste para o lado para ver os quatro. As datas e legendas ainda estão sendo
-        conferidas com a família.
+      <p className="ficha reveal mt-4 max-w-[58ch] text-[12.5px] leading-relaxed text-[#8c7a66]">
+        As datas e legendas ainda estão sendo conferidas com a família.
       </p>
-    </Faixa>
+    </div>
   );
 }

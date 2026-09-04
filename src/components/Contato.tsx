@@ -6,7 +6,7 @@ export default function Contato() {
   return (
     <>
       <Faixa id="contato" className="py-16 sm:py-24">
-        <Rubrica num="07">Contato</Rubrica>
+        <Rubrica num="06">Contato</Rubrica>
 
         <h2 className="reveal mt-6 max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
           Quem responde aqui sou eu
@@ -15,8 +15,8 @@ export default function Contato() {
           Escolha a linha, defina a moagem e feche o pedido no WhatsApp. Para empresas,
           revenda e volume maior, o caminho é o e-mail — respondo com uma proposta. Não
           há revendedor nem central de atendimento no meio: do outro lado sou eu,{" "}
-          <strong className="font-semibold text-[#3a271b]">{MARCA.bisneto}</strong>, bisneto
-          do Juca.
+          <strong className="font-semibold text-[#3a271b]">João Henrique</strong>, o
+          bisneto!
         </p>
 
         <div className="reveal mt-10 grid gap-x-16 gap-y-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -62,25 +62,52 @@ export default function Contato() {
               </div>
             </dl>
 
-            <div className="moldura mt-6 p-2.5" data-print-hide>
-              <iframe
-                title={`Mapa: ${MARCA.sitio}`}
-                src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=15&output=embed`}
-                className="block h-[220px] w-full sm:h-[260px]"
-                style={{ border: 0, filter: "sepia(0.4) saturate(0.65) contrast(1.05)" }}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+            <div className="mt-6 grid items-start gap-5 sm:grid-cols-[1.15fr_1fr] sm:gap-6">
+              <div>
+                <div className="moldura p-2.5" data-print-hide>
+                  <iframe
+                    title={`Mapa: ${MARCA.sitio}`}
+                    src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=15&output=embed`}
+                    className="block h-[210px] w-full sm:h-[240px]"
+                    style={{ border: 0, filter: "sepia(0.4) saturate(0.65) contrast(1.05)" }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+                <a
+                  href={MARCA.mapaLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-sublinhado ficha mt-3 inline-block text-[12.5px] uppercase tracking-[0.1em] text-[#6b4526]"
+                  data-print-hide
+                >
+                  Ver no Google Maps →
+                </a>
+              </div>
+
+              <div
+                className="border border-[rgba(58,39,27,0.3)] bg-[rgba(255,250,240,0.6)] p-5"
+                data-print-hide
+              >
+                <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">
+                  Venha nos conhecer!
+                </h3>
+                <p className="mt-2.5 text-[15.5px] leading-relaxed text-[#5c4635]">
+                  A visita é combinada antes, para eu conseguir receber e mostrar a
+                  lavoura, a torra e o resto com calma.
+                </p>
+                <div className="mt-5">
+                  <Botao
+                    href={zap(
+                      "Olá! Gostaria de conhecer as instalações do Vô Juca, em Santa Rita do Sapucaí. Quando seria possível uma visita?"
+                    )}
+                    largo
+                  >
+                    Agendar visita
+                  </Botao>
+                </div>
+              </div>
             </div>
-            <a
-              href={MARCA.mapaLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-sublinhado ficha mt-3 inline-block text-[12.5px] uppercase tracking-[0.1em] text-[#6b4526]"
-              data-print-hide
-            >
-              Ver no Google Maps →
-            </a>
           </div>
 
           <div>
@@ -100,7 +127,7 @@ export default function Contato() {
             <div className="mt-6 border border-[#8c3a20] bg-[rgba(140,58,32,0.06)] p-5">
               <div className="eyebrow">Condição especial</div>
               <p className="mt-2 text-[18px] leading-snug" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
-                10% na primeira compra. Acima de 10 pacotes, o preço muda — pergunte.
+                10% na primeira compra, e mais 5% em pedidos acima de R$ 150.
               </p>
             </div>
           </div>

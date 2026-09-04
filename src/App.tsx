@@ -1,9 +1,8 @@
 import Navegacao from "@/components/Navegacao";
 import Capa from "@/components/Capa";
 import Cafes from "@/components/Cafes";
-import Sobre from "@/components/Sobre";
-import Arquivo from "@/components/Arquivo";
 import Precos from "@/components/Precos";
+import Sobre from "@/components/Sobre";
 import Origem from "@/components/Origem";
 import Processo from "@/components/Processo";
 import Contato from "@/components/Contato";
@@ -18,9 +17,8 @@ export default function App() {
       <main>
         <Capa />
         <Cafes />
-        <Sobre />
-        <Arquivo />
         <Precos />
+        <Sobre />
         <Origem />
         <Processo />
         <Contato />
