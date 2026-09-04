@@ -35,8 +35,8 @@ export type Cafe = {
   id: string;
   nome: string;
   /**
-   * Nome-base do rótulo em /public/banners — o site monta a partir dele
-   * `banner_<base>_1x.webp`, `_2x.webp` e `_1x.png`.
+   * Nome-base do rótulo em /public/banners — o site monta a partir dele os
+   * quatro arquivos: `banner_<base>_{1x,2x}.{webp,png}`.
    * Sem isto, o rótulo é desenhado em CSS a partir dos campos abaixo.
    */
   banner?: string;
@@ -89,6 +89,7 @@ export const CAFES: Cafe[] = [
     id: "herancas-2sl",
     nome: "Heranças",
     lote: "2 SL",
+    banner: "herancas_2sl",
     tarja: "Coleção limitada",
     qualificacao: ["Café especial · Microlote", "100% arábica · Colheita manual"],
     chamada: "Coleção limitada de uma experiência sensorial única",
@@ -113,6 +114,7 @@ export const CAFES: Cafe[] = [
     id: "herancas-24-137",
     nome: "Heranças",
     lote: "24 / 137",
+    banner: "herancas_24137",
     tarja: "Coleção limitada",
     qualificacao: ["Café especial · Microlote", "100% arábica · Colheita manual"],
     chamada: "Coleção limitada de uma experiência sensorial única",
@@ -136,6 +138,7 @@ export const CAFES: Cafe[] = [
   {
     id: "minas-santa",
     nome: "Minas Santa",
+    banner: "minassanta",
     tarja: "Para o dia a dia",
     qualificacao: ["Café superior · Blend 100% arábica", "Torra e colheita artesanal"],
     chamada: "Corpo e presença para o seu dia a dia",
