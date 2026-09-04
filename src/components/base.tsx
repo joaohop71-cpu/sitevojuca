@@ -161,7 +161,7 @@ export function Botao({
 }: {
   href?: string;
   children: ReactNode;
-  tom?: "cheio" | "vazio" | "claro";
+  tom?: "cheio" | "vazio" | "claro" | "contorno";
   onClick?: () => void;
   type?: "button";
   /** ocupa a linha inteira no mobile — alvo de toque maior */
@@ -176,6 +176,9 @@ export function Botao({
       "bg-transparent text-[#3a271b] border-[rgba(58,39,27,0.4)] hover:border-[#3a271b] hover:bg-[rgba(58,39,27,0.05)]",
     claro:
       "bg-[#efe3cc] text-[#2c1d14] border-[#efe3cc] hover:bg-[#f7efe0] hover:border-[#f7efe0]",
+    /* para fundo escuro: só o contorno, em creme */
+    contorno:
+      "bg-transparent text-[#efe3cc] border-[rgba(239,227,204,0.5)] hover:border-[#efe3cc] hover:bg-[rgba(239,227,204,0.1)]",
   }[tom];
   const cls = `${base} ${estilos}`;
   if (href) {

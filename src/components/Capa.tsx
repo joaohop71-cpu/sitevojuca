@@ -1,59 +1,118 @@
 import { logoSecundaria } from "@/imagens";
-import { Botao, Grao, Ornamento } from "./base";
+import { Botao, Grao } from "./base";
 import { MARCA, SELOS, zap } from "@/dados";
 
 export default function Capa() {
   return (
-    <header id="topo" className="relative">
-      <div className="mx-auto w-[min(100%-2rem,1120px)] pb-14 pt-10 sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-16">
-        <img
-          src={logoSecundaria}
-          alt={MARCA.nome}
-          className="mx-auto w-[clamp(150px,40vw,189px)]"
+    /* a nav e' sticky e ocupa lugar no fluxo; a margem negativa traz a foto
+       para debaixo dela, e o padding do miolo devolve o espaco do conteudo */
+    <header
+      id="topo"
+      className="relative isolate -mt-[73px] overflow-hidden sm:-mt-[77px]"
+    >
+      {/* a terra ao fim da tarde, por baixo de tudo */}
+      <img
+        src="/img/capa-terra.webp"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 -z-20 h-full w-full object-cover"
+        style={{ objectPosition: "center 62%" }}
+        fetchPriority="high"
+      />
+      {/* véu de tinta: escurece a foto o bastante para o texto ficar legível */}
+      <div
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(24,15,10,0.9) 0%, rgba(44,29,20,0.76) 38%, rgba(36,23,15,0.84) 74%, rgba(28,18,12,0.94) 100%)",
+        }}
+      />
+
+      <div className="mx-auto w-[min(100%-2rem,1120px)] pb-14 pt-[117px] text-center sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-[145px]">
+        {/* o brasão, pintado em creme a partir da própria arte */}
+        <div
+          className="mx-auto w-[clamp(148px,26vw,208px)]"
+          role="img"
+          aria-label={MARCA.nome}
+          style={{
+            aspectRatio: "700 / 1005",
+            backgroundColor: "#f2e7d3",
+            maskImage: `url(${logoSecundaria})`,
+            WebkitMaskImage: `url(${logoSecundaria})`,
+            maskSize: "contain",
+            WebkitMaskSize: "contain",
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+            maskPosition: "center",
+            WebkitMaskPosition: "center",
+          }}
         />
 
-        <p className="eyebrow mt-5 text-center leading-relaxed">
-          <Grao size={12} />
+        <p className="eyebrow-cru mt-6 leading-relaxed" style={{ color: "#d8c3a0" }}>
+          <Grao size={12} cor="#c98a5e" fundo="#241710" />
           <span className="ml-2.5">
             {MARCA.descritor} · {MARCA.regiao}
           </span>
         </p>
 
-        <div className="mt-9 grid gap-x-16 gap-y-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <h1 className="text-[clamp(34px,5.6vw,62px)]">
-            A mesma lavoura, o mesmo apelido, quatro gerações depois
-          </h1>
+        <h1
+          className="mx-auto mt-7 max-w-[19ch] text-[clamp(34px,5.4vw,60px)]"
+          style={{ color: "#f7efe0" }}
+        >
+          A mesma lavoura, o mesmo apelido, quatro gerações depois
+        </h1>
 
-          <div className="lg:pt-2">
-            <p className="max-w-[46ch] text-[17px] text-[#5c4635]">
-              Café plantado, colhido, seco, torrado e moído nos{" "}
-              <strong className="font-semibold text-[#3a271b]">{MARCA.sitio}</strong>, em{" "}
-              {MARCA.local}, onde meu bisavô plantou os primeiros pés no início do século 20.
-            </p>
+        <p
+          className="mx-auto mt-6 max-w-[54ch] text-[17px] leading-relaxed"
+          style={{ color: "#d6c3a8" }}
+        >
+          Café plantado, colhido, seco, torrado e moído nos{" "}
+          <strong className="font-semibold" style={{ color: "#f2e7d3" }}>
+            {MARCA.sitio}
+          </strong>
+          , em {MARCA.local}, onde meu bisavô plantou os primeiros pés no início do
+          século 20.
+        </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap" data-print-hide>
-              <Botao href={zap("Olá! Quero conhecer os cafés do Vô Juca.")} largo>
-                Pedir pelo WhatsApp
-              </Botao>
-              <Botao href="#cafes" tom="vazio" largo>
-                Ver os cafés
-              </Botao>
-            </div>
-          </div>
+        <div
+          className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap"
+          data-print-hide
+        >
+          <Botao href={zap("Olá! Quero conhecer os cafés do Vô Juca.")} tom="claro" largo>
+            Pedir pelo WhatsApp
+          </Botao>
+          <Botao href="#cafes" tom="contorno" largo>
+            Ver os cafés
+          </Botao>
         </div>
 
-        <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-[rgba(58,39,27,0.2)] pt-6 sm:grid-cols-4">
+        <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-4 border-t pt-7 text-left sm:mt-16 sm:grid-cols-4"
+          style={{ borderColor: "rgba(239,227,204,0.28)" }}
+        >
           {SELOS.map((s) => (
             <div key={s} className="flex items-start gap-2.5">
-              <span className="mt-[9px] inline-block h-px w-4 shrink-0 bg-[#8c3a20]" />
-              <dt className="ficha leading-snug text-[#6b4526]">{s}</dt>
+              <span
+                className="mt-[10px] inline-block h-px w-4 shrink-0"
+                style={{ background: "#c98a5e" }}
+              />
+              <dt className="ficha leading-snug" style={{ color: "#d6c3a8" }}>
+                {s}
+              </dt>
             </div>
           ))}
         </dl>
+      </div>
 
-        <div className="mt-14 sm:mt-16">
-          <Ornamento />
-        </div>
+      {/* o ramo fecha a capa já sobre o papel, onde a tinta escura da arte aparece */}
+      <div className="relative" style={{ background: "#efe3cc" }}>
+        <img
+          src="/img/ramo-cafe.webp"
+          alt=""
+          aria-hidden="true"
+          width={1000}
+          height={227}
+          className="mx-auto w-[min(100%-2rem,430px)] py-9 sm:py-11"
+        />
       </div>
     </header>
   );

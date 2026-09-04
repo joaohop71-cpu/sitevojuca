@@ -60,15 +60,21 @@ export default function Navegacao() {
     textTransform: "uppercase",
   } as const;
 
+  /* no alto da página a barra fica sobre a capa escura: tinta clara.
+     assim que rola — ou abre o menu — volta a ser a barra de papel. */
+  const claro = !rolou && !aberto;
+  const tinta = claro ? "#efe3cc" : "#6b4526";
+  const tintaForte = claro ? "#ffffff" : "#3a271b";
+  const destaque = claro ? "#e8b98d" : "#8c3a20";
+
   return (
     <nav
       data-print-hide
       className="sticky top-0 z-50 transition-all duration-300"
       style={{
-        background: rolou || aberto ? "rgba(239,227,204,0.96)" : "rgba(239,227,204,0.7)",
-        backdropFilter: "blur(10px)",
-        borderBottom:
-          rolou || aberto ? "1px solid rgba(58,39,27,0.16)" : "1px solid transparent",
+        background: claro ? "transparent" : "rgba(239,227,204,0.96)",
+        backdropFilter: claro ? "none" : "blur(10px)",
+        borderBottom: `1px solid ${claro ? "transparent" : "rgba(58,39,27,0.16)"}`,
       }}
       aria-label="Navegação principal"
     >
@@ -78,14 +84,20 @@ export default function Navegacao() {
           onClick={() => setAberto(false)}
           className="flex shrink-0 items-center gap-2.5"
         >
-          <img src={selo} alt={MARCA.nome} className="h-11 w-11 sm:h-[50px] sm:w-[50px]" />
+          <img
+            src={selo}
+            alt={MARCA.nome}
+            className="h-11 w-11 transition-[filter] duration-300 sm:h-[50px] sm:w-[50px]"
+            style={claro ? { filter: "brightness(0) invert(1)", opacity: 0.94 } : undefined}
+          />
           <span
-            className="text-[17px] leading-none sm:text-[18px]"
+            className="text-[17px] leading-none transition-colors duration-300 sm:text-[18px]"
             style={{
               fontFamily: "Fraunces, Georgia, serif",
               fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 24',
               fontWeight: 600,
               letterSpacing: "0.01em",
+              color: tintaForte,
             }}
           >
             {MARCA.nome}
@@ -102,8 +114,8 @@ export default function Navegacao() {
               style={{
                 ...rotulo,
                 fontSize: 13.5,
-                color: ativo === i.href ? "#8c3a20" : "#6b4526",
-                borderBottom: `1px solid ${ativo === i.href ? "#8c3a20" : "transparent"}`,
+                color: ativo === i.href ? destaque : tinta,
+                borderBottom: `1px solid ${ativo === i.href ? destaque : "transparent"}`,
               }}
             >
               {i.rotulo}
@@ -113,8 +125,15 @@ export default function Navegacao() {
             href={zap("Olá! Quero conhecer os cafés do Vô Juca.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 border border-[#3a271b] bg-[#3a271b] px-4 py-2 text-[#efe3cc] transition-colors hover:border-[#8c3a20] hover:bg-[#8c3a20]"
-            style={{ ...rotulo, fontSize: 14, letterSpacing: "0.14em" }}
+            className="inline-flex shrink-0 border px-4 py-2 transition-colors"
+            style={{
+              ...rotulo,
+              fontSize: 14,
+              letterSpacing: "0.14em",
+              background: claro ? "#efe3cc" : "#3a271b",
+              borderColor: claro ? "#efe3cc" : "#3a271b",
+              color: claro ? "#2c1d14" : "#efe3cc",
+            }}
           >
             Pedir
           </a>
@@ -126,8 +145,15 @@ export default function Navegacao() {
             href={zap("Olá! Quero conhecer os cafés do Vô Juca.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-11 items-center border border-[#3a271b] bg-[#3a271b] px-3.5 text-[#efe3cc]"
-            style={{ ...rotulo, fontSize: 13.5, letterSpacing: "0.12em" }}
+            className="inline-flex h-11 items-center border px-3.5 transition-colors"
+            style={{
+              ...rotulo,
+              fontSize: 13.5,
+              letterSpacing: "0.12em",
+              background: claro ? "#efe3cc" : "#3a271b",
+              borderColor: claro ? "#efe3cc" : "#3a271b",
+              color: claro ? "#2c1d14" : "#efe3cc",
+            }}
           >
             Pedir
           </a>
@@ -137,19 +163,26 @@ export default function Navegacao() {
             aria-expanded={aberto}
             aria-controls="menu-mobile"
             aria-label={aberto ? "Fechar menu" : "Abrir menu"}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] border border-[rgba(58,39,27,0.35)] transition-colors active:bg-[rgba(58,39,27,0.08)]"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] border transition-colors"
+            style={{ borderColor: claro ? "rgba(239,227,204,0.5)" : "rgba(58,39,27,0.35)" }}
           >
             <span
-              className="block h-px w-5 bg-[#3a271b] transition-transform duration-200"
-              style={aberto ? { transform: "translateY(6px) rotate(45deg)" } : undefined}
+              className="block h-px w-5 transition-transform duration-200"
+              style={{
+                background: tintaForte,
+                ...(aberto ? { transform: "translateY(6px) rotate(45deg)" } : null),
+              }}
             />
             <span
-              className="block h-px w-5 bg-[#3a271b] transition-opacity duration-200"
-              style={aberto ? { opacity: 0 } : undefined}
+              className="block h-px w-5 transition-opacity duration-200"
+              style={{ background: tintaForte, ...(aberto ? { opacity: 0 } : null) }}
             />
             <span
-              className="block h-px w-5 bg-[#3a271b] transition-transform duration-200"
-              style={aberto ? { transform: "translateY(-6px) rotate(-45deg)" } : undefined}
+              className="block h-px w-5 transition-transform duration-200"
+              style={{
+                background: tintaForte,
+                ...(aberto ? { transform: "translateY(-6px) rotate(-45deg)" } : null),
+              }}
             />
           </button>
         </div>

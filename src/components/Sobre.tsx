@@ -1,4 +1,4 @@
-import { Faixa, Ornamento, Rubrica } from "./base";
+import { Faixa, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import { MARCA } from "@/dados";
 
@@ -93,7 +93,15 @@ export default function Sobre() {
       </p>
 
       <div className="mt-14">
-        <Ornamento />
+        <img
+          src="/img/ramo-cafe.webp"
+          alt=""
+          aria-hidden="true"
+          width={1000}
+          height={227}
+          loading="lazy"
+          className="mx-auto w-[min(100%,380px)]"
+        />
       </div>
 
       <div id="fotos" className="reveal mt-14" style={{ scrollMarginTop: 84 }}>
