@@ -169,7 +169,7 @@ export default function Galeria() {
       </div>
       <p className="mt-3 max-w-[52ch] text-[#5c4635]">
         Fotos feitas na própria lavoura, em Santa Rita do Sapucaí. Sem estúdio, sem xícara
-        arrumada — é o que se vê de lá.
+        arrumada; é o que se vê de lá.
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">

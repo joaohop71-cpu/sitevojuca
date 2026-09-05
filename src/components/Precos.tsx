@@ -53,7 +53,7 @@ export default function Precos() {
     const linhas = itens
       .map(
         (l) =>
-          `• ${qtd[l.chave]}x ${l.nome} ${l.gramas} g — ${
+          `• ${qtd[l.chave]}x ${l.nome} ${l.gramas} g, ${
             l.moagem === "grao" ? "em grão" : "moído"
           } (${brl(l.preco)} cada)`
       )
@@ -71,7 +71,7 @@ export default function Precos() {
         <h2 className="text-[clamp(30px,4.4vw,52px)]">Monte o pedido aqui</h2>
         <p className="mt-4 text-[#5c4635]">
           Pacotes de 300 g, e de 500 g no Minas Santa. Some o que quiser na tabela e o
-          WhatsApp já abre com o pedido escrito — sem formulário, sem cadastro.
+          WhatsApp já abre com o pedido escrito, sem formulário, sem cadastro.
         </p>
       </div>
 
@@ -158,7 +158,7 @@ export default function Precos() {
               O ponto pode ser o seu
             </h3>
             <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
-              Quem torra e mói somos nós, aqui mesmo — então o ponto não precisa ser
+              Quem torra e mói somos nós, aqui mesmo, então o ponto não precisa ser
               sempre o mesmo. Se você gosta da xícara mais clara e ácida, ou de uma torra
               mais escura e encorpada, dá para acertar isso no seu pedido. A moagem
               também: mais fina para a italiana, mais grossa para a prensa, ou em grão,
@@ -168,8 +168,8 @@ export default function Precos() {
               Um aviso honesto, para não frustrar ninguém: de pronta entrega sai{" "}
               <strong className="font-semibold text-[#3a271b]">
                 sempre a torra média
-              </strong>{" "}
-              — é o ponto que agrada mais gente, e o que mantenho pronto o ano todo.
+              </strong>
+              , que é o ponto que agrada mais gente e o que mantenho pronto o ano todo.
               Fora dela, o café é torrado depois que você pede. Por isso o pedido
               personalizado depende da quantidade e precisa de uma{" "}
               <strong className="font-semibold text-[#3a271b]">boa antecedência</strong>:
@@ -181,7 +181,7 @@ export default function Precos() {
             </p>
             <a
               href={zap(
-                "Olá, João Henrique! Queria saber sobre a torra e a moagem sob medida — costumo preparar meu café assim:"
+                "Olá, João Henrique! Queria saber sobre a torra e a moagem sob medida. Costumo preparar meu café assim:"
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -229,7 +229,7 @@ export default function Precos() {
                     className="mt-1 h-4 w-4 shrink-0 accent-[#8c3a20]"
                   />
                   <span className="ficha text-[13.5px] leading-snug text-[#6b4526]">
-                    Primeira compra — 10% de desconto
+                    Primeira compra: 10% de desconto
                   </span>
                 </label>
 
@@ -271,7 +271,7 @@ export default function Precos() {
             </div>
 
             <p className="ficha mt-4 text-[12.5px] leading-relaxed text-[#8c7a66]">
-              O frete é combinado na conversa. Para revenda e volume maior, o preço muda —
+              O frete é combinado na conversa. Para revenda e volume maior, o preço muda;
               pergunte.
             </p>
           </div>

@@ -63,7 +63,7 @@ function RotuloImagem({ cafe }: { cafe: Cafe }) {
   const descricao = [
     cafe.nome,
     cafe.lote,
-    "—",
+    "·",
     cafe.qualificacao.join(", "),
     "·",
     cafe.notas.join(", "),

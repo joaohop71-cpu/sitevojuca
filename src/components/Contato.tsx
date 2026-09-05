@@ -13,7 +13,7 @@ export default function Contato() {
         </h2>
         <p className="mt-5 max-w-[54ch] text-[17px] text-[#5c4635]">
           Escolha a linha, defina a moagem e feche o pedido no WhatsApp. Para empresas,
-          revenda e volume maior, o caminho é o e-mail — respondo com uma proposta. Não
+          revenda e volume maior, o caminho é o e-mail, e respondo com uma proposta. Não
           há revendedor nem central de atendimento no meio: do outro lado sou eu,{" "}
           <strong className="font-semibold text-[#3a271b]">João Henrique</strong>, o
           bisneto!
@@ -157,7 +157,7 @@ export default function Contato() {
                 {MARCA.nome}
               </p>
               <p className="ficha mt-1.5 text-[12.5px] leading-relaxed tracking-[0.1em]">
-                {MARCA.descritor} — St. Rita do Sapucaí — {MARCA.regiao}
+                {MARCA.descritor} · St. Rita do Sapucaí · {MARCA.regiao}
               </p>
             </div>
           </div>

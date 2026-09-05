@@ -82,7 +82,7 @@ export const CAFES: Cafe[] = [
     formato: "Torrado em grãos",
     cor: "verde",
     descricao:
-      "Café especial colhido e torrado na própria propriedade. Perfil suave, doce e floral — o rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
+      "Café especial colhido e torrado na própria propriedade. Perfil suave, doce e floral, o rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
     preco: { grao: 43.08, moido: 45.48 },
   },
   {
@@ -156,7 +156,7 @@ export const CAFES: Cafe[] = [
     formato: "Torrado e moído · moagem fina",
     cor: "tinta",
     descricao:
-      "O café da rotina, feito para quem preza qualidade em cada xícara. É o carro-chefe da casa — presente no dia de quem não abre mão de um bom café, em casa, no escritório ou a qualquer hora.",
+      "O café da rotina, feito para quem preza qualidade em cada xícara. É o carro-chefe da casa, presente no dia de quem não abre mão de um bom café, em casa, no escritório ou a qualquer hora.",
     preco: { grao: null, moido: 55.0 },
   },
 ];

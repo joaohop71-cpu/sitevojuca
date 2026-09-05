@@ -38,7 +38,7 @@ export function Rubrica({
   return (
     <div className="flex items-center gap-4">
       <span className={claro ? "eyebrow-cru num" : "eyebrow num"} style={claro ? { color: "#c0ab8c" } : undefined}>
-        {num} — {children}
+        {num} · {children}
       </span>
       <span
         className="h-px flex-1"

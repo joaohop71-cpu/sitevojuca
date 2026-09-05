@@ -21,7 +21,7 @@ const MARCOS = [
     ano: "1976",
     titulo: "O apelido se apaga",
     texto:
-      "Ele morre em Santa Rita do Sapucaí, aos 88 anos. O café continua. O apelido, não — atravessa três gerações sem aparecer.",
+      "Ele morre em Santa Rita do Sapucaí, aos 88 anos. O café continua. O apelido, não; atravessa três gerações sem aparecer.",
   },
   {
     ano: "2002",
@@ -33,7 +33,7 @@ const MARCOS = [
     ano: "Hoje",
     titulo: "O apelido volta sozinho",
     texto:
-      "Os amigos apelidam João Henrique de Juca — sem saber do bisavô, sem nenhuma relação com a lavoura. A coincidência virou o nome desta marca.",
+      "Os amigos apelidam João Henrique de Juca, sem saber do bisavô, sem nenhuma relação com a lavoura. A coincidência virou o nome desta marca.",
   },
 ];
 
@@ -50,7 +50,7 @@ export default function Sobre() {
       </h2>
 
       <p className="reveal mt-7 max-w-[48ch] text-[17px] text-[#6b4526]">
-        Por força do destino, e sem ninguém planejar — e com o apelido veio também a
+        Por força do destino, e sem ninguém planejar. E com o apelido veio também a
         paixão pelo café.
       </p>
 
@@ -58,12 +58,12 @@ export default function Sobre() {
         <p className="text-[17px] text-[#5c4635]">
           Meu bisavô se chamava{" "}
           <strong className="font-semibold text-[#3a271b]">{MARCA.fundador}</strong>, mas
-          ninguém o chamava assim. Ele era o Juca Chaves — filho de portugueses, nascido em{" "}
+          ninguém o chamava assim. Ele era o Juca Chaves, filho de portugueses, nascido em{" "}
           {MARCA.local} em 1887, e o primeiro da família a plantar café nos{" "}
           {MARCA.sitio}. Morreu em 1976, na mesma cidade onde nasceu.
         </p>
         <p className="text-[17px] text-[#5c4635]">
-          Nasci em 2002. Em algum momento meus amigos começaram a me chamar de Juca — sem
+          Nasci em 2002. Em algum momento meus amigos começaram a me chamar de Juca, sem
           saber que existiu um Juca antes de mim, e sem nenhuma ligação com café. Levei
           anos para achar graça na coincidência. Este projeto é o que fiz com ela: o mesmo
           apelido e o mesmo café, quatro gerações depois.
@@ -90,7 +90,7 @@ export default function Sobre() {
       </ol>
 
       <p className="ficha mt-8 max-w-[60ch] text-[13.5px] leading-relaxed text-[#8c7a66]">
-        Ainda estou levantando as histórias das gerações do meio — as safras, as mudanças,
+        Ainda estou levantando as histórias das gerações do meio: as safras, as mudanças,
         o que se perdeu e o que ficou. Elas entram aqui conforme eu apurar.
       </p>
 

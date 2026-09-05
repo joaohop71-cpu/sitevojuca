@@ -24,7 +24,7 @@ const RETRATOS: Retrato[] = [
   },
   {
     src: jucaRetratoSelo,
-    alt: "Retrato do Juca já idoso, de terno e gravata — a foto que deu origem ao selo da marca",
+    alt: "Retrato do Juca já idoso, de terno e gravata, a foto que deu origem ao selo da marca",
     legenda: "Últimos anos. É deste retrato que veio o selo.",
     nota: "origem do logo",
   },
@@ -63,7 +63,7 @@ export default function Arquivo() {
               />
             </div>
             <figcaption className="ficha mt-3 text-[12.5px] leading-relaxed text-[#6b4526]">
-              <span className="num text-[#8c3a20]">{String(i + 1).padStart(2, "0")}</span> —{" "}
+              <span className="num text-[#8c3a20]">{String(i + 1).padStart(2, "0")}</span> ·{" "}
               {r.legenda}
               <br />
               <span className="opacity-65">[{r.nota}]</span>

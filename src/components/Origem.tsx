@@ -14,7 +14,7 @@ export default function Origem() {
         <p className="text-[17px] text-[#5c4635]">
           Os {MARCA.sitio} estão na família desde que meu bisavô plantou os primeiros pés
           de café ali, no início do século 20, em {MARCA.local}. O café é produzido,
-          beneficiado, torrado e moído na mesma propriedade — cada etapa acontece sob o
+          beneficiado, torrado e moído na mesma propriedade; cada etapa acontece sob o
           olhar de quem planta.
         </p>
         <p className="text-[17px] text-[#5c4635]">
