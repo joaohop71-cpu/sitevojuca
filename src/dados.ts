@@ -39,7 +39,7 @@ export type Cafe = {
    * quatro arquivos: `banner_<base>_{1x,2x}.{webp,png}`.
    * Sem isto, o rótulo é desenhado em CSS a partir dos campos abaixo.
    */
-  banner?: string;
+  banner: string;
   /** cultivar impresso sob o nome, quando a linha tem mais de um lote */
   lote?: string;
   /** tarja do canto superior direito do rótulo */

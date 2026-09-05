@@ -71,8 +71,11 @@ export default function Navegacao() {
       data-print-hide
       className="sticky top-0 z-50 transition-all duration-300"
       style={{
-        background: claro ? "transparent" : "rgba(239,227,204,0.96)",
-        backdropFilter: claro ? "none" : "blur(10px)",
+        /* O fundo era 96% opaco com um blur por tras. Atras de uma camada
+           quase solida o blur nao aparece, mas custa caro: no iOS ele obriga o
+           Safari a reprocessar o que passa sob a barra a cada quadro. Fundo
+           solido, mesmo resultado visual, rolagem leve. */
+        background: claro ? "transparent" : "#efe3cc",
         borderBottom: `1px solid ${claro ? "transparent" : "rgba(58,39,27,0.16)"}`,
       }}
       aria-label="Navegação principal"

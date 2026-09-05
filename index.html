@@ -6,6 +6,18 @@
     <title>Vô Juca — Cafés Artesanais do Sul de Minas</title>
     <meta name="description" content="Café 100% arábica plantado, colhido, torrado e moído na mesma propriedade, em Santa Rita do Sapucaí. Três gerações da mesma família." />
     <meta name="theme-color" content="#efe3cc" />
+
+    <!-- As fontes vinham por @import dentro do CSS, o que obriga o navegador a
+         baixar o CSS, ler, descobrir o @import e só então pedir as fontes: três
+         viagens em fila antes da primeira letra. Declaradas aqui, o pedido sai
+         junto com o resto, e o preconnect já abre a conexão com o servidor de
+         fontes enquanto o HTML ainda está sendo lido. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..800,0..100;1,9..144,400..600,0..100&family=Karla:wght@400..700&family=Courier+Prime:wght@400;700&display=swap"
+    />
   </head>
   <body>
     <div id="root"></div>
