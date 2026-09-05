@@ -116,7 +116,7 @@ export default function Capa() {
           aria-hidden="true"
           width={1200}
           height={235}
-          className="mx-auto w-[min(100%-2rem,460px)] pb-10 sm:pb-12"
+          className="mx-auto w-[min(100%-2rem,460px)] pb-10 pt-10 sm:pb-12 sm:pt-14"
         />
       </div>
     </header>

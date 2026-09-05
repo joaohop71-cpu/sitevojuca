@@ -150,6 +150,37 @@ export default function Precos() {
               );
             })}
           </div>
+
+          {/* torra e moagem sob medida — cabe aqui, onde a quantidade é decidida */}
+          <div className="reveal mt-8 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
+            <div className="eyebrow">Torra e moagem</div>
+            <h3 className="mt-2 max-w-[24ch] text-[clamp(21px,2.7vw,28px)] leading-tight">
+              O ponto pode ser o seu
+            </h3>
+            <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
+              Quem torra e mói somos nós, aqui mesmo — então o ponto não precisa ser
+              sempre o mesmo. Se você gosta da xícara mais clara e ácida, ou de uma torra
+              mais escura e encorpada, dá para acertar isso no seu pedido. A moagem
+              também: mais fina para a italiana, mais grossa para a prensa, ou em grão,
+              se você prefere moer na hora.
+            </p>
+            <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
+              Em pedidos pequenos eu trabalho com a torra da semana. A partir de uma
+              quantidade maior, separo um lote e faço só para você. Me conte como você
+              prepara o seu café — eu digo o que consigo fazer.
+            </p>
+            <a
+              href={zap(
+                "Olá, João Henrique! Queria saber sobre a torra e a moagem sob medida — costumo preparar meu café assim:"
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-sublinhado ficha mt-4 inline-block text-[13px] uppercase tracking-[0.1em] text-[#8c3a20]"
+              data-print-hide
+            >
+              Combinar a minha torra →
+            </a>
+          </div>
         </div>
 
         {/* resumo */}
