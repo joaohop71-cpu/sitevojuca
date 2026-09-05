@@ -28,3 +28,10 @@ export { default as jucaEstudio } from "@/assets/juca-estudio.jpg";
 export { default as jucaLinho } from "@/assets/juca-linho.jpg";
 export { default as jucaCavalo } from "@/assets/juca-cavalo.jpg";
 export { default as jucaRetratoSelo } from "@/assets/juca-retrato-selo.jpg";
+
+/* as cinco pranchas do processo — traco em creme, para o fundo escuro da secao */
+export { default as processoColheita } from "@/assets/processo-colheita.png";
+export { default as processoSecagem } from "@/assets/processo-secagem.png";
+export { default as processoSelecao } from "@/assets/processo-selecao.png";
+export { default as processoTorra } from "@/assets/processo-torra.png";
+export { default as processoMoagem } from "@/assets/processo-moagem.png";
