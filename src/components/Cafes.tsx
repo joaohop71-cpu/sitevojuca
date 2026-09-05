@@ -305,12 +305,12 @@ function Compra({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
   const valor = moagem === "grao" && !soMoido ? cafe.preco.grao! : cafe.preco.moido;
 
   return (
-    <div className="mt-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
+    <div className="mt-5 flex flex-col items-center gap-5 text-center">
       <p className="max-w-[54ch] text-[15.5px] text-[#5c4635]">{cafe.descricao}</p>
 
-      <div className="flex flex-wrap items-end gap-x-8 gap-y-4">
+      <div className="flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row sm:items-end sm:gap-8">
         <div>
-          <div className="flex items-baseline gap-2">
+          <div className="flex items-baseline justify-center gap-2">
             <span
               className="num text-[30px] leading-none"
               style={{
@@ -329,8 +329,10 @@ function Compra({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
           </div>
         </div>
 
-        <div data-print-hide>
-          <Botao href="#precos">Botar no carrinho</Botao>
+        <div className="w-full sm:w-auto" data-print-hide>
+          <Botao href="#precos" largo>
+            Monte o seu pedido
+          </Botao>
         </div>
       </div>
     </div>

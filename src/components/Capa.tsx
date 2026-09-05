@@ -107,8 +107,9 @@ export default function Capa() {
       </div>
       </div>
 
-      {/* o ramo fecha a capa já sobre o papel, onde a tinta escura da arte aparece */}
-      <div style={{ background: "#efe3cc" }}>
+      {/* o ramo fecha a capa já sobre o papel — sem cor própria, para receber
+          o mesmo grão de fundo da seção seguinte */}
+      <div>
         <img
           src={ramoCafe}
           alt=""
