@@ -1,7 +1,7 @@
 import { logoSecundaria } from "@/imagens";
 import capaTerra from "@/assets/capa-terra.webp";
 import ramoCafe from "@/assets/ramo-cafe.webp";
-import { Botao, Grao } from "./base";
+import { Botao } from "./base";
 import { MARCA, SELOS, zap } from "@/dados";
 
 export default function Capa() {
@@ -31,31 +31,8 @@ export default function Capa() {
             "linear-gradient(180deg, rgba(24,15,10,0.9) 0%, rgba(44,29,20,0.76) 38%, rgba(36,23,15,0.84) 74%, rgba(28,18,12,0.94) 100%)",
         }}
       />
-      {/*
-        Passagem do escuro para o papel, no pé do bloco.
-        Primeiro a foto se apaga contra o próprio tom da capa; só depois a cor
-        sobe, já opaca, por marrom e areia até o papel. Véu claro por cima do
-        escuro passaria por cinza no meio e sujaria a emenda.
-      */}
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[170px] sm:h-[220px]"
-        style={{
-          zIndex: 2,
-          background:
-            "linear-gradient(180deg," +
-            " rgba(30,20,13,0) 0%," +
-            " rgba(30,20,13,0.72) 26%," +
-            " rgb(30,20,13) 46%," +
-            " rgb(84,62,42) 66%," +
-            " rgb(158,133,101) 84%," +
-            " rgb(213,196,166) 94%," +
-            " #efe3cc 100%)",
-        }}
-      />
-
-      <div
-        className="relative mx-auto w-[min(100%-2rem,1120px)] pb-[140px] pt-[117px] text-center sm:w-[min(100%-2.5rem,1120px)] sm:pb-[180px] sm:pt-[145px]"
+        className="relative mx-auto w-[min(100%-2rem,1120px)] pb-16 pt-[117px] text-center sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-[145px]"
         style={{ zIndex: 3 }}
       >
         {/* o brasão, pintado em creme a partir da própria arte */}
@@ -78,10 +55,7 @@ export default function Capa() {
         />
 
         <p className="eyebrow-cru mt-6 leading-relaxed" style={{ color: "#d8c3a0" }}>
-          <Grao size={12} cor="#c98a5e" fundo="#241710" />
-          <span className="ml-2.5">
-            {MARCA.descritor} · {MARCA.regiao}
-          </span>
+          {MARCA.descritor} · {MARCA.regiao}
         </p>
 
         <h1

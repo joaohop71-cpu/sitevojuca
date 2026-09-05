@@ -48,39 +48,6 @@ export function Rubrica({
   );
 }
 
-/** grão de café — o motivo do selo reduzido a ornamento tipográfico */
-export function Grao({
-  size = 14,
-  cor = "#8c3a20",
-  fundo = "#efe3cc",
-}: {
-  size?: number;
-  cor?: string;
-  fundo?: string;
-}) {
-  return (
-    <svg
-      width={size}
-      height={size * 1.32}
-      viewBox="0 0 20 26"
-      aria-hidden="true"
-      className="inline-block shrink-0 translate-y-[0.1em]"
-    >
-      {/* corpo do grão, levemente inclinado como no selo */}
-      <ellipse cx="10" cy="13" rx="7.6" ry="12" fill={cor} transform="rotate(-14 10 13)" />
-      {/* o vinco central */}
-      <path
-        d="M10 1.6C7.1 6 7.1 20 10 24.4"
-        fill="none"
-        stroke={fundo}
-        strokeWidth="2.1"
-        strokeLinecap="round"
-        transform="rotate(-14 10 13)"
-      />
-    </svg>
-  );
-}
-
 /* folhas e frutos posicionados ao longo do galho — angulo em graus,
    medido a partir do eixo x; 180+ aponta para a esquerda */
 const FOLHAS = [
@@ -130,24 +97,6 @@ export function RamoCafe({
         <circle key={i} cx={c.x} cy={c.y} r={c.r} fill={fruto} />
       ))}
     </svg>
-  );
-}
-
-export function Ornamento({
-  cor = "rgba(58,39,27,0.32)",
-  grao = "#8c3a20",
-  fundo = "#efe3cc",
-}: {
-  cor?: string;
-  grao?: string;
-  fundo?: string;
-}) {
-  return (
-    <div className="flex items-center justify-center gap-4 py-1" aria-hidden="true">
-      <span className="h-px w-20" style={{ background: cor }} />
-      <Grao size={11} cor={grao} fundo={fundo} />
-      <span className="h-px w-20" style={{ background: cor }} />
-    </div>
   );
 }
 
