@@ -40,7 +40,7 @@ const MARCOS = [
 export default function Sobre() {
   return (
     <Faixa id="sobre" fundo="creme" className="py-16 sm:py-24">
-      <Rubrica num="03">Sobre nós</Rubrica>
+      <Rubrica num="04">Sobre nós</Rubrica>
 
       <h2 className="reveal mt-6 max-w-[16ch] text-[clamp(32px,5vw,58px)]">
         Juca era o apelido do meu bisavô.{" "}

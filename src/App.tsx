@@ -18,9 +18,9 @@ export default function App() {
         <Capa />
         <Cafes />
         <Precos />
+        <Processo />
         <Sobre />
         <Origem />
-        <Processo />
         <Contato />
       </main>
     </div>

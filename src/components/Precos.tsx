@@ -29,6 +29,7 @@ const DESCONTO = 0.1;
 export default function Precos() {
   const [qtd, setQtd] = useState<Record<string, number>>({});
   const [primeira, setPrimeira] = useState(true);
+  const [sobMedida, setSobMedida] = useState(false);
 
   const itens = useMemo(
     () => LINHAS.filter((l) => (qtd[l.chave] ?? 0) > 0),
@@ -151,45 +152,77 @@ export default function Precos() {
             })}
           </div>
 
-          {/* torra e moagem sob medida — cabe aqui, onde a quantidade é decidida */}
+          {/* Torra e moagem sob medida. Interessa a poucos, mas interessa muito
+              a esses poucos, então fica recolhido: só o convite ocupa espaço, e
+              o texto abre para quem quiser. A altura anima pelo truque das
+              linhas de grade (0fr para 1fr), que dispensa medir em JavaScript. */}
           <div className="reveal mt-8 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
             <div className="eyebrow">Torra e moagem</div>
             <h3 className="mt-2 max-w-[24ch] text-[clamp(21px,2.7vw,28px)] leading-tight">
               O ponto pode ser o seu
             </h3>
-            <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
-              Quem torra e mói somos nós, aqui mesmo, então o ponto não precisa ser
-              sempre o mesmo. Se você gosta da xícara mais clara e ácida, ou de uma torra
-              mais escura e encorpada, dá para acertar isso no seu pedido. A moagem
-              também: mais fina para a italiana, mais grossa para a prensa, ou em grão,
-              se você prefere moer na hora.
-            </p>
-            <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
-              Um aviso honesto, para não frustrar ninguém: de pronta entrega sai{" "}
-              <strong className="font-semibold text-[#3a271b]">
-                sempre a torra média
-              </strong>
-              , que é o ponto que agrada mais gente e o que mantenho pronto o ano todo.
-              Fora dela, o café é torrado depois que você pede. Por isso o pedido
-              personalizado depende da quantidade e precisa de uma{" "}
-              <strong className="font-semibold text-[#3a271b]">boa antecedência</strong>:
-              não é coisa de sair no mesmo dia.
-            </p>
-            <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
-              Me conte como você prepara o seu café e a gente acerta o ponto e o prazo
-              com calma.
-            </p>
-            <a
-              href={zap(
-                "Olá, João Henrique! Queria saber sobre a torra e a moagem sob medida. Costumo preparar meu café assim:"
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-sublinhado ficha mt-4 inline-block text-[13px] uppercase tracking-[0.1em] text-[#8c3a20]"
+
+            <button
+              type="button"
+              onClick={() => setSobMedida((a) => !a)}
+              aria-expanded={sobMedida}
+              aria-controls="sob-medida"
+              className="link-sublinhado ficha mt-3 inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.1em] text-[#8c3a20]"
               data-print-hide
             >
-              Combinar a minha torra →
-            </a>
+              {sobMedida ? "Fechar" : "Saiba mais"}
+              <span
+                aria-hidden="true"
+                className="inline-block text-[15px] leading-none transition-transform duration-300"
+                style={{ transform: sobMedida ? "rotate(45deg)" : "none" }}
+              >
+                +
+              </span>
+            </button>
+
+            <div
+              id="sob-medida"
+              className="grid transition-[grid-template-rows] duration-500 ease-out"
+              style={{ gridTemplateRows: sobMedida ? "1fr" : "0fr" }}
+            >
+              <div className="overflow-hidden">
+                <p className="mt-4 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
+                  Quem torra e mói somos nós, aqui mesmo, então o ponto não precisa ser
+                  sempre o mesmo. Se você gosta da xícara mais clara e ácida, ou de uma
+                  torra mais escura e encorpada, dá para acertar isso no seu pedido. A
+                  moagem também: mais fina para a italiana, mais grossa para a prensa, ou
+                  em grão, se você prefere moer na hora.
+                </p>
+                <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
+                  Um aviso honesto, para não frustrar ninguém: de pronta entrega sai{" "}
+                  <strong className="font-semibold text-[#3a271b]">
+                    sempre a torra média
+                  </strong>
+                  , que é o ponto que agrada mais gente e o que mantenho pronto o ano
+                  todo. Fora dela, o café é torrado depois que você pede. Por isso o
+                  pedido personalizado depende da quantidade e precisa de uma{" "}
+                  <strong className="font-semibold text-[#3a271b]">
+                    boa antecedência
+                  </strong>{" "}
+                  para prepararmos o seu pedido.
+                </p>
+                <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
+                  Me conte como você prepara o seu café e a gente acerta o ponto e o prazo
+                  com calma.
+                </p>
+                <div className="mt-5 pb-1" data-print-hide>
+                  <Botao
+                    href={zap(
+                      "Olá, João Henrique! Queria saber sobre a torra e a moagem sob medida. Costumo preparar meu café assim:"
+                    )}
+                    tom="vazio"
+                    largo
+                  >
+                    Combinar a minha torra
+                  </Botao>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
