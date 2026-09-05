@@ -165,9 +165,19 @@ export default function Precos() {
               se você prefere moer na hora.
             </p>
             <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
-              Em pedidos pequenos eu trabalho com a torra da semana. A partir de uma
-              quantidade maior, separo um lote e faço só para você. Me conte como você
-              prepara o seu café — eu digo o que consigo fazer.
+              Um aviso honesto, para não frustrar ninguém: de pronta entrega sai{" "}
+              <strong className="font-semibold text-[#3a271b]">
+                sempre a torra média
+              </strong>{" "}
+              — é o ponto que agrada mais gente, e o que mantenho pronto o ano todo.
+              Fora dela, o café é torrado depois que você pede. Por isso o pedido
+              personalizado depende da quantidade e precisa de uma{" "}
+              <strong className="font-semibold text-[#3a271b]">boa antecedência</strong>:
+              não é coisa de sair no mesmo dia.
+            </p>
+            <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
+              Me conte como você prepara o seu café e a gente acerta o ponto e o prazo
+              com calma.
             </p>
             <a
               href={zap(
