@@ -35,9 +35,13 @@ export default function Capa() {
         className="relative mx-auto w-[min(100%-2rem,1120px)] pb-16 pt-[117px] text-center sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-[145px]"
         style={{ zIndex: 3 }}
       >
-        {/* o brasão, pintado em creme a partir da própria arte */}
+        {/* O brasão, pintado em creme a partir da própria arte.
+            A largura fica no invólucro e a caixa por dentro ocupa 100% dela:
+            é o que faz a reserva de altura por padding (o retrato de quem não
+            tem aspect-ratio) medir contra a largura certa. */}
+        <div className="mx-auto w-[clamp(148px,26vw,208px)]">
         <div
-          className="mx-auto w-[clamp(148px,26vw,208px)]"
+          className="caixa-brasao"
           role="img"
           aria-label={MARCA.nome}
           style={{
@@ -53,6 +57,7 @@ export default function Capa() {
             WebkitMaskPosition: "center",
           }}
         />
+        </div>
 
         <p className="eyebrow-cru mt-6 leading-relaxed" style={{ color: "#d8c3a0" }}>
           {MARCA.descritor} · {MARCA.regiao}

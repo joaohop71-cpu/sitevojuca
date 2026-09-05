@@ -7,6 +7,13 @@
     <meta name="description" content="Café 100% arábica plantado, colhido, torrado e moído na mesma propriedade, em Santa Rita do Sapucaí. Três gerações da mesma família." />
     <meta name="theme-color" content="#efe3cc" />
 
+    <!-- O Chrome e o Samsung Internet no Android, com o tema escuro do celular
+         ligado, reescrevem sozinhos as cores de qualquer página que não diga
+         qual esquema usa: o creme vira oliva escuro, o brasão some no fundo.
+         "only light" é a instrução explícita de não fazer isso. O site é uma
+         folha de papel; não existe versão escura dele para o navegador supor. -->
+    <meta name="color-scheme" content="only light" />
+
     <!-- As fontes vinham por @import dentro do CSS, o que obriga o navegador a
          baixar o CSS, ler, descobrir o @import e só então pedir as fontes: três
          viagens em fila antes da primeira letra. Declaradas aqui, o pedido sai

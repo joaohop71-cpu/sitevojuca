@@ -80,7 +80,7 @@ export default function Processo() {
           className="sticky top-[72px] z-10 -mx-4 bg-[#2c1d14] px-4 pb-3 pt-3 sm:top-[76px] sm:-mx-5 sm:px-5 lg:top-[13vh] lg:mx-0 lg:self-start lg:px-0 lg:pb-0"
           data-print-hide
         >
-          <div className="relative aspect-[3/2]">
+          <div className="caixa-prancha relative aspect-[3/2]">
             {PRANCHAS.map((p, i) => (
               <img
                 key={p.src}

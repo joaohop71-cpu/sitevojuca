@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    /* mesma razao da meta tag no index.html: sem isto, o escurecimento
+       automatico do Android inverte o papel e a tinta do site */
+    color-scheme: only light;
     --papel: #efe3cc;
     --tinta: #3a271b;
     --radius: 0.25rem;
@@ -131,6 +134,23 @@
     .rotulo-arte {
       aspect-ratio: 1200 / 580;
       max-width: none;
+    }
+  }
+
+  /* Duas caixas do site guardam altura para algo que nao e' uma <img> comum: o
+     brasao da capa, pintado por mascara, e o palco das pranchas do processo.
+     As duas usam aspect-ratio. Num navegador sem esse suporte (iOS 14 e
+     WebViews antigas do Android) elas ficariam com altura zero e o conteudo
+     sumiria da tela. O padding percentual faz o mesmo servico e existe desde
+     sempre; entra so onde precisa. */
+  @supports not (aspect-ratio: 3 / 2) {
+    .caixa-brasao {
+      height: 0;
+      padding-bottom: 143.571%; /* 1005 / 700 */
+    }
+    .caixa-prancha {
+      height: 0;
+      padding-bottom: 66.667%; /* 2 / 3 */
     }
   }
 
