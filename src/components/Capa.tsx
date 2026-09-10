@@ -45,7 +45,7 @@ export default function Capa() {
           role="img"
           aria-label={MARCA.nome}
           style={{
-            aspectRatio: "700 / 1005",
+            aspectRatio: "700 / 947",
             backgroundColor: "#f2e7d3",
             maskImage: `url(${logoSecundaria})`,
             WebkitMaskImage: `url(${logoSecundaria})`,

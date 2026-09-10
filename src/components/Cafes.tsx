@@ -42,10 +42,10 @@ function SeletorMoagem({
 
 /** altura da arte vertical — as Heranças têm a linha do lote e ficam mais altas */
 const ALTURA_VERTICAL: Record<string, number> = {
-  vojuca: 1508,
-  minassanta: 1508,
-  herancas_2sl: 1567,
-  herancas_24137: 1567,
+  vojuca: 1350,
+  minassanta: 1350,
+  herancas_2sl: 1446,
+  herancas_24137: 1446,
 };
 
 /**
@@ -59,7 +59,7 @@ const ALTURA_VERTICAL: Record<string, number> = {
 function RotuloImagem({ cafe }: { cafe: Cafe }) {
   const deitado = `/banners/banner_${cafe.banner}`;
   const emPe = `/rotulos/rotulo_${cafe.banner}`;
-  const altura = ALTURA_VERTICAL[cafe.banner] ?? 1508;
+  const altura = ALTURA_VERTICAL[cafe.banner] ?? 1350;
   const descricao = [
     cafe.nome,
     cafe.lote,
