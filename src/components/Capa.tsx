@@ -1,4 +1,4 @@
-import { logoSecundaria } from "@/imagens";
+import { selo } from "@/imagens";
 import capaTerra from "@/assets/capa-terra.webp";
 import ramoCafe from "@/assets/ramo-cafe.webp";
 import { Botao } from "./base";
@@ -35,28 +35,28 @@ export default function Capa() {
         className="relative mx-auto w-[min(100%-2rem,1120px)] pb-16 pt-[117px] text-center sm:w-[min(100%-2.5rem,1120px)] sm:pb-20 sm:pt-[145px]"
         style={{ zIndex: 3 }}
       >
-        {/* O brasão, pintado em creme a partir da própria arte.
+        {/* O selo, carimbado no papel sobre a foto.
+            Antes a arte entrava como máscara pintada de creme: isso acendia os
+            traços e apagava a pele, e o rosto do Juca saía em negativo. Agora é
+            a ilustração original, na tinta dela, sobre um disco do papel do
+            site — que é como ela aparece impressa nos rótulos.
             A largura fica no invólucro e a caixa por dentro ocupa 100% dela:
             é o que faz a reserva de altura por padding (o retrato de quem não
             tem aspect-ratio) medir contra a largura certa. */}
-        <div className="mx-auto w-[clamp(148px,26vw,208px)]">
-        <div
-          className="caixa-brasao"
-          role="img"
-          aria-label={MARCA.nome}
-          style={{
-            aspectRatio: "700 / 947",
-            backgroundColor: "#f2e7d3",
-            maskImage: `url(${logoSecundaria})`,
-            WebkitMaskImage: `url(${logoSecundaria})`,
-            maskSize: "contain",
-            WebkitMaskSize: "contain",
-            maskRepeat: "no-repeat",
-            WebkitMaskRepeat: "no-repeat",
-            maskPosition: "center",
-            WebkitMaskPosition: "center",
-          }}
-        />
+        <div className="mx-auto w-[clamp(172px,30vw,236px)]">
+          <div
+            className="caixa-brasao relative rounded-full"
+            style={{ aspectRatio: "1 / 1", backgroundColor: "#f2e7d3" }}
+          >
+            <img
+              src={selo}
+              alt={MARCA.nome}
+              width={512}
+              height={512}
+              fetchPriority="high"
+              className="absolute left-1/2 top-1/2 w-[97%] -translate-x-1/2 -translate-y-1/2"
+            />
+          </div>
         </div>
 
         <p className="eyebrow-cru mt-6 leading-relaxed" style={{ color: "#d8c3a0" }}>

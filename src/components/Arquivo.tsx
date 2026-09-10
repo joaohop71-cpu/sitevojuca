@@ -36,7 +36,7 @@ export default function Arquivo() {
     <div>
       <div className="reveal flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <h3 className="text-[clamp(22px,3vw,30px)]">O que sobrou dele</h3>
-        <span className="ficha num text-[13px] text-[#8c7a66]">
+        <span className="ficha num text-[14.5px] text-[#8c7a66]">
           04 retratos · arraste para o lado
         </span>
       </div>
@@ -62,7 +62,7 @@ export default function Arquivo() {
                 style={{ filter: "sepia(0.14)" }}
               />
             </div>
-            <figcaption className="ficha mt-3 text-[12.5px] leading-relaxed text-[#6b4526]">
+            <figcaption className="ficha mt-3 text-[14px] leading-relaxed text-[#6b4526]">
               <span className="num text-[#8c3a20]">{String(i + 1).padStart(2, "0")}</span> ·{" "}
               {r.legenda}
               <br />
@@ -72,7 +72,7 @@ export default function Arquivo() {
         ))}
       </div>
 
-      <p className="ficha reveal mt-4 max-w-[58ch] text-[12.5px] leading-relaxed text-[#8c7a66]">
+      <p className="ficha reveal mt-4 max-w-[58ch] text-[14px] leading-relaxed text-[#8c7a66]">
         As datas e legendas ainda estão sendo conferidas com a família.
       </p>
     </div>

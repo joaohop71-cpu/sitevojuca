@@ -26,7 +26,7 @@ function SeletorMoagem({
           className="px-5 py-3 transition-colors sm:px-4 sm:py-2"
           style={{
             fontFamily: '"Courier Prime", monospace',
-            fontSize: 14,
+            fontSize: 15,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             background: valor === m ? "#3a271b" : "transparent",
@@ -172,7 +172,7 @@ export default function Cafes() {
           </p>
         </div>
         <div data-print-hide>
-          <div className="ficha mb-2 text-[12.5px] uppercase tracking-[0.14em] text-[#8c7a66]">
+          <div className="ficha mb-2 text-[14px] uppercase tracking-[0.14em] text-[#8c7a66]">
             Preços em
           </div>
           <SeletorMoagem valor={moagem} aoTrocar={setMoagem} />

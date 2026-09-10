@@ -115,7 +115,7 @@ export default function Navegacao() {
               className="whitespace-nowrap py-2 transition-colors"
               style={{
                 ...rotulo,
-                fontSize: 13.5,
+                fontSize: 14.5,
                 color: ativo === i.href ? destaque : tinta,
                 borderBottom: `1px solid ${ativo === i.href ? destaque : "transparent"}`,
               }}
@@ -130,7 +130,7 @@ export default function Navegacao() {
             className="inline-flex shrink-0 border px-4 py-2 transition-colors"
             style={{
               ...rotulo,
-              fontSize: 14,
+              fontSize: 15,
               letterSpacing: "0.14em",
               background: claro ? "#efe3cc" : "#3a271b",
               borderColor: claro ? "#efe3cc" : "#3a271b",
@@ -150,7 +150,7 @@ export default function Navegacao() {
             className="inline-flex h-11 items-center border px-3.5 transition-colors"
             style={{
               ...rotulo,
-              fontSize: 13.5,
+              fontSize: 14.5,
               letterSpacing: "0.12em",
               background: claro ? "#efe3cc" : "#3a271b",
               borderColor: claro ? "#efe3cc" : "#3a271b",

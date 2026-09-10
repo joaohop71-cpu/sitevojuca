@@ -78,7 +78,7 @@ export default function Sobre() {
             className="border-b border-[rgba(58,39,27,0.2)] py-6 sm:border-r sm:pr-5 sm:last:border-r-0 lg:border-b-0"
           >
             <div
-              className="text-[15px] tracking-[0.14em] text-[#8c3a20]"
+              className="text-[16px] tracking-[0.14em] text-[#8c3a20]"
               style={{ fontFamily: '"Courier Prime", monospace' }}
             >
               {m.ano.toUpperCase()}
@@ -89,7 +89,7 @@ export default function Sobre() {
         ))}
       </ol>
 
-      <p className="ficha mt-8 max-w-[60ch] text-[13.5px] leading-relaxed text-[#8c7a66]">
+      <p className="ficha mt-8 max-w-[60ch] text-[15px] leading-relaxed text-[#8c7a66]">
         Ainda estou levantando as histórias das gerações do meio: as safras, as mudanças,
         o que se perdeu e o que ficou. Elas entram aqui conforme eu apurar.
       </p>

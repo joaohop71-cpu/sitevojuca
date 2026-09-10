@@ -11,7 +11,6 @@
  */
 
 export { default as selo } from "@/assets/selo.png";
-export { default as logoSecundaria } from "@/assets/logo-secundaria.png";
 
 /* a lavoura hoje */
 export { default as jucaLavoura } from "@/assets/juca-lavoura.jpg";

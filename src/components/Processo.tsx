@@ -118,7 +118,7 @@ export default function Processo() {
                   style={{ background: i === ativa ? "#c98a5e" : "rgba(192,171,140,0.45)" }}
                 />
                 <span
-                  className="num mt-2 block text-[11px] tracking-[0.16em] transition-colors duration-500 sm:text-[12px]"
+                  className="num mt-2 block text-[13px] tracking-[0.16em] transition-colors duration-500 sm:text-[14px]"
                   style={{
                     fontFamily: '"Courier Prime", monospace',
                     color: i === ativa ? "#e8b98d" : "#c0ab8c",
@@ -127,7 +127,7 @@ export default function Processo() {
                   {e.n}
                 </span>
                 <span
-                  className="ficha mt-0.5 hidden text-[12px] text-[#c9b79c] sm:block"
+                  className="ficha mt-0.5 hidden text-[14px] text-[#c9b79c] sm:block"
                   aria-hidden="true"
                 >
                   {e.nome}
@@ -172,7 +172,7 @@ export default function Processo() {
                   >
                     {e.n}
                   </span>
-                  <span className="ficha text-[12px] uppercase tracking-[0.18em] text-[#8c7a66]">
+                  <span className="ficha text-[13.5px] uppercase tracking-[0.18em] text-[#8c7a66]">
                     de 05
                   </span>
                 </div>
@@ -182,7 +182,7 @@ export default function Processo() {
                   {e.texto}
                 </p>
                 {i === ETAPAS.length - 1 && (
-                  <p className="ficha mt-5 max-w-[40ch] text-[13px] leading-snug text-[#e8b98d]">
+                  <p className="ficha mt-5 max-w-[40ch] text-[14.5px] leading-snug text-[#e8b98d]">
                     É por isso que o pó chega mais fresco.
                   </p>
                 )}

@@ -92,7 +92,7 @@ export default function Precos() {
                     <a href={`#${c.id}`} className="link-sublinhado text-[22px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
                       {rotuloCafe(c)}
                     </a>
-                    <span className="ficha text-[12.5px] uppercase tracking-[0.12em] text-[#8c7a66]">
+                    <span className="ficha text-[14px] uppercase tracking-[0.12em] text-[#8c7a66]">
                       {c.tarja} · {c.gramas} g
                     </span>
                   </div>
@@ -110,7 +110,7 @@ export default function Precos() {
                           <span className="num text-[19px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
                             {brl(l.preco)}
                           </span>
-                          <span className="ficha num text-[12.5px] text-[#8c7a66]">
+                          <span className="ficha num text-[14px] text-[#8c7a66]">
                             {porQuilo(l.preco, l.gramas)}/kg
                           </span>
                         </div>
@@ -142,7 +142,7 @@ export default function Precos() {
                       </div>
                     ))}
                     {c.preco.grao === null && (
-                      <span className="ficha text-[12.5px] text-[#8c7a66]">
+                      <span className="ficha text-[14px] text-[#8c7a66]">
                         Esta linha sai só moída.
                       </span>
                     )}
@@ -167,7 +167,7 @@ export default function Precos() {
               onClick={() => setSobMedida((a) => !a)}
               aria-expanded={sobMedida}
               aria-controls="sob-medida"
-              className="link-sublinhado ficha mt-3 inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.1em] text-[#8c3a20]"
+              className="link-sublinhado ficha mt-3 inline-flex items-center gap-2 text-[14.5px] uppercase tracking-[0.1em] text-[#8c3a20]"
               data-print-hide
             >
               {sobMedida ? "Fechar" : "Saiba mais"}
@@ -242,7 +242,7 @@ export default function Precos() {
                     key={l.chave}
                     className="flex items-baseline justify-between gap-3 border-b border-dotted border-[rgba(58,39,27,0.22)] py-2"
                   >
-                    <span className="ficha text-[14px] text-[#3a271b]">
+                    <span className="ficha text-[15.5px] text-[#3a271b]">
                       <span className="num">{qtd[l.chave]}×</span> {l.nome}{" "}
                       <span className="text-[#8c7a66]">
                         {l.moagem === "grao" ? "grão" : "moído"}
@@ -261,24 +261,24 @@ export default function Precos() {
                     onChange={(e) => setPrimeira(e.target.checked)}
                     className="mt-1 h-4 w-4 shrink-0 accent-[#8c3a20]"
                   />
-                  <span className="ficha text-[13.5px] leading-snug text-[#6b4526]">
+                  <span className="ficha text-[15px] leading-snug text-[#6b4526]">
                     Primeira compra: 10% de desconto
                   </span>
                 </label>
 
                 <div className="mt-4 flex items-baseline justify-between border-t-2 border-[#3a271b] pt-3">
                   <div>
-                    <div className="ficha text-[12.5px] uppercase tracking-[0.14em] text-[#8c7a66]">
+                    <div className="ficha text-[14px] uppercase tracking-[0.14em] text-[#8c7a66]">
                       Total
                     </div>
-                    <div className="ficha num text-[12.5px] text-[#8c7a66]">
+                    <div className="ficha num text-[14px] text-[#8c7a66]">
                       {pacotes} {pacotes === 1 ? "pacote" : "pacotes"} ·{" "}
                       {quilos.toLocaleString("pt-BR", { maximumFractionDigits: 2 })} kg
                     </div>
                   </div>
                   <div className="text-right">
                     {primeira && (
-                      <div className="ficha num text-[14px] text-[#8c7a66] line-through">
+                      <div className="ficha num text-[15.5px] text-[#8c7a66] line-through">
                         {brl(subtotal)}
                       </div>
                     )}
@@ -303,7 +303,7 @@ export default function Precos() {
               </Botao>
             </div>
 
-            <p className="ficha mt-4 text-[12.5px] leading-relaxed text-[#8c7a66]">
+            <p className="ficha mt-4 text-[14px] leading-relaxed text-[#8c7a66]">
               O frete é combinado na conversa. Para revenda e volume maior, o preço muda;
               pergunte.
             </p>
