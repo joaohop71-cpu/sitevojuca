@@ -59,7 +59,15 @@ export default function Processo() {
   }, []);
 
   return (
-    <Faixa id="processo" fundo="tinta" className="rasgo-ambos py-20 sm:py-28">
+    /* atras = o creme dos vizinhos (Preços em cima, Sobre embaixo): é a cor
+       que aparece na falha do rasgo, para a emenda passar direto de um tom
+       para o outro em vez de deixar o papel do corpo aparecer no meio */
+    <Faixa
+      id="processo"
+      fundo="tinta"
+      atras="#f6eede"
+      className="rasgo-ambos py-20 sm:py-28"
+    >
       <Rubrica num="03" claro>
         O processo
       </Rubrica>

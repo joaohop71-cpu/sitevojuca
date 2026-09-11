@@ -65,11 +65,21 @@ export function Faixa({
   className = "",
   id,
   fundo,
+  atras,
 }: {
   children: ReactNode;
   className?: string;
   id?: string;
   fundo?: "papel" | "creme" | "tinta";
+  /**
+   * A cor que aparece na falha, quando a seção tem borda rasgada.
+   *
+   * O rasgo não pinta nada: ele recorta a seção e deixa ver o que está atrás.
+   * Sem esta cor, o que está atrás é o papel do corpo — e aí uma seção escura
+   * entre duas cremes produz três tons na emenda, em vez de passar direto de
+   * uma cor para a outra. Aqui se declara a cor do vizinho.
+   */
+  atras?: string;
 }) {
   const bg =
     fundo === "creme"
@@ -77,13 +87,14 @@ export function Faixa({
       : fundo === "tinta"
       ? "bg-[#2c1d14] text-[#efe3cc]"
       : "";
-  return (
+  const secao = (
     <section id={id} className={`relative ${bg} ${className}`} style={{ scrollMarginTop: 84 }}>
       <div className="relative mx-auto w-[min(100%-2rem,1120px)] sm:w-[min(100%-2.5rem,1120px)]">
         {children}
       </div>
     </section>
   );
+  return atras ? <div style={{ background: atras }}>{secao}</div> : secao;
 }
 
 export function Rubrica({
