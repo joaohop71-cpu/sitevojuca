@@ -161,31 +161,100 @@ export const CAFES: Cafe[] = [
   },
 ];
 
+/**
+ * A história em três capítulos: como a ideia nasceu, de onde vem o apelido e
+ * como a empresa funciona hoje. Quem ler só as três frases grandes sai com a
+ * história inteira; o resto é para quem quiser.
+ */
+export const MARCOS = [
+  {
+    ano: "1887",
+    titulo: "Nasce José Palma Chaves",
+    texto:
+      "Filho de portugueses, nasce em Santa Rita do Sapucaí. A vida toda seria conhecido por outro nome: Juca Chaves.",
+  },
+  {
+    ano: "Início do séc. XX",
+    titulo: "Terra e café",
+    texto:
+      "O Juca junta terra no Sul de Minas e planta café. A lavoura entra na família para não sair mais.",
+  },
+  {
+    ano: "1976",
+    titulo: "O apelido se apaga",
+    texto:
+      "Ele morre aos 88 anos, na mesma cidade onde nasceu. O café continua. O apelido, não; atravessa três gerações sem aparecer.",
+  },
+  {
+    ano: "2002",
+    titulo: "Nasce João Henrique",
+    texto:
+      "O bisneto nasce 115 anos depois do bisavô, em São Paulo, e cresce em Florianópolis. Ninguém na família o chama de Juca.",
+  },
+  {
+    ano: "Hoje",
+    titulo: "O apelido volta sozinho",
+    texto:
+      "Depois dos 18, os amigos apelidam João Henrique de Juca, sem saber do bisavô e sem nenhuma relação com a lavoura.",
+  },
+];
+
+/** quem faz o quê, hoje */
+export const DUPLA = [
+  {
+    nome: "Fernandinho",
+    papel: "Do pé à torra",
+    texto:
+      "Cuida da lavoura, conduz a colheita, a secagem e a torra, e assina a classificação: é classificador e degustador de café com certificado. O que chega na sua xícara passou pela mesa dele.",
+  },
+  {
+    nome: "João Henrique",
+    papel: "Daqui para fora",
+    texto:
+      "Respondo o WhatsApp, escrevo o site, cuido das vendas e das redes. Se você mandar mensagem, quem lê sou eu.",
+  },
+];
+
 export const ETAPAS = [
   {
     n: "01",
     nome: "Colheita",
-    texto: "Grãos colhidos na própria lavoura, respeitando o tempo do fruto e a vocação da safra.",
+    chamada: "Na mão, pé por pé",
+    texto:
+      "A colheita é manual, sem máquina. Alguém olha cada fruto antes de tirar, e só sai o que está no ponto. É mais lento de propósito: quem manda no calendário é a maturação do talhão, não o contrário.",
+    resumo: "Sem colheitadeira. Só mão e olho.",
   },
   {
     n: "02",
     nome: "Secagem",
-    texto: "Conduzida no sítio, para preservar a qualidade e a estabilidade de cada lote.",
+    chamada: "No terreiro, ao sol",
+    texto:
+      "Do pé, o café vai direto para o terreiro. Espalhado fino e revirado ao longo do dia, perde umidade devagar e por igual. Secar rápido demais estraga; secar torto deixa metade do lote fora do padrão.",
+    resumo: "É aqui que o lote ganha ou perde o padrão.",
   },
   {
     n: "03",
     nome: "Seleção",
-    texto: "Peneiramento e separação por perfil, do tradicional aos cafés especiais.",
+    chamada: "Peneira, prova e nota",
+    texto:
+      "Esta é a etapa que separa café de café especial. Primeiro a peneira, que classifica o grão por tamanho. Depois a prova: o café é torrado em amostra, moído e provado na mesa, gole a gole, para receber nota e perfil. É daí que sai o que vira Heranças e o que vira Minas Santa.",
+    resumo: "Quem prova é classificador e degustador com certificado.",
   },
   {
     n: "04",
     nome: "Torra",
-    texto: "Feita na propriedade e ajustada à proposta sensorial de cada linha.",
+    chamada: "Na máquina do bisavô",
+    texto:
+      "Feita à mão, em máquinas do século passado, das mesmas que rodavam no tempo do Juca. Sem programa automático: alguém acompanha, escuta e decide a hora de tirar. O padrão da casa é a torra média, que é onde este café abre mais aroma sem perder o corpo.",
+    resumo: "Ponto escolhido no olho e no ouvido, não no botão.",
   },
   {
     n: "05",
     nome: "Moagem",
-    texto: "Só na hora de embalar, para o café em pó chegar com mais frescor.",
+    chamada: "Só na hora de enviar",
+    texto:
+      "O café só é moído quando o seu pedido está saindo. Grão moído perde aroma em dias, então não faz sentido moer antes e deixar parado na prateleira.",
+    resumo: "É por isso que o pó chega mais fresco.",
   },
 ];
 

@@ -12,10 +12,9 @@ export default function Origem() {
 
       <div className="mt-6 grid gap-x-16 lg:grid-cols-2">
         <p className="text-[17px] text-[#5c4635]">
-          Os {MARCA.sitio} estão na família desde que meu bisavô plantou os primeiros pés
-          de café ali, no início do século 20, em {MARCA.local}. O café é produzido,
-          beneficiado, torrado e moído na mesma propriedade; cada etapa acontece sob o
-          olhar de quem planta.
+          Os {MARCA.sitio} estão na família há mais de cem anos, em {MARCA.local}. O café
+          é produzido, beneficiado, torrado e moído na mesma propriedade; cada etapa
+          acontece sob o olhar de quem planta.
         </p>
         <p className="text-[17px] text-[#5c4635]">
           Esse controle aparece de duas formas. Na xícara, como frescor e constância de
@@ -35,7 +34,7 @@ export default function Origem() {
 
       <dl className="reveal mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
         {[
-          { n: "4", r: "gerações na mesma terra" },
+          { n: "4", r: "gerações no café" },
           { n: "115", r: "anos entre os dois Jucas" },
           { n: "998", r: "metros acima do mar" },
           { n: "100%", r: "arábica" },

@@ -1,129 +1,213 @@
+import type { ReactNode } from "react";
 import { Faixa, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import Arquivo from "./Arquivo";
 import ramoCafe from "@/assets/ramo-cafe.webp";
-import { MARCA } from "@/dados";
+import { DUPLA, MARCA, MARCOS } from "@/dados";
 
-const MARCOS = [
-  {
-    ano: "1887",
-    titulo: "Nasce José Palma Chaves",
-    texto:
-      "Filho de portugueses, nasce em Santa Rita do Sapucaí no dia 27 de dezembro. A vida toda seria conhecido por outro nome: Juca Chaves.",
-  },
-  {
-    ano: "Início do séc. XX",
-    titulo: "Os primeiros pés de café",
-    texto:
-      "Ainda jovem, o Juca planta café nos Sítios Dois Coqueiros e JR. É a lavoura que segue na família até hoje.",
-  },
-  {
-    ano: "1976",
-    titulo: "O apelido se apaga",
-    texto:
-      "Ele morre em Santa Rita do Sapucaí, aos 88 anos. O café continua. O apelido, não; atravessa três gerações sem aparecer.",
-  },
-  {
-    ano: "2002",
-    titulo: "Nasce João Henrique",
-    texto:
-      "O bisneto nasce 115 anos depois do bisavô. Ninguém na família o chama de Juca.",
-  },
-  {
-    ano: "Hoje",
-    titulo: "O apelido volta sozinho",
-    texto:
-      "Os amigos apelidam João Henrique de Juca, sem saber do bisavô, sem nenhuma relação com a lavoura. A coincidência virou o nome desta marca.",
-  },
-];
+/**
+ * A história em três capítulos.
+ *
+ * Num site ninguém lê parágrafo longo, então a seção foi montada para ser lida
+ * em dois níveis: quem só passa o olho pega as três frases grandes e sai com a
+ * história inteira; quem se interessa desce para o texto miúdo. Por isso cada
+ * capítulo abre com uma afirmação em corpo grande, e o corpo vem em blocos
+ * curtos embaixo.
+ */
+function Capitulo({
+  num,
+  nome,
+  frase,
+  children,
+}: {
+  num: string;
+  nome: string;
+  frase: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="reveal mt-16 border-t-2 border-[#3a271b] pt-7 sm:mt-20">
+      <div className="eyebrow">
+        Capítulo {num} · {nome}
+      </div>
+      <h3 className="mt-4 max-w-[20ch] text-[clamp(28px,4.6vw,48px)] leading-[1.05]">
+        {frase}
+      </h3>
+      <div className="mt-7">{children}</div>
+    </section>
+  );
+}
+
+/** um parágrafo do corpo: medida curta, para a leitura não cansar */
+function P({ children }: { children: ReactNode }) {
+  return (
+    <p className="mt-4 max-w-[58ch] text-[17px] leading-relaxed text-[#5c4635] first:mt-0">
+      {children}
+    </p>
+  );
+}
+
+function Ramo() {
+  return (
+    <img
+      src={ramoCafe}
+      alt=""
+      aria-hidden="true"
+      width={1200}
+      height={235}
+      loading="lazy"
+      className="mx-auto mt-14 w-[min(100%,380px)] sm:mt-16"
+    />
+  );
+}
 
 export default function Sobre() {
   return (
     <Faixa id="sobre" fundo="creme" className="py-16 sm:py-24">
       <Rubrica num="04">Sobre nós</Rubrica>
 
-      <h2 className="reveal mt-6 max-w-[16ch] text-[clamp(32px,5vw,58px)]">
+      <h2 className="reveal mt-6 max-w-[17ch] text-[clamp(32px,5vw,58px)]">
         Juca era o apelido do meu bisavô.{" "}
         <em className="block" style={{ fontStyle: "italic", color: "#6b4526" }}>
           115 anos depois, virou o meu.
         </em>
       </h2>
 
-      <p className="reveal mt-7 max-w-[48ch] text-[17px] text-[#6b4526]">
-        Por força do destino, e sem ninguém planejar. E com o apelido veio também a
-        paixão pelo café.
-      </p>
-
-      <div className="reveal mt-10 grid gap-x-16 gap-y-4 lg:grid-cols-2">
-        <p className="text-[17px] text-[#5c4635]">
-          Meu bisavô se chamava{" "}
-          <strong className="font-semibold text-[#3a271b]">{MARCA.fundador}</strong>, mas
-          ninguém o chamava assim. Ele era o Juca Chaves, filho de portugueses, nascido em{" "}
-          {MARCA.local} em 1887, e o primeiro da família a plantar café nos{" "}
-          {MARCA.sitio}. Morreu em 1976, na mesma cidade onde nasceu.
+      {/* ————— capítulo um ————— */}
+      <Capitulo
+        num="um"
+        nome="A ideia"
+        frase="Passei uma semana na fazenda. Voltei com uma marca na cabeça."
+      >
+        <P>
+          Foi em 2025. Meu primo Fernandinho me levou para ver o café de perto, do pé ao
+          terreiro, do terreiro à torra. Saí apaixonado pelo processo e incomodado com uma
+          coisa.
+        </P>
+        <P>
+          Aquele era um dos melhores cafés que eu já tinha tomado, e saía dali em saca,
+          para cooperativa e empresa grande, sem nome e sem rosto. Num lugar onde todo
+          mundo produz café, o bom se mistura com o resto e some.
+        </P>
+        <p
+          className="mt-6 text-[clamp(20px,2.8vw,28px)] leading-snug text-[#8c3a20]"
+          style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
+        >
+          O Vô Juca nasceu disso.
         </p>
-        <p className="text-[17px] text-[#5c4635]">
-          Nasci em 2002. Em algum momento meus amigos começaram a me chamar de Juca, sem
-          saber que existiu um Juca antes de mim, e sem nenhuma ligação com café. Levei
-          anos para achar graça na coincidência. Este projeto é o que fiz com ela: o mesmo
-          apelido e o mesmo café, quatro gerações depois.
-        </p>
-      </div>
+      </Capitulo>
 
-      {/* linha do tempo do apelido */}
-      <ol className="reveal mt-14 grid gap-0 border-t-2 border-[#3a271b] sm:grid-cols-2 lg:grid-cols-5">
-        {MARCOS.map((m) => (
-          <li
-            key={m.ano}
-            className="border-b border-[rgba(58,39,27,0.2)] py-6 sm:border-r sm:pr-5 sm:last:border-r-0 lg:border-b-0"
+      <Ramo />
+
+      {/* ————— capítulo dois ————— */}
+      <Capitulo
+        num="dois"
+        nome="O apelido"
+        frase="Um apelido sumiu por três gerações e voltou sem avisar."
+      >
+        <div className="grid gap-x-14 lg:grid-cols-2">
+          <div>
+            <P>
+              Meu bisavô se chamava{" "}
+              <strong className="font-semibold text-[#3a271b]">{MARCA.fundador}</strong>.
+              Ninguém o chamava assim: ele era o Juca Chaves. Filho de portugueses, nasceu
+              em {MARCA.local} em {MARCA.fundadorNasc}.
+            </P>
+            <P>
+              Os pais vieram de Portugal para construir alguma coisa aqui e chegaram quase
+              sem nada: a mala com as joias e boa parte do patrimônio ficou para trás no
+              trem. Começaram do zero.
+            </P>
+          </div>
+          <div>
+            <P>
+              O pai morreu cedo, num naufrágio, mas deu tempo de levantar o que a família
+              precisava para seguir. O Juca foi além: juntou terra no {MARCA.regiao} e
+              plantou café.
+            </P>
+            <P>
+              A fortuna não atravessou a vida dele inteira, e minha avó, filha dele,
+              cresceu bem e viveu com simplicidade.
+            </P>
+          </div>
+        </div>
+
+        <blockquote className="mt-10 border-y border-[rgba(58,39,27,0.25)] py-7">
+          <p
+            className="max-w-[26ch] text-[clamp(23px,3.4vw,38px)] leading-tight text-[#6b4526]"
+            style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
           >
-            <div
-              className="text-[16px] tracking-[0.14em] text-[#8c3a20]"
-              style={{ fontFamily: '"Courier Prime", monospace' }}
+            O que ficou não foi o dinheiro. Foi o café e um apelido.
+          </p>
+        </blockquote>
+
+        {/* a linha do tempo é o espinho da história: cinco marcos, cinco olhadas */}
+        <ol className="mt-12 grid gap-0 border-t-2 border-[#3a271b] sm:grid-cols-2 lg:grid-cols-5">
+          {MARCOS.map((m) => (
+            <li
+              key={m.ano}
+              className="border-b border-[rgba(58,39,27,0.2)] py-6 sm:border-r sm:pr-5 sm:last:border-r-0 lg:border-b-0"
             >
-              {m.ano.toUpperCase()}
+              <div
+                className="text-[16px] tracking-[0.14em] text-[#8c3a20]"
+                style={{ fontFamily: '"Courier Prime", monospace' }}
+              >
+                {m.ano.toUpperCase()}
+              </div>
+              <h4 className="mt-2.5 text-[19px] leading-tight">{m.titulo}</h4>
+              <p className="mt-2 text-[15px] leading-relaxed text-[#5c4635]">{m.texto}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div id="arquivo" className="mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
+          <Arquivo />
+        </div>
+
+        <div className="mt-12 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
+          <P>
+            Nasci em {MARCA.bisnetoNasc}, {MARCA.anosEntreOsJucas} anos depois dele. Filho
+            de mineiro com baiana, nascido em São Paulo, criado em Florianópolis. Ninguém
+            em casa me chamava de Juca.
+          </P>
+          <P>
+            Depois dos 18, os amigos começaram, sem saber que existiu um Juca antes de mim
+            e sem nenhuma relação com café. Descobri as duas coisas muito depois, e nessa
+            ordem.
+          </P>
+        </div>
+      </Capitulo>
+
+      <Ramo />
+
+      {/* ————— capítulo três ————— */}
+      <Capitulo
+        num="três"
+        nome="Hoje"
+        frase="Dois primos, e uma divisão simples de trabalho."
+      >
+        <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
+          {DUPLA.map((p) => (
+            <div key={p.nome} className="border-t-2 border-[#3a271b] pt-5">
+              <h4 className="text-[clamp(22px,3vw,28px)] leading-tight">{p.nome}</h4>
+              <div className="eyebrow mt-2">{p.papel}</div>
+              <p className="mt-3.5 text-[16.5px] leading-relaxed text-[#5c4635]">
+                {p.texto}
+              </p>
             </div>
-            <h3 className="mt-2.5 text-[19px] leading-tight">{m.titulo}</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-[#5c4635]">{m.texto}</p>
-          </li>
-        ))}
-      </ol>
+          ))}
+        </div>
 
-      <p className="ficha mt-8 max-w-[60ch] text-[15px] leading-relaxed text-[#8c7a66]">
-        Ainda estou levantando as histórias das gerações do meio: as safras, as mudanças,
-        o que se perdeu e o que ficou. Elas entram aqui conforme eu apurar.
-      </p>
+        <p className="ficha mt-10 max-w-[64ch] text-[15px] leading-relaxed text-[#6b4526]">
+          A plantação foi coisa do meu tio Nando, neto do Juca. Ele passou a vida no café,
+          com armazém e cooperativa, e mais velho resolveu plantar. Hoje quem toca é o
+          filho dele, o Fernandinho, com as pessoas que trabalham no sítio.
+        </p>
+      </Capitulo>
 
-      <div className="mt-12 sm:mt-14">
-        <img
-          src={ramoCafe}
-          alt=""
-          aria-hidden="true"
-          width={1200}
-          height={235}
-          loading="lazy"
-          className="mx-auto w-[min(100%,420px)]"
-        />
-      </div>
+      <Ramo />
 
-      {/* o arquivo do bisavô, agora dentro da mesma seção */}
-      <div id="arquivo" className="mt-10 sm:mt-12" style={{ scrollMarginTop: 84 }}>
-        <Arquivo />
-      </div>
-
-      <div className="mt-12 sm:mt-14">
-        <img
-          src={ramoCafe}
-          alt=""
-          aria-hidden="true"
-          width={1200}
-          height={235}
-          loading="lazy"
-          className="mx-auto w-[min(100%,420px)]"
-        />
-      </div>
-
-      <div id="fotos" className="reveal mt-10 sm:mt-12" style={{ scrollMarginTop: 84 }}>
+      <div id="fotos" className="reveal mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
         <Galeria />
       </div>
     </Faixa>

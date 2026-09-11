@@ -67,7 +67,7 @@ export default function Capa() {
           className="mx-auto mt-7 max-w-[19ch] text-[clamp(34px,5.4vw,60px)]"
           style={{ color: "#f7efe0" }}
         >
-          A mesma lavoura, o mesmo apelido, quatro gerações depois
+          Quatro gerações nas mesmas terras. O apelido pulou três.
         </h1>
 
         <p
@@ -78,8 +78,8 @@ export default function Capa() {
           <strong className="font-semibold" style={{ color: "#f2e7d3" }}>
             {MARCA.sitio}
           </strong>
-          , em {MARCA.local}, onde meu bisavô plantou os primeiros pés no início do
-          século 20.
+          , em {MARCA.local}. Terra de família há mais de cem anos. O nome é do meu
+          bisavô, o Juca.
         </p>
 
         <div

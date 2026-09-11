@@ -77,7 +77,7 @@ export default function Processo() {
       <div className="mt-10 lg:mt-14 lg:grid lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1fr)] lg:gap-14">
         {/* o palco: preso no alto no celular, preso ao lado no desktop */}
         <div
-          className="sticky top-[72px] z-10 -mx-4 bg-[#2c1d14] px-4 pb-3 pt-3 sm:top-[76px] sm:-mx-5 sm:px-5 lg:top-[13vh] lg:mx-0 lg:self-start lg:px-0 lg:pb-0"
+          className="palco-fixo sticky top-[72px] z-10 -mx-4 bg-[#2c1d14] px-4 pb-3 pt-3 sm:top-[76px] sm:-mx-5 sm:px-5 lg:top-[13vh] lg:mx-0 lg:self-start lg:px-0 lg:pb-0"
           data-print-hide
         >
           <div className="caixa-prancha relative aspect-[3/2]">
@@ -156,8 +156,19 @@ export default function Processo() {
               }}
               className="flex min-h-[52vh] flex-col justify-center py-8 lg:min-h-[74vh] lg:py-0"
             >
+              {/* a mesma arte do palco, servida no fluxo quando ele nao cabe.
+                  E o mesmo arquivo, entao nao custa download nenhum a mais. */}
+              <img
+                src={PRANCHAS[i].src}
+                alt={PRANCHAS[i].alt}
+                width={1100}
+                height={733}
+                loading="lazy"
+                decoding="async"
+                className="prancha-inline mb-6 w-full"
+              />
               <div
-                className="transition-opacity duration-500"
+                className="etapa-corpo transition-opacity duration-500"
                 style={{ opacity: i === ativa ? 1 : 0.38 }}
               >
                 <div className="flex items-baseline gap-3">
@@ -178,14 +189,29 @@ export default function Processo() {
                 </div>
 
                 <h3 className="mt-3 text-[clamp(28px,4vw,44px)] text-[#f2e7d3]">{e.nome}</h3>
+                <p
+                  className="mt-1.5 text-[clamp(17px,2.2vw,22px)] leading-snug"
+                  style={{
+                    fontFamily: "Fraunces, Georgia, serif",
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    color: "#c9a678",
+                  }}
+                >
+                  {e.chamada}
+                </p>
                 <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-[#c9b79c]">
                   {e.texto}
                 </p>
-                {i === ETAPAS.length - 1 && (
-                  <p className="ficha mt-5 max-w-[40ch] text-[14.5px] leading-snug text-[#e8b98d]">
-                    É por isso que o pó chega mais fresco.
-                  </p>
-                )}
+                {/* a frase que fica, para quem só passa o olho */}
+                <p className="ficha mt-5 flex max-w-[42ch] items-start gap-2.5 text-[14.5px] leading-snug text-[#e8b98d]">
+                  <span
+                    aria-hidden="true"
+                    className="mt-[11px] inline-block h-px w-4 shrink-0"
+                    style={{ background: "#c98a5e" }}
+                  />
+                  {e.resumo}
+                </p>
               </div>
             </li>
           ))}

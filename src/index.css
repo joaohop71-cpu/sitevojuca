@@ -154,6 +154,26 @@
     }
   }
 
+  /* O palco fixo das pranchas custa uns 300 px de altura permanente. Com os
+     textos das etapas maiores, num celular baixo (iPhone SE e afins, 667 px)
+     nao sobra espaco: o numero da etapa ficava atras da prancha e o fim do
+     texto era cortado. Entao ele so entra onde ha altura para os dois, ou em
+     tela larga, onde a ilustracao fica ao lado e nao por cima. Fora dai, a
+     prancha acompanha cada etapa no fluxo, que sempre cabe. */
+  .palco-fixo { display: none; }
+  .prancha-inline { display: block; }
+  @media (min-height: 740px), (min-width: 1024px) {
+    .palco-fixo { display: block; }
+    .prancha-inline { display: none; }
+  }
+
+  /* No modo em fluxo cada etapa traz a propria ilustracao, entao escurecer as
+     outras nao comunica nada: vira so texto apagado. A condicao abaixo e' o
+     complemento exato da de cima. */
+  @media (max-height: 739px) and (max-width: 1023px) {
+    .etapa-corpo { opacity: 1 !important; }
+  }
+
   /* moldura de arquivo — usada nos retratos do Juca */
   .moldura {
     border: 1px solid #c0ab8c;
