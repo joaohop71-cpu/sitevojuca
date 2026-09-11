@@ -162,15 +162,29 @@
      prancha acompanha cada etapa no fluxo, que sempre cabe. */
   .palco-fixo { display: none; }
   .prancha-inline { display: block; }
-  @media (min-height: 740px), (min-width: 1024px) {
+  @media (min-height: 560px), (min-width: 1024px) {
     .palco-fixo { display: block; }
     .prancha-inline { display: none; }
+  }
+
+  /* O limite antes era 740 px de altura, e isso desligava o palco em quase
+     todo celular: a barra de endereco come uns 100 px, entao um aparelho de
+     844 px de tela navega com uns 700 de viewport. Agora o palco vale desde
+     560 px e, no lugar de exigir espaco, ele cede: a prancha encolhe junto
+     com a tela, e sempre sobra leitura embaixo. */
+  @media (max-width: 1023px) {
+    .caixa-prancha {
+      height: min(30vh, calc((100vw - 2rem) * 2 / 3));
+      width: auto;
+      max-width: 100%;
+      margin-inline: auto;
+    }
   }
 
   /* No modo em fluxo cada etapa traz a propria ilustracao, entao escurecer as
      outras nao comunica nada: vira so texto apagado. A condicao abaixo e' o
      complemento exato da de cima. */
-  @media (max-height: 739px) and (max-width: 1023px) {
+  @media (max-height: 559px) and (max-width: 1023px) {
     .etapa-corpo { opacity: 1 !important; }
   }
 

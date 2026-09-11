@@ -28,6 +28,14 @@ export { default as jucaLinho } from "@/assets/juca-linho.jpg";
 export { default as jucaCavalo } from "@/assets/juca-cavalo.jpg";
 export { default as jucaRetratoSelo } from "@/assets/juca-retrato-selo.jpg";
 
+/* os dois primos, e a lavoura de hoje */
+export { default as joaoHenrique } from "@/assets/joao-henrique.jpg";
+export { default as fernandinho } from "@/assets/fernandinho.jpg";
+export { default as lavouraMudas } from "@/assets/lavoura-mudas.jpg";
+export { default as cafePoente } from "@/assets/cafe-poente.jpg";
+export { default as casaSitio } from "@/assets/casa-sitio.jpg";
+export { default as paiEFilho } from "@/assets/pai-e-filho.jpg";
+
 /* as cinco pranchas do processo — traco em creme, para o fundo escuro da secao */
 export { default as processoColheita } from "@/assets/processo-colheita.png";
 export { default as processoSecagem } from "@/assets/processo-secagem.png";

@@ -3,6 +3,10 @@ import { Faixa, RamoEmenda, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import Arquivo from "./Arquivo";
 import { DUPLA, MARCA, MARCOS } from "@/dados";
+import { fernandinho, joaoHenrique } from "@/imagens";
+
+/* a foto de cada um, resolvida pela chave que vem dos dados */
+const RETRATOS: Record<string, string> = { fernandinho, joaoHenrique };
 
 /**
  * A história em três capítulos.
@@ -48,7 +52,7 @@ function P({ children }: { children: ReactNode }) {
 
 export default function Sobre() {
   return (
-    <Faixa id="sobre" fundo="creme" className="pb-16 pt-6 sm:pb-24 sm:pt-7">
+    <Faixa id="sobre" fundo="creme" className="pb-16 pt-14 sm:pb-24 sm:pt-16">
       {/* emenda que vem do bloco escuro do processo */}
       <RamoEmenda className="mb-14 sm:mb-16" />
 
@@ -172,10 +176,20 @@ export default function Sobre() {
         nome="Hoje"
         frase="Dois primos, e uma divisão simples de trabalho."
       >
-        <div className="grid gap-8 sm:grid-cols-2 sm:gap-10">
+        <div className="grid gap-10 sm:grid-cols-2">
           {DUPLA.map((p) => (
-            <div key={p.nome} className="border-t-2 border-[#3a271b] pt-5">
-              <h4 className="text-[clamp(22px,3vw,28px)] leading-tight">{p.nome}</h4>
+            <div key={p.nome}>
+              <div className="moldura p-2.5">
+                <img
+                  src={RETRATOS[p.foto]}
+                  alt={`Retrato de ${p.nome}`}
+                  loading="lazy"
+                  className="foto block aspect-[4/3] w-full object-cover"
+                />
+              </div>
+              <h4 className="mt-5 border-t-2 border-[#3a271b] pt-4 text-[clamp(22px,3vw,28px)] leading-tight">
+                {p.nome}
+              </h4>
               <div className="eyebrow mt-2">{p.papel}</div>
               <p className="mt-3.5 text-[16.5px] leading-relaxed text-[#5c4635]">
                 {p.texto}

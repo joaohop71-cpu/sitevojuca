@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  cafePoente,
+  casaSitio,
   cerejaGota,
   cerejasSerra,
   jucaLavoura,
+  lavouraMudas,
   linhasCafezal,
+  paiEFilho,
   poente,
   talhoes,
 } from "@/imagens";
@@ -46,6 +50,30 @@ const FOTOS: Foto[] = [
     alt: "Gota d'água escorrendo de uma folha sobre cerejas de café, com o carreador desfocado ao fundo",
     legenda: "Manhã na lavoura",
     ficha: "Orvalho, cedo da manhã",
+  },
+  {
+    src: lavouraMudas,
+    alt: "Mudas de café recém-plantadas em linhas curvas na terra vermelha, com os morros verdes ao fundo",
+    legenda: "As mudas do ano",
+    ficha: "Plantio novo, linha por linha",
+  },
+  {
+    src: cafePoente,
+    alt: "Ramo de café com frutos escuros em contraluz, com o sol se pondo atrás das montanhas",
+    legenda: "Fruto contra o sol",
+    ficha: "Fim de tarde, café maduro",
+  },
+  {
+    src: casaSitio,
+    alt: "Casa antiga do sítio entre palmeiras, na encosta, com dois cavalos no pasto em primeiro plano",
+    legenda: "A casa do sítio",
+    ficha: "A sede, e dois cavalos",
+  },
+  {
+    src: paiEFilho,
+    alt: "Duas pessoas da família junto à porteira do sítio, com as montanhas do Sul de Minas ao fundo",
+    legenda: "Na porteira",
+    ficha: "De onde se vê a lavoura inteira",
   },
 ];
 

@@ -178,12 +178,14 @@ export const MARCOS = [
 export const DUPLA = [
   {
     nome: "Fernandinho",
+    foto: "fernandinho",
     papel: "Do pé à torra",
     texto:
       "Cuida da lavoura, conduz a colheita, a secagem e a torra, e assina a classificação: é classificador e degustador de café com certificado. O que chega na sua xícara passou pela mesa dele.",
   },
   {
     nome: "João Henrique",
+    foto: "joaoHenrique",
     papel: "Daqui para fora",
     texto:
       "Respondo o WhatsApp, escrevo o site, cuido das vendas e das redes. Se você mandar mensagem, quem lê sou eu.",

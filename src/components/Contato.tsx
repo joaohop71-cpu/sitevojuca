@@ -134,7 +134,7 @@ export default function Contato() {
       </Faixa>
 
       {/* emenda para o rodape escuro */}
-      <RamoEmenda className="mt-16 pb-2 sm:mt-20" />
+      <RamoEmenda className="mb-12 sm:mb-14" />
 
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">

@@ -112,7 +112,7 @@ export default function Capa() {
       </div>
 
       {/* o ramo assenta na emenda, logo abaixo do rasgo */}
-      <RamoEmenda className="pb-12 pt-6 sm:pb-14 sm:pt-7" />
+      <RamoEmenda className="pb-12 pt-10 sm:pb-14 sm:pt-12" />
     </header>
   );
 }
