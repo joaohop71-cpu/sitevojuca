@@ -176,24 +176,43 @@
 
   /* A capa terminava num corte reto sobre o papel. Degradê já tentamos e ficou
      ruim: creme translúcido sobre marrom passa por um cinza sujo no meio.
-     Aqui a foto é recortada como uma folha rasgada à mão, e quem aparece na
-     falha é o papel de verdade da página, com o grão dele. Duas camadas de
-     máscara: a de cima cobre tudo menos a faixa final, a de baixo é a borda
-     irregular, repetida na horizontal. O desenho começa e termina na mesma
-     altura, então a emenda da repetição não aparece. */
-  .capa-rasgada {
-    -webkit-mask-image:
-      linear-gradient(#000, #000),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 0H360V14.8L351.8 8.2L343.6 10.7L335.5 9.1L327.3 10.2L319.1 9.2L310.9 11.1L302.7 11.0L294.5 9.5L286.4 9.5L278.2 13.9L270.0 9.6L261.8 10.6L253.6 8.6L245.5 9.8L237.3 11.0L229.1 9.5L220.9 12.7L212.7 8.7L204.5 12.5L196.4 10.6L188.2 12.2L180.0 13.0L171.8 11.1L163.6 15.3L155.5 11.5L147.3 11.8L139.1 14.7L130.9 12.3L122.7 15.0L114.5 10.6L106.4 12.1L98.2 11.1L90.0 13.5L81.8 10.7L73.6 12.4L65.5 15.3L57.3 11.7L49.1 17.2L40.9 12.5L32.7 14.5L24.5 12.7L16.4 10.8L8.2 13.9L0.0 14.8Z'/%3E%3C/svg%3E");
-    mask-image:
-      linear-gradient(#000, #000),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 0H360V14.8L351.8 8.2L343.6 10.7L335.5 9.1L327.3 10.2L319.1 9.2L310.9 11.1L302.7 11.0L294.5 9.5L286.4 9.5L278.2 13.9L270.0 9.6L261.8 10.6L253.6 8.6L245.5 9.8L237.3 11.0L229.1 9.5L220.9 12.7L212.7 8.7L204.5 12.5L196.4 10.6L188.2 12.2L180.0 13.0L171.8 11.1L163.6 15.3L155.5 11.5L147.3 11.8L139.1 14.7L130.9 12.3L122.7 15.0L114.5 10.6L106.4 12.1L98.2 11.1L90.0 13.5L81.8 10.7L73.6 12.4L65.5 15.3L57.3 11.7L49.1 17.2L40.9 12.5L32.7 14.5L24.5 12.7L16.4 10.8L8.2 13.9L0.0 14.8Z'/%3E%3C/svg%3E");
+     Aqui o bloco escuro é recortado como uma folha rasgada à mão, e quem
+     aparece na falha é o papel de verdade da página, com o grão dele.
+     Quem recebe o rasgo é sempre o bloco ESCURO: assim a falha revela papel
+     claro, que é o que a metáfora pede. Duas sementes diferentes no gerador,
+     para a borda de cima e a de baixo não serem a mesma folha. O desenho
+     começa e termina na mesma altura, então a emenda da repetição não aparece. */
+  .rasgo-baixo {
+    -webkit-mask-image: linear-gradient(#000, #000), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 0H360V14.8L351.8 8.2L343.6 10.7L335.5 9.1L327.3 10.2L319.1 9.2L310.9 11.1L302.7 11.0L294.5 9.5L286.4 9.5L278.2 13.9L270.0 9.6L261.8 10.6L253.6 8.6L245.5 9.8L237.3 11.0L229.1 9.5L220.9 12.7L212.7 8.7L204.5 12.5L196.4 10.6L188.2 12.2L180.0 13.0L171.8 11.1L163.6 15.3L155.5 11.5L147.3 11.8L139.1 14.7L130.9 12.3L122.7 15.0L114.5 10.6L106.4 12.1L98.2 11.1L90.0 13.5L81.8 10.7L73.6 12.4L65.5 15.3L57.3 11.7L49.1 17.2L40.9 12.5L32.7 14.5L24.5 12.7L16.4 10.8L8.2 13.9L0.0 14.8Z'/%3E%3C/svg%3E");
+    mask-image: linear-gradient(#000, #000), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 0H360V14.8L351.8 8.2L343.6 10.7L335.5 9.1L327.3 10.2L319.1 9.2L310.9 11.1L302.7 11.0L294.5 9.5L286.4 9.5L278.2 13.9L270.0 9.6L261.8 10.6L253.6 8.6L245.5 9.8L237.3 11.0L229.1 9.5L220.9 12.7L212.7 8.7L204.5 12.5L196.4 10.6L188.2 12.2L180.0 13.0L171.8 11.1L163.6 15.3L155.5 11.5L147.3 11.8L139.1 14.7L130.9 12.3L122.7 15.0L114.5 10.6L106.4 12.1L98.2 11.1L90.0 13.5L81.8 10.7L73.6 12.4L65.5 15.3L57.3 11.7L49.1 17.2L40.9 12.5L32.7 14.5L24.5 12.7L16.4 10.8L8.2 13.9L0.0 14.8Z'/%3E%3C/svg%3E");
     -webkit-mask-size: 100% calc(100% - 25px), 360px 26px;
     mask-size: 100% calc(100% - 25px), 360px 26px;
     -webkit-mask-position: top left, bottom left;
     mask-position: top left, bottom left;
     -webkit-mask-repeat: no-repeat, repeat-x;
     mask-repeat: no-repeat, repeat-x;
+  }
+
+  .rasgo-cima {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 11.1L8.2 12.3L16.4 14.2L24.5 11.8L32.7 11.2L40.9 12.2L49.1 13.6L57.3 9.7L65.5 10.2L73.6 15.3L81.8 16.4L90.0 11.5L98.2 14.2L106.4 10.4L114.5 11.8L122.7 12.9L130.9 11.1L139.1 14.6L147.3 13.3L155.5 15.4L163.6 13.7L171.8 15.6L180.0 14.6L188.2 12.5L196.4 15.7L204.5 15.3L212.7 15.0L220.9 14.2L229.1 14.4L237.3 13.0L245.5 15.5L253.6 14.9L261.8 12.9L270.0 13.5L278.2 15.0L286.4 15.4L294.5 12.1L302.7 15.1L310.9 14.4L319.1 14.3L327.3 17.1L335.5 14.7L343.6 16.1L351.8 14.1L360.0 11.1V26H0Z'/%3E%3C/svg%3E"), linear-gradient(#000, #000);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 11.1L8.2 12.3L16.4 14.2L24.5 11.8L32.7 11.2L40.9 12.2L49.1 13.6L57.3 9.7L65.5 10.2L73.6 15.3L81.8 16.4L90.0 11.5L98.2 14.2L106.4 10.4L114.5 11.8L122.7 12.9L130.9 11.1L139.1 14.6L147.3 13.3L155.5 15.4L163.6 13.7L171.8 15.6L180.0 14.6L188.2 12.5L196.4 15.7L204.5 15.3L212.7 15.0L220.9 14.2L229.1 14.4L237.3 13.0L245.5 15.5L253.6 14.9L261.8 12.9L270.0 13.5L278.2 15.0L286.4 15.4L294.5 12.1L302.7 15.1L310.9 14.4L319.1 14.3L327.3 17.1L335.5 14.7L343.6 16.1L351.8 14.1L360.0 11.1V26H0Z'/%3E%3C/svg%3E"), linear-gradient(#000, #000);
+    -webkit-mask-size: 360px 26px, 100% calc(100% - 25px);
+    mask-size: 360px 26px, 100% calc(100% - 25px);
+    -webkit-mask-position: top left, bottom left;
+    mask-position: top left, bottom left;
+    -webkit-mask-repeat: repeat-x, no-repeat;
+    mask-repeat: repeat-x, no-repeat;
+  }
+
+  .rasgo-ambos {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 11.1L8.2 12.3L16.4 14.2L24.5 11.8L32.7 11.2L40.9 12.2L49.1 13.6L57.3 9.7L65.5 10.2L73.6 15.3L81.8 16.4L90.0 11.5L98.2 14.2L106.4 10.4L114.5 11.8L122.7 12.9L130.9 11.1L139.1 14.6L147.3 13.3L155.5 15.4L163.6 13.7L171.8 15.6L180.0 14.6L188.2 12.5L196.4 15.7L204.5 15.3L212.7 15.0L220.9 14.2L229.1 14.4L237.3 13.0L245.5 15.5L253.6 14.9L261.8 12.9L270.0 13.5L278.2 15.0L286.4 15.4L294.5 12.1L302.7 15.1L310.9 14.4L319.1 14.3L327.3 17.1L335.5 14.7L343.6 16.1L351.8 14.1L360.0 11.1V26H0Z'/%3E%3C/svg%3E"), linear-gradient(#000, #000), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 0H360V14.8L351.8 8.2L343.6 10.7L335.5 9.1L327.3 10.2L319.1 9.2L310.9 11.1L302.7 11.0L294.5 9.5L286.4 9.5L278.2 13.9L270.0 9.6L261.8 10.6L253.6 8.6L245.5 9.8L237.3 11.0L229.1 9.5L220.9 12.7L212.7 8.7L204.5 12.5L196.4 10.6L188.2 12.2L180.0 13.0L171.8 11.1L163.6 15.3L155.5 11.5L147.3 11.8L139.1 14.7L130.9 12.3L122.7 15.0L114.5 10.6L106.4 12.1L98.2 11.1L90.0 13.5L81.8 10.7L73.6 12.4L65.5 15.3L57.3 11.7L49.1 17.2L40.9 12.5L32.7 14.5L24.5 12.7L16.4 10.8L8.2 13.9L0.0 14.8Z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 11.1L8.2 12.3L16.4 14.2L24.5 11.8L32.7 11.2L40.9 12.2L49.1 13.6L57.3 9.7L65.5 10.2L73.6 15.3L81.8 16.4L90.0 11.5L98.2 14.2L106.4 10.4L114.5 11.8L122.7 12.9L130.9 11.1L139.1 14.6L147.3 13.3L155.5 15.4L163.6 13.7L171.8 15.6L180.0 14.6L188.2 12.5L196.4 15.7L204.5 15.3L212.7 15.0L220.9 14.2L229.1 14.4L237.3 13.0L245.5 15.5L253.6 14.9L261.8 12.9L270.0 13.5L278.2 15.0L286.4 15.4L294.5 12.1L302.7 15.1L310.9 14.4L319.1 14.3L327.3 17.1L335.5 14.7L343.6 16.1L351.8 14.1L360.0 11.1V26H0Z'/%3E%3C/svg%3E"), linear-gradient(#000, #000), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='26'%3E%3Cpath fill='%23000' d='M0 0H360V14.8L351.8 8.2L343.6 10.7L335.5 9.1L327.3 10.2L319.1 9.2L310.9 11.1L302.7 11.0L294.5 9.5L286.4 9.5L278.2 13.9L270.0 9.6L261.8 10.6L253.6 8.6L245.5 9.8L237.3 11.0L229.1 9.5L220.9 12.7L212.7 8.7L204.5 12.5L196.4 10.6L188.2 12.2L180.0 13.0L171.8 11.1L163.6 15.3L155.5 11.5L147.3 11.8L139.1 14.7L130.9 12.3L122.7 15.0L114.5 10.6L106.4 12.1L98.2 11.1L90.0 13.5L81.8 10.7L73.6 12.4L65.5 15.3L57.3 11.7L49.1 17.2L40.9 12.5L32.7 14.5L24.5 12.7L16.4 10.8L8.2 13.9L0.0 14.8Z'/%3E%3C/svg%3E");
+    -webkit-mask-size: 360px 26px, 100% calc(100% - 50px), 360px 26px;
+    mask-size: 360px 26px, 100% calc(100% - 50px), 360px 26px;
+    -webkit-mask-position: top left, center, bottom left;
+    mask-position: top left, center, bottom left;
+    -webkit-mask-repeat: repeat-x, no-repeat, repeat-x;
+    mask-repeat: repeat-x, no-repeat, repeat-x;
   }
 
   /* moldura de arquivo — usada nos retratos do Juca */

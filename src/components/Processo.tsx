@@ -59,7 +59,7 @@ export default function Processo() {
   }, []);
 
   return (
-    <Faixa id="processo" fundo="tinta" className="py-16 sm:py-24">
+    <Faixa id="processo" fundo="tinta" className="rasgo-ambos py-20 sm:py-28">
       <Rubrica num="03" claro>
         O processo
       </Rubrica>

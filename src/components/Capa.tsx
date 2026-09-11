@@ -1,7 +1,6 @@
 import { selo } from "@/imagens";
 import capaTerra from "@/assets/capa-terra.webp";
-import ramoCafe from "@/assets/ramo-cafe.webp";
-import { Botao } from "./base";
+import { Botao, RamoEmenda } from "./base";
 import { MARCA, SELOS, zap } from "@/dados";
 
 export default function Capa() {
@@ -12,7 +11,7 @@ export default function Capa() {
       id="topo"
       className="relative -mt-[73px] sm:-mt-[77px]"
     >
-      <div className="capa-rasgada relative isolate overflow-hidden">
+      <div className="rasgo-baixo relative isolate overflow-hidden">
       {/* a terra ao fim da tarde, por baixo de tudo */}
       <img
         src={capaTerra}
@@ -112,18 +111,8 @@ export default function Capa() {
       </div>
       </div>
 
-      {/* o ramo fecha a capa já sobre o papel — sem cor própria, para receber
-          o mesmo grão de fundo da seção seguinte */}
-      <div>
-        <img
-          src={ramoCafe}
-          alt=""
-          aria-hidden="true"
-          width={1200}
-          height={235}
-          className="mx-auto w-[min(100%-2rem,460px)] pb-10 pt-10 sm:pb-12 sm:pt-14"
-        />
-      </div>
+      {/* o ramo assenta na emenda, logo abaixo do rasgo */}
+      <RamoEmenda className="pb-12 pt-6 sm:pb-14 sm:pt-7" />
     </header>
   );
 }

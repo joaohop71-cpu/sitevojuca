@@ -1,4 +1,4 @@
-import { Botao, Faixa, Rubrica, Selo } from "./base";
+import { Botao, Faixa, RamoEmenda, Rubrica, Selo } from "./base";
 import { MARCA, zap } from "@/dados";
 
 export default function Contato() {
@@ -133,7 +133,10 @@ export default function Contato() {
         </div>
       </Faixa>
 
-      <footer style={{ background: "#3a271b", color: "#c0ab8c" }}>
+      {/* emenda para o rodape escuro */}
+      <RamoEmenda className="mt-16 pb-2 sm:mt-20" />
+
+      <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
             <Selo cor="#d8c3a0" className="h-14 w-14 shrink-0 sm:h-16 sm:w-16" />

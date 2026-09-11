@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
-import { Faixa, Rubrica } from "./base";
+import { Faixa, RamoEmenda, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import Arquivo from "./Arquivo";
-import ramoCafe from "@/assets/ramo-cafe.webp";
 import { DUPLA, MARCA, MARCOS } from "@/dados";
 
 /**
@@ -47,23 +46,12 @@ function P({ children }: { children: ReactNode }) {
   );
 }
 
-function Ramo() {
-  return (
-    <img
-      src={ramoCafe}
-      alt=""
-      aria-hidden="true"
-      width={1200}
-      height={235}
-      loading="lazy"
-      className="mx-auto mt-14 w-[min(100%,380px)] sm:mt-16"
-    />
-  );
-}
-
 export default function Sobre() {
   return (
-    <Faixa id="sobre" fundo="creme" className="py-16 sm:py-24">
+    <Faixa id="sobre" fundo="creme" className="pb-16 pt-6 sm:pb-24 sm:pt-7">
+      {/* emenda que vem do bloco escuro do processo */}
+      <RamoEmenda className="mb-14 sm:mb-16" />
+
       <Rubrica num="04">Sobre nós</Rubrica>
 
       <h2 className="reveal mt-6 max-w-[17ch] text-[clamp(32px,5vw,58px)]">
@@ -97,7 +85,6 @@ export default function Sobre() {
         </p>
       </Capitulo>
 
-      <Ramo />
 
       {/* ————— capítulo dois ————— */}
       <Capitulo
@@ -178,7 +165,6 @@ export default function Sobre() {
         </div>
       </Capitulo>
 
-      <Ramo />
 
       {/* ————— capítulo três ————— */}
       <Capitulo
@@ -205,7 +191,6 @@ export default function Sobre() {
         </p>
       </Capitulo>
 
-      <Ramo />
 
       <div id="fotos" className="reveal mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
         <Galeria />

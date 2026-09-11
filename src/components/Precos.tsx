@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { CAFES, brl, porQuilo, zap } from "@/dados";
-import { Botao, Faixa, Rubrica } from "./base";
+import { Botao, Faixa, RamoEmenda, Rubrica } from "./base";
 
 type Linha = {
   chave: string;
@@ -310,6 +310,9 @@ export default function Precos() {
           </div>
         </aside>
       </div>
+
+      {/* emenda para o bloco escuro do processo */}
+      <RamoEmenda className="mt-16 sm:mt-20" />
     </Faixa>
   );
 }

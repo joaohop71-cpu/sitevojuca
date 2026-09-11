@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { selo } from "@/imagens";
+import ramoCafe from "@/assets/ramo-cafe.webp";
 
 /**
  * O selo pintado numa cor exata.
@@ -34,6 +35,27 @@ export function Selo({
         maskPosition: "center",
         WebkitMaskPosition: "center",
       }}
+    />
+  );
+}
+
+/**
+ * O ramo que marca uma emenda de fundo.
+ *
+ * Ele passa a ter um significado só: onde ele aparece, o chão da página muda.
+ * Fica sempre do lado claro do rasgo, porque a arte é de tinta escura e
+ * sumiria contra o bloco escuro.
+ */
+export function RamoEmenda({ className = "" }: { className?: string }) {
+  return (
+    <img
+      src={ramoCafe}
+      alt=""
+      aria-hidden="true"
+      width={1200}
+      height={235}
+      loading="lazy"
+      className={`mx-auto w-[min(100%-2rem,360px)] ${className}`}
     />
   );
 }
