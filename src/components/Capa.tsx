@@ -12,7 +12,7 @@ export default function Capa() {
       id="topo"
       className="relative -mt-[73px] sm:-mt-[77px]"
     >
-      <div className="relative isolate overflow-hidden">
+      <div className="capa-rasgada relative isolate overflow-hidden">
       {/* a terra ao fim da tarde, por baixo de tudo */}
       <img
         src={capaTerra}

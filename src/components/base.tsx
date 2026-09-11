@@ -1,4 +1,42 @@
 import type { ReactNode } from "react";
+import { selo } from "@/imagens";
+
+/**
+ * O selo pintado numa cor exata.
+ *
+ * Antes ele era clareado por filtro (`brightness(0) invert(1)`), que só sabe
+ * produzir branco puro — e branco não é uma cor desta marca. Como a arte é de
+ * uma tinta só sobre transparência, ela serve de máscara: o que pinta é o
+ * fundo, e aí a cor é escolhida, não calculada.
+ */
+export function Selo({
+  cor,
+  className = "",
+  rotulo,
+}: {
+  cor: string;
+  className?: string;
+  /** um nome acessível transforma o selo em imagem; sem ele, é decoração */
+  rotulo?: string;
+}) {
+  return (
+    <div
+      className={`transition-colors duration-300 ${className}`}
+      {...(rotulo ? { role: "img", "aria-label": rotulo } : { "aria-hidden": true })}
+      style={{
+        backgroundColor: cor,
+        maskImage: `url(${selo})`,
+        WebkitMaskImage: `url(${selo})`,
+        maskSize: "contain",
+        WebkitMaskSize: "contain",
+        maskRepeat: "no-repeat",
+        WebkitMaskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskPosition: "center",
+      }}
+    />
+  );
+}
 
 export function Faixa({
   children,

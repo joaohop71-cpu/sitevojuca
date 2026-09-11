@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { selo } from "@/imagens";
 import { MARCA, zap } from "@/dados";
+import { Selo } from "./base";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
@@ -63,7 +63,9 @@ export default function Navegacao() {
      assim que rola — ou abre o menu — volta a ser a barra de papel. */
   const claro = !rolou && !aberto;
   const tinta = claro ? "#efe3cc" : "#6b4526";
-  const tintaForte = claro ? "#ffffff" : "#3a271b";
+  /* sobre a capa escura a tinta clara e' o creme da marca, nao branco: branco
+     puro nao aparece em lugar nenhum desta identidade */
+  const tintaForte = claro ? "#f2e7d3" : "#3a271b";
   const destaque = claro ? "#e8b98d" : "#8c3a20";
 
   return (
@@ -86,11 +88,10 @@ export default function Navegacao() {
           onClick={() => setAberto(false)}
           className="flex shrink-0 items-center gap-2.5"
         >
-          <img
-            src={selo}
-            alt={MARCA.nome}
-            className="h-11 w-11 transition-[filter] duration-300 sm:h-[50px] sm:w-[50px]"
-            style={claro ? { filter: "brightness(0) invert(1)", opacity: 0.94 } : undefined}
+          <Selo
+            rotulo={MARCA.nome}
+            cor={claro ? "#efe3cc" : "#3a271b"}
+            className="h-11 w-11 sm:h-[50px] sm:w-[50px]"
           />
           <span
             className="text-[17px] leading-none transition-colors duration-300 sm:text-[18px]"

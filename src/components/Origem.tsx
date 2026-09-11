@@ -10,29 +10,20 @@ export default function Origem() {
         Por que a origem muda o que vai na xícara
       </h2>
 
-      <div className="mt-6 grid gap-x-16 lg:grid-cols-2">
+      <div className="mt-6 grid gap-x-16 gap-y-4 lg:grid-cols-2">
         <p className="text-[17px] text-[#5c4635]">
-          Os {MARCA.sitio} estão na família há mais de cem anos, em {MARCA.local}. O café
-          é produzido, beneficiado, torrado e moído na mesma propriedade; cada etapa
-          acontece sob o olhar de quem planta.
+          Os {MARCA.sitio} ficam a 998 metros, na serra de {MARCA.local}. Altitude assim
+          faz o fruto amadurecer devagar, e fruto que demora é fruto que junta açúcar. É
+          de onde vem a doçura que você sente antes de sentir qualquer outra coisa.
         </p>
         <p className="text-[17px] text-[#5c4635]">
-          Esse controle aparece de duas formas. Na xícara, como frescor e constância de
-          um lote para o outro. E no atendimento, que é feito direto comigo, sem ninguém
-          no meio do caminho.
+          O resto é a variedade e o ano. Arara nos lotes de mesa, Catucaí amarelo nos
+          microlotes, e uma safra que nunca repete a anterior. Por isso cada Heranças sai
+          com o número do lote impresso: aquele café existiu uma vez só.
         </p>
       </div>
 
-      <blockquote className="reveal mt-12 border-y border-[rgba(58,39,27,0.25)] py-8">
-        <p
-          className="max-w-[30ch] text-[clamp(24px,3.4vw,40px)] leading-tight text-[#6b4526]"
-          style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic", fontWeight: 400 }}
-        >
-          “Café de origem, feito por quem vive a lavoura.”
-        </p>
-      </blockquote>
-
-      <dl className="reveal mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+      <dl className="reveal mt-12 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
         {[
           { n: "4", r: "gerações no café" },
           { n: "115", r: "anos entre os dois Jucas" },

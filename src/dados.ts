@@ -82,7 +82,7 @@ export const CAFES: Cafe[] = [
     formato: "Torrado em grãos",
     cor: "verde",
     descricao:
-      "Café especial colhido e torrado na própria propriedade. Perfil suave, doce e floral, o rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
+      "Perfil suave, doce e floral. O rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
     preco: { grao: 43.08, moido: 45.48 },
   },
   {
@@ -167,36 +167,11 @@ export const CAFES: Cafe[] = [
  * história inteira; o resto é para quem quiser.
  */
 export const MARCOS = [
-  {
-    ano: "1887",
-    titulo: "Nasce José Palma Chaves",
-    texto:
-      "Filho de portugueses, nasce em Santa Rita do Sapucaí. A vida toda seria conhecido por outro nome: Juca Chaves.",
-  },
-  {
-    ano: "Início do séc. XX",
-    titulo: "Terra e café",
-    texto:
-      "O Juca junta terra no Sul de Minas e planta café. A lavoura entra na família para não sair mais.",
-  },
-  {
-    ano: "1976",
-    titulo: "O apelido se apaga",
-    texto:
-      "Ele morre aos 88 anos, na mesma cidade onde nasceu. O café continua. O apelido, não; atravessa três gerações sem aparecer.",
-  },
-  {
-    ano: "2002",
-    titulo: "Nasce João Henrique",
-    texto:
-      "O bisneto nasce 115 anos depois do bisavô, em São Paulo, e cresce em Florianópolis. Ninguém na família o chama de Juca.",
-  },
-  {
-    ano: "Hoje",
-    titulo: "O apelido volta sozinho",
-    texto:
-      "Depois dos 18, os amigos apelidam João Henrique de Juca, sem saber do bisavô e sem nenhuma relação com a lavoura.",
-  },
+  { ano: "1887", titulo: "Nasce o Juca", texto: "Em Santa Rita do Sapucaí." },
+  { ano: "Início do séc. XX", titulo: "Planta café", texto: "Junta terra no Sul de Minas." },
+  { ano: "1976", titulo: "Morre aos 88", texto: "O café fica. O apelido some." },
+  { ano: "2002", titulo: "Nasce o bisneto", texto: "Cento e quinze anos depois." },
+  { ano: "Hoje", titulo: "O apelido volta", texto: "Pelos amigos, por acaso." },
 ];
 
 /** quem faz o quê, hoje */

@@ -199,8 +199,8 @@ export default function Precos() {
                     sempre a torra média
                   </strong>
                   , que é o ponto que agrada mais gente e o que mantenho pronto o ano
-                  todo. Fora dela, o café é torrado depois que você pede. Por isso o
-                  pedido personalizado depende da quantidade e precisa de uma{" "}
+                  todo. Fora dela, o café é torrado depois que você pede. Por isso o café
+                  sob medida depende da quantidade e precisa de uma{" "}
                   <strong className="font-semibold text-[#3a271b]">
                     boa antecedência
                   </strong>{" "}

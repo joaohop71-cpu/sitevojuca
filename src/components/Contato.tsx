@@ -1,5 +1,4 @@
-import { Botao, Faixa, Rubrica } from "./base";
-import { selo } from "@/imagens";
+import { Botao, Faixa, Rubrica, Selo } from "./base";
 import { MARCA, zap } from "@/dados";
 
 export default function Contato() {
@@ -137,13 +136,7 @@ export default function Contato() {
       <footer style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            <img
-              src={selo}
-              alt=""
-              aria-hidden="true"
-              className="h-14 w-14 shrink-0 sm:h-16 sm:w-16"
-              style={{ filter: "brightness(0) invert(1)", opacity: 0.82 }}
-            />
+            <Selo cor="#d8c3a0" className="h-14 w-14 shrink-0 sm:h-16 sm:w-16" />
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"

@@ -1,5 +1,4 @@
 import { jucaCavalo, jucaEstudio, jucaLinho, jucaRetratoSelo } from "@/imagens";
-import { MARCA } from "@/dados";
 
 type Retrato = { src: string; alt: string; legenda: string; nota: string };
 
@@ -42,8 +41,7 @@ export default function Arquivo() {
       </div>
 
       <p className="reveal mt-3 max-w-[60ch] text-[#5c4635]">
-        Ele plantou café em {MARCA.local}. Chamavam ele de Juca. O que ficou são estes
-        retratos e as histórias de quem ainda lembra.
+        O que sobrou dele são estes retratos, e as histórias de quem ainda lembra.
       </p>
 
       <div className="reveal mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-6">
