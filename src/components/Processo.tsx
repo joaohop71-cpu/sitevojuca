@@ -66,7 +66,7 @@ export default function Processo() {
       id="processo"
       fundo="tinta"
       atras="#f6eede"
-      className="rasgo-ambos py-20 sm:py-28"
+      className="rasgo-ambos py-16 sm:py-20"
     >
       <Rubrica num="03" claro>
         O processo

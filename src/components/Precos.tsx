@@ -65,7 +65,10 @@ export default function Precos() {
   }, [itens, qtd, subtotal, total, primeira]);
 
   return (
-    <Faixa id="precos" fundo="creme" className="py-16 sm:py-24">
+    /* rasgo em cima: a emenda com a seção dos cafés era um corte reto, o único
+       que tinha sobrado. Quem recebe o corte é o bloco creme, e a falha revela
+       o papel do corpo, que é justamente o fundo da seção de cima */
+    <Faixa id="precos" fundo="creme" className="rasgo-cima py-14 sm:py-20">
       <Rubrica num="02">Preços e pedido</Rubrica>
 
       <div className="reveal mt-6 max-w-[60ch]">

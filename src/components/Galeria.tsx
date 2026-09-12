@@ -9,7 +9,6 @@ import {
   linhasCafezal,
   paiEFilho,
   poente,
-  talhoes,
 } from "@/imagens";
 
 type Foto = { src: string; alt: string; legenda: string; ficha: string };
@@ -20,12 +19,6 @@ const FOTOS: Foto[] = [
     alt: "Homem de chapéu em pé no meio de um pé de café carregado de frutos",
     legenda: "Na colheita",
     ficha: "Pé carregado, fruto no ponto",
-  },
-  {
-    src: talhoes,
-    alt: "Linhas de café recém-plantadas descendo a encosta em terra vermelha",
-    legenda: "Os talhões na encosta",
-    ficha: "Plantio novo, terra vermelha",
   },
   {
     src: linhasCafezal,

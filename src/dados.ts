@@ -184,7 +184,7 @@ export const DUPLA = [
       "Cuida da lavoura, conduz a colheita, a secagem e a torra, e assina a classificação: é classificador e degustador de café com certificado. O que chega na sua xícara passou pela mesa dele.",
   },
   {
-    nome: "João Henrique",
+    nome: "João Henrique · Juca",
     foto: "joaoHenrique",
     papel: "Daqui para fora",
     texto:

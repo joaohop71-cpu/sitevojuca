@@ -15,7 +15,6 @@ export { default as selo } from "@/assets/selo.png";
 /* a lavoura hoje */
 export { default as jucaLavoura } from "@/assets/juca-lavoura.jpg";
 export { default as cerejas } from "@/assets/cerejas.jpg";
-export { default as talhoes } from "@/assets/talhoes.jpg";
 export { default as montanhas } from "@/assets/montanhas.jpg";
 export { default as poente } from "@/assets/poente.jpg";
 export { default as cerejasSerra } from "@/assets/cerejas-serra.jpg";

@@ -4,7 +4,7 @@ import { MARCA, zap } from "@/dados";
 export default function Contato() {
   return (
     <>
-      <Faixa id="contato" className="py-16 sm:py-24">
+      <Faixa id="contato" className="py-12 sm:py-16">
         <Rubrica num="06">Contato</Rubrica>
 
         <h2 className="reveal mt-6 max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
@@ -14,8 +14,8 @@ export default function Contato() {
           Escolha a linha, defina a moagem e feche o pedido no WhatsApp. Para empresas,
           revenda e volume maior, o caminho é o e-mail, e respondo com uma proposta. Não
           há revendedor nem central de atendimento no meio: do outro lado sou eu,{" "}
-          <strong className="font-semibold text-[#3a271b]">João Henrique</strong>, o
-          bisneto!
+          <strong className="font-semibold text-[#3a271b]">João Henrique, o Juca</strong>,
+          o bisneto!
         </p>
 
         <div className="reveal mt-10 grid gap-x-16 gap-y-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -66,7 +66,7 @@ export default function Contato() {
                 <div className="moldura p-2.5" data-print-hide>
                   <iframe
                     title={`Mapa: ${MARCA.sitio}`}
-                    src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=15&output=embed`}
+                    src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=16&output=embed&t=h`}
                     className="block h-[210px] w-full sm:h-[240px]"
                     style={{ border: 0, filter: "sepia(0.4) saturate(0.65) contrast(1.05)" }}
                     loading="lazy"

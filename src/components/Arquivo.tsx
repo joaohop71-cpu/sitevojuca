@@ -51,15 +51,15 @@ export default function Arquivo() {
             className="m-0 shrink-0 snap-start"
             style={{ width: "min(70vw, 240px)" }}
           >
-            <div className="moldura p-2.5">
-              <img
-                src={r.src}
-                alt={r.alt}
-                loading="lazy"
-                className="block w-full"
-                style={{ filter: "sepia(0.14)" }}
-              />
-            </div>
+            {/* sem moldura: a foto escaneada já traz a própria borda serrilhada,
+                e a do site virava um segundo quadro em volta do primeiro */}
+            <img
+              src={r.src}
+              alt={r.alt}
+              loading="lazy"
+              className="block w-full"
+              style={{ filter: "sepia(0.14)" }}
+            />
             <figcaption className="ficha mt-3 text-[14px] leading-relaxed text-[#6b4526]">
               <span className="num text-[#8c3a20]">{String(i + 1).padStart(2, "0")}</span> ·{" "}
               {r.legenda}

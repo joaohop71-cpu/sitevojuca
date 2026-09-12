@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Faixa, RamoEmenda, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import Arquivo from "./Arquivo";
-import { DUPLA, MARCA, MARCOS } from "@/dados";
+import { DUPLA, MARCA } from "@/dados";
 import { fernandinho, joaoHenrique } from "@/imagens";
 
 /* a foto de cada um, resolvida pela chave que vem dos dados */
@@ -52,7 +52,9 @@ function P({ children }: { children: ReactNode }) {
 
 export default function Sobre() {
   return (
-    <Faixa id="sobre" fundo="creme" className="pb-16 pt-14 sm:pb-24 sm:pt-16">
+    /* rasgo embaixo, para a emenda com "A terra"; o topo já é cortado pelo
+       rasgo do bloco escuro do processo, logo acima */
+    <Faixa id="sobre" fundo="creme" className="rasgo-baixo pb-16 pt-12 sm:pb-20 sm:pt-14">
       {/* emenda que vem do bloco escuro do processo */}
       <RamoEmenda className="mb-14 sm:mb-16" />
 
@@ -131,25 +133,6 @@ export default function Sobre() {
             O que ficou não foi o dinheiro. Foi o café e um apelido.
           </p>
         </blockquote>
-
-        {/* a linha do tempo é o espinho da história: cinco marcos, cinco olhadas */}
-        <ol className="mt-12 grid gap-0 border-t-2 border-[#3a271b] sm:grid-cols-2 lg:grid-cols-5">
-          {MARCOS.map((m) => (
-            <li
-              key={m.ano}
-              className="border-b border-[rgba(58,39,27,0.2)] py-6 sm:border-r sm:pr-5 sm:last:border-r-0 lg:border-b-0"
-            >
-              <div
-                className="text-[16px] tracking-[0.14em] text-[#8c3a20]"
-                style={{ fontFamily: '"Courier Prime", monospace' }}
-              >
-                {m.ano.toUpperCase()}
-              </div>
-              <h4 className="mt-2.5 text-[19px] leading-tight">{m.titulo}</h4>
-              <p className="mt-2 text-[15px] leading-relaxed text-[#5c4635]">{m.texto}</p>
-            </li>
-          ))}
-        </ol>
 
         <div id="arquivo" className="mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
           <Arquivo />
