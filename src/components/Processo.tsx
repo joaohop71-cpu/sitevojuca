@@ -27,9 +27,13 @@ const PRANCHAS = [
  * IntersectionObserver: são cinco elementos, a medição é barata, e assim o
  * estado fica certo também quando a página abre já rolada.
  */
-/* O verde oliva do rotulo do Vo Juca, clareado para o fundo escuro: a tinta
-   do papel (#182c00) sobre o marrom da secao seria invisivel. */
-const OLIVA = "#9fae6b";
+/* O verde das folhas do ramo, medido nelas.
+   A arte aqui aparece clareada por filtro (as folhas verdes contra o marrom
+   quase sumiam), entao a medicao foi feita na imagem ja filtrada: o verde
+   percorre de #666f35 na sombra a #c4ce7d na folha batida de luz. Este e' o
+   tom do percentil 85, o mais claro que ainda e' folha e nao brilho, e o
+   unico da faixa que da contraste de 5:1 com o marrom da secao. */
+const OLIVA = "#8b954c";
 
 export default function Processo() {
   const [ativa, setAtiva] = useState(0);
