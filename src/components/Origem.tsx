@@ -4,7 +4,7 @@ import { MARCA } from "@/dados";
 export default function Origem() {
   return (
     <Faixa id="origem" className="py-12 sm:py-16">
-      <Rubrica>A terra</Rubrica>
+      <Rubrica>A terra</Rubrica>
 
       <h2 className="reveal mt-6 max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
         Por que a origem muda o que vai na xícara

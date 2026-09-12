@@ -69,7 +69,7 @@ export default function Precos() {
        que tinha sobrado. Quem recebe o corte é o bloco creme, e a falha revela
        o papel do corpo, que é justamente o fundo da seção de cima */
     <Faixa id="precos" fundo="creme" className="rasgo-cima py-14 sm:py-20">
-      <Rubrica>Preços e pedido</Rubrica>
+      <Rubrica>Preços e pedido</Rubrica>
 
       <div className="reveal mt-6 max-w-[60ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)]">Monte o pedido aqui</h2>

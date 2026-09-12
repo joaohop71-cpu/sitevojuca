@@ -149,7 +149,15 @@
        o que o faz continuar sendo desenho em setenta pixels */
     .ramo-lado-esq img { aspect-ratio: 420 / 245; }
     .ramo-lado-dir img { aspect-ratio: 420 / 250; }
-    .ramo-titulo { min-width: 68px; max-width: 32%; }
+    .ramo-titulo { min-width: 66px; max-width: 34%; }
+    /* O título que quebra em duas linhas ficava com a caixa na largura toda
+       que a linha ofereceu, as linhas centradas no meio de um vão, e o ramo
+       parecia ter se afastado da escrita. Com min-content a caixa encolhe
+       até a maior linha, e o ramo encosta no texto de verdade.
+       Onde a quebra pode cair está escrito no próprio título: os espaços que
+       não devem quebrar são espaços rígidos, então "PREÇOS E / PEDIDO" é a
+       única quebra possível em toda a página. */
+    .rubrica { width: min-content; }
   }
   /* no bloco escuro a arte some: as folhas verdes contra o marrom quase não
      aparecem. Clarear e tirar um pouco da saturação devolve o desenho. */

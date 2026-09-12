@@ -76,9 +76,7 @@ export default function Processo() {
       atras="#f6eede"
       className="rasgo-ambos py-16 sm:py-20"
     >
-      <Rubrica claro>
-        O processo
-      </Rubrica>
+      <Rubrica claro>O processo</Rubrica>
 
       <div className="reveal mt-6 max-w-[58ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)] text-[#f2e7d3]">
