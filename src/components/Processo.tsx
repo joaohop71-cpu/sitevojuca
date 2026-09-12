@@ -68,7 +68,7 @@ export default function Processo() {
       atras="#f6eede"
       className="rasgo-ambos py-16 sm:py-20"
     >
-      <Rubrica num="03" claro>
+      <Rubrica claro>
         O processo
       </Rubrica>
 

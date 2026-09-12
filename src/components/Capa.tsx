@@ -1,6 +1,6 @@
 import { selo } from "@/imagens";
 import capaTerra from "@/assets/capa-terra.webp";
-import { Botao, RamoEmenda } from "./base";
+import { Botao } from "./base";
 import { MARCA, SELOS, zap } from "@/dados";
 
 export default function Capa() {
@@ -111,8 +111,6 @@ export default function Capa() {
       </div>
       </div>
 
-      {/* o ramo assenta na emenda, logo abaixo do rasgo */}
-      <RamoEmenda className="pb-12 pt-10 sm:pb-14 sm:pt-12" />
     </header>
   );
 }

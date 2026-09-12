@@ -79,7 +79,7 @@ const FOTOS: Foto[] = [
   {
     src: paiEFilho,
     alt: "João Henrique e o pai, junto à porteira do sítio, com as montanhas do Sul de Minas ao fundo",
-    legenda: "Eu e meu pai",
+    legenda: "Juca e seu pai",
     ficha: "Na porteira, de onde se vê a lavoura inteira",
   },
 ];

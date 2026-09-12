@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { selo } from "@/imagens";
-import ramoCafe from "@/assets/ramo-cafe.webp";
+import ramoEsq from "@/assets/ramo-esq.png";
+import ramoDir from "@/assets/ramo-dir.png";
 
 /**
  * O selo pintado numa cor exata.
@@ -35,27 +36,6 @@ export function Selo({
         maskPosition: "center",
         WebkitMaskPosition: "center",
       }}
-    />
-  );
-}
-
-/**
- * O ramo que marca uma emenda de fundo.
- *
- * Ele passa a ter um significado só: onde ele aparece, o chão da página muda.
- * Fica sempre do lado claro do rasgo, porque a arte é de tinta escura e
- * sumiria contra o bloco escuro.
- */
-export function RamoEmenda({ className = "" }: { className?: string }) {
-  return (
-    <img
-      src={ramoCafe}
-      alt=""
-      aria-hidden="true"
-      width={1200}
-      height={235}
-      loading="lazy"
-      className={`mx-auto w-[min(100%-2rem,360px)] ${className}`}
     />
   );
 }
@@ -97,23 +77,41 @@ export function Faixa({
   return atras ? <div style={{ background: atras }}>{secao}</div> : secao;
 }
 
+/**
+ * O título da seção, centrado entre dois ramos de café.
+ *
+ * Os ramos se esticam até o espaço que sobra de cada lado, como um fio de
+ * ornamento: em tela estreita eles encolhem sozinhos e o título nunca é
+ * espremido. A numeração saiu — ela ordenava uma leitura que ninguém faz em
+ * ordem.
+ */
 export function Rubrica({
-  num,
   children,
   claro = false,
 }: {
-  num: string;
   children: ReactNode;
   claro?: boolean;
 }) {
+  const ramo = "ramo-titulo min-w-0 flex-1";
   return (
-    <div className="flex items-center gap-4">
-      <span className={claro ? "eyebrow-cru num" : "eyebrow num"} style={claro ? { color: "#c0ab8c" } : undefined}>
-        {num} · {children}
-      </span>
+    <div className="flex items-center justify-center gap-3 sm:gap-5">
+      <img
+        src={ramoEsq}
+        alt=""
+        aria-hidden="true"
+        className={`${ramo} ${claro ? "ramo-claro" : ""}`}
+      />
       <span
-        className="h-px flex-1"
-        style={{ background: claro ? "rgba(192,171,140,0.4)" : "rgba(58,39,27,0.22)", maxWidth: 180 }}
+        className="rubrica shrink-0 text-center"
+        style={claro ? { color: "#e8b98d" } : undefined}
+      >
+        {children}
+      </span>
+      <img
+        src={ramoDir}
+        alt=""
+        aria-hidden="true"
+        className={`${ramo} ${claro ? "ramo-claro" : ""}`}
       />
     </div>
   );

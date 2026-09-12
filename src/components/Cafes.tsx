@@ -159,7 +159,7 @@ export default function Cafes() {
 
   return (
     <Faixa id="cafes" className="py-12 sm:py-16">
-      <Rubrica num="01">Os cafés</Rubrica>
+      <Rubrica>Os cafés</Rubrica>
 
       <div className="reveal mt-6 flex flex-wrap items-end justify-between gap-6">
         <div>

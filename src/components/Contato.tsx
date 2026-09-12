@@ -1,11 +1,11 @@
-import { Botao, Faixa, RamoEmenda, Rubrica, Selo } from "./base";
+import { Botao, Faixa, Rubrica, Selo } from "./base";
 import { MARCA, zap } from "@/dados";
 
 export default function Contato() {
   return (
     <>
       <Faixa id="contato" className="py-12 sm:py-16">
-        <Rubrica num="06">Contato</Rubrica>
+        <Rubrica>Contato</Rubrica>
 
         <h2 className="reveal mt-6 max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
           Quem responde aqui sou eu
@@ -132,9 +132,6 @@ export default function Contato() {
           </div>
         </div>
       </Faixa>
-
-      {/* emenda para o rodape escuro */}
-      <RamoEmenda className="mb-12 sm:mb-14" />
 
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">

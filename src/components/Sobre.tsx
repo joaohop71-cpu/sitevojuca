@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Faixa, RamoEmenda, Rubrica } from "./base";
+import { Faixa, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import Arquivo from "./Arquivo";
 import { DUPLA, MARCA } from "@/dados";
@@ -55,10 +55,7 @@ export default function Sobre() {
     /* rasgo embaixo, para a emenda com "A terra"; o topo já é cortado pelo
        rasgo do bloco escuro do processo, logo acima */
     <Faixa id="sobre" fundo="creme" className="rasgo-baixo pb-16 pt-12 sm:pb-20 sm:pt-14">
-      {/* emenda que vem do bloco escuro do processo */}
-      <RamoEmenda className="mb-14 sm:mb-16" />
-
-      <Rubrica num="04">Sobre nós</Rubrica>
+      <Rubrica>Sobre nós</Rubrica>
 
       <h2 className="reveal mt-6 max-w-[17ch] text-[clamp(32px,5vw,58px)]">
         Juca era o apelido do meu bisavô.{" "}

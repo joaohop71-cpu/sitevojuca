@@ -104,6 +104,35 @@
     text-transform: uppercase;
     color: #6b4526;
   }
+  /* o título da seção: maior que a antiga rubrica, para não ficar distante
+     demais da frase grande que vem logo abaixo */
+  .rubrica {
+    font-family: "Courier Prime", monospace;
+    font-size: clamp(16px, 4.2vw, 27px);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #8c3a20;
+    line-height: 1.2;
+  }
+  /* Em tela estreita o que sobra de largura vai para os ramos, e o título mais
+     longo os espremia a quase nada. O entreletras larga é o que mais custa em
+     fonte de máquina: fechá-lo um pouco devolve espaço ao ornamento sem mexer
+     no corpo da letra. */
+  @media (max-width: 639px) {
+    .rubrica { letter-spacing: 0.09em; }
+    .ramo-titulo { min-width: 44px; }
+  }
+  .ramo-titulo {
+    max-width: 170px;
+    height: auto;
+    object-fit: contain;
+  }
+  /* no bloco escuro a arte some: as folhas verdes contra o marrom quase não
+     aparecem. Clarear e tirar um pouco da saturação devolve o desenho. */
+  .ramo-claro {
+    filter: brightness(1.55) saturate(0.78) contrast(0.92);
+  }
+
   .ficha {
     font-family: "Courier Prime", monospace;
     font-size: 16.5px;
