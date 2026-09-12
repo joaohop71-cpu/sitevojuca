@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import { selo } from "@/imagens";
 import ramoEsq from "@/assets/ramo-esq.webp";
 import ramoDir from "@/assets/ramo-dir.webp";
+import ramoEsqCurto from "@/assets/ramo-esq-curto.webp";
+import ramoDirCurto from "@/assets/ramo-dir-curto.webp";
 
 /**
  * O selo pintado numa cor exata.
@@ -78,16 +80,16 @@ export function Faixa({
 }
 
 /**
- * O título da seção, entre ramos de café.
+ * O título da seção, entre dois ramos de café.
  *
  * A letra é a Fraunces, a mesma da marca e dos rótulos; antes era a de máquina
- * de escrever, que é a voz das etiquetas pequenas e não a do título.
+ * de escrever, que é a voz das etiquetas pequenas e não a de um título.
  *
- * Em tela larga os ramos ficam um de cada lado e se esticam até o espaço que
- * sobra, como fio de ornamento. No celular não existe esse espaço: o que sobra
- * de cada lado daria uns sessenta pixels, e o desenho vira um risco. Aí a
- * composição vira em coluna: um ramo inteiro, em toda a largura, com o título
- * embaixo. Mesmo motivo, tamanho de verdade.
+ * Os ramos ficam sempre um de cada lado e comem o que sobra de largura, como
+ * fio de ornamento. No celular sobram uns setenta pixels por lado, e um ramo
+ * de um metro de comprido espremido nisso vira um risco: lá entra um pedaço
+ * do mesmo desenho, o pedaço que encosta no título, que nessa largura ainda
+ * se lê como ramo.
  */
 export function Rubrica({
   children,
@@ -96,28 +98,20 @@ export function Rubrica({
   children: ReactNode;
   claro?: boolean;
 }) {
-  const ramo = `ramo-titulo ${claro ? "ramo-claro" : ""}`;
+  const tinta = claro ? "ramo-claro" : "";
   return (
     <div className="rubrica-linha">
-      <img
-        src={ramoEsq}
-        alt=""
-        aria-hidden="true"
-        width={760}
-        height={228}
-        className={ramo}
-      />
+      <picture className="ramo-titulo ramo-lado-esq">
+        <source media="(max-width: 639px)" srcSet={ramoEsqCurto} />
+        <img src={ramoEsq} alt="" aria-hidden="true" className={tinta} />
+      </picture>
       <span className="rubrica" style={claro ? { color: "#e8b98d" } : undefined}>
         {children}
       </span>
-      <img
-        src={ramoDir}
-        alt=""
-        aria-hidden="true"
-        width={760}
-        height={244}
-        className={`${ramo} ramo-dir`}
-      />
+      <picture className="ramo-titulo ramo-lado-dir">
+        <source media="(max-width: 639px)" srcSet={ramoDirCurto} />
+        <img src={ramoDir} alt="" aria-hidden="true" className={tinta} />
+      </picture>
     </div>
   );
 }

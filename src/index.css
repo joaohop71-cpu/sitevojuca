@@ -112,7 +112,7 @@
     font-family: Fraunces, Georgia, serif;
     font-variation-settings: "SOFT" 25, "WONK" 1, "opsz" 144;
     font-weight: 600;
-    font-size: clamp(23px, 5.2vw, 36px);
+    font-size: clamp(22px, 5vw, 36px);
     letter-spacing: 0.1em;
     /* caixa alta com entreletras aberto sobra um vão à direita da última letra;
        o recuo devolve o eixo de simetria ao texto */
@@ -127,23 +127,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(1rem, 3vw, 2.25rem);
+    gap: clamp(0.65rem, 3vw, 2.25rem);
   }
   /* os ramos comem o que sobra de largura, até um teto que acompanha a tela */
   .ramo-titulo {
+    display: block;
     flex: 1 1 0;
     min-width: 0;
     max-width: clamp(160px, 26vw, 360px);
-    height: auto;
   }
-  /* No celular o vão de cada lado não passa de uns sessenta pixels e o desenho
-     vira um risco. A composição vira em coluna: um ramo só, inteiro, em toda a
-     largura, e o título embaixo dele. */
+  .ramo-titulo img { width: 100%; height: auto; }
+  /* a proporção de cada arte, declarada: sem isto a linha do título pula de
+     altura quando a imagem chega, e no celular a arte é outra, mais curta */
+  .ramo-lado-esq img { aspect-ratio: 760 / 228; }
+  .ramo-lado-dir img { aspect-ratio: 760 / 244; }
   @media (max-width: 639px) {
-    .rubrica-linha { flex-direction: column; gap: 0.5rem; }
     .rubrica { letter-spacing: 0.08em; text-indent: 0.08em; }
-    .ramo-titulo { flex: none; width: 100%; max-width: 360px; }
-    .ramo-dir { display: none; }
+    /* o pedaço do ramo é quase três vezes mais alto em relação à largura, e é
+       o que o faz continuar sendo desenho em setenta pixels */
+    .ramo-lado-esq img { aspect-ratio: 420 / 223; }
+    .ramo-lado-dir img { aspect-ratio: 420 / 227; }
+    .ramo-titulo { min-width: 68px; max-width: 32%; }
   }
   /* no bloco escuro a arte some: as folhas verdes contra o marrom quase não
      aparecem. Clarear e tirar um pouco da saturação devolve o desenho. */

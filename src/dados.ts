@@ -28,8 +28,23 @@ export function zap(mensagem: string) {
 
 export type Moagem = "grao" | "moido";
 
-/** Cor da tinta do rótulo — uma por linha de café. */
+/** Cor da tinta do rótulo, uma por linha de café. */
 export type CorRotulo = "vinho" | "verde" | "tinta";
+
+/**
+ * A tinta de cada linha, medida na própria arte dos rótulos.
+ *
+ * Os valores saíram do pixel: o vermelho dos Heranças é #670400 no arquivo, o
+ * verde oliva do Vô Juca é #182c00. Como tinta sobre papel eles são quase
+ * pretos; como letra na tela, nessa escuridão ninguém enxergaria que há cor
+ * ali. Então o que se manteve foi o tom, e a luminosidade subiu até a letra
+ * mostrar de que cor ela é sem perder o contraste com o creme da página.
+ */
+export const TINTA_ROTULO: Record<CorRotulo, string> = {
+  verde: "#3f5320",
+  vinho: "#7a1008",
+  tinta: "#6b4526",
+};
 
 export type Cafe = {
   id: string;

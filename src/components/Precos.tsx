@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CAFES, brl, porQuilo, zap } from "@/dados";
+import { CAFES, TINTA_ROTULO, brl, porQuilo, zap } from "@/dados";
 import { Botao, Faixa, Rubrica } from "./base";
 
 type Linha = {
@@ -92,7 +92,19 @@ export default function Precos() {
                   className="border-b border-[rgba(58,39,27,0.2)] py-5"
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <a href={`#${c.id}`} className="link-sublinhado text-[22px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
+                    {/* o nome na tinta do próprio rótulo: verde oliva no Vô
+                        Juca, vermelho escuro nos Heranças, parda no Minas
+                        Santa. Na tabela, é o que liga a linha ao pacote. */}
+                    <a
+                      href={`#${c.id}`}
+                      className="link-sublinhado text-[22px]"
+                      style={{
+                        fontFamily: "Fraunces, Georgia, serif",
+                        fontWeight: 600,
+                        color: TINTA_ROTULO[c.cor],
+                        borderBottomColor: TINTA_ROTULO[c.cor] + "59",
+                      }}
+                    >
                       {rotuloCafe(c)}
                     </a>
                     <span className="ficha text-[14px] uppercase tracking-[0.12em] text-[#8c7a66]">
