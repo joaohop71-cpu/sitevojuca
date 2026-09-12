@@ -27,6 +27,9 @@ export { default as jucaLinho } from "@/assets/juca-linho.jpg";
 export { default as jucaCavalo } from "@/assets/juca-cavalo.jpg";
 export { default as jucaRetratoSelo } from "@/assets/juca-retrato-selo.jpg";
 
+export { default as varandaCoqueiros } from "@/assets/varanda-coqueiros.jpg";
+export { default as capelaPoente } from "@/assets/capela-poente.jpg";
+
 /* os dois primos, e a lavoura de hoje */
 export { default as joaoHenrique } from "@/assets/joao-henrique.jpg";
 export { default as fernandinho } from "@/assets/fernandinho.jpg";

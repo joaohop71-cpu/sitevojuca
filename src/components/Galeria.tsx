@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   cafePoente,
+  capelaPoente,
   casaSitio,
   cerejaGota,
   cerejasSerra,
@@ -9,64 +10,77 @@ import {
   linhasCafezal,
   paiEFilho,
   poente,
+  varandaCoqueiros,
 } from "@/imagens";
 
 type Foto = { src: string; alt: string; legenda: string; ficha: string };
 
 const FOTOS: Foto[] = [
   {
+    src: varandaCoqueiros,
+    alt: "Xícara de café na mão, vista da varanda: a bandeira do Brasil no beiral, dois coqueiros e as montanhas ao fundo",
+    legenda: "Os dois coqueiros",
+    ficha: "Da varanda, com os coqueiros que dão nome ao sítio",
+  },
+  {
     src: jucaLavoura,
-    alt: "Homem de chapéu em pé no meio de um pé de café carregado de frutos",
-    legenda: "Na colheita",
-    ficha: "Pé carregado, fruto no ponto",
+    alt: "Tio Nando de chapéu, em pé na lavoura, junto a um pé de café carregado de frutos",
+    legenda: "O tio Nando na lavoura",
+    ficha: "Quem começou a plantação",
   },
   {
     src: linhasCafezal,
-    alt: "Renques de café já formados, com palha entre as linhas e as montanhas do Sul de Minas ao fundo",
+    alt: "Cafezais adultos em renques formados, com palha entre as linhas e as montanhas do Sul de Minas ao fundo",
     legenda: "Os renques formados",
-    ficha: "Cafezal adulto, carreador coberto",
+    ficha: "Cafezal adulto, em produção",
   },
   {
     src: cerejasSerra,
-    alt: "Ramo carregado de cerejas vermelhas em primeiro plano, com a lavoura e as montanhas do Sul de Minas ao fundo",
-    legenda: "Fruto e paisagem",
-    ficha: "Cereja no pé, serra atrás",
+    alt: "Ramo carregado de frutos maduros em primeiro plano, com a lavoura e as montanhas ao fundo",
+    legenda: "Fruto maduro e paisagem",
+    ficha: "A cereja no ponto, e a serra atrás",
   },
   {
     src: poente,
-    alt: "Céu de fim de tarde em tons de rosa e laranja sobre as montanhas",
-    legenda: "O poente da sede",
+    alt: "Céu de fim de tarde em tons de rosa e laranja sobre as montanhas, visto da casa da propriedade",
+    legenda: "O poente, visto da casa",
     ficha: "Fim de tarde na propriedade",
   },
   {
     src: cerejaGota,
-    alt: "Gota d'água escorrendo de uma folha sobre cerejas de café, com o carreador desfocado ao fundo",
-    legenda: "Manhã na lavoura",
+    alt: "Gota de orvalho escorrendo de uma folha sobre frutos de café, dentro do talhão",
+    legenda: "Dentro do talhão",
     ficha: "Orvalho, cedo da manhã",
   },
   {
     src: lavouraMudas,
-    alt: "Mudas de café recém-plantadas em linhas curvas na terra vermelha, com os morros verdes ao fundo",
-    legenda: "As mudas do ano",
-    ficha: "Plantio novo, linha por linha",
+    alt: "Mudas de café recém-plantadas à mão, em linhas curvas na terra vermelha, com os morros ao fundo",
+    legenda: "O futuro da lavoura",
+    ficha: "Plantio novo, feito à mão, muda por muda",
   },
   {
     src: cafePoente,
-    alt: "Ramo de café com frutos escuros em contraluz, com o sol se pondo atrás das montanhas",
-    legenda: "Fruto contra o sol",
-    ficha: "Fim de tarde, café maduro",
+    alt: "Ramo de café em contraluz, com o sol se pondo atrás das montanhas do Sul de Minas",
+    legenda: "A serra ao entardecer",
+    ficha: "Fim de tarde sobre a lavoura",
+  },
+  {
+    src: capelaPoente,
+    alt: "Capela branca da família no alto do morro, entre palmeiras, com o sol se pondo atrás da serra",
+    legenda: "A capela da família",
+    ficha: "Construída pela família, no alto do morro",
   },
   {
     src: casaSitio,
-    alt: "Casa antiga do sítio entre palmeiras, na encosta, com dois cavalos no pasto em primeiro plano",
-    legenda: "A casa do sítio",
-    ficha: "A sede, e dois cavalos",
+    alt: "Casa da família no Sítio JR, entre palmeiras na encosta, com dois cavalos no pasto em primeiro plano",
+    legenda: "A casa do Sítio JR",
+    ficha: "Levantada à mão pelo meu avô e pela família",
   },
   {
     src: paiEFilho,
-    alt: "Duas pessoas da família junto à porteira do sítio, com as montanhas do Sul de Minas ao fundo",
-    legenda: "Na porteira",
-    ficha: "De onde se vê a lavoura inteira",
+    alt: "João Henrique e o pai, junto à porteira do sítio, com as montanhas do Sul de Minas ao fundo",
+    legenda: "Eu e meu pai",
+    ficha: "Na porteira, de onde se vê a lavoura inteira",
   },
 ];
 
@@ -189,8 +203,8 @@ export default function Galeria() {
         </span>
       </div>
       <p className="mt-3 max-w-[52ch] text-[#5c4635]">
-        Fotos feitas na própria lavoura, em Santa Rita do Sapucaí. Sem estúdio, sem xícara
-        arrumada; é o que se vê de lá.
+        Fotos feitas no sítio, em Santa Rita do Sapucaí. Sem estúdio e sem cenário
+        montado; é o que se vê de lá.
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
