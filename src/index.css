@@ -145,10 +145,10 @@
   .ramo-lado-dir img { aspect-ratio: 760 / 244; }
   @media (max-width: 639px) {
     .rubrica { letter-spacing: 0.08em; text-indent: 0.08em; }
-    /* o pedaço do ramo é quase três vezes mais alto em relação à largura, e é
+    /* o pedaço do ramo é quase duas vezes mais alto em relação à largura, e é
        o que o faz continuar sendo desenho em setenta pixels */
-    .ramo-lado-esq img { aspect-ratio: 420 / 223; }
-    .ramo-lado-dir img { aspect-ratio: 420 / 227; }
+    .ramo-lado-esq img { aspect-ratio: 420 / 245; }
+    .ramo-lado-dir img { aspect-ratio: 420 / 250; }
     .ramo-titulo { min-width: 68px; max-width: 32%; }
   }
   /* no bloco escuro a arte some: as folhas verdes contra o marrom quase não
