@@ -104,28 +104,46 @@
     text-transform: uppercase;
     color: #6b4526;
   }
-  /* o título da seção: maior que a antiga rubrica, para não ficar distante
-     demais da frase grande que vem logo abaixo */
+  /* O TÍTULO DA SEÇÃO
+     A letra é a da marca (Fraunces, a mesma dos rótulos), em caixa alta e com
+     entreletras aberto: é assim que ela aparece gravada no selo. A de máquina
+     de escrever ficou onde ela é boa, nas etiquetas e fichas pequenas. */
   .rubrica {
-    font-family: "Courier Prime", monospace;
-    font-size: clamp(16px, 4.2vw, 27px);
-    letter-spacing: 0.13em;
+    font-family: Fraunces, Georgia, serif;
+    font-variation-settings: "SOFT" 25, "WONK" 1, "opsz" 144;
+    font-weight: 600;
+    font-size: clamp(23px, 5.2vw, 36px);
+    letter-spacing: 0.1em;
+    /* caixa alta com entreletras aberto sobra um vão à direita da última letra;
+       o recuo devolve o eixo de simetria ao texto */
+    text-indent: 0.1em;
     text-transform: uppercase;
     color: #8c3a20;
-    line-height: 1.2;
+    line-height: 1.12;
+    text-align: center;
+    text-wrap: balance;
   }
-  /* Em tela estreita o que sobra de largura vai para os ramos, e o título mais
-     longo os espremia a quase nada. O entreletras larga é o que mais custa em
-     fonte de máquina: fechá-lo um pouco devolve espaço ao ornamento sem mexer
-     no corpo da letra. */
-  @media (max-width: 639px) {
-    .rubrica { letter-spacing: 0.09em; }
-    .ramo-titulo { min-width: 44px; }
+  .rubrica-linha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 2.25rem);
   }
+  /* os ramos comem o que sobra de largura, até um teto que acompanha a tela */
   .ramo-titulo {
-    max-width: 170px;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: clamp(160px, 26vw, 360px);
     height: auto;
-    object-fit: contain;
+  }
+  /* No celular o vão de cada lado não passa de uns sessenta pixels e o desenho
+     vira um risco. A composição vira em coluna: um ramo só, inteiro, em toda a
+     largura, e o título embaixo dele. */
+  @media (max-width: 639px) {
+    .rubrica-linha { flex-direction: column; gap: 0.5rem; }
+    .rubrica { letter-spacing: 0.08em; text-indent: 0.08em; }
+    .ramo-titulo { flex: none; width: 100%; max-width: 360px; }
+    .ramo-dir { display: none; }
   }
   /* no bloco escuro a arte some: as folhas verdes contra o marrom quase não
      aparecem. Clarear e tirar um pouco da saturação devolve o desenho. */
