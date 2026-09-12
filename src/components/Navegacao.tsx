@@ -212,7 +212,7 @@ export default function Navegacao() {
                 }}
               >
                 {i.rotulo}
-                <span aria-hidden="true" className="text-[#8c7a66]">
+                <span aria-hidden="true" className="text-[#75634f]">
                   →
                 </span>
               </a>

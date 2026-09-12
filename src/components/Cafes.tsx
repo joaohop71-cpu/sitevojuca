@@ -138,7 +138,7 @@ function Compra({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
             </span>
             <span className="ficha text-[#6b4526]">/ {cafe.gramas} g</span>
           </div>
-          <div className="ficha num mt-1 text-[#8c7a66]">
+          <div className="ficha num mt-1 text-[#75634f]">
             {porQuilo(valor, cafe.gramas)} por quilo
             {soMoido && " · só moído"}
           </div>
@@ -172,7 +172,7 @@ export default function Cafes() {
           </p>
         </div>
         <div data-print-hide>
-          <div className="ficha mb-2 text-[14px] uppercase tracking-[0.14em] text-[#8c7a66]">
+          <div className="ficha mb-2 text-[14px] uppercase tracking-[0.14em] text-[#75634f]">
             Preços em
           </div>
           <SeletorMoagem valor={moagem} aoTrocar={setMoagem} />

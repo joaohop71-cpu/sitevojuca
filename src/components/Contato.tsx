@@ -22,7 +22,7 @@ export default function Contato() {
           <div>
             <dl className="border-t-2 border-[#3a271b]">
               <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#8c7a66]">
+                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#75634f]">
                   WhatsApp
                 </dt>
                 <dd className="m-0">
@@ -38,7 +38,7 @@ export default function Contato() {
                 </dd>
               </div>
               <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#8c7a66]">
+                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#75634f]">
                   E-mail
                 </dt>
                 <dd className="m-0">
@@ -52,7 +52,7 @@ export default function Contato() {
                 </dd>
               </div>
               <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#8c7a66]">
+                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#75634f]">
                   Onde ficamos
                 </dt>
                 <dd className="ficha m-0 text-right text-[#3a271b]">
@@ -70,7 +70,7 @@ export default function Contato() {
                     className="block h-[210px] w-full sm:h-[240px]"
                     style={{ border: 0, filter: "sepia(0.4) saturate(0.65) contrast(1.05)" }}
                     loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
                 <a

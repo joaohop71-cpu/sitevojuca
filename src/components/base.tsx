@@ -147,7 +147,9 @@ export function Botao({
   }[tom];
   const cls = `${base} ${estilos}`;
   if (href) {
-    const externo = href.startsWith("http") || href.startsWith("mailto");
+    /* mailto entrega o endereço ao programa de e-mail e não navega: numa aba
+       nova ela ficaria em branco, aberta, sem nada dentro */
+    const externo = href.startsWith("http");
     return (
       <a
         href={href}

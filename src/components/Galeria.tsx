@@ -95,15 +95,41 @@ function Lightbox({
 }) {
   const f = FOTOS[i];
   const toqueX = useRef<number | null>(null);
+  const caixa = useRef<HTMLDivElement>(null);
 
   const onKey = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") fechar();
       if (e.key === "ArrowRight") ir(1);
       if (e.key === "ArrowLeft") ir(-1);
+      /* aria-modal esconde o resto da página do leitor de tela, mas não do
+         Tab: sem isto o foco sai por baixo do véu, para links que ninguém
+         está vendo, e não há como voltar a fechar a foto pelo teclado. */
+      if (e.key === "Tab") {
+        const botoes = Array.from(
+          caixa.current?.querySelectorAll<HTMLElement>("button") ?? []
+        );
+        if (!botoes.length) return;
+        const primeiro = botoes[0];
+        const ultimo = botoes[botoes.length - 1];
+        if (e.shiftKey && document.activeElement === primeiro) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+          e.preventDefault();
+          primeiro.focus();
+        }
+      }
     },
     [fechar, ir]
   );
+
+  /* o foco entra na foto ao abrir e volta para a miniatura ao fechar */
+  useEffect(() => {
+    const devolver = document.activeElement as HTMLElement | null;
+    caixa.current?.querySelector<HTMLElement>("button")?.focus();
+    return () => devolver?.focus?.();
+  }, []);
 
   useEffect(() => {
     document.addEventListener("keydown", onKey);
@@ -117,6 +143,7 @@ function Lightbox({
 
   return (
     <div
+      ref={caixa}
       role="dialog"
       aria-modal="true"
       aria-label={f.legenda}
@@ -198,7 +225,7 @@ export default function Galeria() {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <h3 className="text-[clamp(22px,3vw,30px)]">A propriedade, sem produção</h3>
-        <span className="ficha num text-[14.5px] text-[#8c7a66]">
+        <span className="ficha num text-[14.5px] text-[#75634f]">
           {String(FOTOS.length).padStart(2, "0")} imagens · toque para ampliar
         </span>
       </div>
@@ -226,11 +253,11 @@ export default function Galeria() {
             </button>
             <figcaption className="mt-2 flex items-baseline justify-between gap-3">
               <span className="ficha text-[15px] text-[#3a271b]">{f.legenda}</span>
-              <span className="ficha num shrink-0 text-[13.5px] text-[#8c7a66]">
+              <span className="ficha num shrink-0 text-[13.5px] text-[#75634f]">
                 {String(i + 1).padStart(2, "0")}
               </span>
             </figcaption>
-            <p className="ficha mt-0.5 text-[14px] leading-snug text-[#8c7a66]">{f.ficha}</p>
+            <p className="ficha mt-0.5 text-[14px] leading-snug text-[#75634f]">{f.ficha}</p>
           </figure>
         ))}
       </div>

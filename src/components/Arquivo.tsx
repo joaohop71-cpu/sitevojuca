@@ -35,7 +35,7 @@ export default function Arquivo() {
     <div>
       <div className="reveal flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <h3 className="text-[clamp(22px,3vw,30px)]">O que sobrou dele</h3>
-        <span className="ficha num text-[14.5px] text-[#8c7a66]">
+        <span className="ficha num text-[14.5px] text-[#75634f]">
           04 retratos · arraste para o lado
         </span>
       </div>
@@ -44,7 +44,16 @@ export default function Arquivo() {
         O que sobrou dele são estes retratos, e as histórias de quem ainda lembra.
       </p>
 
-      <div className="reveal mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-6">
+      {/* A tira rola para o lado e não tem nada focável dentro, então o teclado
+          não chegava nela: as duas últimas fotos ficavam inalcançáveis para
+          quem não usa mouse. Com tabIndex a região entra na ordem de foco e as
+          setas passam a rolar. */}
+      <div
+        className="reveal mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-6"
+        tabIndex={0}
+        role="group"
+        aria-label="Retratos do Juca, role para o lado"
+      >
         {RETRATOS.map((r, i) => (
           <figure
             key={r.legenda}
@@ -70,7 +79,7 @@ export default function Arquivo() {
         ))}
       </div>
 
-      <p className="ficha reveal mt-4 max-w-[58ch] text-[14px] leading-relaxed text-[#8c7a66]">
+      <p className="ficha reveal mt-4 max-w-[58ch] text-[14px] leading-relaxed text-[#75634f]">
         As datas e legendas ainda estão sendo conferidas com a família.
       </p>
     </div>

@@ -107,7 +107,7 @@ export default function Precos() {
                     >
                       {rotuloCafe(c)}
                     </a>
-                    <span className="ficha text-[14px] uppercase tracking-[0.12em] text-[#8c7a66]">
+                    <span className="ficha text-[14px] uppercase tracking-[0.12em] text-[#75634f]">
                       {c.tarja} · {c.gramas} g
                     </span>
                   </div>
@@ -125,7 +125,7 @@ export default function Precos() {
                           <span className="num text-[19px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
                             {brl(l.preco)}
                           </span>
-                          <span className="ficha num text-[14px] text-[#8c7a66]">
+                          <span className="ficha num text-[14px] text-[#75634f]">
                             {porQuilo(l.preco, l.gramas)}/kg
                           </span>
                         </div>
@@ -157,7 +157,7 @@ export default function Precos() {
                       </div>
                     ))}
                     {c.preco.grao === null && (
-                      <span className="ficha text-[14px] text-[#8c7a66]">
+                      <span className="ficha text-[14px] text-[#75634f]">
                         Esta linha sai só moída.
                       </span>
                     )}
@@ -259,7 +259,7 @@ export default function Precos() {
                   >
                     <span className="ficha text-[15.5px] text-[#3a271b]">
                       <span className="num">{qtd[l.chave]}×</span> {l.nome}{" "}
-                      <span className="text-[#8c7a66]">
+                      <span className="text-[#75634f]">
                         {l.moagem === "grao" ? "grão" : "moído"}
                       </span>
                     </span>
@@ -283,17 +283,17 @@ export default function Precos() {
 
                 <div className="mt-4 flex items-baseline justify-between border-t-2 border-[#3a271b] pt-3">
                   <div>
-                    <div className="ficha text-[14px] uppercase tracking-[0.14em] text-[#8c7a66]">
+                    <div className="ficha text-[14px] uppercase tracking-[0.14em] text-[#75634f]">
                       Total
                     </div>
-                    <div className="ficha num text-[14px] text-[#8c7a66]">
+                    <div className="ficha num text-[14px] text-[#75634f]">
                       {pacotes} {pacotes === 1 ? "pacote" : "pacotes"} ·{" "}
                       {quilos.toLocaleString("pt-BR", { maximumFractionDigits: 2 })} kg
                     </div>
                   </div>
                   <div className="text-right">
                     {primeira && (
-                      <div className="ficha num text-[15.5px] text-[#8c7a66] line-through">
+                      <div className="ficha num text-[15.5px] text-[#75634f] line-through">
                         {brl(subtotal)}
                       </div>
                     )}
@@ -318,7 +318,7 @@ export default function Precos() {
               </Botao>
             </div>
 
-            <p className="ficha mt-4 text-[14px] leading-relaxed text-[#8c7a66]">
+            <p className="ficha mt-4 text-[14px] leading-relaxed text-[#75634f]">
               O frete é combinado na conversa. Para revenda e volume maior, o preço muda;
               pergunte.
             </p>

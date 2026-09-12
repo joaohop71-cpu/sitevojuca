@@ -57,12 +57,25 @@ export default function Processo() {
       });
       setAtiva(melhor);
     };
+    /* O evento de rolagem chega dezenas de vezes por segundo, e cada chamada
+       lê a posição de cinco elementos: é leitura de layout no meio da rolagem,
+       que é justamente o que engasga no celular. Uma medição por quadro basta,
+       porque a tela também só desenha uma vez por quadro. */
+    let pedido = 0;
+    const agendar = () => {
+      if (pedido) return;
+      pedido = requestAnimationFrame(() => {
+        pedido = 0;
+        medir();
+      });
+    };
     medir();
-    addEventListener("scroll", medir, { passive: true });
-    addEventListener("resize", medir);
+    addEventListener("scroll", agendar, { passive: true });
+    addEventListener("resize", agendar);
     return () => {
-      removeEventListener("scroll", medir);
-      removeEventListener("resize", medir);
+      cancelAnimationFrame(pedido);
+      removeEventListener("scroll", agendar);
+      removeEventListener("resize", agendar);
     };
   }, []);
 
@@ -192,12 +205,12 @@ export default function Processo() {
                       fontFamily: "Fraunces, Georgia, serif",
                       fontVariationSettings: '"SOFT" 15, "opsz" 96',
                       fontWeight: 600,
-                      color: i === ativa ? OLIVA : "#5c6440",
+                      color: i === ativa ? OLIVA : "#6d764a",
                     }}
                   >
                     {e.n}
                   </span>
-                  <span className="ficha text-[13.5px] uppercase tracking-[0.18em] text-[#8c7a66]">
+                  <span className="ficha text-[13.5px] uppercase tracking-[0.18em] text-[#c0ab8c]">
                     de 05
                   </span>
                 </div>
