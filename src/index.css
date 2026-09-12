@@ -97,9 +97,11 @@
     text-transform: uppercase;
     color: #8c3a20;
   }
+  /* so' na capa, sob o selo: la' ela concorre com uma foto de tela inteira e
+     com um titulo de sessenta pixels, e a 15px sumia */
   .eyebrow-cru {
     font-family: "Courier Prime", monospace;
-    font-size: 15px;
+    font-size: clamp(16px, 1.6vw, 19px);
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #6b4526;

@@ -27,6 +27,10 @@ const PRANCHAS = [
  * IntersectionObserver: são cinco elementos, a medição é barata, e assim o
  * estado fica certo também quando a página abre já rolada.
  */
+/* O verde oliva do rotulo do Vo Juca, clareado para o fundo escuro: a tinta
+   do papel (#182c00) sobre o marrom da secao seria invisivel. */
+const OLIVA = "#9fae6b";
+
 export default function Processo() {
   const [ativa, setAtiva] = useState(0);
   const etapas = useRef<(HTMLLIElement | null)[]>([]);
@@ -129,7 +133,7 @@ export default function Processo() {
                   className="num mt-2 block text-[13px] tracking-[0.16em] transition-colors duration-500 sm:text-[14px]"
                   style={{
                     fontFamily: '"Courier Prime", monospace',
-                    color: i === ativa ? "#e8b98d" : "#c0ab8c",
+                    color: i === ativa ? OLIVA : "#c0ab8c",
                   }}
                 >
                   {e.n}
@@ -186,7 +190,7 @@ export default function Processo() {
                       fontFamily: "Fraunces, Georgia, serif",
                       fontVariationSettings: '"SOFT" 15, "opsz" 96',
                       fontWeight: 600,
-                      color: i === ativa ? "#e8b98d" : "#6b5642",
+                      color: i === ativa ? OLIVA : "#5c6440",
                     }}
                   >
                     {e.n}
