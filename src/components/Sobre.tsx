@@ -84,19 +84,19 @@ export default function Sobre() {
             mundo produz café, o bom se mistura com o resto e some.
           </P>
           <P>
-            O incômodo não era novo, eu só não sabia que já tinha escrito sobre ele. Sou
-            formado em economia, e o meu trabalho de conclusão de curso foi justamente
-            sobre isto:{" "}
+            Me senti em casa naquela semana, e voltei querendo entender aquilo por dentro.
+            Sou formado em economia, e foi por causa da viagem que escolhi o café como
+            tema do meu trabalho de conclusão de curso:{" "}
             <em style={{ fontStyle: "italic", color: "#3a271b" }}>
               o papel da commodity café no contexto das exportações atuais do Brasil e a
               importância da agricultura familiar neste cenário
             </em>
-            . Passei meses estudando por que o café brasileiro sai daqui valendo uma coisa
-            e chega na xícara valendo outra, e quem fica com a diferença.
+            . Queria me aprofundar e contribuir de alguma forma com esse mercado.
           </P>
           <P>
-            A resposta que encontrei no papel eu vi acontecendo no sítio do meu tio, com o
-            café da minha própria família.
+            Passei meses estudando por que o café brasileiro sai daqui valendo uma coisa e
+            chega na xícara valendo outra, e o peso que a agricultura familiar tem nessa
+            conta. Era a conta da minha própria família.
           </P>
           <p className="ficha mt-4 text-[14.5px]">
             <a
