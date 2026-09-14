@@ -129,7 +129,7 @@ export const CAFES: Cafe[] = [
     cor: "marrom",
     descricao:
       "O nome é a altitude da lavoura. Doce de caramelo e rapadura, com fundo de chocolate e malte: um café de sobremesa que ainda funciona de manhã. Edição limitada, em pacote de 250 g.",
-    preco: { grao: null, moido: null },
+    preco: { grao: 160.0, moido: 167.6 },
   },
   {
     id: "herancas-2sl",
