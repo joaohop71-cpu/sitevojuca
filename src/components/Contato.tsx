@@ -1,10 +1,10 @@
 import { Botao, Faixa, Rubrica, Selo } from "./base";
-import { MARCA, zap } from "@/dados";
+import { MARCA, PROMO, zap } from "@/dados";
 
 export default function Contato() {
   return (
     <>
-      <Faixa id="contato" className="py-12 sm:py-16">
+      <Faixa id="contato" className="py-10 sm:py-12">
         <Rubrica>Contato</Rubrica>
 
         <h2 className="reveal mt-6 max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
@@ -78,9 +78,9 @@ export default function Contato() {
             </div>
 
             <div className="mt-6 border border-[#8c3a20] bg-[rgba(140,58,32,0.06)] p-5">
-              <div className="eyebrow">Condição especial</div>
+              <div className="eyebrow">Promoção de lançamento</div>
               <p className="mt-2 text-[18px] leading-snug" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
-                10% na primeira compra, e mais 5% em pedidos acima de R$ 150.
+                {PROMO.chamada}, já aplicado nos preços do site.
               </p>
             </div>
           </div>

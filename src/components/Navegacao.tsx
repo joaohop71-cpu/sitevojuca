@@ -5,6 +5,7 @@ import { Selo } from "./base";
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
   { href: "#precos", rotulo: "Preços" },
+  { href: "#empresas", rotulo: "Assinatura" },
   { href: "#processo", rotulo: "Processo" },
   { href: "#sobre", rotulo: "Sobre nós" },
   { href: "#origem", rotulo: "A terra" },

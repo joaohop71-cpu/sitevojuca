@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CAFES, TINTA_ROTULO, brl, porQuilo, zap } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, porQuilo, zap } from "@/dados";
 import { Botao, Dobra, Faixa, Rubrica } from "./base";
 
 type Linha = {
@@ -20,15 +20,15 @@ const LINHAS: Linha[] = CAFES.flatMap((c) => {
   const base = { nome: rotuloCafe(c), gramas: c.gramas };
   if (c.preco.grao !== null)
     out.push({ ...base, chave: `${c.id}-grao`, moagem: "grao", preco: c.preco.grao });
-  out.push({ ...base, chave: `${c.id}-moido`, moagem: "moido", preco: c.preco.moido });
+  if (c.preco.moido !== null)
+    out.push({ ...base, chave: `${c.id}-moido`, moagem: "moido", preco: c.preco.moido });
   return out;
 });
 
-const DESCONTO = 0.1;
+
 
 export default function Precos() {
   const [qtd, setQtd] = useState<Record<string, number>>({});
-  const [primeira, setPrimeira] = useState(true);
 
   const itens = useMemo(
     () => LINHAS.filter((l) => (qtd[l.chave] ?? 0) > 0),
@@ -36,7 +36,7 @@ export default function Precos() {
   );
 
   const subtotal = itens.reduce((s, l) => s + l.preco * (qtd[l.chave] ?? 0), 0);
-  const total = primeira ? subtotal * (1 - DESCONTO) : subtotal;
+  const total = comDesconto(subtotal);
   const pacotes = itens.reduce((s, l) => s + (qtd[l.chave] ?? 0), 0);
   /* os pacotes têm pesos diferentes (300 g e 500 g), então o peso vem de cada linha */
   const quilos = itens.reduce((s, l) => s + (l.gramas / 1000) * (qtd[l.chave] ?? 0), 0);
@@ -55,26 +55,48 @@ export default function Precos() {
         (l) =>
           `• ${qtd[l.chave]}x ${l.nome} ${l.gramas} g, ${
             l.moagem === "grao" ? "em grão" : "moído"
-          } (${brl(l.preco)} cada)`
+          } (${brl(comDesconto(l.preco))} cada)`
       )
       .join("\n");
-    return `Olá! Quero fazer este pedido:\n\n${linhas}\n\nSubtotal: ${brl(subtotal)}${
-      primeira ? `\nCom 10% da primeira compra: ${brl(total)}` : ""
-    }`;
-  }, [itens, qtd, subtotal, total, primeira]);
+    return `Olá! Quero fazer este pedido:\n\n${linhas}\n\nSubtotal: ${brl(
+      subtotal
+    )}\nCom ${PROMO.rotulo}: ${brl(total)}`;
+  }, [itens, qtd, subtotal, total]);
 
   return (
     /* rasgo em cima: a emenda com a seção dos cafés era um corte reto, o único
        que tinha sobrado. Quem recebe o corte é o bloco creme, e a falha revela
        o papel do corpo, que é justamente o fundo da seção de cima */
-    <Faixa id="precos" fundo="creme" className="rasgo-cima py-14 sm:py-20">
+    <Faixa id="precos" fundo="creme" className="rasgo-cima py-10 sm:py-14">
       <Rubrica>Preços e pedido</Rubrica>
 
-      <div className="reveal mt-6 max-w-[60ch]">
+      {/* A promoção é um número só, grande. Antes eram dois abatimentos
+          somados, primeira compra e volume, e dois abatimentos viram conta;
+          conta ninguém faz de cabeça na hora de comprar. */}
+      <div
+        className="reveal mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 px-5 py-4 text-center"
+        style={{ background: "#8c3a20", color: "#f7efe0" }}
+      >
+        <span
+          className="num text-[clamp(30px,5vw,44px)] leading-none"
+          style={{
+            fontFamily: "Fraunces, Georgia, serif",
+            fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 48',
+            fontWeight: 600,
+          }}
+        >
+          {PROMO.rotulo}
+        </span>
+        <span className="ficha text-[15px] uppercase tracking-[0.14em]">
+          em todos os cafés, já aplicado nos preços abaixo
+        </span>
+      </div>
+
+      <div className="reveal mt-8 max-w-[60ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)]">Monte o pedido aqui</h2>
         <p className="mt-4 text-[#5c4635]">
-          Pacotes de 300 g, e de 500 g no Minas Santa. Some o que quiser na tabela e o
-          WhatsApp já abre com o pedido escrito, sem formulário, sem cadastro.
+          Some o que quiser na tabela e o WhatsApp já abre com o pedido escrito, sem
+          formulário e sem cadastro. Os valores da tabela já estão com os 30%.
         </p>
       </div>
 
@@ -121,11 +143,14 @@ export default function Precos() {
                           <span className="ficha text-[#6b4526]">
                             {l.moagem === "grao" ? "Em grão" : "Moído"}
                           </span>
-                          <span className="num text-[19px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
+                          <span className="ficha num text-[14px] text-[#8a7358] line-through">
                             {brl(l.preco)}
                           </span>
+                          <span className="num text-[19px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
+                            {brl(comDesconto(l.preco))}
+                          </span>
                           <span className="ficha num text-[14px] text-[#75634f]">
-                            {porQuilo(l.preco, l.gramas)}/kg
+                            {porQuilo(comDesconto(l.preco), l.gramas)}/kg
                           </span>
                         </div>
 
@@ -239,22 +264,10 @@ export default function Precos() {
                       </span>
                     </span>
                     <span className="ficha num shrink-0">
-                      {brl(l.preco * (qtd[l.chave] ?? 0))}
+                      {brl(comDesconto(l.preco) * (qtd[l.chave] ?? 0))}
                     </span>
                   </div>
                 ))}
-
-                <label className="mt-4 flex cursor-pointer items-start gap-2.5" data-print-hide>
-                  <input
-                    type="checkbox"
-                    checked={primeira}
-                    onChange={(e) => setPrimeira(e.target.checked)}
-                    className="mt-1 h-4 w-4 shrink-0 accent-[#8c3a20]"
-                  />
-                  <span className="ficha text-[15px] leading-snug text-[#6b4526]">
-                    Primeira compra: 10% de desconto
-                  </span>
-                </label>
 
                 <div className="mt-4 flex items-baseline justify-between border-t-2 border-[#3a271b] pt-3">
                   <div>
@@ -267,11 +280,9 @@ export default function Precos() {
                     </div>
                   </div>
                   <div className="text-right">
-                    {primeira && (
-                      <div className="ficha num text-[15.5px] text-[#75634f] line-through">
-                        {brl(subtotal)}
-                      </div>
-                    )}
+                    <div className="ficha num text-[15.5px] text-[#75634f] line-through">
+                      {brl(subtotal)}
+                    </div>
                     <div
                       className="num text-[28px] leading-none"
                       style={{

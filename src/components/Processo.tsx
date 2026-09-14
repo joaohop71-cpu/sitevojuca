@@ -87,7 +87,7 @@ export default function Processo() {
       id="processo"
       fundo="tinta"
       atras="#f6eede"
-      className="rasgo-ambos py-16 sm:py-20"
+      className="rasgo-ambos pb-6 pt-12 sm:pb-8 sm:pt-16"
     >
       <Rubrica claro>O processo</Rubrica>
 

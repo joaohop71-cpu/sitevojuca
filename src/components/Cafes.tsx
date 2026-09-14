@@ -1,18 +1,11 @@
 import { useState } from "react";
-import { CAFES, TINTA_ROTULO, brl, porQuilo } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto } from "@/dados";
 import type { Cafe } from "@/dados";
-import { Botao, Faixa, Rubrica, Visor } from "./base";
+import { Faixa, Rubrica, Visor } from "./base";
 
-/** altura da arte vertical — as Heranças têm a linha do lote e ficam mais altas */
-const ALTURA_VERTICAL: Record<string, number> = {
-  vojuca: 1350,
-  minassanta: 1350,
-  herancas_2sl: 1446,
-  herancas_24137: 1446,
-};
-
-/** a mais alta das quatro artes: é ela que dá a caixa comum dos cartões */
-const ALTURA_MAIOR = Math.max(...Object.values(ALTURA_VERTICAL));
+/* a arte web traz uma faixa vazia no pé, reservada para o preço e o botão:
+   874 x 1854 nos cinco produtos, faixa de 22,006% ancorada no pé */
+const ARTE = { largura: 874, altura: 1854, faixa: 22.006 };
 
 /** nome cheio: as duas Heranças só se distinguem pelo lote */
 function nomeCheio(c: Cafe) {
@@ -20,181 +13,156 @@ function nomeCheio(c: Cafe) {
 }
 
 function descricaoArte(c: Cafe) {
-  return [
-    c.nome,
-    c.lote,
-    "·",
-    c.qualificacao.join(", "),
-    "·",
-    c.notas.join(", "),
-    `· ${c.formato}, ${c.gramas} g`,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  return [c.nome, c.lote, "·", c.qualificacao.join(", "), "·", c.notas.join(", "),
+    `· ${c.formato}, ${c.gramas} g`].filter(Boolean).join(" ");
 }
 
-/**
- * O rótulo em tamanho de verdade, dentro do visor.
- *
- * Aqui não há por que economizar resolução: a pessoa abriu justamente para
- * olhar de perto, e é a única tela onde a letra miúda do rótulo se lê.
- */
+function arte(c: Cafe) {
+  return `/rotulos-web/rotulo_${c.banner}_web`;
+}
+
+/** o rótulo em tamanho de verdade, dentro do visor */
 function RotuloGrande({ cafe }: { cafe: Cafe }) {
-  const base = `/rotulos/rotulo_${cafe.banner}`;
+  const base = arte(cafe);
   return (
     <picture>
       <source type="image/webp" srcSet={`${base}_1x.webp 1x, ${base}_2x.webp 2x`} />
       <img
         src={`${base}_1x.png`}
         alt={descricaoArte(cafe)}
-        width={874}
-        height={ALTURA_VERTICAL[cafe.banner] ?? 1350}
-        className="max-h-[74vh] w-auto object-contain"
+        width={ARTE.largura}
+        height={ARTE.altura}
+        className="max-h-[78vh] w-auto object-contain"
       />
     </picture>
   );
 }
 
-/** o fio com o losango no meio, o mesmo divisor impresso nos rótulos */
-function FioLosango({ cor }: { cor: string }) {
-  return (
-    <div className="flex items-center gap-2" aria-hidden="true">
-      <span className="h-px flex-1" style={{ background: `${cor}4d` }} />
-      <span className="block h-[5px] w-[5px] rotate-45" style={{ background: cor }} />
-      <span className="h-px flex-1" style={{ background: `${cor}4d` }} />
-    </div>
-  );
-}
-
-/** uma das duas colunas de preço: a moagem, o valor do pacote e o preço por quilo */
-function Preco({
-  rotulo,
-  valor,
-  gramas,
-}: {
-  rotulo: string;
-  valor: number;
-  gramas: number;
-}) {
+/** um preço: o cheio riscado em cima, o com desconto embaixo */
+function Preco({ rotulo, valor }: { rotulo: string; valor: number }) {
   return (
     <div className="text-center">
-      <div className="ficha text-[12px] uppercase tracking-[0.18em] text-[#75634f]">
+      <div className="ficha uppercase tracking-[0.16em] text-[#75634f]" style={{ fontSize: "min(2.5cqw, 12px)" }}>
         {rotulo}
       </div>
+      <div className="ficha num text-[#8a7358] line-through" style={{ fontSize: "min(2.7cqw, 13px)" }}>
+        {brl(valor)}
+      </div>
       <div
-        className="num mt-1 text-[25px] leading-none sm:text-[27px]"
+        className="num leading-none"
         style={{
           fontFamily: "Fraunces, Georgia, serif",
           fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 36',
           fontWeight: 600,
+          fontSize: "min(6.4cqw, 30px)",
         }}
       >
-        {brl(valor)}
-      </div>
-      <div className="ficha num mt-1 text-[13px] text-[#75634f]">
-        {porQuilo(valor, gramas)}/kg
+        {brl(comDesconto(valor))}
       </div>
     </div>
   );
 }
 
 /**
- * O rótulo, com o preço e os botões no pé, dentro da mesma moldura.
+ * O rótulo, com o preço e o botão dentro da faixa que a própria arte reserva.
  *
- * Tentei substituir a arte por uma composição em texto e não era a mesma
- * coisa: o rótulo é desenho, e desenho não se reescreve em CSS. O que estava
- * errado antes não era a arte, era a largura. Os quatro ocupavam a página
- * inteira, um embaixo do outro, e aí cada um sozinho dava quase duas telas.
- * Em duas colunas eles cabem, e dá para comparar.
+ * A arte web termina numa área vazia de 22% da altura, com o papel e a moldura
+ * seguindo em volta. É ali que entram o preço e o botão, em texto vivo, porque
+ * preço muda e imagem de botão ninguém clica. Como o tamanho da faixa é uma
+ * fração da peça, o que vai dentro dela também é medido em fração da largura
+ * do cartão (cqw), e não em pixels: assim o pé continua cabendo em qualquer
+ * largura de tela.
  *
- * O preço e os botões ficam dentro da moldura, embaixo da arte e separados
- * por um fio com losango, que é o divisor do próprio rótulo: lidos juntos,
- * arte e pé viram uma peça só. O que é preço e o que é botão continua sendo
- * texto vivo, porque preço muda e imagem de botão ninguém clica.
+ * A borda reta saiu. O papel do cartão é rasgado nos quatro lados, como o
+ * resto do site.
  */
 function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) {
   const cor = TINTA_ROTULO[cafe.cor];
-  const soMoido = cafe.preco.grao === null;
-  const base = `/rotulos/rotulo_${cafe.banner}`;
-  const altura = ALTURA_VERTICAL[cafe.banner] ?? 1350;
+  const base = arte(cafe);
+  const cheio = cafe.preco.grao ?? cafe.preco.moido;
+  const semPreco = cheio === null;
 
   return (
     <article
       id={cafe.id}
-      className="reveal flex flex-col p-3 sm:p-4"
+      className="reveal rasgo-carta relative"
       style={{
-        background: "rgba(255,250,240,0.55)",
-        border: `1px solid ${cor}4d`,
+        containerType: "inline-size",
         scrollMarginTop: 96,
+        /* o papel do cartão: é ele que a máscara rasga nos quatro lados */
+        background: "rgba(255,250,240,0.6)",
+        padding: "18px 14px",
       }}
     >
-      {/* a arte, do jeito que vai impressa. Clicar abre ela grande, que é onde
-          a letra miúda do rótulo se lê. */}
       <button
         type="button"
         onClick={aoVerRotulo}
         aria-label={`Ver o rótulo do ${nomeCheio(cafe)} em tamanho grande`}
         className="group block w-full"
       >
-        {/* As Heranças são mais altas que as outras duas, porque trazem a linha
-            do lote. Lado a lado, isso deixava sessenta pixels de vão morto no
-            pé dos cartões vizinhos. Aqui todos ocupam a caixa da arte mais
-            alta e a menor se centra dentro dela: como o fundo do rótulo é
-            transparente, o que sobra vira margem de papel e não se vê, e os
-            quatro pés ficam na mesma linha. */}
-        <div
-          className="relative w-full"
-          style={{ aspectRatio: `874 / ${ALTURA_MAIOR}` }}
-        >
-          <picture>
-            <source
-              type="image/webp"
-              srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
-              sizes="(min-width: 1024px) 540px, 92vw"
-            />
-            <img
-              src={`${base}_1x.png`}
-              alt={descricaoArte(cafe)}
-              width={874}
-              height={altura}
-              loading="lazy"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-contain transition-opacity duration-200 group-hover:opacity-90"
-            />
-          </picture>
-        </div>
+        <picture>
+          <source
+            type="image/webp"
+            srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
+            sizes="(min-width: 1024px) 540px, 92vw"
+          />
+          <img
+            src={`${base}_1x.png`}
+            alt={descricaoArte(cafe)}
+            width={ARTE.largura}
+            height={ARTE.altura}
+            loading="lazy"
+            decoding="async"
+            className="block w-full transition-opacity duration-200 group-hover:opacity-90"
+          />
+        </picture>
       </button>
 
-      {/* o pé: preço e pedido, dentro da mesma moldura da arte */}
-      <div className="mt-3 px-3 pb-2 sm:px-5">
-        <FioLosango cor={cor} />
+      {/* a faixa reservada pela arte */}
+      <div
+        className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center"
+        style={{ height: `${ARTE.faixa}%`, padding: "0 12% 2%" }}
+      >
+        {semPreco ? (
+          <p className="ficha text-center text-[#6b4526]" style={{ fontSize: "min(3.2cqw, 15px)" }}>
+            Lote novo, preço sendo fechado. Pergunte no WhatsApp.
+          </p>
+        ) : (
+          <>
+            <div
+              className="ficha uppercase tracking-[0.16em]"
+              style={{ color: cor, fontSize: "min(2.6cqw, 12.5px)" }}
+            >
+              {PROMO.rotulo} · {cafe.gramas} g
+            </div>
+            <div className="mt-[1.5cqw] flex items-end justify-center gap-[7cqw]">
+              {cafe.preco.grao !== null && (
+                <Preco rotulo="Em grão" valor={cafe.preco.grao} />
+              )}
+              {cafe.preco.moido !== null && (
+                <Preco rotulo="Moído" valor={cafe.preco.moido} />
+              )}
+            </div>
+          </>
+        )}
 
-        <div className="mt-4 flex items-end justify-center gap-7">
-          {!soMoido && (
-            <Preco rotulo="Em grão" valor={cafe.preco.grao!} gramas={cafe.gramas} />
-          )}
-          <Preco rotulo="Moído" valor={cafe.preco.moido} gramas={cafe.gramas} />
-        </div>
-
-        <div className="ficha mt-2.5 text-center text-[12.5px] uppercase tracking-[0.14em] text-[#75634f]">
-          {cafe.gramas} g{soMoido && " · esta linha sai só moída"}
-        </div>
-
-        <div
-          className="mt-4 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4"
-          data-print-hide
-        >
-          <Botao href="#precos" largo>
-            Monte o seu pedido
-          </Botao>
-          <button
-            type="button"
-            onClick={aoVerRotulo}
-            className="link-sublinhado ficha text-[13.5px] uppercase tracking-[0.1em]"
-            style={{ color: cor, borderBottomColor: `${cor}73` }}
+        <div className="mt-[3cqw] w-full" data-print-hide>
+          <a
+            href="#precos"
+            className="flex w-full items-center justify-center border transition-colors"
+            style={{
+              fontFamily: '"Courier Prime", monospace',
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              fontSize: "min(3cqw, 14px)",
+              padding: "min(2.4cqw, 12px) 0",
+              background: cor,
+              borderColor: cor,
+              color: "#f2e7d3",
+            }}
           >
-            Ampliar o rótulo →
-          </button>
+            {semPreco ? "Falar com a gente" : "Monte o seu pedido"}
+          </a>
         </div>
       </div>
     </article>
@@ -207,7 +175,7 @@ export default function Cafes() {
     setAberto((a) => (a === null ? null : (a + d + CAFES.length) % CAFES.length));
 
   return (
-    <Faixa id="cafes" className="py-12 sm:py-16">
+    <Faixa id="cafes" className="py-10 sm:py-12">
       <Rubrica>Os cafés</Rubrica>
 
       <div className="reveal mt-6">

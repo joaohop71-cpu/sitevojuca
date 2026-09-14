@@ -11,6 +11,7 @@ import {
   linhasCafezal,
   paiEFilho,
   poente,
+  terreiroCerejas,
   varandaCoqueiros,
 } from "@/imagens";
 
@@ -28,6 +29,12 @@ const FOTOS: Foto[] = [
     alt: "Tio Nando de chapéu, em pé na lavoura, junto a um pé de café carregado de frutos",
     legenda: "O tio Nando na lavoura",
     ficha: "Quem começou a plantação",
+  },
+  {
+    src: terreiroCerejas,
+    alt: "Terreiro coberto de frutos de café recém-colhidos, em vermelho, amarelo e verde, com a serra e o céu azul ao fundo",
+    legenda: "O terreiro na safra",
+    ficha: "A colheita do dia, espalhada para secar ao sol",
   },
   {
     src: linhasCafezal,

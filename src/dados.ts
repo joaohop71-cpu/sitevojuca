@@ -34,7 +34,7 @@ export function zap(mensagem: string) {
 export type Moagem = "grao" | "moido";
 
 /** Cor da tinta do rótulo, uma por linha de café. */
-export type CorRotulo = "vinho" | "verde" | "tinta";
+export type CorRotulo = "vinho" | "verde" | "tinta" | "marrom";
 
 /**
  * A tinta de cada linha, medida na própria arte dos rótulos.
@@ -46,9 +46,10 @@ export type CorRotulo = "vinho" | "verde" | "tinta";
  * mostrar de que cor ela é sem perder o contraste com o creme da página.
  */
 export const TINTA_ROTULO: Record<CorRotulo, string> = {
-  verde: "#3f5320",
-  vinho: "#7a1008",
-  tinta: "#6b4526",
+  verde: "#4a562c",
+  vinho: "#761c14",
+  marrom: "#6a4224",
+  tinta: "#2c2017",
 };
 
 export type Cafe = {
@@ -77,7 +78,8 @@ export type Cafe = {
   formato: string;
   cor: CorRotulo;
   descricao: string;
-  preco: { grao: number | null; moido: number };
+  /** null nos dois quando o preço ainda não foi fechado */
+  preco: { grao: number | null; moido: number | null };
 };
 
 export const CAFES: Cafe[] = [
@@ -104,6 +106,30 @@ export const CAFES: Cafe[] = [
     descricao:
       "Perfil suave, doce e floral. O rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
     preco: { grao: 43.08, moido: 45.48 },
+  },
+  {
+    id: "reserva-998",
+    nome: "Reserva 998",
+    banner: "reserva998",
+    tarja: "Edição limitada",
+    qualificacao: ["Café especial · 100% arábica", "82 pontos · Torra média"],
+    chamada: "A altitude no nome, o caramelo na xícara",
+    notas: ["Caramelo", "Chocolate", "Malte", "Rapadura"],
+    fichas: [
+      { rotulo: "Tipo", valor: "100% arábica" },
+      { rotulo: "Seleção", valor: "Manual" },
+      { rotulo: "Pontuação SCA", valor: "82 pontos +" },
+      { rotulo: "Peneira", valor: "15 +" },
+      { rotulo: "Torra", valor: "Média" },
+      { rotulo: "Altitude", valor: "998 m" },
+    ],
+    intensidade: 3,
+    gramas: 250,
+    formato: "Torrado em grãos · também em pó",
+    cor: "marrom",
+    descricao:
+      "O nome é a altitude da lavoura. Doce de caramelo e rapadura, com fundo de chocolate e malte: um café de sobremesa que ainda funciona de manhã. Edição limitada, em pacote de 250 g.",
+    preco: { grao: null, moido: null },
   },
   {
     id: "herancas-2sl",
@@ -254,6 +280,24 @@ export const ETAPAS = [
     resumo: "É por isso que o pó chega mais fresco.",
   },
 ];
+
+/**
+ * A promoção em vigor.
+ *
+ * Enquanto ela roda, os descontos de primeira compra e de volume saem: dois
+ * abatimentos somados viram conta, e conta a pessoa não faz na cabeça. Um
+ * número só, grande, em tudo.
+ */
+export const PROMO = {
+  pct: 0.3,
+  rotulo: "30% off",
+  chamada: "30% de desconto em todos os cafés",
+};
+
+/** o preço já com a promoção aplicada */
+export function comDesconto(v: number) {
+  return v * (1 - PROMO.pct);
+}
 
 export const SELOS = [
   "100% arábica",

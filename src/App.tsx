@@ -2,6 +2,7 @@ import Navegacao from "@/components/Navegacao";
 import Capa from "@/components/Capa";
 import Cafes from "@/components/Cafes";
 import Precos from "@/components/Precos";
+import Empresas from "@/components/Empresas";
 import Sobre from "@/components/Sobre";
 import Origem from "@/components/Origem";
 import Processo from "@/components/Processo";
@@ -18,6 +19,7 @@ export default function App() {
         <Capa />
         <Cafes />
         <Precos />
+        <Empresas />
         <Processo />
         <Sobre />
         <Origem />
