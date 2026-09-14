@@ -7,6 +7,17 @@ import { Faixa, Rubrica, Visor } from "./base";
    874 x 1854 nos cinco produtos, faixa de 22,006% ancorada no pé */
 const ARTE = { largura: 874, altura: 1854, faixa: 22.006 };
 
+/* a arte sem a faixa, que é a peça como vai impressa na embalagem: é ela que
+   o visor mostra. A do cartão terminaria num terço de papel em branco, que é
+   o espaço que o preço ocupa na página e que ali não existe. */
+const ALTURA_IMPRESSA: Record<string, number> = {
+  vojuca: 1350,
+  minassanta: 1350,
+  reserva998: 1350,
+  herancas_2sl: 1446,
+  herancas_24137: 1446,
+};
+
 /** nome cheio: as duas Heranças só se distinguem pelo lote */
 function nomeCheio(c: Cafe) {
   return c.lote ? `${c.nome} ${c.lote}` : c.nome;
@@ -21,20 +32,32 @@ function arte(c: Cafe) {
   return `/rotulos-web/rotulo_${c.banner}_web`;
 }
 
-/** o rótulo em tamanho de verdade, dentro do visor */
+/**
+ * O rótulo em tamanho de verdade, dentro do visor.
+ *
+ * A arte não tem fundo próprio: é tinta escura sobre transparência, para poder
+ * assentar no papel do site. Dentro do visor, que é escuro, ela sumia. Aqui
+ * ela ganha o papel de volta, numa folha com folga em volta, que é como o
+ * rótulo existe de verdade.
+ */
 function RotuloGrande({ cafe }: { cafe: Cafe }) {
-  const base = arte(cafe);
+  const base = `/rotulos/rotulo_${cafe.banner}_1x`;
   return (
-    <picture>
-      <source type="image/webp" srcSet={`${base}_1x.webp 1x, ${base}_2x.webp 2x`} />
-      <img
-        src={`${base}_1x.png`}
-        alt={descricaoArte(cafe)}
-        width={ARTE.largura}
-        height={ARTE.altura}
-        className="max-h-[78vh] w-auto object-contain"
-      />
-    </picture>
+    <div
+      className="p-3 sm:p-4"
+      style={{ background: "#f2e7d3", boxShadow: "0 18px 50px rgba(0,0,0,0.45)" }}
+    >
+      <picture>
+        <source type="image/webp" srcSet={`${base}.webp`} />
+        <img
+          src={`${base}.png`}
+          alt={descricaoArte(cafe)}
+          width={ARTE.largura}
+          height={ALTURA_IMPRESSA[cafe.banner] ?? 1350}
+          className="block max-h-[72vh] w-auto object-contain"
+        />
+      </picture>
+    </div>
   );
 }
 

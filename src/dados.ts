@@ -55,11 +55,7 @@ export const TINTA_ROTULO: Record<CorRotulo, string> = {
 export type Cafe = {
   id: string;
   nome: string;
-  /**
-   * Nome-base do rótulo em /public/banners — o site monta a partir dele os
-   * quatro arquivos: `banner_<base>_{1x,2x}.{webp,png}`.
-   * Sem isto, o rótulo é desenhado em CSS a partir dos campos abaixo.
-   */
+  /** nome-base dos arquivos de rótulo em /public/rotulos-web e /public/rotulos */
   banner: string;
   /** cultivar impresso sob o nome, quando a linha tem mais de um lote */
   lote?: string;
