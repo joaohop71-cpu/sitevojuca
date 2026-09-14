@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { CAFES, PROMO, brl, centavos } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, centavos } from "@/dados";
 import type { Moagem } from "@/dados";
 
 export type Linha = {
@@ -9,6 +9,8 @@ export type Linha = {
   moagem: Moagem;
   preco: number;
   gramas: number;
+  /** a tinta da linha do café, para o item aparecer com a cor dele */
+  cor: string;
 };
 
 /** nome cheio: as duas Heranças só se distinguem pelo lote */
@@ -18,7 +20,7 @@ function rotuloCafe(c: (typeof CAFES)[number]) {
 
 /** uma linha de pedido por café e moagem, que é a unidade que se compra */
 export const LINHAS: Linha[] = CAFES.flatMap((c) => {
-  const base = { id: c.id, nome: rotuloCafe(c), gramas: c.gramas };
+  const base = { id: c.id, nome: rotuloCafe(c), gramas: c.gramas, cor: TINTA_ROTULO[c.cor] };
   const out: Linha[] = [];
   if (c.preco.grao !== null)
     out.push({ ...base, chave: `${c.id}-grao`, moagem: "grao", preco: c.preco.grao });

@@ -59,7 +59,7 @@ export default function Precos() {
                     key={l.chave}
                     className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-dotted border-[rgba(58,39,27,0.22)] py-3"
                   >
-                    <span className="ficha w-full text-[15.5px] text-[#3a271b] sm:w-auto sm:flex-1">
+                    <span className="ficha w-full text-[15.5px] sm:w-auto sm:flex-1" style={{ color: l.cor }}>
                       {l.nome}{" "}
                       <span className="text-[#6f5b44]">
                         {l.moagem === "grao" ? "grão" : "moído"} · {l.gramas} g
@@ -77,6 +77,7 @@ export default function Precos() {
                         valor={qtd[l.chave] ?? 0}
                         aoMudar={(d) => ajustar(l.chave, d)}
                         rotulo={`${l.nome} ${l.moagem === "grao" ? "em grão" : "moído"}`}
+                        cor={l.cor}
                       />
                     </span>
                   </div>

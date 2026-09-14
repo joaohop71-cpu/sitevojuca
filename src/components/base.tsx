@@ -316,26 +316,52 @@ export function Contador({
   valor,
   aoMudar,
   rotulo,
+  cor = "#6b4526",
+  compacto = false,
 }: {
   valor: number;
   aoMudar: (d: number) => void;
   /** o que o leitor de tela anuncia: "um Café Vô Juca em grão" */
   rotulo: string;
+  /** a tinta da linha do café */
+  cor?: string;
+  /** dentro da faixa do rótulo o espaço é curto; a altura de toque não muda */
+  compacto?: boolean;
 }) {
-  const botao =
-    "flex h-11 w-11 items-center justify-center border border-[rgba(58,39,27,0.3)] text-[18px] text-[#6b4526] transition-colors hover:bg-[rgba(58,39,27,0.07)]";
+  /* Dentro da faixa do rótulo cabem dois contadores lado a lado, e a largura
+     do cartão manda: em tela de 320 px os dois somavam mais do que o quadro
+     impresso tem de largura. A altura de toque nunca encolhe; só a largura
+     acompanha o cartão. */
+  const lado = "h-11";
+  const meio = "h-11";
+  const larg = compacto ? { width: "clamp(34px, 11cqw, 44px)" } : {};
+  const largMeio = compacto ? { width: "clamp(34px, 11cqw, 48px)" } : {};
+  const borda = `${cor}59`;
   return (
     <div className="flex shrink-0 items-center" data-print-hide>
-      <button type="button" onClick={() => aoMudar(-1)} aria-label={`Remover um ${rotulo}`} className={botao}>
+      <button
+        type="button"
+        onClick={() => aoMudar(-1)}
+        aria-label={`Remover um ${rotulo}`}
+        className={`${lado} flex ${compacto ? "" : "w-11"} items-center justify-center border text-[18px] transition-colors hover:bg-[rgba(58,39,27,0.07)]`}
+        style={{ borderColor: borda, color: cor, ...larg }}
+      >
         −
       </button>
       <span
-        className="num flex h-11 w-12 items-center justify-center border-y border-[rgba(58,39,27,0.3)] text-[16px]"
+        className={`${meio} num flex ${compacto ? "" : "w-12"} items-center justify-center border-y text-[16px]`}
+        style={{ borderColor: borda, color: valor ? cor : "#6f5b44", ...largMeio }}
         aria-live="polite"
       >
         {valor}
       </span>
-      <button type="button" onClick={() => aoMudar(1)} aria-label={`Adicionar um ${rotulo}`} className={botao}>
+      <button
+        type="button"
+        onClick={() => aoMudar(1)}
+        aria-label={`Adicionar um ${rotulo}`}
+        className={`${lado} flex ${compacto ? "" : "w-11"} items-center justify-center border text-[18px] transition-colors hover:bg-[rgba(58,39,27,0.07)]`}
+        style={{ borderColor: borda, color: cor, ...larg }}
+      >
         +
       </button>
     </div>

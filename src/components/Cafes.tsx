@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto } from "@/dados";
-import { ajustar, linhasDo, useCarrinho } from "@/carrinho";
+import { ajustar, useCarrinho } from "@/carrinho";
 import type { Cafe } from "@/dados";
 import { Contador, Faixa, Rubrica, Visor } from "./base";
 
@@ -62,15 +62,39 @@ function RotuloGrande({ cafe }: { cafe: Cafe }) {
   );
 }
 
-/** um preço: o cheio riscado em cima, o com desconto embaixo */
-function Preco({ rotulo, valor }: { rotulo: string; valor: number }) {
+/**
+ * Uma coluna de preço, com o contador embaixo.
+ *
+ * O mais e o menos ficavam fora da arte, num bloco solto no pé do cartão: o
+ * preço numa caixa e a decisão noutra. Dentro da faixa que a arte reserva,
+ * escolher passa a ser um gesto só, no mesmo lugar onde se lê o valor.
+ *
+ * O preço cheio sobe para a linha do rótulo em vez de ocupar uma linha própria:
+ * é o que faz o contador caber na faixa sem apertar a altura de toque.
+ */
+function Preco({
+  rotulo,
+  valor,
+  cor,
+  chave,
+  qtd,
+  nome,
+}: {
+  rotulo: string;
+  valor: number;
+  cor: string;
+  chave: string;
+  qtd: number;
+  nome: string;
+}) {
   return (
-    <div className="text-center">
-      <div className="ficha uppercase tracking-[0.16em] text-[#6f5b44]" style={{ fontSize: "min(2.5cqw, 12px)" }}>
+    <div className="flex flex-col items-center">
+      <div
+        className="ficha flex items-baseline gap-[1.6cqw] uppercase tracking-[0.12em] text-[#6f5b44]"
+        style={{ fontSize: "min(2.4cqw, 11.5px)" }}
+      >
         {rotulo}
-      </div>
-      <div className="ficha num text-[#6f5b44] line-through" style={{ fontSize: "min(2.7cqw, 13px)" }}>
-        {brl(valor)}
+        <span className="num line-through">{brl(valor)}</span>
       </div>
       <div
         className="num leading-none"
@@ -78,10 +102,20 @@ function Preco({ rotulo, valor }: { rotulo: string; valor: number }) {
           fontFamily: "Fraunces, Georgia, serif",
           fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 36',
           fontWeight: 600,
-          fontSize: "min(6.4cqw, 30px)",
+          fontSize: "min(5.8cqw, 29px)",
+          color: cor,
         }}
       >
         {brl(comDesconto(valor))}
+      </div>
+      <div className="mt-[1.3cqw]">
+        <Contador
+          valor={qtd}
+          aoMudar={(d) => ajustar(chave, d)}
+          rotulo={`${nome} ${rotulo.toLowerCase()}`}
+          cor={cor}
+          compacto
+        />
       </div>
     </div>
   );
@@ -155,7 +189,7 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
            y = 1798 de 1854. O botão ia até 12% e passava por cima delas.
            Os recuos abaixo são esses números, com uma folga: em CSS a
            porcentagem de padding conta sempre a LARGURA, inclusive embaixo. */
-        style={{ height: `${ARTE.faixa}%`, padding: "1% 8% 10%" }}
+        style={{ height: `${ARTE.faixa}%`, padding: "1% 7% 8%" }}
       >
         {semPreco ? (
           <p className="ficha text-center text-[#6b4526]" style={{ fontSize: "min(3.2cqw, 15px)" }}>
@@ -166,24 +200,41 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
             {/* as notas ficavam só no alt da imagem e no rótulo ampliado, e os
                 dois Heranças, que têm mesmo peso e mesmo preço, ficavam
                 indistinguíveis pelo cartão */}
+            {/* uma linha só: no Heranças 24/137, que tem as notas mais longas,
+                a segunda linha empurrava o contador para fora do quadro
+                impresso no celular */}
             <div
-              className="ficha uppercase tracking-[0.1em] text-[#3a271b]"
-              style={{ fontSize: "min(2.7cqw, 13px)" }}
+              className="ficha whitespace-nowrap uppercase text-[#3a271b]"
+              style={{ fontSize: "min(2.4cqw, 12.5px)", letterSpacing: "0.05em" }}
             >
               {cafe.notas.join(" · ")}
             </div>
             <div
-              className="ficha mt-[1cqw] uppercase tracking-[0.14em]"
+              className="ficha mt-[0.5cqw] uppercase tracking-[0.14em]"
               style={{ color: cor, fontSize: "min(2.5cqw, 12px)" }}
             >
               {PROMO.rotulo} · {PROMO.prazo} · {cafe.gramas} g
             </div>
-            <div className="mt-[1.5cqw] flex items-end justify-center gap-[7cqw]">
+            <div className="mt-[1cqw] flex items-start justify-center gap-[4cqw]">
               {cafe.preco.grao !== null && (
-                <Preco rotulo="Em grão" valor={cafe.preco.grao} />
+                <Preco
+                  rotulo="Em grão"
+                  valor={cafe.preco.grao}
+                  cor={cor}
+                  chave={`${cafe.id}-grao`}
+                  qtd={qtd[`${cafe.id}-grao`] ?? 0}
+                  nome={nomeCheio(cafe)}
+                />
               )}
               {cafe.preco.moido !== null && (
-                <Preco rotulo="Moído" valor={cafe.preco.moido} />
+                <Preco
+                  rotulo="Moído"
+                  valor={cafe.preco.moido}
+                  cor={cor}
+                  chave={`${cafe.id}-moido`}
+                  qtd={qtd[`${cafe.id}-moido`] ?? 0}
+                  nome={nomeCheio(cafe)}
+                />
               )}
             </div>
           </>
@@ -191,29 +242,6 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
       </div>
         </div>
 
-        {/* A quantidade morava lá embaixo, numa segunda tabela com os mesmos
-            cinco cafés e os mesmos preços. Duas fontes para o mesmo número é
-            como elas divergem; e obrigava a pessoa a decidir aqui e pedir
-            noutro lugar. Agora se escolhe onde se olha. */}
-        <div className="mt-4 grid gap-2.5 px-1">
-          {linhasDo(cafe.id).map((l) => (
-            <div key={l.chave} className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <div className="ficha text-[15px] text-[#3a271b]">
-                  {l.moagem === "grao" ? "Em grão" : "Moído"}
-                </div>
-                <div className="ficha num text-[13px] text-[#6f5b44]">
-                  {brl(comDesconto(l.preco))} · {cafe.gramas} g
-                </div>
-              </div>
-              <Contador
-                valor={qtd[l.chave] ?? 0}
-                aoMudar={(d) => ajustar(l.chave, d)}
-                rotulo={`${l.nome} ${l.moagem === "grao" ? "em grão" : "moído"}`}
-              />
-            </div>
-          ))}
-        </div>
       </div>
     </article>
   );
