@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Faixa, Rubrica } from "./base";
+import { Dobra, Faixa, Rubrica } from "./base";
 import Galeria from "./Galeria";
 import Arquivo from "./Arquivo";
 import { DUPLA, MARCA } from "@/dados";
@@ -75,54 +75,38 @@ export default function Sobre() {
           terreiro, do terreiro à torra. Saí apaixonado pelo processo e incomodado com uma
           coisa.
         </P>
-        <P>
-          Aquele era um dos melhores cafés que eu já tinha tomado, e saía dali em saca,
-          para cooperativa e empresa grande, sem nome e sem rosto. Num lugar onde todo
-          mundo produz café, o bom se mistura com o resto e some.
-        </P>
-        <p
-          className="mt-6 text-[clamp(20px,2.8vw,28px)] leading-snug text-[#8c3a20]"
-          style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
-        >
-          O Vô Juca nasceu disso.
-        </p>
+        {/* o parágrafo de cima termina numa pergunta aberta, e o rótulo da
+            dobra é a resposta dela: assim o clique é curiosidade, não esforço */}
+        <Dobra rotulo="o que me incomodou" className="mt-5">
+          <P>
+            Aquele era um dos melhores cafés que eu já tinha tomado, e saía dali em saca,
+            para cooperativa e empresa grande, sem nome e sem rosto. Num lugar onde todo
+            mundo produz café, o bom se mistura com o resto e some.
+          </P>
+          <p
+            className="mt-6 text-[clamp(20px,2.8vw,28px)] leading-snug text-[#8c3a20]"
+            style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
+          >
+            O Vô Juca nasceu disso.
+          </p>
+        </Dobra>
       </Capitulo>
 
 
-      {/* ————— capítulo dois ————— */}
+      {/* ————— capítulo dois —————
+          A vida do Juca era um bloco de 277 palavras com os retratos ao lado,
+          só ilustrando. Agora a história está dentro dos retratos, um pedaço
+          em cada, e o que fica na página é a frase, as fotos e o fecho. */}
       <Capitulo
         num="dois"
         nome="O apelido"
         frase="Um apelido sumiu por três gerações e voltou sem avisar."
       >
-        <div className="grid gap-x-14 lg:grid-cols-2">
-          <div>
-            <P>
-              Meu bisavô se chamava{" "}
-              <strong className="font-semibold text-[#3a271b]">{MARCA.fundador}</strong>.
-              Ninguém o chamava assim: ele era o Juca Chaves. Filho de portugueses, nasceu
-              em {MARCA.local} em {MARCA.fundadorNasc}.
-            </P>
-            <P>
-              Os pais vieram de Portugal para construir alguma coisa aqui e chegaram quase
-              sem nada: a mala com as joias e boa parte do patrimônio ficou para trás no
-              trem. Começaram do zero.
-            </P>
-          </div>
-          <div>
-            <P>
-              O pai morreu cedo, num naufrágio, mas deu tempo de levantar o que a família
-              precisava para seguir. O Juca foi além: juntou terra no {MARCA.regiao} e
-              plantou café.
-            </P>
-            <P>
-              A fortuna não atravessou a vida dele inteira, e minha avó, filha dele,
-              cresceu bem e viveu com simplicidade.
-            </P>
-          </div>
+        <div id="arquivo" style={{ scrollMarginTop: 84 }}>
+          <Arquivo />
         </div>
 
-        <blockquote className="mt-10 border-y border-[rgba(58,39,27,0.25)] py-7">
+        <blockquote className="mt-12 border-y border-[rgba(58,39,27,0.25)] py-7">
           <p
             className="max-w-[26ch] text-[clamp(23px,3.4vw,38px)] leading-tight text-[#6b4526]"
             style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
@@ -131,22 +115,20 @@ export default function Sobre() {
           </p>
         </blockquote>
 
-        <div id="arquivo" className="mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
-          <Arquivo />
-        </div>
-
-        <div className="mt-12 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
-          <P>
-            Nasci em {MARCA.bisnetoNasc}, {MARCA.anosEntreOsJucas} anos depois dele. Filho
-            de mineiro com baiana, nascido em São Paulo, criado em Florianópolis. Ninguém
-            em casa me chamava de Juca.
-          </P>
-          <P>
-            Depois dos 18, os amigos começaram, sem saber que existiu um Juca antes de mim
-            e sem nenhuma relação com café. Descobri as duas coisas muito depois, e nessa
-            ordem.
-          </P>
-        </div>
+        <Dobra rotulo="como o apelido voltou" className="mt-8">
+          <div className="mt-5 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
+            <P>
+              Nasci em {MARCA.bisnetoNasc}, {MARCA.anosEntreOsJucas} anos depois dele.
+              Filho de mineiro com baiana, nascido em São Paulo, criado em Florianópolis.
+              Ninguém em casa me chamava de Juca.
+            </P>
+            <P>
+              Depois dos 18, os amigos começaram, sem saber que existiu um Juca antes de
+              mim e sem nenhuma relação com café. Descobri as duas coisas muito depois, e
+              nessa ordem.
+            </P>
+          </div>
+        </Dobra>
       </Capitulo>
 
 
@@ -178,11 +160,13 @@ export default function Sobre() {
           ))}
         </div>
 
-        <p className="ficha mt-10 max-w-[64ch] text-[15px] leading-relaxed text-[#6b4526]">
-          A plantação foi coisa do meu tio Nando, neto do Juca. Ele passou a vida no café,
-          com armazém e cooperativa, e mais velho resolveu plantar. Hoje quem toca é o
-          filho dele, o Fernandinho, com as pessoas que trabalham no sítio.
-        </p>
+        <Dobra rotulo="de onde veio a lavoura" className="mt-10">
+          <p className="ficha mt-4 max-w-[64ch] text-[15px] leading-relaxed text-[#6b4526]">
+            A plantação foi coisa do meu tio Nando, neto do Juca. Ele passou a vida no
+            café, com armazém e cooperativa, e mais velho resolveu plantar. Hoje quem toca
+            é o filho dele, o Fernandinho, com as pessoas que trabalham no sítio.
+          </p>
+        </Dobra>
       </Capitulo>
 
 

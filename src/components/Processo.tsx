@@ -7,7 +7,7 @@ import {
   processoSelecao,
   processoTorra,
 } from "@/imagens";
-import { Faixa, Rubrica } from "./base";
+import { Dobra, Faixa, Rubrica } from "./base";
 
 /* uma prancha por etapa, na ordem em que o café passa por elas */
 const PRANCHAS = [
@@ -227,9 +227,16 @@ export default function Processo() {
                 >
                   {e.chamada}
                 </p>
-                <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-[#c9b79c]">
-                  {e.texto}
-                </p>
+                {/* A etapa já vinha escrita em duas camadas: o detalhe de como
+                    se faz e a frase que fica. As duas apareciam juntas, e a
+                    rolagem do palco, que é o ponto desta seção, ficava presa
+                    atrás de sessenta palavras por etapa. O detalhe agora abre
+                    para quem quiser. */}
+                <Dobra rotulo="como é feito" claro className="mt-5">
+                  <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-[#c9b79c]">
+                    {e.texto}
+                  </p>
+                </Dobra>
                 {/* a frase que fica, para quem só passa o olho */}
                 <p className="ficha mt-5 flex max-w-[42ch] items-start gap-2.5 text-[14.5px] leading-snug text-[#e8b98d]">
                   <span

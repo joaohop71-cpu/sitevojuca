@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { selo } from "@/imagens";
 import ramoEsq from "@/assets/ramo-esq.webp";
 import ramoDir from "@/assets/ramo-dir.webp";
@@ -112,6 +112,69 @@ export function Rubrica({
         <source media="(max-width: 639px)" srcSet={ramoDirCurto} />
         <img src={ramoDir} alt="" aria-hidden="true" className={tinta} />
       </picture>
+    </div>
+  );
+}
+
+/**
+ * Um trecho que só aparece se a pessoa pedir.
+ *
+ * A página tinha 1.841 palavras e nove minutos de leitura, e quase tudo
+ * chegava de uma vez. O que está aqui dentro continua no HTML, com altura
+ * zero: o Google lê, o leitor de tela não tropeça (o conteúdo fica inerte
+ * enquanto está fechado, senão o Tab entra num texto que ninguém vê) e a
+ * altura anima pelo truque das linhas de grade, que dispensa medir em
+ * JavaScript.
+ *
+ * O rótulo nunca é "saiba mais" genérico: ele diz o que tem lá dentro, e de
+ * preferência responde a uma pergunta que o texto de cima acabou de abrir.
+ */
+export function Dobra({
+  rotulo,
+  fechar = "fechar",
+  claro = false,
+  className = "",
+  children,
+}: {
+  rotulo: string;
+  fechar?: string;
+  /** para o bloco escuro do processo */
+  claro?: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
+  const [aberto, setAberto] = useState(false);
+  const id = useId();
+  const cor = claro ? "#e8b98d" : "#8c3a20";
+  return (
+    <div className={className}>
+      <button
+        type="button"
+        onClick={() => setAberto((a) => !a)}
+        aria-expanded={aberto}
+        aria-controls={id}
+        className="link-sublinhado ficha inline-flex items-center gap-2 text-[14.5px] uppercase tracking-[0.1em]"
+        style={{ color: cor, borderBottomColor: `${cor}73` }}
+        data-print-hide
+      >
+        {aberto ? fechar : rotulo}
+        <span
+          aria-hidden="true"
+          className="inline-block text-[15px] leading-none transition-transform duration-300"
+          style={{ transform: aberto ? "rotate(45deg)" : "none" }}
+        >
+          +
+        </span>
+      </button>
+      <div
+        id={id}
+        className="grid transition-[grid-template-rows] duration-500 ease-out"
+        style={{ gridTemplateRows: aberto ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden" inert={!aberto}>
+          {children}
+        </div>
+      </div>
     </div>
   );
 }
