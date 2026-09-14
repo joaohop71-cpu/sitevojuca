@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto } from "@/dados";
+import { ajustar, linhasDo, useCarrinho } from "@/carrinho";
 import type { Cafe } from "@/dados";
-import { Faixa, Rubrica, Visor } from "./base";
+import { Contador, Faixa, Rubrica, Visor } from "./base";
 
 /* a arte web traz uma faixa vazia no pé, reservada para o preço e o botão:
    874 x 1854 nos cinco produtos, faixa de 22,006% ancorada no pé */
@@ -100,6 +101,7 @@ function Preco({ rotulo, valor }: { rotulo: string; valor: number }) {
  * resto do site.
  */
 function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) {
+  const qtd = useCarrinho();
   const cor = TINTA_ROTULO[cafe.cor];
   const base = arte(cafe);
   const cheio = cafe.preco.grao ?? cafe.preco.moido;
@@ -186,29 +188,31 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
             </div>
           </>
         )}
-
-        <div className="mt-[3cqw] w-full" data-print-hide>
-          <a
-            href="#precos"
-            className="flex w-full items-center justify-center border transition-colors"
-            style={{
-              fontFamily: '"Courier Prime", monospace',
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              /* piso de 13px e recuo fixo: com min() puro o CTA mais
-                 importante da página caía para nove pixels no celular, e o
-                 alvo de toque ficava abaixo dos 44 px */
-              fontSize: "clamp(13px, 3cqw, 14px)",
-              padding: "14px 0",
-              background: cor,
-              borderColor: cor,
-              color: "#f2e7d3",
-            }}
-          >
-            {semPreco ? "Falar com a gente" : "Monte o seu pedido"}
-          </a>
-        </div>
       </div>
+        </div>
+
+        {/* A quantidade morava lá embaixo, numa segunda tabela com os mesmos
+            cinco cafés e os mesmos preços. Duas fontes para o mesmo número é
+            como elas divergem; e obrigava a pessoa a decidir aqui e pedir
+            noutro lugar. Agora se escolhe onde se olha. */}
+        <div className="mt-4 grid gap-2.5 px-1">
+          {linhasDo(cafe.id).map((l) => (
+            <div key={l.chave} className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <div className="ficha text-[15px] text-[#3a271b]">
+                  {l.moagem === "grao" ? "Em grão" : "Moído"}
+                </div>
+                <div className="ficha num text-[13px] text-[#6f5b44]">
+                  {brl(comDesconto(l.preco))} · {cafe.gramas} g
+                </div>
+              </div>
+              <Contador
+                valor={qtd[l.chave] ?? 0}
+                aoMudar={(d) => ajustar(l.chave, d)}
+                rotulo={`${l.nome} ${l.moagem === "grao" ? "em grão" : "moído"}`}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </article>
@@ -230,12 +234,33 @@ export default function Cafes() {
         </h2>
         <p className="mt-4 max-w-[58ch] text-[#5c4635]">
           Todos vêm do mesmo talhão. O que muda é a seleção do grão, o ponto da torra e
-          o quanto a xícara pede atenção. Os rótulos estão lado a lado de propósito, para
-          dar para comparar; toque em um para ler a letra miúda.
+          o quanto a xícara pede atenção. Escolha a quantidade aqui mesmo, no rótulo que
+          quiser; toque na arte para ler a letra miúda.
         </p>
       </div>
 
-      <div className="mt-9 grid gap-6 lg:grid-cols-2 lg:gap-7">
+      {/* o selo da promoção passou a viver aqui, junto do preço: era no pé da
+          página que ele estava, longe de onde se decide */}
+      <div
+        className="reveal mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 px-5 py-4 text-center"
+        style={{ background: "#8c3a20", color: "#f7efe0" }}
+      >
+        <span
+          className="num text-[clamp(28px,4.4vw,40px)] leading-none"
+          style={{
+            fontFamily: "Fraunces, Georgia, serif",
+            fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 48',
+            fontWeight: 600,
+          }}
+        >
+          {PROMO.rotulo}
+        </span>
+        <span className="ficha text-[14.5px] uppercase tracking-[0.14em]">
+          Preço de lançamento, por tempo limitado, já aplicado abaixo
+        </span>
+      </div>
+
+      <div className="mt-7 grid gap-6 lg:grid-cols-2 lg:gap-7">
         {CAFES.map((c, i) => (
           <Cartao key={c.id} cafe={c} aoVerRotulo={() => setAberto(i)} />
         ))}

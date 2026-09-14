@@ -7,6 +7,7 @@ import Sobre from "@/components/Sobre";
 import Origem from "@/components/Origem";
 import Processo from "@/components/Processo";
 import Contato from "@/components/Contato";
+import BarraPedido from "@/components/BarraPedido";
 import { useRevelar } from "@/useRevelar";
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
         <Origem />
         <Contato />
       </main>
+      <BarraPedido />
     </div>
   );
 }

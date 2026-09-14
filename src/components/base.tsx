@@ -305,6 +305,43 @@ export function Visor({
   );
 }
 
+/**
+ * O mais, o menos e o número: o controle de quantidade.
+ *
+ * Estava escrito dentro da tabela de preços. Com a quantidade indo também para
+ * o cartão do café, ficar em dois lugares era garantir que um dia os dois
+ * divergissem.
+ */
+export function Contador({
+  valor,
+  aoMudar,
+  rotulo,
+}: {
+  valor: number;
+  aoMudar: (d: number) => void;
+  /** o que o leitor de tela anuncia: "um Café Vô Juca em grão" */
+  rotulo: string;
+}) {
+  const botao =
+    "flex h-11 w-11 items-center justify-center border border-[rgba(58,39,27,0.3)] text-[18px] text-[#6b4526] transition-colors hover:bg-[rgba(58,39,27,0.07)]";
+  return (
+    <div className="flex shrink-0 items-center" data-print-hide>
+      <button type="button" onClick={() => aoMudar(-1)} aria-label={`Remover um ${rotulo}`} className={botao}>
+        −
+      </button>
+      <span
+        className="num flex h-11 w-12 items-center justify-center border-y border-[rgba(58,39,27,0.3)] text-[16px]"
+        aria-live="polite"
+      >
+        {valor}
+      </span>
+      <button type="button" onClick={() => aoMudar(1)} aria-label={`Adicionar um ${rotulo}`} className={botao}>
+        +
+      </button>
+    </div>
+  );
+}
+
 export function Botao({
   href,
   children,

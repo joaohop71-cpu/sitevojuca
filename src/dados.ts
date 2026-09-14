@@ -120,13 +120,13 @@ export const CAFES: Cafe[] = [
       { rotulo: "Altitude", valor: "998 m" },
     ],
     intensidade: 3,
-    gramas: 250,
+    gramas: 300,
     formato: "Torrado em grãos · também moído",
     cor: "marrom",
     descricao:
-      "O nome é a altitude da lavoura. Doce de caramelo e rapadura, com fundo de chocolate e malte: um café de sobremesa que ainda funciona de manhã. Edição limitada, em pacote de 250 g.",
-    /* R$ 160,00 e R$ 167,60 o QUILO; o campo é o preço do pacote, de 250 g */
-    preco: { grao: 40.0, moido: 41.9 },
+      "O nome é a altitude da lavoura. Doce de caramelo e rapadura, com fundo de chocolate e malte: um café de sobremesa que ainda funciona de manhã. Edição limitada.",
+    /* R$ 160,00 e R$ 167,60 o QUILO; o campo é o preço do pacote, de 300 g */
+    preco: { grao: 48.0, moido: 50.28 },
   },
   {
     id: "herancas-2sl",

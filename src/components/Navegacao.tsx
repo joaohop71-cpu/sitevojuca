@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
+import { useResumo } from "@/carrinho";
 import { Selo } from "./base";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
-  { href: "#precos", rotulo: "Preços" },
+  { href: "#precos", rotulo: "Pedido" },
   { href: "#empresas", rotulo: "Assinatura" },
   { href: "#processo", rotulo: "Processo" },
   { href: "#sobre", rotulo: "Sobre nós" },
@@ -16,6 +17,13 @@ export default function Navegacao() {
   const [rolou, setRolou] = useState(false);
   const [ativo, setAtivo] = useState("");
   const [aberto, setAberto] = useState(false);
+  /* O botão dizia sempre "Pedir" e abria o WhatsApp no começo do funil, mesmo
+     com o pedido montado. Agora ele responde ao que existe: sem itens, leva
+     aos cafés; com itens, fecha o pedido e diz quantos são. */
+  const { pacotes, mensagem } = useResumo();
+  const temPedido = pacotes > 0;
+  const destino = temPedido ? zap(mensagem) : "#cafes";
+  const externo = temPedido;
 
   useEffect(() => {
     const onScroll = () => setRolou(window.scrollY > 40);
@@ -126,9 +134,8 @@ export default function Navegacao() {
             </a>
           ))}
           <a
-            href={zap("Olá! Quero conhecer os cafés do Vô Juca.")}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={destino}
+            {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="inline-flex shrink-0 border px-4 py-2 transition-colors"
             style={{
               ...rotulo,
@@ -139,16 +146,15 @@ export default function Navegacao() {
               color: claro ? "#2c1d14" : "#efe3cc",
             }}
           >
-            Pedir
+            {temPedido ? `Fechar pedido (${pacotes})` : "Ver os cafés"}
           </a>
         </div>
 
         {/* mobile: atalho de pedido + menu */}
         <div className="flex items-center gap-2 lg:hidden">
           <a
-            href={zap("Olá! Quero conhecer os cafés do Vô Juca.")}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={destino}
+            {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="inline-flex h-11 items-center border px-3.5 transition-colors"
             style={{
               ...rotulo,
@@ -159,7 +165,7 @@ export default function Navegacao() {
               color: claro ? "#2c1d14" : "#efe3cc",
             }}
           >
-            Pedir
+            {temPedido ? `Pedido (${pacotes})` : "Cafés"}
           </a>
           <button
             type="button"
