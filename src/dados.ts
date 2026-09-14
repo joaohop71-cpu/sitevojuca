@@ -192,18 +192,18 @@ export const MARCOS = [
 /** quem faz o quê, hoje */
 export const DUPLA = [
   {
+    nome: "João Henrique · Juca",
+    foto: "joaoHenrique",
+    papel: "Daqui para fora",
+    texto:
+      "Idealizei a marca, desenhei o rótulo, escrevi este site e cuido das vendas. Sou formado em economia e escrevi o meu trabalho de conclusão sobre café, exportação e agricultura familiar, sem imaginar que ia acabar vendendo o da minha família. Se você mandar mensagem, quem lê sou eu.",
+  },
+  {
     nome: "Fernandinho",
     foto: "fernandinho",
     papel: "Do pé à torra",
     texto:
       "Cuida da lavoura, conduz a colheita, a secagem e a torra, e assina a classificação: é classificador e degustador de café com certificado. O que chega na sua xícara passou pela mesa dele.",
-  },
-  {
-    nome: "João Henrique · Juca",
-    foto: "joaoHenrique",
-    papel: "Daqui para fora",
-    texto:
-      "Respondo o WhatsApp, escrevo o site, cuido das vendas e das redes. Se você mandar mensagem, quem lê sou eu.",
   },
 ];
 

@@ -75,13 +75,28 @@ export default function Sobre() {
           terreiro, do terreiro à torra. Saí apaixonado pelo processo e incomodado com uma
           coisa.
         </P>
-        {/* o parágrafo de cima termina numa pergunta aberta, e o rótulo da
-            dobra é a resposta dela: assim o clique é curiosidade, não esforço */}
-        <Dobra rotulo="o que me incomodou" className="mt-5">
+        {/* Quem abre uma dobra já decidiu que quer saber, então aqui cabe mais
+            do que caberia solto na página. */}
+        <Dobra className="mt-5">
           <P>
             Aquele era um dos melhores cafés que eu já tinha tomado, e saía dali em saca,
             para cooperativa e empresa grande, sem nome e sem rosto. Num lugar onde todo
             mundo produz café, o bom se mistura com o resto e some.
+          </P>
+          <P>
+            O incômodo não era novo, eu só não sabia que já tinha escrito sobre ele. Sou
+            formado em economia, e o meu trabalho de conclusão de curso foi justamente
+            sobre isto:{" "}
+            <em style={{ fontStyle: "italic", color: "#3a271b" }}>
+              o papel da commodity café no contexto das exportações atuais do Brasil e a
+              importância da agricultura familiar neste cenário
+            </em>
+            . Passei meses estudando por que o café brasileiro sai daqui valendo uma coisa
+            e chega na xícara valendo outra, e quem fica com a diferença.
+          </P>
+          <P>
+            A resposta que encontrei no papel eu vi acontecendo no sítio do meu tio, com o
+            café da minha própria família.
           </P>
           <p
             className="mt-6 text-[clamp(20px,2.8vw,28px)] leading-snug text-[#8c3a20]"
@@ -115,7 +130,7 @@ export default function Sobre() {
           </p>
         </blockquote>
 
-        <Dobra rotulo="como o apelido voltou" className="mt-8">
+        <Dobra className="mt-8">
           <div className="mt-5 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
             <P>
               Nasci em {MARCA.bisnetoNasc}, {MARCA.anosEntreOsJucas} anos depois dele.
@@ -160,7 +175,7 @@ export default function Sobre() {
           ))}
         </div>
 
-        <Dobra rotulo="de onde veio a lavoura" className="mt-10">
+        <Dobra className="mt-10">
           <p className="ficha mt-4 max-w-[64ch] text-[15px] leading-relaxed text-[#6b4526]">
             A plantação foi coisa do meu tio Nando, neto do Juca. Ele passou a vida no
             café, com armazém e cooperativa, e mais velho resolveu plantar. Hoje quem toca

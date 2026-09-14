@@ -232,7 +232,7 @@ export default function Processo() {
                     rolagem do palco, que é o ponto desta seção, ficava presa
                     atrás de sessenta palavras por etapa. O detalhe agora abre
                     para quem quiser. */}
-                <Dobra rotulo="como é feito" claro className="mt-5">
+                <Dobra claro className="mt-5">
                   <p className="mt-4 max-w-[46ch] text-[17px] leading-relaxed text-[#c9b79c]">
                     {e.texto}
                   </p>

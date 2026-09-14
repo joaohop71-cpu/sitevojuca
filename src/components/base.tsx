@@ -126,17 +126,19 @@ export function Rubrica({
  * altura anima pelo truque das linhas de grade, que dispensa medir em
  * JavaScript.
  *
- * O rótulo nunca é "saiba mais" genérico: ele diz o que tem lá dentro, e de
- * preferência responde a uma pergunta que o texto de cima acabou de abrir.
+ * O rótulo é sempre o mesmo, "saiba mais". Tentei antes fazer cada um dizer o
+ * que tinha lá dentro ("o que me incomodou"), e virava eco: o texto de cima
+ * abria a pergunta, o botão repetia a pergunta e o de dentro respondia. Um
+ * rótulo só, repetido, também ensina o gesto mais rápido.
  */
 export function Dobra({
-  rotulo,
+  rotulo = "saiba mais",
   fechar = "fechar",
   claro = false,
   className = "",
   children,
 }: {
-  rotulo: string;
+  rotulo?: string;
   fechar?: string;
   /** para o bloco escuro do processo */
   claro?: boolean;

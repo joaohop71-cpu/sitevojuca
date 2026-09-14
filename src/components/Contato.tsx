@@ -61,52 +61,6 @@ export default function Contato() {
               </div>
             </dl>
 
-            <div className="mt-6 grid items-start gap-5 sm:grid-cols-[1.15fr_1fr] sm:gap-6">
-              <div>
-                <div className="moldura p-2.5" data-print-hide>
-                  <iframe
-                    title={`Mapa: ${MARCA.sitio}`}
-                    src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=16&output=embed&t=h`}
-                    className="block h-[210px] w-full sm:h-[240px]"
-                    style={{ border: 0, filter: "sepia(0.4) saturate(0.65) contrast(1.05)" }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <a
-                  href={MARCA.mapaLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-sublinhado ficha mt-3 inline-block text-[14px] uppercase tracking-[0.1em] text-[#6b4526]"
-                  data-print-hide
-                >
-                  Ver no Google Maps →
-                </a>
-              </div>
-
-              <div
-                className="border border-[rgba(58,39,27,0.3)] bg-[rgba(255,250,240,0.6)] p-5"
-                data-print-hide
-              >
-                <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">
-                  Venha nos conhecer!
-                </h3>
-                <p className="mt-2.5 text-[15.5px] leading-relaxed text-[#5c4635]">
-                  A visita é combinada antes, para eu conseguir receber e mostrar a
-                  lavoura, a torra e o resto com calma.
-                </p>
-                <div className="mt-5">
-                  <Botao
-                    href={zap(
-                      "Olá! Gostaria de conhecer as instalações do Vô Juca, em Santa Rita do Sapucaí. Quando seria possível uma visita?"
-                    )}
-                    largo
-                  >
-                    Agendar visita
-                  </Botao>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div>
@@ -130,6 +84,73 @@ export default function Contato() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* O mapa saiu da coluna estreita: ali ele tinha 250 px de largura e
+            era um selo de endereço. Em linha própria, com a largura da seção,
+            vira o que de fato é, a lavoura vista do alto. O convite para a
+            visita anda ao lado dele, que é onde a vontade aparece. */}
+        <div className="reveal mt-12 grid gap-8 lg:grid-cols-[1.7fr_1fr] lg:items-end">
+          {/* O MAPA
+              Ele levava o mesmo filtro sépia das fotos, para assentar no
+              papel. Só que aqui a imagem não é ilustração: é a lavoura vista
+              de cima, de verdade, e o sépia justamente apagava o que ela tem
+              de interessante, que é o contraste entre o verde dos renques e a
+              terra. Sai o filtro, e a imagem quase dobra de altura: é o único
+              lugar do site onde dá para ver o tamanho da coisa. */}
+          <div className="mt-8" data-print-hide>
+            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
+              <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">
+                A lavoura vista de cima
+              </h3>
+              <a
+                href={MARCA.mapaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-sublinhado ficha text-[14px] uppercase tracking-[0.1em] text-[#6b4526]"
+              >
+                Abrir no Google Maps →
+              </a>
+            </div>
+            <p className="ficha mt-2 max-w-[62ch] text-[14.5px] leading-relaxed text-[#75634f]">
+              Imagem de satélite, sem filtro nenhum. O marcador está na entrada do
+              sítio; arraste o mapa para subir a estrada de terra e ver a serra em
+              volta.
+            </p>
+            <div className="moldura mt-4 p-2.5">
+              <iframe
+                title={`Mapa: ${MARCA.sitio}`}
+                src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=16&output=embed&t=h`}
+                className="block h-[300px] w-full sm:h-[420px]"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
+
+            <div
+              className="border border-[rgba(58,39,27,0.3)] bg-[rgba(255,250,240,0.6)] p-5"
+              data-print-hide
+            >
+              <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">
+                Venha nos conhecer!
+              </h3>
+              <p className="mt-2.5 text-[15.5px] leading-relaxed text-[#5c4635]">
+                A visita é combinada antes, para eu conseguir receber e mostrar a
+                lavoura, a torra e o resto com calma.
+              </p>
+              <div className="mt-5">
+                <Botao
+                  href={zap(
+                    "Olá! Gostaria de conhecer as instalações do Vô Juca, em Santa Rita do Sapucaí. Quando seria possível uma visita?"
+                  )}
+                  largo
+                >
+                  Agendar visita
+                </Botao>
+              </div>
+            </div>
         </div>
       </Faixa>
 
