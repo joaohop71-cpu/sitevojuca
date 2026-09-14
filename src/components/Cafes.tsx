@@ -8,6 +8,19 @@ import { Contador, Faixa, Rubrica, Visor } from "./base";
    874 x 1854 nos cinco produtos, faixa de 22,006% ancorada no pé */
 const ARTE = { largura: 874, altura: 1854, faixa: 22.006 };
 
+/* A arte traz 131 px em branco entre a última linha de texto (y = 1309) e o
+   divisor que abre a faixa do preço (y = 1440). Num cartão de 550 px isso são
+   oitenta pixels de nada no meio da peça.
+   Em vez de pedir outro arquivo, a arte é costurada: mostro dela o pedaço de
+   cima até 1330 e retomo em 1430, logo antes do divisor. O corte cai no vão,
+   onde só existe papel e as duas linhas verticais do quadro, que são retas e
+   continuam sem emenda visível. Sobram 40 px de respiro em volta do divisor. */
+const CORTE = 1330;
+const RETOMA = 1430;
+const ALTURA_COSTURADA = ARTE.altura - (RETOMA - CORTE);
+/* a faixa, agora medida na peça mais curta */
+const FAIXA_COSTURADA = ((ARTE.altura - 1440) / ALTURA_COSTURADA) * 100;
+
 /* a arte sem a faixa, que é a peça como vai impressa na embalagem: é ela que
    o visor mostra. A do cartão terminaria num terço de papel em branco, que é
    o espaço que o preço ocupa na página e que ali não existe. */
@@ -153,32 +166,69 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
         className="rasgo-lados"
         style={{ background: "rgba(255,250,240,0.6)", padding: "20px 16px" }}
       >
-        {/* a caixa de referência é a IMAGEM, e não o cartão: o cartão tem uma
-            folga de papel em volta, e a faixa medida contra ele saía uns
-            quatro pixels mais larga que a moldura impressa de cada lado */}
-        <div className="relative">
+        {/* A caixa de referência é a ARTE, e não o cartão: o cartão tem uma
+            folga de papel em volta, e a faixa medida contra ele saía uns quatro
+            pixels mais larga que a moldura impressa de cada lado.
+            A altura é a da peça costurada, sem o vão em branco, e é ela que dá
+            às duas metades uma porcentagem contra a qual se medir. */}
+        <div
+          className="relative"
+          style={{ aspectRatio: `${ARTE.largura} / ${ALTURA_COSTURADA}` }}
+        >
+      {/* a altura precisa descer até o botão: com ele em altura automática, a
+          porcentagem das duas metades não tem contra o que se medir e cada uma
+          mostra a arte inteira */}
       <button
         type="button"
         onClick={aoVerRotulo}
         aria-label={`Ver o rótulo do ${nomeCheio(cafe)} em tamanho grande`}
-        className="group block w-full"
+        className="group block h-full w-full"
       >
-        <picture>
-          <source
-            type="image/webp"
-            srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
-            sizes="(min-width: 1024px) 540px, 92vw"
-          />
-          <img
-            src={`${base}_1x.png`}
-            alt={descricaoArte(cafe)}
-            width={ARTE.largura}
-            height={ARTE.altura}
-            loading="lazy"
-            decoding="async"
-            className="block w-full transition-opacity duration-200 group-hover:opacity-90"
-          />
-        </picture>
+        {/* duas metades da mesma imagem, encostadas: o navegador baixa um
+            arquivo só e o vão em branco fica de fora */}
+        <div style={{ height: `${(CORTE / ALTURA_COSTURADA) * 100}%`, overflow: "hidden" }}>
+          <picture>
+            <source
+              type="image/webp"
+              srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
+              sizes="(min-width: 1024px) 540px, 92vw"
+            />
+            <img
+              src={`${base}_1x.png`}
+              alt={descricaoArte(cafe)}
+              width={ARTE.largura}
+              height={ARTE.altura}
+              loading="lazy"
+              decoding="async"
+              className="block w-full transition-opacity duration-200 group-hover:opacity-90"
+            />
+          </picture>
+        </div>
+        <div
+          style={{
+            height: `${((ARTE.altura - RETOMA) / ALTURA_COSTURADA) * 100}%`,
+            overflow: "hidden",
+          }}
+        >
+          <picture>
+            <source
+              type="image/webp"
+              srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
+              sizes="(min-width: 1024px) 540px, 92vw"
+            />
+            <img
+              src={`${base}_1x.png`}
+              alt=""
+              aria-hidden="true"
+              width={ARTE.largura}
+              height={ARTE.altura}
+              loading="lazy"
+              decoding="async"
+              className="block w-full transition-opacity duration-200 group-hover:opacity-90"
+              style={{ marginTop: `-${(RETOMA / ARTE.largura) * 100}%` }}
+            />
+          </picture>
+        </div>
       </button>
 
       {/* a faixa reservada pela arte */}
@@ -189,7 +239,7 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
            y = 1798 de 1854. O botão ia até 12% e passava por cima delas.
            Os recuos abaixo são esses números, com uma folga: em CSS a
            porcentagem de padding conta sempre a LARGURA, inclusive embaixo. */
-        style={{ height: `${ARTE.faixa}%`, padding: "1% 7% 8%" }}
+        style={{ height: `${FAIXA_COSTURADA}%`, padding: "1% 7% 8%" }}
       >
         {semPreco ? (
           <p className="ficha text-center text-[#6b4526]" style={{ fontSize: "min(3.2cqw, 15px)" }}>

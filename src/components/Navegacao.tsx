@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
-import { Selo } from "./base";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
@@ -95,15 +94,13 @@ export default function Navegacao() {
         <a
           href="#topo"
           onClick={() => setAberto(false)}
-          className="flex shrink-0 items-center gap-2.5"
+          className="flex shrink-0 items-center"
         >
-          <Selo
-            rotulo={MARCA.nome}
-            cor={claro ? "#efe3cc" : "#3a271b"}
-            className="h-11 w-11 sm:h-[50px] sm:w-[50px]"
-          />
+          {/* O selo saiu daqui. Ele aparece grande na capa e é o ícone da aba;
+              no cabeçalho, a 44 px, virava um borrão de traços finos ao lado de
+              um nome pequeno. Sem ele, o nome ocupa o lugar dos dois. */}
           <span
-            className="text-[17px] leading-none transition-colors duration-300 sm:text-[18px]"
+            className="text-[26px] leading-none transition-colors duration-300 sm:text-[30px]"
             style={{
               fontFamily: "Fraunces, Georgia, serif",
               fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 24',
