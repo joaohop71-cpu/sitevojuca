@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { jucaCavalo, jucaEstudio, jucaLinho, jucaRetratoSelo } from "@/imagens";
 import { MARCA } from "@/dados";
 
@@ -60,9 +60,17 @@ export default function Arquivo() {
   /* O painel guarda o último retrato aberto mesmo depois de fechado: assim o
      texto não some no meio da animação de fechar, e com nada selecionado o
      que fica no HTML é história de verdade, não um par de colchetes vazios. */
-  const ultimo = useRef(0);
-  if (aberta !== null) ultimo.current = aberta;
-  const atual = RETRATOS[aberta ?? ultimo.current];
+  const [ultimo, setUltimo] = useState(0);
+  const atual = RETRATOS[aberta ?? ultimo];
+
+  function escolher(i: number) {
+    if (aberta === i) {
+      setAberta(null);
+      return;
+    }
+    setAberta(i);
+    setUltimo(i);
+  }
 
   return (
     <div>
@@ -86,7 +94,7 @@ export default function Arquivo() {
             >
               <button
                 type="button"
-                onClick={() => setAberta(ativo ? null : i)}
+                onClick={() => escolher(i)}
                 aria-expanded={ativo}
                 aria-controls="arquivo-historia"
                 className="block w-full text-left transition-opacity"
