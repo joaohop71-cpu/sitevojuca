@@ -91,9 +91,13 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
       style={{ containerType: "inline-size", scrollMarginTop: 96 }}
     >
       <div
-        className="rasgo-lados relative"
+        className="rasgo-lados"
         style={{ background: "rgba(255,250,240,0.6)", padding: "20px 16px" }}
       >
+        {/* a caixa de referência é a IMAGEM, e não o cartão: o cartão tem uma
+            folga de papel em volta, e a faixa medida contra ele saía uns
+            quatro pixels mais larga que a moldura impressa de cada lado */}
+        <div className="relative">
       <button
         type="button"
         onClick={aoVerRotulo}
@@ -121,7 +125,12 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
       {/* a faixa reservada pela arte */}
       <div
         className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center"
-        style={{ height: `${ARTE.faixa}%`, padding: "0 12% 2%" }}
+        /* A moldura impressa não é a borda da imagem: medindo o arquivo, as
+           duas linhas do quadro caem em x = 55 e 818 de 874, e as de baixo em
+           y = 1798 de 1854. O botão ia até 12% e passava por cima delas.
+           Os recuos abaixo são esses números, com uma folga: em CSS a
+           porcentagem de padding conta sempre a LARGURA, inclusive embaixo. */
+        style={{ height: `${ARTE.faixa}%`, padding: "1% 8% 10%" }}
       >
         {semPreco ? (
           <p className="ficha text-center text-[#6b4526]" style={{ fontSize: "min(3.2cqw, 15px)" }}>
@@ -165,6 +174,7 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
           </a>
         </div>
       </div>
+        </div>
       </div>
     </article>
   );
