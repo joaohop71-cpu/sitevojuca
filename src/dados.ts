@@ -20,6 +20,11 @@ export const MARCA = {
   mapaLink:
     "https://www.google.com/maps/place/S%C3%ADtios+Dois+Coqueiros+e+JR/@-22.2100134,-45.6209657,847m/data=!3m1!1e3!4m6!3m5!1s0x94cba1004ad44a0f:0xbab140c06250648f!8m2!3d-22.2098652!4d-45.6187367!16s%2Fg%2F11n3zp72d7",
   safra: "2025 / 2026",
+  tcc: {
+    titulo:
+      "O papel da commodity café no contexto das exportações atuais do Brasil e a importância da agricultura familiar neste cenário",
+    link: "https://repositorio.ufsc.br/bitstream/handle/123456789/274276/Monografia%20-%20Jo%C3%A3o%20Henrique%20Pinto%20-%20V.%20Final%20%281%29.pdf?sequence=1",
+  },
 };
 
 export function zap(mensagem: string) {
@@ -196,7 +201,7 @@ export const DUPLA = [
     foto: "joaoHenrique",
     papel: "Daqui para fora",
     texto:
-      "Idealizei a marca, desenhei o rótulo, escrevi este site e cuido das vendas. Sou formado em economia e escrevi o meu trabalho de conclusão sobre café, exportação e agricultura familiar, sem imaginar que ia acabar vendendo o da minha família. Se você mandar mensagem, quem lê sou eu.",
+      "Idealizei a marca, desenhei o rótulo, escrevi este site e cuido das vendas. Na adolescência os amigos começaram a me chamar de Juca, por coincidência, sem saber que tinha existido um antes de mim. Se você mandar mensagem, quem lê sou eu.",
   },
   {
     nome: "Fernandinho",
@@ -235,9 +240,9 @@ export const ETAPAS = [
   {
     n: "04",
     nome: "Torra",
-    chamada: "Na máquina do bisavô",
+    chamada: "Numa máquina do tempo dele",
     texto:
-      "Feita à mão, em máquinas do século passado, das mesmas que rodavam no tempo do Juca. Sem programa automático: alguém acompanha, escuta e decide a hora de tirar. O padrão da casa é a torra média, que é onde este café abre mais aroma sem perder o corpo.",
+      "Feita à mão, numa torradeira do começo do século 20. Não é a máquina que o Juca usou, mas é da época dele, e funciona do mesmo jeito: sem programa automático, alguém acompanha, escuta e decide a hora de tirar. O padrão da casa é a torra média, que é onde este café abre mais aroma sem perder o corpo.",
     resumo: "Ponto escolhido no olho e no ouvido, não no botão.",
   },
   {

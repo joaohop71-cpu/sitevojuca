@@ -98,6 +98,16 @@ export default function Sobre() {
             A resposta que encontrei no papel eu vi acontecendo no sítio do meu tio, com o
             café da minha própria família.
           </P>
+          <p className="ficha mt-4 text-[14.5px]">
+            <a
+              href={MARCA.tcc.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-sublinhado uppercase tracking-[0.1em] text-[#6b4526]"
+            >
+              Ler o trabalho na íntegra (PDF, UFSC) →
+            </a>
+          </p>
           <p
             className="mt-6 text-[clamp(20px,2.8vw,28px)] leading-snug text-[#8c3a20]"
             style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
@@ -130,20 +140,6 @@ export default function Sobre() {
           </p>
         </blockquote>
 
-        <Dobra className="mt-8">
-          <div className="mt-5 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
-            <P>
-              Nasci em {MARCA.bisnetoNasc}, {MARCA.anosEntreOsJucas} anos depois dele.
-              Filho de mineiro com baiana, nascido em São Paulo, criado em Florianópolis.
-              Ninguém em casa me chamava de Juca.
-            </P>
-            <P>
-              Depois dos 18, os amigos começaram, sem saber que existiu um Juca antes de
-              mim e sem nenhuma relação com café. Descobri as duas coisas muito depois, e
-              nessa ordem.
-            </P>
-          </div>
-        </Dobra>
       </Capitulo>
 
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { jucaCavalo, jucaEstudio, jucaLinho, jucaRetratoSelo } from "@/imagens";
 import { MARCA } from "@/dados";
 
@@ -57,7 +57,12 @@ const RETRATOS: Retrato[] = [
 /** os retratos do bisavô, cada um com o seu pedaço da história */
 export default function Arquivo() {
   const [aberta, setAberta] = useState<number | null>(null);
-  const atual = aberta === null ? null : RETRATOS[aberta];
+  /* O painel guarda o último retrato aberto mesmo depois de fechado: assim o
+     texto não some no meio da animação de fechar, e com nada selecionado o
+     que fica no HTML é história de verdade, não um par de colchetes vazios. */
+  const ultimo = useRef(0);
+  if (aberta !== null) ultimo.current = aberta;
+  const atual = RETRATOS[aberta ?? ultimo.current];
 
   return (
     <div>
@@ -124,15 +129,15 @@ export default function Arquivo() {
       <div
         id="arquivo-historia"
         className="grid transition-[grid-template-rows] duration-500 ease-out"
-        style={{ gridTemplateRows: atual ? "1fr" : "0fr" }}
+        style={{ gridTemplateRows: aberta === null ? "0fr" : "1fr" }}
       >
-        <div className="overflow-hidden" inert={!atual}>
+        <div className="overflow-hidden" inert={aberta === null}>
           <div className="border-l-2 border-[#8c3a20] pl-5 pt-1 sm:pl-6">
             <p className="max-w-[58ch] text-[17px] leading-relaxed text-[#5c4635]">
-              {atual?.historia}
+              {atual.historia}
             </p>
             <p className="ficha mt-3 text-[14px] leading-relaxed text-[#75634f]">
-              {atual?.legenda} <span className="opacity-65">[{atual?.nota}]</span>
+              {atual.legenda} <span className="opacity-65">[{atual.nota}]</span>
             </p>
           </div>
         </div>
