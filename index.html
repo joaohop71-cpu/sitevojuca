@@ -28,6 +28,26 @@
          folha de papel; não existe versão escura dele para o navegador supor. -->
     <meta name="color-scheme" content="only light" />
 
+    <!-- O link do site é colado no WhatsApp, que é o canal de venda. Sem estas
+         tags ele chega lá como uma linha de texto azul, sem imagem, sem título
+         e sem descrição. A imagem é a mesma composição da capa, em 1200x630,
+         que é o formato que o WhatsApp, o Facebook e o LinkedIn recortam. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sitevojuca.vercel.app/" />
+    <meta property="og:site_name" content="Vô Juca" />
+    <meta property="og:title" content="Vô Juca, Cafés Artesanais do Sul de Minas" />
+    <meta property="og:description" content="Café 100% arábica plantado, colhido, torrado e moído na mesma propriedade, em Santa Rita do Sapucaí. Quatro gerações da mesma família." />
+    <meta property="og:image" content="https://sitevojuca.vercel.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="O selo do Vô Juca sobre a lavoura ao fim da tarde, no Sul de Minas" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vô Juca, Cafés Artesanais do Sul de Minas" />
+    <meta name="twitter:description" content="Café 100% arábica plantado, colhido, torrado e moído na mesma propriedade, em Santa Rita do Sapucaí. Quatro gerações da mesma família." />
+    <meta name="twitter:image" content="https://sitevojuca.vercel.app/og-image.jpg" />
+    <link rel="canonical" href="https://sitevojuca.vercel.app/" />
+
     <!-- As fontes vinham por @import dentro do CSS, o que obriga o navegador a
          baixar o CSS, ler, descobrir o @import e só então pedir as fontes: três
          viagens em fila antes da primeira letra. Declaradas aqui, o pedido sai

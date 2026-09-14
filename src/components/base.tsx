@@ -155,7 +155,7 @@ export function Dobra({
         onClick={() => setAberto((a) => !a)}
         aria-expanded={aberto}
         aria-controls={id}
-        className="link-sublinhado ficha inline-flex items-center gap-2 text-[14.5px] uppercase tracking-[0.1em]"
+        className="link-sublinhado ficha inline-flex items-center gap-2 py-2.5 text-[14.5px] uppercase tracking-[0.1em]"
         style={{ color: cor, borderBottomColor: `${cor}73` }}
         data-print-hide
       >

@@ -76,7 +76,7 @@ export default function Arquivo() {
     <div>
       <div className="reveal flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <h3 className="text-[clamp(22px,3vw,30px)]">O que sobrou dele</h3>
-        <span className="ficha num text-[14.5px] text-[#75634f]" data-print-hide>
+        <span className="ficha num text-[14.5px] text-[#6f5b44]" data-print-hide>
           04 retratos · toque para ler
         </span>
       </div>
@@ -144,14 +144,14 @@ export default function Arquivo() {
             <p className="max-w-[58ch] text-[17px] leading-relaxed text-[#5c4635]">
               {atual.historia}
             </p>
-            <p className="ficha mt-3 text-[14px] leading-relaxed text-[#75634f]">
+            <p className="ficha mt-3 text-[14px] leading-relaxed text-[#6f5b44]">
               {atual.legenda} <span className="opacity-65">[{atual.nota}]</span>
             </p>
           </div>
         </div>
       </div>
 
-      <p className="ficha reveal mt-6 max-w-[58ch] text-[14px] leading-relaxed text-[#75634f]">
+      <p className="ficha reveal mt-6 max-w-[58ch] text-[14px] leading-relaxed text-[#6f5b44]">
         As datas e legendas ainda estão sendo conferidas com a família.
       </p>
     </div>

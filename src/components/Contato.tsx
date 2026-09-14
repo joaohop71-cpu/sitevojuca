@@ -22,7 +22,7 @@ export default function Contato() {
           <div>
             <dl className="border-t-2 border-[#3a271b]">
               <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#75634f]">
+                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#6f5b44]">
                   WhatsApp
                 </dt>
                 <dd className="m-0">
@@ -30,7 +30,7 @@ export default function Contato() {
                     href={zap("Olá! Vim pelo site do Vô Juca.")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link-sublinhado num text-[20px]"
+                    className="link-sublinhado alvo num text-[20px]"
                     style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
                   >
                     {MARCA.whatsappVisivel}
@@ -38,13 +38,13 @@ export default function Contato() {
                 </dd>
               </div>
               <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#75634f]">
+                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#6f5b44]">
                   E-mail
                 </dt>
                 <dd className="m-0">
                   <a
                     href={`mailto:${MARCA.email}`}
-                    className="link-sublinhado break-all text-[19px]"
+                    className="link-sublinhado alvo break-all text-[19px]"
                     style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
                   >
                     {MARCA.email}
@@ -52,7 +52,7 @@ export default function Contato() {
                 </dd>
               </div>
               <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
-                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#75634f]">
+                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#6f5b44]">
                   Onde ficamos
                 </dt>
                 <dd className="ficha m-0 text-right text-[#3a271b]">
@@ -107,12 +107,12 @@ export default function Contato() {
                 href={MARCA.mapaLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link-sublinhado ficha text-[14px] uppercase tracking-[0.1em] text-[#6b4526]"
+                className="link-sublinhado alvo ficha text-[14px] uppercase tracking-[0.1em] text-[#6b4526]"
               >
                 Abrir no Google Maps →
               </a>
             </div>
-            <p className="ficha mt-2 max-w-[62ch] text-[14.5px] leading-relaxed text-[#75634f]">
+            <p className="ficha mt-2 max-w-[62ch] text-[14.5px] leading-relaxed text-[#6f5b44]">
               Imagem de satélite, sem filtro nenhum. O marcador está na entrada do
               sítio; arraste o mapa para subir a estrada de terra e ver a serra em
               volta.

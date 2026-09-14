@@ -14,8 +14,13 @@ export default function App() {
 
   return (
     <div className="relative z-10 min-h-screen">
+      {/* primeiro elemento focável da página: sem ele, quem navega por teclado
+          atravessa os oito itens do menu antes de chegar no conteúdo */}
+      <a href="#conteudo" className="pula-menu">
+        Pular para o conteúdo
+      </a>
       <Navegacao />
-      <main>
+      <main id="conteudo">
         <Capa />
         <Cafes />
         <Precos />

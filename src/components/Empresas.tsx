@@ -95,7 +95,7 @@ export default function Empresas() {
         <h3 className="mt-2 max-w-[28ch] text-[clamp(21px,2.7vw,28px)] leading-tight">
           O valor sai da conversa, e não de uma tabela
         </h3>
-        <Dobra className="mt-3">
+        <Dobra rotulo="Como eu calculo o preço" className="mt-3">
           <p className="mt-4 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
             Assinatura e fornecimento não têm um preço de prateleira porque dependem de
             três coisas: qual café, quanto por mês e com que frequência. Quem responde e

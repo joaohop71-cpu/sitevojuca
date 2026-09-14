@@ -77,7 +77,7 @@ export default function Sobre() {
         </P>
         {/* Quem abre uma dobra já decidiu que quer saber, então aqui cabe mais
             do que caberia solto na página. */}
-        <Dobra className="mt-5">
+        <Dobra rotulo="Por que a marca existe" className="mt-5">
           <P>
             Aquele era um dos melhores cafés que eu já tinha tomado, e saía dali em saca,
             para cooperativa e empresa grande, sem nome e sem rosto. Num lugar onde todo
@@ -103,7 +103,7 @@ export default function Sobre() {
               href={MARCA.tcc.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-sublinhado uppercase tracking-[0.1em] text-[#6b4526]"
+              className="link-sublinhado alvo uppercase tracking-[0.1em] text-[#6b4526]"
             >
               Ler o trabalho na íntegra (PDF, UFSC) →
             </a>
@@ -171,7 +171,7 @@ export default function Sobre() {
           ))}
         </div>
 
-        <Dobra className="mt-10">
+        <Dobra rotulo="Quem plantou a lavoura" className="mt-10">
           <p className="ficha mt-4 max-w-[64ch] text-[15px] leading-relaxed text-[#6b4526]">
             A plantação foi coisa do meu tio Nando, neto do Juca. Ele passou a vida no
             café, com armazém e cooperativa, e mais velho resolveu plantar. Hoje quem toca

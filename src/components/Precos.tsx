@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, porQuilo, zap } from "@/dados";
+import { useEffect, useMemo, useState } from "react";
+import { CAFES, PROMO, TINTA_ROTULO, brl, centavos, comDesconto, porQuilo, zap } from "@/dados";
 import { Botao, Dobra, Faixa, Rubrica } from "./base";
 
 type Linha = {
@@ -27,16 +27,67 @@ const LINHAS: Linha[] = CAFES.flatMap((c) => {
 
 
 
+const CHAVE = "vojuca:carrinho";
+const VALIDADE = 24 * 60 * 60 * 1000;
+
+/** o que estiver guardado, se ainda estiver dentro do prazo */
+function carrinhoSalvo(): Record<string, number> {
+  try {
+    const cru = localStorage.getItem(CHAVE);
+    if (!cru) return {};
+    const { itens, salvoEm } = JSON.parse(cru) as {
+      itens: Record<string, number>;
+      salvoEm: string;
+    };
+    if (Date.now() - new Date(salvoEm).getTime() > VALIDADE) {
+      localStorage.removeItem(CHAVE);
+      return {};
+    }
+    /* só as linhas que ainda existem no catálogo, e só números sãos */
+    const validas = new Set(LINHAS.map((l) => l.chave));
+    const limpo: Record<string, number> = {};
+    for (const [k, n] of Object.entries(itens ?? {}))
+      if (validas.has(k) && Number.isFinite(n) && n > 0) limpo[k] = Math.min(99, Math.floor(n));
+    return limpo;
+  } catch {
+    return {};
+  }
+}
+
 export default function Precos() {
-  const [qtd, setQtd] = useState<Record<string, number>>({});
+  const [qtd, setQtd] = useState<Record<string, number>>(carrinhoSalvo);
+
+  /* O pedido vivia só na memória: um F5, uma aba descartada em segundo plano
+     no celular, e o que a pessoa montou sumia sem aviso. Fica guardado por 24
+     horas, e não mais: depois disso o preço pode ter mudado e restaurar um
+     carrinho velho seria pior do que esvaziá-lo. */
+  useEffect(() => {
+    try {
+      const vazio = Object.values(qtd).every((n) => !n);
+      if (vazio) localStorage.removeItem(CHAVE);
+      else
+        localStorage.setItem(
+          CHAVE,
+          JSON.stringify({ itens: qtd, salvoEm: new Date().toISOString() })
+        );
+    } catch {
+      /* Safari anônimo recusa escrever; o pedido segue valendo em memória */
+    }
+  }, [qtd]);
 
   const itens = useMemo(
     () => LINHAS.filter((l) => (qtd[l.chave] ?? 0) > 0),
     [qtd]
   );
 
-  const subtotal = itens.reduce((s, l) => s + l.preco * (qtd[l.chave] ?? 0), 0);
-  const total = comDesconto(subtotal);
+  /* tudo em centavos inteiros até a hora de escrever na tela: com float, a
+     soma dos itens não fechava com o total, e a diferença de um centavo ia
+     parar na mensagem enviada */
+  const subtotalC = itens.reduce((s, l) => s + centavos(l.preco) * (qtd[l.chave] ?? 0), 0);
+  const totalC = Math.round(subtotalC * (1 - PROMO.pct));
+  const subtotal = subtotalC / 100;
+  const total = totalC / 100;
+  const descontoC = subtotalC - totalC;
   const pacotes = itens.reduce((s, l) => s + (qtd[l.chave] ?? 0), 0);
   /* os pacotes têm pesos diferentes (300 g e 500 g), então o peso vem de cada linha */
   const quilos = itens.reduce((s, l) => s + (l.gramas / 1000) * (qtd[l.chave] ?? 0), 0);
@@ -48,6 +99,10 @@ export default function Precos() {
     });
   }
 
+  /* A mensagem listava cada item com o preço já descontado e depois somava
+     tudo pelo preço cheio: quem conferisse a conta encontrava dois números
+     diferentes. Agora os itens vão pelo preço de tabela e o desconto aparece
+     uma vez, numa linha própria, que é a mesma conta do carrinho. */
   const mensagem = useMemo(() => {
     if (!itens.length) return "Olá! Quero montar um pedido dos cafés do Vô Juca.";
     const linhas = itens
@@ -55,13 +110,19 @@ export default function Precos() {
         (l) =>
           `• ${qtd[l.chave]}x ${l.nome} ${l.gramas} g, ${
             l.moagem === "grao" ? "em grão" : "moído"
-          } (${brl(comDesconto(l.preco))} cada)`
+          } · ${brl(l.preco)} cada`
       )
       .join("\n");
-    return `Olá! Quero fazer este pedido:\n\n${linhas}\n\nSubtotal: ${brl(
-      subtotal
-    )}\nCom ${PROMO.rotulo}: ${brl(total)}`;
-  }, [itens, qtd, subtotal, total]);
+    return [
+      "Olá! Quero fazer este pedido:",
+      "",
+      linhas,
+      "",
+      `Subtotal (preço de tabela): ${brl(subtotal)}`,
+      `${PROMO.chamada}: -${brl(descontoC / 100)}`,
+      `Total: ${brl(total)}`,
+    ].join("\n");
+  }, [itens, qtd, subtotal, total, descontoC]);
 
   return (
     /* rasgo em cima: a emenda com a seção dos cafés era um corte reto, o único
@@ -88,7 +149,8 @@ export default function Precos() {
           {PROMO.rotulo}
         </span>
         <span className="ficha text-[15px] uppercase tracking-[0.14em]">
-          em todos os cafés, já aplicado nos preços abaixo
+          Preço de lançamento, por tempo limitado, em todos os cafés e já
+          aplicado na tabela abaixo
         </span>
       </div>
 
@@ -118,7 +180,7 @@ export default function Precos() {
                         Santa. Na tabela, é o que liga a linha ao pacote. */}
                     <a
                       href={`#${c.id}`}
-                      className="link-sublinhado text-[22px]"
+                      className="link-sublinhado alvo text-[22px]"
                       style={{
                         fontFamily: "Fraunces, Georgia, serif",
                         fontWeight: 600,
@@ -128,7 +190,7 @@ export default function Precos() {
                     >
                       {rotuloCafe(c)}
                     </a>
-                    <span className="ficha text-[14px] uppercase tracking-[0.12em] text-[#75634f]">
+                    <span className="ficha text-[14px] uppercase tracking-[0.12em] text-[#6f5b44]">
                       {c.tarja} · {c.gramas} g
                     </span>
                   </div>
@@ -143,13 +205,13 @@ export default function Precos() {
                           <span className="ficha text-[#6b4526]">
                             {l.moagem === "grao" ? "Em grão" : "Moído"}
                           </span>
-                          <span className="ficha num text-[14px] text-[#8a7358] line-through">
+                          <span className="ficha num text-[14px] text-[#6f5b44] line-through">
                             {brl(l.preco)}
                           </span>
                           <span className="num text-[19px]" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
                             {brl(comDesconto(l.preco))}
                           </span>
-                          <span className="ficha num text-[14px] text-[#75634f]">
+                          <span className="ficha num text-[14px] text-[#6f5b44]">
                             {porQuilo(comDesconto(l.preco), l.gramas)}/kg
                           </span>
                         </div>
@@ -181,7 +243,7 @@ export default function Precos() {
                       </div>
                     ))}
                     {c.preco.grao === null && (
-                      <span className="ficha text-[14px] text-[#75634f]">
+                      <span className="ficha text-[14px] text-[#6f5b44]">
                         Esta linha sai só moída.
                       </span>
                     )}
@@ -201,7 +263,7 @@ export default function Precos() {
               O ponto pode ser o seu
             </h3>
 
-            <Dobra rotulo="saiba mais" className="mt-3">
+            <Dobra rotulo="Como funciona a torra sob medida" className="mt-3">
               <p className="mt-4 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
                 Quem torra e mói somos nós, aqui mesmo, então o ponto não precisa ser
                 sempre o mesmo. Se você gosta da xícara mais clara e ácida, ou de uma
@@ -259,28 +321,28 @@ export default function Precos() {
                   >
                     <span className="ficha text-[15.5px] text-[#3a271b]">
                       <span className="num">{qtd[l.chave]}×</span> {l.nome}{" "}
-                      <span className="text-[#75634f]">
+                      <span className="text-[#6f5b44]">
                         {l.moagem === "grao" ? "grão" : "moído"}
                       </span>
                     </span>
                     <span className="ficha num shrink-0">
-                      {brl(comDesconto(l.preco) * (qtd[l.chave] ?? 0))}
+                      {brl((centavos(comDesconto(l.preco)) * (qtd[l.chave] ?? 0)) / 100)}
                     </span>
                   </div>
                 ))}
 
                 <div className="mt-4 flex items-baseline justify-between border-t-2 border-[#3a271b] pt-3">
                   <div>
-                    <div className="ficha text-[14px] uppercase tracking-[0.14em] text-[#75634f]">
+                    <div className="ficha text-[14px] uppercase tracking-[0.14em] text-[#6f5b44]">
                       Total
                     </div>
-                    <div className="ficha num text-[14px] text-[#75634f]">
+                    <div className="ficha num text-[14px] text-[#6f5b44]">
                       {pacotes} {pacotes === 1 ? "pacote" : "pacotes"} ·{" "}
                       {quilos.toLocaleString("pt-BR", { maximumFractionDigits: 2 })} kg
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="ficha num text-[15.5px] text-[#75634f] line-through">
+                    <div className="ficha num text-[15.5px] text-[#6f5b44] line-through">
                       {brl(subtotal)}
                     </div>
                     <div
@@ -304,7 +366,7 @@ export default function Precos() {
               </Botao>
             </div>
 
-            <p className="ficha mt-4 text-[14px] leading-relaxed text-[#75634f]">
+            <p className="ficha mt-4 text-[14px] leading-relaxed text-[#6f5b44]">
               O frete é combinado na conversa. Para revenda e volume maior, o preço muda;
               pergunte.
             </p>

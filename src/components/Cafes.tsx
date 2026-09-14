@@ -65,10 +65,10 @@ function RotuloGrande({ cafe }: { cafe: Cafe }) {
 function Preco({ rotulo, valor }: { rotulo: string; valor: number }) {
   return (
     <div className="text-center">
-      <div className="ficha uppercase tracking-[0.16em] text-[#75634f]" style={{ fontSize: "min(2.5cqw, 12px)" }}>
+      <div className="ficha uppercase tracking-[0.16em] text-[#6f5b44]" style={{ fontSize: "min(2.5cqw, 12px)" }}>
         {rotulo}
       </div>
-      <div className="ficha num text-[#8a7358] line-through" style={{ fontSize: "min(2.7cqw, 13px)" }}>
+      <div className="ficha num text-[#6f5b44] line-through" style={{ fontSize: "min(2.7cqw, 13px)" }}>
         {brl(valor)}
       </div>
       <div
@@ -161,11 +161,20 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
           </p>
         ) : (
           <>
+            {/* as notas ficavam só no alt da imagem e no rótulo ampliado, e os
+                dois Heranças, que têm mesmo peso e mesmo preço, ficavam
+                indistinguíveis pelo cartão */}
             <div
-              className="ficha uppercase tracking-[0.16em]"
-              style={{ color: cor, fontSize: "min(2.6cqw, 12.5px)" }}
+              className="ficha uppercase tracking-[0.1em] text-[#3a271b]"
+              style={{ fontSize: "min(2.7cqw, 13px)" }}
             >
-              {PROMO.rotulo} · {cafe.gramas} g
+              {cafe.notas.join(" · ")}
+            </div>
+            <div
+              className="ficha mt-[1cqw] uppercase tracking-[0.14em]"
+              style={{ color: cor, fontSize: "min(2.5cqw, 12px)" }}
+            >
+              {PROMO.rotulo} · {PROMO.prazo} · {cafe.gramas} g
             </div>
             <div className="mt-[1.5cqw] flex items-end justify-center gap-[7cqw]">
               {cafe.preco.grao !== null && (
@@ -186,8 +195,11 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
               fontFamily: '"Courier Prime", monospace',
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              fontSize: "min(3cqw, 14px)",
-              padding: "min(2.4cqw, 12px) 0",
+              /* piso de 13px e recuo fixo: com min() puro o CTA mais
+                 importante da página caía para nove pixels no celular, e o
+                 alvo de toque ficava abaixo dos 44 px */
+              fontSize: "clamp(13px, 3cqw, 14px)",
+              padding: "14px 0",
               background: cor,
               borderColor: cor,
               color: "#f2e7d3",
@@ -214,7 +226,7 @@ export default function Cafes() {
 
       <div className="reveal mt-6">
         <h2 className="max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
-          Quatro rótulos, uma lavoura só
+          Cinco rótulos, uma lavoura só
         </h2>
         <p className="mt-4 max-w-[58ch] text-[#5c4635]">
           Todos vêm do mesmo talhão. O que muda é a seleção do grão, o ponto da torra e

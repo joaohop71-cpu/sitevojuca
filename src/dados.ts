@@ -121,7 +121,7 @@ export const CAFES: Cafe[] = [
     ],
     intensidade: 3,
     gramas: 250,
-    formato: "Torrado em grãos · também em pó",
+    formato: "Torrado em grãos · também moído",
     cor: "marrom",
     descricao:
       "O nome é a altitude da lavoura. Doce de caramelo e rapadura, com fundo de chocolate e malte: um café de sobremesa que ainda funciona de manhã. Edição limitada, em pacote de 250 g.",
@@ -288,12 +288,24 @@ export const ETAPAS = [
 export const PROMO = {
   pct: 0.3,
   rotulo: "30% off",
+  /* sem data inventada: o que se promete é que acaba, não quando */
+  prazo: "por tempo limitado",
   chamada: "30% de desconto em todos os cafés",
 };
 
-/** o preço já com a promoção aplicada */
+/**
+ * O preço já com a promoção aplicada.
+ *
+ * Em centavos inteiros, e não em reais com vírgula: somar float de dinheiro
+ * é como a conta do pedido passou a não fechar com a soma dos itens. Aqui o
+ * arredondamento acontece uma vez, num lugar só.
+ */
+export function centavos(v: number) {
+  return Math.round(v * 100);
+}
+
 export function comDesconto(v: number) {
-  return v * (1 - PROMO.pct);
+  return Math.round(centavos(v) * (1 - PROMO.pct)) / 100;
 }
 
 export const SELOS = [

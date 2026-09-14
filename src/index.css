@@ -66,7 +66,17 @@
   }
 
   ::selection { background: rgb(140 58 32 / 0.2); }
-  :focus-visible { outline: 2px solid #8c3a20; outline-offset: 3px; }
+  /* o foco tem de aparecer em tudo que se opera pelo teclado, e nao só no que
+     o navegador decide por conta */
+  :focus-visible,
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid #8c3a20;
+    outline-offset: 3px;
+  }
   img { display: block; max-width: 100%; }
 
   /* toque: sem flash cinza do webkit e sem atraso de 300 ms */
@@ -316,9 +326,38 @@
     box-shadow: 3px 3px rgb(58 39 27 / 0.07);
   }
 
-  /* aparece ao rolar e fica — a classe .vis e' adicionada uma unica vez */
+  /* Alvo de toque: o dedo não acerta um link de 25 px de altura. A letra
+     continua do tamanho que era; o que cresce é só a área que responde ao
+     toque, por recuo vertical, até os 44 px que a norma pede. */
+  .alvo {
+    display: inline-block;
+    padding-block: 10px;
+  }
+
+  /* o atalho de teclado que pula o menu: invisível até receber foco */
+  .pula-menu {
+    position: fixed;
+    top: -60px;
+    left: 8px;
+    z-index: 200;
+    background: #3a271b;
+    color: #efe3cc;
+    padding: 10px 18px;
+    font-family: "Courier Prime", monospace;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: top 0.15s ease-out;
+  }
+  .pula-menu:focus { top: 8px; }
+
+  /* Aparece ao rolar e fica; a classe .vis e' adicionada uma unica vez.
+     O ponto de partida nao e' invisivel: era opacidade zero, e aí bastava o
+     observador nao disparar (uma âncora que salta direto para a seção, o
+     JavaScript travando um instante) para o bloco ficar em branco. Começando
+     em 0,6 o movimento continua sendo percebido e o texto nunca some. */
   .reveal {
-    opacity: 0;
+    opacity: 0.6;
     transform: translateY(14px);
     transition: opacity 0.7s ease-out, transform 0.7s ease-out;
   }

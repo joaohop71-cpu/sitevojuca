@@ -141,7 +141,7 @@ export default function Galeria() {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <h3 className="text-[clamp(22px,3vw,30px)]">A propriedade, sem produção</h3>
-        <span className="ficha num text-[14.5px] text-[#75634f]">
+        <span className="ficha num text-[14.5px] text-[#6f5b44]">
           {String(FOTOS.length).padStart(2, "0")} imagens · toque para ampliar
         </span>
       </div>
@@ -169,11 +169,11 @@ export default function Galeria() {
             </button>
             <figcaption className="mt-2 flex items-baseline justify-between gap-3">
               <span className="ficha text-[15px] text-[#3a271b]">{f.legenda}</span>
-              <span className="ficha num shrink-0 text-[13.5px] text-[#75634f]">
+              <span className="ficha num shrink-0 text-[13.5px] text-[#6f5b44]">
                 {String(i + 1).padStart(2, "0")}
               </span>
             </figcaption>
-            <p className="ficha mt-0.5 text-[14px] leading-snug text-[#75634f]">{f.ficha}</p>
+            <p className="ficha mt-0.5 text-[14px] leading-snug text-[#6f5b44]">{f.ficha}</p>
           </figure>
         ))}
       </div>

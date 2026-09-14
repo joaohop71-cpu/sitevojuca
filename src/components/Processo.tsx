@@ -137,7 +137,7 @@ export default function Processo() {
                 }
                 aria-current={i === ativa ? "step" : undefined}
                 aria-label={`Ir para a etapa ${e.n}, ${e.nome}`}
-                className="group flex-1 pb-1 pt-2 text-left transition-opacity"
+                className="group flex-1 pb-2 pt-3 text-left transition-opacity"
                 style={{ opacity: i === ativa ? 1 : 0.42 }}
               >
                 <span
