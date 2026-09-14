@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { CAFES, MARCA, TINTA_ROTULO, brl, porQuilo } from "@/dados";
+import { CAFES, TINTA_ROTULO, brl, porQuilo } from "@/dados";
 import type { Cafe } from "@/dados";
-import { Botao, Faixa, Rubrica, Selo, Visor } from "./base";
+import { Botao, Faixa, Rubrica, Visor } from "./base";
 
 /** altura da arte vertical — as Heranças têm a linha do lote e ficam mais altas */
 const ALTURA_VERTICAL: Record<string, number> = {
@@ -10,6 +10,9 @@ const ALTURA_VERTICAL: Record<string, number> = {
   herancas_2sl: 1446,
   herancas_24137: 1446,
 };
+
+/** a mais alta das quatro artes: é ela que dá a caixa comum dos cartões */
+const ALTURA_MAIOR = Math.max(...Object.values(ALTURA_VERTICAL));
 
 /** nome cheio: as duas Heranças só se distinguem pelo lote */
 function nomeCheio(c: Cafe) {
@@ -63,52 +66,6 @@ function FioLosango({ cor }: { cor: string }) {
   );
 }
 
-/** as marcas de corte nos quatro cantos, como na prova de impressão */
-function Cantos({ cor }: { cor: string }) {
-  const lados = [
-    "left-0 top-0 border-l border-t",
-    "right-0 top-0 border-r border-t",
-    "left-0 bottom-0 border-l border-b",
-    "right-0 bottom-0 border-r border-b",
-  ];
-  return (
-    <>
-      {lados.map((l) => (
-        <span
-          key={l}
-          aria-hidden="true"
-          className={`pointer-events-none absolute h-3 w-3 ${l}`}
-          style={{ borderColor: cor }}
-        />
-      ))}
-    </>
-  );
-}
-
-/** os cinco quadradinhos de intensidade, na tinta da linha */
-function Intensidade({ n, cor }: { n: number; cor: string }) {
-  return (
-    <div className="flex items-center justify-center gap-2.5">
-      <span className="ficha text-[12.5px] uppercase tracking-[0.16em] text-[#75634f]">
-        Intensidade
-      </span>
-      <span className="flex gap-[3px]" role="img" aria-label={`${n} de 5`}>
-        {[1, 2, 3, 4, 5].map((i) => (
-          <span
-            key={i}
-            aria-hidden="true"
-            className="block h-[9px] w-[9px] rotate-45"
-            style={{
-              background: i <= n ? cor : "transparent",
-              border: `1px solid ${i <= n ? cor : "rgba(58,39,27,0.35)"}`,
-            }}
-          />
-        ))}
-      </span>
-    </div>
-  );
-}
-
 /** uma das duas colunas de preço: a moagem, o valor do pacote e o preço por quilo */
 function Preco({
   rotulo,
@@ -142,171 +99,102 @@ function Preco({
 }
 
 /**
- * O cartão de um café, desenhado como o rótulo e não como ficha de loja.
+ * O rótulo, com o preço e os botões no pé, dentro da mesma moldura.
  *
- * A primeira versão disto era uma tabela alinhada à esquerda: comparava bem e
- * não parecia nada. O que faz o rótulo ser o rótulo não é a informação, é a
- * composição, e ela dá para reproduzir em texto vivo: a moldura com as marcas
- * de corte, a tarja e a safra na cabeça, as linhas de qualificação em caixa
- * alta, o brasão centrado, o nome grande, a chamada em itálico, os fios com
- * losango e a ficha com os pontinhos levando o olho até o valor.
+ * Tentei substituir a arte por uma composição em texto e não era a mesma
+ * coisa: o rótulo é desenho, e desenho não se reescreve em CSS. O que estava
+ * errado antes não era a arte, era a largura. Os quatro ocupavam a página
+ * inteira, um embaixo do outro, e aí cada um sozinho dava quase duas telas.
+ * Em duas colunas eles cabem, e dá para comparar.
  *
- * Composto assim ele continua sendo texto: alinha entre um cartão e outro,
- * muda de tamanho com a tela, se busca e não pesa download. O rótulo impresso
- * continua inteiro, a um clique.
+ * O preço e os botões ficam dentro da moldura, embaixo da arte e separados
+ * por um fio com losango, que é o divisor do próprio rótulo: lidos juntos,
+ * arte e pé viram uma peça só. O que é preço e o que é botão continua sendo
+ * texto vivo, porque preço muda e imagem de botão ninguém clica.
  */
 function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) {
   const cor = TINTA_ROTULO[cafe.cor];
   const soMoido = cafe.preco.grao === null;
+  const base = `/rotulos/rotulo_${cafe.banner}`;
+  const altura = ALTURA_VERTICAL[cafe.banner] ?? 1350;
 
   return (
     <article
       id={cafe.id}
-      className="reveal relative flex flex-col p-3 sm:p-5"
-      style={{ background: "rgba(255,250,240,0.55)", scrollMarginTop: 96 }}
+      className="reveal flex flex-col p-3 sm:p-4"
+      style={{
+        background: "rgba(255,250,240,0.55)",
+        border: `1px solid ${cor}4d`,
+        scrollMarginTop: 96,
+      }}
     >
-      <Cantos cor={cor} />
-
-      {/* a moldura de dentro, como a que é impressa no papel */}
-      <div
-        className="flex flex-1 flex-col px-4 py-5 text-center sm:px-7 sm:py-7"
-        style={{ border: `1px solid ${cor}59` }}
+      {/* a arte, do jeito que vai impressa. Clicar abre ela grande, que é onde
+          a letra miúda do rótulo se lê. */}
+      <button
+        type="button"
+        onClick={aoVerRotulo}
+        aria-label={`Ver o rótulo do ${nomeCheio(cafe)} em tamanho grande`}
+        className="group block w-full"
       >
-        <div className="flex items-baseline justify-between gap-3">
-          <span className="ficha num text-[11.5px] uppercase tracking-[0.16em] text-[#75634f]">
-            Safra {MARCA.safra}
-          </span>
-          <span
-            className="ficha text-[11.5px] uppercase tracking-[0.16em]"
-            style={{ color: cor }}
-          >
-            {cafe.tarja}
-          </span>
-        </div>
-
-        <div className="mt-4 space-y-1 sm:mt-5">
-          {cafe.qualificacao.map((q) => (
-            <div
-              key={q}
-              className="ficha text-[12.5px] uppercase leading-snug tracking-[0.14em] text-[#6b4526]"
-            >
-              {q}
-            </div>
-          ))}
-        </div>
-
-        {/* o brasão, na tinta da linha. É aqui que entra o emblema próprio de
-            cada café, quando houver: o lugar já está reservado e centrado. */}
-        <Selo
-          cor={cor}
-          className="mx-auto mt-4 h-[68px] w-[68px] sm:mt-5 sm:h-[96px] sm:w-[96px]"
-        />
-
-        <h3
-          className="mt-4 text-[clamp(27px,4.6vw,42px)] uppercase leading-[0.95] sm:mt-5"
-          style={{ color: cor, letterSpacing: "0.01em" }}
-        >
-          {cafe.nome}
-        </h3>
-        {/* Rótulo impresso se compõe numa grade fixa, e é isso que faz dois
-            deles lado a lado parecerem irmãos. Aqui a linha do lote e a da
-            chamada guardam o lugar mesmo quando têm menos texto: sem isso, o
-            cartão sem lote sobe cinquenta pixels e nenhuma ficha bate com a
-            do vizinho. */}
+        {/* As Heranças são mais altas que as outras duas, porque trazem a linha
+            do lote. Lado a lado, isso deixava sessenta pixels de vão morto no
+            pé dos cartões vizinhos. Aqui todos ocupam a caixa da arte mais
+            alta e a menor se centra dentro dela: como o fundo do rótulo é
+            transparente, o que sobra vira margem de papel e não se vê, e os
+            quatro pés ficam na mesma linha. */}
         <div
-          className="ficha num mt-2 text-[15px] tracking-[0.4em]"
-          style={{ color: cor }}
+          className="relative w-full"
+          style={{ aspectRatio: `874 / ${ALTURA_MAIOR}` }}
         >
-          {cafe.lote ?? "\u00a0"}
+          <picture>
+            <source
+              type="image/webp"
+              srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
+              sizes="(min-width: 1024px) 540px, 92vw"
+            />
+            <img
+              src={`${base}_1x.png`}
+              alt={descricaoArte(cafe)}
+              width={874}
+              height={altura}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-contain transition-opacity duration-200 group-hover:opacity-90"
+            />
+          </picture>
         </div>
+      </button>
 
-        <p
-          className="mx-auto mt-3 flex max-w-[30ch] items-start justify-center text-[16.5px] leading-snug text-[#6b4526]"
-          style={{
-            fontFamily: "Fraunces, Georgia, serif",
-            fontStyle: "italic",
-            minHeight: "2.75em",
-          }}
-        >
-          {cafe.chamada}
-        </p>
+      {/* o pé: preço e pedido, dentro da mesma moldura da arte */}
+      <div className="mt-3 px-3 pb-2 sm:px-5">
+        <FioLosango cor={cor} />
 
-        <div className="mt-5 sm:mt-6">
-          <FioLosango cor={cor} />
-        </div>
-
-        <div className="ficha mt-4 text-[14px] uppercase leading-snug tracking-[0.1em] text-[#3a271b]">
-          {cafe.notas.join(" · ")}
-        </div>
-        <div className="mt-3">
-          <Intensidade n={cafe.intensidade} cor={cor} />
-        </div>
-
-        <div className="mt-4">
-          <FioLosango cor={cor} />
-        </div>
-
-        {/* a ficha com os pontinhos levando o rótulo até o valor, como no papel;
-            os mesmos seis campos na mesma ordem nos quatro cartões, que é o que
-            deixa comparar um com o outro */}
-        <dl className="mt-4 grid gap-x-7 gap-y-1 text-left sm:grid-cols-2">
-          {cafe.fichas.map((f) => (
-            <div key={f.rotulo} className="flex items-baseline gap-1.5">
-              <dt className="ficha shrink-0 text-[12px] uppercase tracking-[0.1em] text-[#75634f]">
-                {f.rotulo}
-              </dt>
-              <span
-                aria-hidden="true"
-                className="mb-[3px] flex-1 border-b border-dotted"
-                style={{ borderColor: "rgba(58,39,27,0.35)" }}
-              />
-              <dd className="ficha m-0 shrink-0 text-[13px] text-[#3a271b]">{f.valor}</dd>
-            </div>
-          ))}
-        </dl>
-
-        <div className="mt-auto pt-5 sm:pt-6">
-          <div
-            className="ficha text-[12px] uppercase tracking-[0.16em]"
-            style={{ color: cor }}
-          >
-            {cafe.gramas} g · {cafe.formato}
-          </div>
-          <div
-            className="mt-3 flex items-end justify-center gap-7 border-y py-3.5 sm:py-4"
-            style={{ borderColor: `${cor}40` }}
-          >
-            {!soMoido && (
-              <Preco rotulo="Em grão" valor={cafe.preco.grao!} gramas={cafe.gramas} />
-            )}
-            <Preco rotulo="Moído" valor={cafe.preco.moido} gramas={cafe.gramas} />
-          </div>
-          {soMoido && (
-            <div className="ficha mt-2 text-[13px] text-[#75634f]">
-              Esta linha sai só moída.
-            </div>
+        <div className="mt-4 flex items-end justify-center gap-7">
+          {!soMoido && (
+            <Preco rotulo="Em grão" valor={cafe.preco.grao!} gramas={cafe.gramas} />
           )}
+          <Preco rotulo="Moído" valor={cafe.preco.moido} gramas={cafe.gramas} />
+        </div>
 
-          <p className="mx-auto mt-4 max-w-[46ch] text-[15px] leading-relaxed text-[#5c4635] sm:mt-5">
-            {cafe.descricao}
-          </p>
+        <div className="ficha mt-2.5 text-center text-[12.5px] uppercase tracking-[0.14em] text-[#75634f]">
+          {cafe.gramas} g{soMoido && " · esta linha sai só moída"}
+        </div>
 
-          <div
-            className="mt-4 flex flex-col items-center gap-3.5 sm:mt-5 sm:flex-row sm:justify-center sm:gap-5"
-            data-print-hide
+        <div
+          className="mt-4 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4"
+          data-print-hide
+        >
+          <Botao href="#precos" largo>
+            Monte o seu pedido
+          </Botao>
+          <button
+            type="button"
+            onClick={aoVerRotulo}
+            className="link-sublinhado ficha text-[13.5px] uppercase tracking-[0.1em]"
+            style={{ color: cor, borderBottomColor: `${cor}73` }}
           >
-            <Botao href="#precos" largo>
-              Monte o seu pedido
-            </Botao>
-            <button
-              type="button"
-              onClick={aoVerRotulo}
-              className="link-sublinhado ficha text-[14px] uppercase tracking-[0.1em]"
-              style={{ color: cor, borderBottomColor: `${cor}73` }}
-            >
-              Ver o rótulo impresso →
-            </button>
-          </div>
+            Ampliar o rótulo →
+          </button>
         </div>
       </div>
     </article>
@@ -328,8 +216,8 @@ export default function Cafes() {
         </h2>
         <p className="mt-4 max-w-[58ch] text-[#5c4635]">
           Todos vêm do mesmo talhão. O que muda é a seleção do grão, o ponto da torra e
-          o quanto a xícara pede atenção. Os quatro estão lado a lado de propósito, para
-          dar para comparar; o rótulo inteiro abre no clique.
+          o quanto a xícara pede atenção. Os rótulos estão lado a lado de propósito, para
+          dar para comparar; toque em um para ler a letra miúda.
         </p>
       </div>
 
