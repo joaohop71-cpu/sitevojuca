@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { selo } from "@/imagens";
 import ramoEsq from "@/assets/ramo-esq.webp";
 import ramoDir from "@/assets/ramo-dir.webp";
@@ -177,6 +177,130 @@ export function Dobra({
           {children}
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ * O visor: uma imagem grande sobre a página, com o resto apagado.
+ *
+ * Serve às fotos da galeria e aos rótulos. Estava escrito só dentro da
+ * galeria, e o segundo uso ia copiar as mesmas cinquenta linhas de tecla,
+ * foco e trava de rolagem, que são justamente as que se erra.
+ *
+ * O foco entra ao abrir e volta para onde estava ao fechar; o Tab circula
+ * dentro, senão ele sai por baixo do véu para links que ninguém está vendo e
+ * não há como voltar a fechar pelo teclado.
+ */
+export function Visor({
+  rotulo,
+  aoFechar,
+  aoIr,
+  children,
+}: {
+  rotulo: string;
+  aoFechar: () => void;
+  /** quando há vizinhos: setas do teclado, botões e arrasto no toque */
+  aoIr?: (d: number) => void;
+  children: ReactNode;
+}) {
+  const caixa = useRef<HTMLDivElement>(null);
+  const toqueX = useRef<number | null>(null);
+
+  const onKey = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") aoFechar();
+      if (aoIr && e.key === "ArrowRight") aoIr(1);
+      if (aoIr && e.key === "ArrowLeft") aoIr(-1);
+      if (e.key === "Tab") {
+        const botoes = Array.from(
+          caixa.current?.querySelectorAll<HTMLElement>("button") ?? []
+        );
+        if (!botoes.length) return;
+        const primeiro = botoes[0];
+        const ultimo = botoes[botoes.length - 1];
+        if (e.shiftKey && document.activeElement === primeiro) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+          e.preventDefault();
+          primeiro.focus();
+        }
+      }
+    },
+    [aoFechar, aoIr]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", onKey);
+    const antes = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = antes;
+    };
+  }, [onKey]);
+
+  useEffect(() => {
+    const devolver = document.activeElement as HTMLElement | null;
+    caixa.current?.querySelector<HTMLElement>("button")?.focus();
+    return () => devolver?.focus?.();
+  }, []);
+
+  return (
+    <div
+      ref={caixa}
+      role="dialog"
+      aria-modal="true"
+      aria-label={rotulo}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 sm:p-10"
+      style={{ background: "rgba(30,20,14,0.94)" }}
+      onClick={aoFechar}
+      data-print-hide
+    >
+      <button
+        type="button"
+        onClick={aoFechar}
+        aria-label="Fechar"
+        className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center border border-[rgba(239,227,204,0.4)] text-[24px] leading-none text-[#efe3cc] transition-colors hover:bg-[rgba(239,227,204,0.14)] sm:right-5 sm:top-5 sm:h-11 sm:w-11 sm:text-[22px]"
+      >
+        ×
+      </button>
+
+      <div
+        className="flex max-h-full flex-col items-center"
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => {
+          toqueX.current = e.touches[0].clientX;
+        }}
+        onTouchEnd={(e) => {
+          if (toqueX.current === null || !aoIr) return;
+          const dx = e.changedTouches[0].clientX - toqueX.current;
+          if (Math.abs(dx) > 50) aoIr(dx < 0 ? 1 : -1);
+          toqueX.current = null;
+        }}
+      >
+        {children}
+      </div>
+
+      {aoIr && (
+        <div className="mt-6 flex gap-3" onClick={(e) => e.stopPropagation()}>
+          {[
+            { d: -1, r: "Anterior", s: "←" },
+            { d: 1, r: "Próxima", s: "→" },
+          ].map((b) => (
+            <button
+              key={b.r}
+              type="button"
+              onClick={() => aoIr(b.d)}
+              aria-label={b.r}
+              className="flex h-12 w-16 items-center justify-center border border-[rgba(239,227,204,0.4)] text-[18px] text-[#efe3cc] transition-colors hover:bg-[rgba(239,227,204,0.14)] sm:h-11 sm:w-14"
+            >
+              {b.s}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { Visor } from "./base";
 import {
   cafePoente,
   capelaPoente,
@@ -84,6 +85,8 @@ const FOTOS: Foto[] = [
   },
 ];
 
+/* a moldura escura, as teclas, o foco e o arrasto vivem no <Visor>; aqui fica
+   só o que é da foto: a imagem, a legenda e a ficha */
 function Lightbox({
   i,
   fechar,
@@ -94,86 +97,9 @@ function Lightbox({
   ir: (d: number) => void;
 }) {
   const f = FOTOS[i];
-  const toqueX = useRef<number | null>(null);
-  const caixa = useRef<HTMLDivElement>(null);
-
-  const onKey = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape") fechar();
-      if (e.key === "ArrowRight") ir(1);
-      if (e.key === "ArrowLeft") ir(-1);
-      /* aria-modal esconde o resto da página do leitor de tela, mas não do
-         Tab: sem isto o foco sai por baixo do véu, para links que ninguém
-         está vendo, e não há como voltar a fechar a foto pelo teclado. */
-      if (e.key === "Tab") {
-        const botoes = Array.from(
-          caixa.current?.querySelectorAll<HTMLElement>("button") ?? []
-        );
-        if (!botoes.length) return;
-        const primeiro = botoes[0];
-        const ultimo = botoes[botoes.length - 1];
-        if (e.shiftKey && document.activeElement === primeiro) {
-          e.preventDefault();
-          ultimo.focus();
-        } else if (!e.shiftKey && document.activeElement === ultimo) {
-          e.preventDefault();
-          primeiro.focus();
-        }
-      }
-    },
-    [fechar, ir]
-  );
-
-  /* o foco entra na foto ao abrir e volta para a miniatura ao fechar */
-  useEffect(() => {
-    const devolver = document.activeElement as HTMLElement | null;
-    caixa.current?.querySelector<HTMLElement>("button")?.focus();
-    return () => devolver?.focus?.();
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", onKey);
-    const antes = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = antes;
-    };
-  }, [onKey]);
-
   return (
-    <div
-      ref={caixa}
-      role="dialog"
-      aria-modal="true"
-      aria-label={f.legenda}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 sm:p-10"
-      style={{ background: "rgba(30,20,14,0.94)" }}
-      onClick={fechar}
-      data-print-hide
-    >
-      <button
-        type="button"
-        onClick={fechar}
-        aria-label="Fechar"
-        className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center border border-[rgba(239,227,204,0.4)] text-[24px] leading-none text-[#efe3cc] transition-colors hover:bg-[rgba(239,227,204,0.14)] sm:right-5 sm:top-5 sm:h-11 sm:w-11 sm:text-[22px]"
-      >
-        ×
-      </button>
-
-      <figure
-        className="m-0 flex max-h-full flex-col items-center"
-        onClick={(e) => e.stopPropagation()}
-        onTouchStart={(e) => {
-          toqueX.current = e.touches[0].clientX;
-        }}
-        onTouchEnd={(e) => {
-          if (toqueX.current === null) return;
-          const dx = e.changedTouches[0].clientX - toqueX.current;
-          if (Math.abs(dx) > 50) ir(dx < 0 ? 1 : -1);
-          toqueX.current = null;
-        }}
-      >
+    <Visor rotulo={f.legenda} aoFechar={fechar} aoIr={ir}>
+      <figure className="m-0 flex max-h-full flex-col items-center">
         <img
           src={f.src}
           alt={f.alt}
@@ -194,24 +120,7 @@ function Lightbox({
           {f.ficha}
         </p>
       </figure>
-
-      <div className="mt-6 flex gap-3" onClick={(e) => e.stopPropagation()}>
-        {[
-          { d: -1, r: "Anterior", s: "←" },
-          { d: 1, r: "Próxima", s: "→" },
-        ].map((b) => (
-          <button
-            key={b.r}
-            type="button"
-            onClick={() => ir(b.d)}
-            aria-label={b.r}
-            className="flex h-12 w-16 items-center justify-center border border-[rgba(239,227,204,0.4)] text-[18px] text-[#efe3cc] transition-colors hover:bg-[rgba(239,227,204,0.14)] sm:h-11 sm:w-14"
-          >
-            {b.s}
-          </button>
-        ))}
-      </div>
-    </div>
+    </Visor>
   );
 }
 
