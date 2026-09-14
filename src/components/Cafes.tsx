@@ -1,44 +1,7 @@
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { CAFES, brl, porQuilo } from "@/dados";
-import type { Cafe, Moagem } from "@/dados";
+import type { Cafe } from "@/dados";
 import { Botao, Faixa, Rubrica } from "./base";
-
-function SeletorMoagem({
-  valor,
-  aoTrocar,
-}: {
-  valor: Moagem;
-  aoTrocar: (m: Moagem) => void;
-}) {
-  return (
-    <div
-      className="inline-flex border border-[rgba(58,39,27,0.3)]"
-      role="group"
-      aria-label="Escolher moagem"
-      data-print-hide
-    >
-      {(["grao", "moido"] as Moagem[]).map((m) => (
-        <button
-          key={m}
-          type="button"
-          onClick={() => aoTrocar(m)}
-          aria-pressed={valor === m}
-          className="px-5 py-3 transition-colors sm:px-4 sm:py-2"
-          style={{
-            fontFamily: '"Courier Prime", monospace',
-            fontSize: 15,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            background: valor === m ? "#3a271b" : "transparent",
-            color: valor === m ? "#efe3cc" : "#6b4526",
-          }}
-        >
-          {m === "grao" ? "Em grão" : "Moído"}
-        </button>
-      ))}
-    </div>
-  );
-}
 
 /** altura da arte vertical — as Heranças têm a linha do lote e ficam mais altas */
 const ALTURA_VERTICAL: Record<string, number> = {
@@ -114,34 +77,74 @@ function RotuloImagem({ cafe }: { cafe: Cafe }) {
   );
 }
 
-/** faixa de compra logo abaixo do rótulo */
-function Compra({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
+/** uma das duas colunas de preço: a moagem, o valor do pacote e o preço por quilo */
+function Preco({
+  rotulo,
+  valor,
+  gramas,
+}: {
+  rotulo: string;
+  valor: number;
+  gramas: number;
+}) {
+  return (
+    <div className="min-w-[124px]">
+      <div className="ficha text-[13.5px] uppercase tracking-[0.16em] text-[#75634f]">
+        {rotulo}
+      </div>
+      <div
+        className="num mt-1 text-[26px] leading-none sm:text-[28px]"
+        style={{
+          fontFamily: "Fraunces, Georgia, serif",
+          fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 36',
+          fontWeight: 600,
+        }}
+      >
+        {brl(valor)}
+      </div>
+      <div className="ficha num mt-1 text-[14px] text-[#75634f]">
+        {porQuilo(valor, gramas)}/kg
+      </div>
+    </div>
+  );
+}
+
+/**
+ * A faixa de compra, logo abaixo do rótulo.
+ *
+ * O preço aparecia um de cada vez, conforme um seletor "Preços em grão / moído"
+ * que ficava lá em cima, longe. Quem chegava rolando num café via um número só
+ * e não tinha como saber que ele mudava conforme a moagem. Agora os dois estão
+ * lado a lado: a diferença é a informação, então ela tem que estar visível, e
+ * o seletor sai porque deixou de ter função.
+ */
+function Compra({ cafe }: { cafe: Cafe }) {
   const soMoido = cafe.preco.grao === null;
-  const valor = moagem === "grao" && !soMoido ? cafe.preco.grao! : cafe.preco.moido;
 
   return (
     <div className="mt-5 flex flex-col items-center gap-5 text-center">
       <p className="max-w-[54ch] text-[15.5px] text-[#5c4635]">{cafe.descricao}</p>
 
-      <div className="flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row sm:items-end sm:gap-8">
+      <div className="flex w-full flex-col items-center gap-5 sm:w-auto sm:flex-row sm:items-end sm:gap-8">
         <div>
-          <div className="flex items-baseline justify-center gap-2">
-            <span
-              className="num text-[30px] leading-none"
-              style={{
-                fontFamily: "Fraunces, Georgia, serif",
-                fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 36',
-                fontWeight: 600,
-              }}
-            >
-              {brl(valor)}
-            </span>
-            <span className="ficha text-[#6b4526]">/ {cafe.gramas} g</span>
+          <div className="ficha text-[13.5px] uppercase tracking-[0.14em] text-[#6b4526]">
+            Pacote de {cafe.gramas} g
           </div>
-          <div className="ficha num mt-1 text-[#75634f]">
-            {porQuilo(valor, cafe.gramas)} por quilo
-            {soMoido && " · só moído"}
+          <div className="mt-2.5 flex items-end justify-center divide-x divide-[rgba(58,39,27,0.22)]">
+            {!soMoido && (
+              <div className="pr-6">
+                <Preco rotulo="Em grão" valor={cafe.preco.grao!} gramas={cafe.gramas} />
+              </div>
+            )}
+            <div className={soMoido ? "" : "pl-6"}>
+              <Preco rotulo="Moído" valor={cafe.preco.moido} gramas={cafe.gramas} />
+            </div>
           </div>
+          {soMoido && (
+            <div className="ficha mt-2 text-[14px] text-[#75634f]">
+              Esta linha sai só moída.
+            </div>
+          )}
         </div>
 
         <div className="w-full sm:w-auto" data-print-hide>
@@ -155,8 +158,6 @@ function Compra({ cafe, moagem }: { cafe: Cafe; moagem: Moagem }) {
 }
 
 export default function Cafes() {
-  const [moagem, setMoagem] = useState<Moagem>("grao");
-
   return (
     <Faixa id="cafes" className="py-12 sm:py-16">
       <Rubrica>Os cafés</Rubrica>
@@ -171,19 +172,13 @@ export default function Cafes() {
             o quanto a xícara pede atenção.
           </p>
         </div>
-        <div data-print-hide>
-          <div className="ficha mb-2 text-[14px] uppercase tracking-[0.14em] text-[#75634f]">
-            Preços em
-          </div>
-          <SeletorMoagem valor={moagem} aoTrocar={setMoagem} />
-        </div>
       </div>
 
       <div className="mt-10 grid gap-12 sm:gap-14">
         {CAFES.map((c) => (
           <article key={c.id} id={c.id} className="reveal" style={{ scrollMarginTop: 96 }}>
             <RotuloImagem cafe={c} />
-            <Compra cafe={c} moagem={moagem} />
+            <Compra cafe={c} />
           </article>
         ))}
       </div>
