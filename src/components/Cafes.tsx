@@ -83,17 +83,17 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
   const semPreco = cheio === null;
 
   return (
+    /* duas máscaras aninhadas: a de fora morde em cima e embaixo, a de dentro
+       nos lados, e a interseção das duas dá o canto rasgado de verdade */
     <article
       id={cafe.id}
-      className="reveal rasgo-carta relative"
-      style={{
-        containerType: "inline-size",
-        scrollMarginTop: 96,
-        /* o papel do cartão: é ele que a máscara rasga nos quatro lados */
-        background: "rgba(255,250,240,0.6)",
-        padding: "18px 14px",
-      }}
+      className="reveal rasgo-ambos"
+      style={{ containerType: "inline-size", scrollMarginTop: 96 }}
     >
+      <div
+        className="rasgo-lados relative"
+        style={{ background: "rgba(255,250,240,0.6)", padding: "20px 16px" }}
+      >
       <button
         type="button"
         onClick={aoVerRotulo}
@@ -164,6 +164,7 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
             {semPreco ? "Falar com a gente" : "Monte o seu pedido"}
           </a>
         </div>
+      </div>
       </div>
     </article>
   );
