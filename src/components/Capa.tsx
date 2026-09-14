@@ -62,23 +62,30 @@ export default function Capa() {
           {MARCA.descritor} · {MARCA.regiao}
         </p>
 
+        {/* A capa era um enigma: "o apelido pulou três" só fecha depois que a
+            pessoa leu o "Sobre nós", lá embaixo. E era a única parte do site
+            escrita em terceira pessoa, justamente onde se decide se fica.
+            Agora quem fala é quem escreveu o resto. */}
         <h1
-          className="mx-auto mt-7 max-w-[19ch] text-[clamp(34px,5.4vw,60px)]"
+          className="mx-auto mt-7 max-w-[23ch] text-[clamp(33px,5vw,56px)]"
           style={{ color: "#f7efe0" }}
         >
-          Quatro gerações nas mesmas terras. O apelido pulou três.
+          Juca foi o meu bisavô.{" "}
+          {/* o número não se separa da unidade: solto no fim da linha, o "115"
+              ficava colado na frase anterior e a segunda começava em "anos" */}
+          {MARCA.anosEntreOsJucas}
+          {"\u00A0anos depois, estou aqui para contar a história dele."}
         </h1>
 
         <p
-          className="mx-auto mt-6 max-w-[54ch] text-[17px] leading-relaxed"
+          className="mx-auto mt-6 max-w-[56ch] text-[17px] leading-relaxed"
           style={{ color: "#d6c3a8" }}
         >
-          Café plantado, colhido, seco, torrado e moído nos{" "}
+          O café vem da terra que a minha família planta há mais de cem anos:{" "}
           <strong className="font-semibold" style={{ color: "#f2e7d3" }}>
-            {MARCA.sitio}
+            arábica colhido à mão a 998 metros
           </strong>
-          , em {MARCA.local}. Terra de família há mais de cem anos. O nome é do meu
-          bisavô, o Juca.
+          , seco no terreiro e torrado em lotes pequenos, aqui dentro, por nós mesmos.
         </p>
 
         <div
