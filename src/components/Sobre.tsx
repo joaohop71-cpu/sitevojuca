@@ -147,7 +147,7 @@ export default function Sobre() {
       <Capitulo
         num="três"
         nome="Hoje"
-        frase="Dois primos, e uma divisão simples de trabalho."
+        frase="Um economista e um farmacêutico tocando uma lavoura de café."
       >
         <div className="grid gap-10 sm:grid-cols-2">
           {/* O fio ficava entre a foto e o nome. Lado a lado isso alinha os dois

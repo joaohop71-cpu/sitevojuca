@@ -12,9 +12,10 @@ export default function Origem() {
 
       <div className="mt-6 grid gap-x-16 gap-y-4 lg:grid-cols-2">
         <p className="text-[17px] text-[#5c4635]">
-          Os {MARCA.sitio} ficam a 998 metros, na serra de {MARCA.local}. Altitude assim
-          faz o fruto amadurecer devagar, e fruto que demora é fruto que junta açúcar. É
-          de onde vem a doçura que você sente antes de sentir qualquer outra coisa.
+          Os {MARCA.sitio} ficam a 998 metros, na serra de {MARCA.local}, hoje com nove
+          talhões em produção. Altitude assim faz o fruto amadurecer devagar, e fruto que
+          demora é fruto que junta açúcar. É de onde vem a doçura que você sente antes de
+          sentir qualquer outra coisa.
         </p>
         <p className="text-[17px] text-[#5c4635]">
           O resto é a variedade e o ano. Arara nos lotes de mesa, Catucaí amarelo nos
@@ -28,7 +29,7 @@ export default function Origem() {
           { n: "4", r: "gerações no café" },
           { n: "115", r: "anos entre os dois Jucas" },
           { n: "998", r: "metros acima do mar" },
-          { n: "100%", r: "arábica" },
+          { n: "9", r: "talhões em produção" },
           { n: "5", r: "etapas dentro do sítio" },
         ].map((d) => (
           <div key={d.r} className="border-t-2 border-[#3a271b] pt-4">

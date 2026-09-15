@@ -224,14 +224,14 @@ export const DUPLA = [
     foto: "joaoHenrique",
     papel: "Daqui para fora",
     texto:
-      "Idealizei a marca, desenhei o rótulo, escrevi este site e cuido das vendas. Na adolescência os amigos começaram a me chamar de Juca, por coincidência, sem saber que tinha existido um antes de mim. Se você mandar mensagem, quem lê sou eu.",
+      "Economista de formação e vendedor de café por escolha. Idealizei a marca, desenhei o rótulo, escrevi este site e cuido das vendas. Na adolescência os amigos começaram a me chamar de Juca, por coincidência, sem saber que tinha existido um antes de mim. Se você mandar mensagem, quem lê sou eu.",
   },
   {
     nome: "Fernandinho",
     foto: "fernandinho",
     papel: "Do pé à torra",
     texto:
-      "Cuida da lavoura, conduz a colheita, a secagem e a torra, e assina a classificação: é classificador e degustador de café com certificado. O que chega na sua xícara passou pela mesa dele.",
+      "Farmacêutico de formação, aprendeu café com o pai e ficou na lavoura. Cuida dos nove talhões, conduz a colheita, a secagem e a torra, e assina a classificação: é classificador e degustador de café com certificado. O que chega na sua xícara passou pela mesa dele.",
   },
 ];
 

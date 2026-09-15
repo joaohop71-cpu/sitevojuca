@@ -311,9 +311,9 @@ export default function Cafes() {
           Cinco rótulos, uma lavoura só
         </h2>
         <p className="mt-4 max-w-[58ch] text-[#5c4635]">
-          Todos vêm do mesmo talhão. O que muda é a seleção do grão, o ponto da torra e
-          o quanto a xícara pede atenção. Escolha a quantidade aqui mesmo, no rótulo que
-          quiser; toque na arte para ler a letra miúda.
+          Todos vêm da mesma lavoura, hoje repartida em nove talhões. O que muda é a
+          variedade, a seleção do grão e o ponto da torra. Escolha a quantidade aqui
+          mesmo, no rótulo que quiser; toque na arte para ler a letra miúda.
         </p>
       </div>
 
