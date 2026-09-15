@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { selo } from "@/imagens";
 import ramoEsq from "@/assets/ramo-esq.webp";
 import ramoDir from "@/assets/ramo-dir.webp";
@@ -191,6 +192,11 @@ export function Dobra({
  * O foco entra ao abrir e volta para onde estava ao fechar; o Tab circula
  * dentro, senão ele sai por baixo do véu para links que ninguém está vendo e
  * não há como voltar a fechar pelo teclado.
+ *
+ * Vai desenhado direto no corpo da página, e não onde é escrito. As seções têm
+ * borda rasgada, que é máscara, e máscara abre contexto de empilhamento: o
+ * z-index do visor ficava preso dentro da seção, e o cabeçalho, que é irmão
+ * dela, pintava por cima justamente do canto onde está o X.
  */
 export function Visor({
   rotulo,
@@ -247,7 +253,7 @@ export function Visor({
     return () => devolver?.focus?.();
   }, []);
 
-  return (
+  return createPortal(
     <div
       ref={caixa}
       role="dialog"
@@ -258,13 +264,37 @@ export function Visor({
       onClick={aoFechar}
       data-print-hide
     >
+      {/* O X era um traço fino de contorno translúcido sobre a foto: estava lá
+          e não se anunciava, e no iPhone caía debaixo da barra do navegador.
+          Agora é um disco do papel da marca, que se enxerga sobre qualquer
+          imagem, e o topo respeita a área segura do aparelho. */}
       <button
         type="button"
         onClick={aoFechar}
         aria-label="Fechar"
-        className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center border border-[rgba(239,227,204,0.4)] text-[24px] leading-none text-[#efe3cc] transition-colors hover:bg-[rgba(239,227,204,0.14)] sm:right-5 sm:top-5 sm:h-11 sm:w-11 sm:text-[22px]"
+        className="absolute right-4 flex h-12 w-12 items-center justify-center rounded-full transition-transform hover:scale-105 sm:right-5 sm:h-[52px] sm:w-[52px]"
+        style={{
+          top: "max(1rem, env(safe-area-inset-top))",
+          background: "#efe3cc",
+          color: "#2c1d14",
+          boxShadow: "0 6px 20px rgba(20,12,8,0.45)",
+        }}
       >
-        ×
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          aria-hidden="true"
+          className="sm:h-[21px] sm:w-[21px]"
+        >
+          <path
+            d="M3.5 3.5 16.5 16.5M16.5 3.5 3.5 16.5"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+          />
+        </svg>
       </button>
 
       <div
@@ -284,7 +314,11 @@ export function Visor({
       </div>
 
       {aoIr && (
-        <div className="mt-6 flex gap-3" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="mt-6 flex gap-3"
+          style={{ marginBottom: "env(safe-area-inset-bottom)" }}
+          onClick={(e) => e.stopPropagation()}
+        >
           {[
             { d: -1, r: "Anterior", s: "←" },
             { d: 1, r: "Próxima", s: "→" },
@@ -301,7 +335,8 @@ export function Visor({
           ))}
         </div>
       )}
-    </div>
+    </div>,
+    document.body
   );
 }
 
