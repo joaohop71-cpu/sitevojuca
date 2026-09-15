@@ -45,7 +45,13 @@ const PLANOS = [
  */
 export default function Empresas() {
   return (
-    <Faixa id="empresas" fundo="creme" className="rasgo-ambos py-10 sm:py-12" atras="#efe3cc">
+    /* Sem rasgo nenhum, e de propósito. Acima está a seção do pedido, que é do
+       mesmo creme: emenda entre cores iguais não existe. Abaixo está o bloco
+       escuro do processo, que já rasga a borda de cima dele. Quando as duas
+       vizinhas rasgavam, entre uma falha e outra aparecia o papel do corpo, e
+       a emenda ficava com três cores em vez de passar direto de uma para a
+       outra. A regra da página é essa: quem recebe o rasgo é o bloco escuro. */
+    <Faixa id="empresas" fundo="creme" className="py-10 sm:py-12">
       <Rubrica>Sempre em casa</Rubrica>
 
       <div className="reveal mt-6 max-w-[60ch]">
