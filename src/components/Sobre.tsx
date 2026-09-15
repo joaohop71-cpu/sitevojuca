@@ -150,8 +150,14 @@ export default function Sobre() {
         frase="Dois primos, e uma divisão simples de trabalho."
       >
         <div className="grid gap-10 sm:grid-cols-2">
+          {/* O fio ficava entre a foto e o nome. Lado a lado isso alinha os dois
+              nomes, mas empilhado no celular ele separava cada um do próprio
+              retrato, e nada separava o texto de um da foto do outro: a foto do
+              Fernandinho parecia ilustrar o parágrafo do João Henrique.
+              Agora o fio fecha o bloco, embaixo do texto, e continua alinhado
+              nos dois porque desce até o pé da coluna mais alta. */}
           {DUPLA.map((p) => (
-            <div key={p.nome}>
+            <div key={p.nome} className="flex h-full flex-col">
               <div className="moldura p-2.5">
                 <img
                   src={RETRATOS[p.foto]}
@@ -160,13 +166,17 @@ export default function Sobre() {
                   className="foto block aspect-[4/3] w-full object-cover"
                 />
               </div>
-              <h4 className="mt-5 border-t-2 border-[#3a271b] pt-4 text-[clamp(22px,3vw,28px)] leading-tight">
+              <h4 className="mt-5 text-[clamp(22px,3vw,28px)] leading-tight">
                 {p.nome}
               </h4>
               <div className="eyebrow mt-2">{p.papel}</div>
               <p className="mt-3.5 text-[16.5px] leading-relaxed text-[#5c4635]">
                 {p.texto}
               </p>
+              <div
+                aria-hidden="true"
+                className="mt-auto border-b-2 border-[#3a271b] pt-6"
+              />
             </div>
           ))}
         </div>
