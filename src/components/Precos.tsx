@@ -1,5 +1,6 @@
 import { PROMO, brl, centavos, zap } from "@/dados";
 import { useResumo, ajustar } from "@/carrinho";
+import { registrarPedido } from "@/pedido";
 import { Botao, Contador, Dobra, Faixa, Rubrica } from "./base";
 
 /**
@@ -12,8 +13,8 @@ import { Botao, Contador, Dobra, Faixa, Rubrica } from "./base";
  * é a conta e o envio.
  */
 export default function Precos() {
-  const { qtd, itens, pacotes, quilos, subtotal, desconto, total, mensagem } =
-    useResumo();
+  const resumo = useResumo();
+  const { qtd, itens, pacotes, quilos, subtotal, desconto, total, mensagem } = resumo;
 
   return (
     /* rasgo em cima: a emenda com a seção dos cafés era um corte reto, o único
@@ -120,7 +121,7 @@ export default function Precos() {
                 </dl>
 
                 <div className="mt-6" data-print-hide>
-                  <Botao href={zap(mensagem)} largo>
+                  <Botao href={zap(mensagem)} onClick={() => registrarPedido(resumo)} largo>
                     Fechar pedido no WhatsApp
                   </Botao>
                 </div>

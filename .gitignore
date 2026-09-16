@@ -29,3 +29,7 @@ servidor-local/
 *.njsproj
 *.sln
 *.sw?
+
+# segredos locais
+.env
+.env.local

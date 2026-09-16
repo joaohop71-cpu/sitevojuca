@@ -441,6 +441,7 @@ export function Botao({
       <a
         href={href}
         className={cls}
+        onClick={onClick}
         style={{ fontFamily: '"Courier Prime", monospace' }}
         {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <base target="_top" />
+    <style>
+      :root { --tinta:#2c1d14; --creme:#efe3cc; --papel:#f7efe0; --terra:#8c3a20; }
+      * { box-sizing: border-box; }
+      body { margin:0; padding:20px 16px 48px; background:var(--papel); color:var(--tinta);
+             font-family: Georgia, "Times New Roman", serif; }
+      .caixa { max-width: 480px; margin: 0 auto; }
+      h1 { font-size: 24px; margin: 0 0 4px; }
+      p.sub { margin:0 0 20px; font-size:14px; color:#6f5b44; }
+      label { display:block; margin-top:14px; font-size:13px; text-transform:uppercase;
+              letter-spacing:.08em; color:#6f5b44; font-family: ui-monospace, monospace; }
+      input, select, textarea { width:100%; margin-top:5px; padding:12px; font-size:16px;
+              border:1px solid rgba(58,39,27,.35); background:#fffaf0; color:var(--tinta);
+              font-family: inherit; border-radius:0; }
+      .par { display:flex; gap:10px; }
+      .par > div { flex:1; }
+      .atalhos { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+      .atalhos button { flex:1; padding:10px 6px; font-size:14px; background:transparent;
+              border:1px solid rgba(58,39,27,.35); color:var(--tinta); font-family:inherit; }
+      .atalhos button[aria-pressed="true"] { background:var(--tinta); color:var(--creme);
+              border-color:var(--tinta); }
+      .linha { display:flex; align-items:center; gap:8px; margin-top:16px; font-size:15px; }
+      .linha input { width:auto; margin:0; }
+      button.enviar { width:100%; margin-top:24px; padding:16px; font-size:15px;
+              text-transform:uppercase; letter-spacing:.1em; background:var(--tinta);
+              color:var(--creme); border:none; font-family: ui-monospace, monospace; }
+      button.enviar:disabled { opacity:.5; }
+      #recado { margin-top:16px; padding:12px; font-size:15px; text-align:center; display:none; }
+      .ok { background:#e6efdc; border:1px solid #4a562c; }
+      .erro { background:#f6e0dc; border:1px solid var(--terra); }
+    </style>
+  </head>
+  <body>
+    <div class="caixa">
+      <h1>Lançar venda</h1>
+      <p class="sub">Para o pedido que chegou direto no WhatsApp e não passou pelo site.</p>
+
+      <label for="data">Data</label>
+      <input type="date" id="data" />
+
+      <label for="cliente">Cliente</label>
+      <input id="cliente" list="lista-clientes" autocomplete="off" placeholder="Nome de quem comprou" />
+      <datalist id="lista-clientes"></datalist>
+
+      <label for="item">Café</label>
+      <select id="item"><option>carregando…</option></select>
+
+      <label for="gramas">Quantidade em gramas</label>
+      <input type="number" id="gramas" inputmode="numeric" min="1" step="1" value="300" />
+      <div class="atalhos" id="atalhos"></div>
+
+      <div class="par">
+        <div>
+          <label for="tipo">Tipo</label>
+          <select id="tipo">
+            <option>Venda</option>
+            <option>Brinde</option>
+            <option>Consumo próprio</option>
+          </select>
+        </div>
+        <div>
+          <label for="desconto">Desconto %</label>
+          <input type="number" id="desconto" inputmode="numeric" min="0" max="100" value="30" />
+        </div>
+      </div>
+
+      <label for="obs">Observação</label>
+      <input id="obs" placeholder="opcional" />
+
+      <div class="linha">
+        <input type="checkbox" id="pago" checked />
+        <label for="pago" style="margin:0; text-transform:none; letter-spacing:0; font-size:15px; color:var(--tinta)">Já foi pago</label>
+      </div>
+
+      <button class="enviar" id="enviar">Lançar</button>
+      <div id="recado"></div>
+    </div>
+
+    <script>
+      var hoje = new Date();
+      document.getElementById('data').value =
+        hoje.getFullYear() + '-' + ('0' + (hoje.getMonth() + 1)).slice(-2) + '-' + ('0' + hoje.getDate()).slice(-2);
+
+      /* os pesos que você de fato vende, sem tirar a possibilidade de digitar
+         qualquer outro: foi por isso que o controle virou grama, e não pacote */
+      [250, 300, 500, 1000].forEach(function (g) {
+        var b = document.createElement('button');
+        b.textContent = g >= 1000 ? '1 kg' : g + ' g';
+        b.onclick = function () { document.getElementById('gramas').value = g; marcar(); };
+        document.getElementById('atalhos').appendChild(b);
+      });
+      function marcar() {
+        var v = document.getElementById('gramas').value;
+        [].forEach.call(document.querySelectorAll('#atalhos button'), function (b) {
+          b.setAttribute('aria-pressed', b.textContent.replace(/[^0-9]/g, '') * (b.textContent.indexOf('kg') > -1 ? 1000 : 1) == v);
+        });
+      }
+      document.getElementById('gramas').oninput = marcar;
+      marcar();
+
+      google.script.run.withSuccessHandler(function (itens) {
+        var s = document.getElementById('item');
+        s.innerHTML = '';
+        itens.forEach(function (i) {
+          var o = document.createElement('option'); o.textContent = i; s.appendChild(o);
+        });
+      }).catalogo();
+
+      google.script.run.withSuccessHandler(function (nomes) {
+        var d = document.getElementById('lista-clientes');
+        nomes.forEach(function (n) {
+          var o = document.createElement('option'); o.value = n; d.appendChild(o);
+        });
+      }).clientes();
+
+      document.getElementById('enviar').onclick = function () {
+        var b = this, recado = document.getElementById('recado');
+        b.disabled = true; b.textContent = 'Lançando…';
+        google.script.run
+          .withSuccessHandler(function (msg) {
+            recado.className = 'ok'; recado.textContent = msg; recado.style.display = 'block';
+            b.disabled = false; b.textContent = 'Lançar outra';
+            document.getElementById('cliente').value = '';
+            document.getElementById('obs').value = '';
+          })
+          .withFailureHandler(function (err) {
+            recado.className = 'erro'; recado.textContent = 'Não deu: ' + err.message;
+            recado.style.display = 'block';
+            b.disabled = false; b.textContent = 'Lançar';
+          })
+          .lancarVenda({
+            data: document.getElementById('data').value,
+            cliente: document.getElementById('cliente').value,
+            item: document.getElementById('item').value,
+            gramas: document.getElementById('gramas').value,
+            tipo: document.getElementById('tipo').value,
+            desconto: document.getElementById('desconto').value,
+            obs: document.getElementById('obs').value,
+            pago: document.getElementById('pago').checked
+          });
+      };
+    </script>
+  </body>
+</html>

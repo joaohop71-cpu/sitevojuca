@@ -57,6 +57,14 @@ export type Cafe = {
   nome: string;
   /** nome-base dos arquivos de rótulo em /public/rotulos-web e /public/rotulos */
   banner: string;
+  /**
+   * O nome do produto na planilha de controle, que não é o nome do rótulo.
+   * Lá os Heranças são "Heranças 2SL" e "Heranças 24/137", sem os espaços que
+   * o rótulo usa, e o item é essa palavra mais a moagem. Como é uma chave de
+   * busca, ela precisa bater letra por letra: escrever o nome bonito aqui faria
+   * o pedido cair na planilha sem preço e sem custo.
+   */
+  planilha: string;
   /** cultivar impresso sob o nome, quando a linha tem mais de um lote */
   lote?: string;
   /** tarja do canto superior direito do rótulo */
@@ -81,6 +89,7 @@ export type Cafe = {
 export const CAFES: Cafe[] = [
   {
     id: "cafe-vo-juca",
+    planilha: "Café Vô Juca",
     nome: "Café Vô Juca",
     banner: "vojuca",
     tarja: "Seleção especial",
@@ -105,6 +114,7 @@ export const CAFES: Cafe[] = [
   },
   {
     id: "reserva-998",
+    planilha: "Reserva 998",
     nome: "Reserva 998",
     banner: "reserva998",
     tarja: "Edição limitada",
@@ -130,6 +140,7 @@ export const CAFES: Cafe[] = [
   },
   {
     id: "herancas-2sl",
+    planilha: "Heranças 2SL",
     nome: "Heranças",
     lote: "2 SL",
     banner: "herancas_2sl",
@@ -155,6 +166,7 @@ export const CAFES: Cafe[] = [
   },
   {
     id: "herancas-24-137",
+    planilha: "Heranças 24/137",
     nome: "Heranças",
     lote: "24 / 137",
     banner: "herancas_24137",
@@ -180,6 +192,7 @@ export const CAFES: Cafe[] = [
   },
   {
     id: "minas-santa",
+    planilha: "Minas Santa",
     nome: "Minas Santa",
     banner: "minassanta",
     tarja: "Para o dia a dia",

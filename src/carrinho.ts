@@ -9,6 +9,8 @@ export type Linha = {
   moagem: Moagem;
   preco: number;
   gramas: number;
+  /** o item exato da aba Produtos da planilha: "Reserva 998 · Moído" */
+  item: string;
   /** a tinta da linha do café, para o item aparecer com a cor dele */
   cor: string;
 };
@@ -23,9 +25,21 @@ export const LINHAS: Linha[] = CAFES.flatMap((c) => {
   const base = { id: c.id, nome: rotuloCafe(c), gramas: c.gramas, cor: TINTA_ROTULO[c.cor] };
   const out: Linha[] = [];
   if (c.preco.grao !== null)
-    out.push({ ...base, chave: `${c.id}-grao`, moagem: "grao", preco: c.preco.grao });
+    out.push({
+      ...base,
+      chave: `${c.id}-grao`,
+      moagem: "grao",
+      preco: c.preco.grao,
+      item: `${c.planilha} · Grão`,
+    });
   if (c.preco.moido !== null)
-    out.push({ ...base, chave: `${c.id}-moido`, moagem: "moido", preco: c.preco.moido });
+    out.push({
+      ...base,
+      chave: `${c.id}-moido`,
+      moagem: "moido",
+      preco: c.preco.moido,
+      item: `${c.planilha} · Moído`,
+    });
   return out;
 });
 
@@ -46,18 +60,46 @@ export const linhasDo = (id: string) => LINHAS.filter((l) => l.id === id);
 const CHAVE = "vojuca:carrinho";
 const VALIDADE = 24 * 60 * 60 * 1000;
 
+/**
+ * O código do pedido.
+ *
+ * É o que amarra a conversa no WhatsApp à linha na planilha. Sem ele, um
+ * pedido que chega pelo site e uma conversa que termina em "fechado" são dois
+ * fatos soltos, e quem tem de reconciliar os dois é a memória.
+ *
+ * O alfabeto não tem I, O, 0, 1 nem U: o código é lido em voz alta e digitado
+ * na busca do celular, e é ali que I vira 1 e O vira 0. Sem U porque quatro
+ * letras sorteadas formam palavrão com uma frequência que surpreende.
+ */
+const ALFABETO = "ABCDEFGHJKLMNPQRSTVWXYZ23456789";
+
+function novoCodigo() {
+  const n = new Uint32Array(4);
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) crypto.getRandomValues(n);
+  else for (let i = 0; i < 4; i++) n[i] = Math.floor(Math.random() * 2 ** 32);
+  return (
+    "VJ-" +
+    Array.from(n, (x) => ALFABETO[x % ALFABETO.length]).join("")
+  );
+}
+
+let codigo = "";
+
 function ler(): Record<string, number> {
   try {
     const cru = localStorage.getItem(CHAVE);
     if (!cru) return {};
-    const { itens, salvoEm } = JSON.parse(cru) as {
+    const guardado = JSON.parse(cru) as {
       itens: Record<string, number>;
       salvoEm: string;
+      codigo?: string;
     };
+    const { itens, salvoEm } = guardado;
     if (Date.now() - new Date(salvoEm).getTime() > VALIDADE) {
       localStorage.removeItem(CHAVE);
       return {};
     }
+    if (guardado.codigo) codigo = guardado.codigo;
     /* só as linhas que ainda existem no catálogo, e só números sãos */
     const validas = new Set(LINHAS.map((l) => l.chave));
     const limpo: Record<string, number> = {};
@@ -76,12 +118,17 @@ const ouvintes = new Set<() => void>();
 
 function publicar(novo: Record<string, number>) {
   estado = novo;
+  const vazio = Object.values(novo).every((n) => !n);
+  /* um código por carrinho: enquanto houver pedido em pé ele é o mesmo, e
+     some junto com o pedido para que o próximo nasça com outro */
+  if (vazio) codigo = "";
+  else if (!codigo) codigo = novoCodigo();
   try {
-    if (Object.values(novo).every((n) => !n)) localStorage.removeItem(CHAVE);
+    if (vazio) localStorage.removeItem(CHAVE);
     else
       localStorage.setItem(
         CHAVE,
-        JSON.stringify({ itens: novo, salvoEm: new Date().toISOString() })
+        JSON.stringify({ itens: novo, salvoEm: new Date().toISOString(), codigo })
       );
   } catch {
     /* sem espaço ou sem permissão: o pedido continua em memória */
@@ -150,10 +197,13 @@ export function useResumo() {
         `Subtotal (preço de tabela): ${brl(subtotalC / 100)}`,
         `${PROMO.chamada}: -${brl((subtotalC - totalC) / 100)}`,
         `Total: ${brl(totalC / 100)}`,
+        "",
+        `Pedido ${codigo}`,
       ].join("\n");
 
   return {
     qtd,
+    codigo,
     itens,
     pacotes,
     quilos,

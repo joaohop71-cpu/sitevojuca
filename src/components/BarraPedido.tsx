@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PROMO, brl, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
+import { registrarPedido } from "@/pedido";
 
 /**
  * A barra do pedido, presa no pé da tela.
@@ -10,7 +11,8 @@ import { useResumo } from "@/carrinho";
  * tinha como fechá-lo sem voltar. Ela só aparece quando há o que fechar.
  */
 export default function BarraPedido() {
-  const { pacotes, quilos, total, mensagem } = useResumo();
+  const resumo = useResumo();
+  const { pacotes, quilos, total, mensagem } = resumo;
   /* com a lista do pedido na tela a barra não tem o que fazer, e ainda cobria
      o botão de fechar que já está ali */
   const [naLista, setNaLista] = useState(false);
@@ -84,6 +86,7 @@ export default function BarraPedido() {
           </a>
           <a
             href={zap(mensagem)}
+            onClick={() => registrarPedido(resumo)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center whitespace-nowrap border px-4 py-3 text-[13.5px] uppercase tracking-[0.1em] transition-colors sm:px-6"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
+import { registrarPedido } from "@/pedido";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
@@ -19,7 +20,8 @@ export default function Navegacao() {
   /* O botão dizia sempre "Pedir" e abria o WhatsApp no começo do funil, mesmo
      com o pedido montado. Agora ele responde ao que existe: sem itens, leva
      aos cafés; com itens, fecha o pedido e diz quantos são. */
-  const { pacotes, mensagem } = useResumo();
+  const resumo = useResumo();
+  const { pacotes, mensagem } = resumo;
   const temPedido = pacotes > 0;
   const destino = temPedido ? zap(mensagem) : "#cafes";
   const externo = temPedido;
@@ -132,6 +134,7 @@ export default function Navegacao() {
           ))}
           <a
             href={destino}
+            onClick={() => registrarPedido(resumo)}
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="inline-flex shrink-0 border px-4 py-2 transition-colors"
             style={{
@@ -151,6 +154,7 @@ export default function Navegacao() {
         <div className="flex items-center gap-2 lg:hidden">
           <a
             href={destino}
+            onClick={() => registrarPedido(resumo)}
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="inline-flex h-11 items-center border px-3.5 transition-colors"
             style={{
