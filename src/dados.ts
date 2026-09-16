@@ -237,7 +237,7 @@ export const DUPLA = [
     foto: "joaoHenrique",
     papel: "Daqui para fora",
     texto:
-      "Economista de formação e vendedor de café por escolha. Idealizei a marca, desenhei o rótulo, escrevi este site e cuido das vendas. Na adolescência os amigos começaram a me chamar de Juca, por coincidência, sem saber que tinha existido um antes de mim. Se você mandar mensagem, quem lê sou eu.",
+      "Economista de formação e vendedor de café por escolha. Idealizei a marca, desenhei o rótulo, escrevi este site e cuido das vendas. Na infância, meu irmão Pedro já me chamava de Juca. Na adolescência, os amigos adotaram o apelido, sem imaginar que, muito antes de mim, já havia existido outro Juca na família. O nome ficou, atravessando gerações e ganhando uma nova história. Se você mandar mensagem, quem lê sou eu.",
   },
   {
     nome: "Fernandinho",
