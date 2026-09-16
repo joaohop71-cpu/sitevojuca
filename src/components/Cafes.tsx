@@ -8,14 +8,16 @@ import { Contador, Faixa, Rubrica, Visor } from "./base";
    874 x 1854 nos cinco produtos, faixa de 22,006% ancorada no pé */
 const ARTE = { largura: 874, altura: 1854, faixa: 22.006 };
 
-/* A arte traz 131 px em branco entre a última linha de texto (y = 1309) e o
-   divisor que abre a faixa do preço (y = 1440). Num cartão de 550 px isso são
-   oitenta pixels de nada no meio da peça.
-   Em vez de pedir outro arquivo, a arte é costurada: mostro dela o pedaço de
-   cima até 1330 e retomo em 1430, logo antes do divisor. O corte cai no vão,
-   onde só existe papel e as duas linhas verticais do quadro, que são retas e
-   continuam sem emenda visível. Sobram 40 px de respiro em volta do divisor. */
-const CORTE = 1330;
+/* A arte traz um vão em branco entre a última linha de texto e o divisor que
+   abre a faixa do preço (y = 1440). Em vez de pedir outro arquivo, a arte é
+   costurada: mostro dela o pedaço de cima até CORTE e retomo em RETOMA, logo
+   antes do divisor. O corte cai no vão, onde só existe papel e as duas linhas
+   verticais do quadro, que são retas e continuam sem emenda visível.
+   CORTE é medido no rótulo que desce mais: o Vô Juca, o Reserva e o Minas
+   Santa acabam em y = 1309, mas os dois Heranças acabam em 1357, porque
+   trazem a linha do lote. Cortar em 1330, como estava, escondia vinte e sete
+   pixels da última linha deles. */
+const CORTE = 1372;
 const RETOMA = 1430;
 const ALTURA_COSTURADA = ARTE.altura - (RETOMA - CORTE);
 /* a faixa, agora medida na peça mais curta */
