@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { selo } from "@/imagens";
+import { busto, selo } from "@/imagens";
 import ramoEsq from "@/assets/ramo-esq.webp";
 import ramoDir from "@/assets/ramo-dir.webp";
 import ramoEsqCurto from "@/assets/ramo-esq-curto.webp";
@@ -32,6 +32,42 @@ export function Selo({
         backgroundColor: cor,
         maskImage: `url(${selo})`,
         WebkitMaskImage: `url(${selo})`,
+        maskSize: "contain",
+        WebkitMaskSize: "contain",
+        maskRepeat: "no-repeat",
+        WebkitMaskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskPosition: "center",
+      }}
+    />
+  );
+}
+
+/**
+ * O busto, pintado numa cor exata.
+ *
+ * Mesma técnica do <Selo>: a arte é de uma tinta só sobre transparência, então
+ * ela serve de máscara e quem pinta é o fundo. É isso que deixa o desenho sair
+ * no creme da marca sobre a capa escura e na tinta sobre o papel, sem filtro e
+ * sem dois arquivos.
+ */
+export function Busto({
+  cor,
+  className = "",
+  rotulo,
+}: {
+  cor: string;
+  className?: string;
+  rotulo?: string;
+}) {
+  return (
+    <div
+      className={`transition-colors duration-300 ${className}`}
+      {...(rotulo ? { role: "img", "aria-label": rotulo } : { "aria-hidden": true })}
+      style={{
+        backgroundColor: cor,
+        maskImage: `url(${busto})`,
+        WebkitMaskImage: `url(${busto})`,
         maskSize: "contain",
         WebkitMaskSize: "contain",
         maskRepeat: "no-repeat",

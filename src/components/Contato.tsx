@@ -1,10 +1,14 @@
-import { Botao, Faixa, Rubrica, Selo } from "./base";
+import { Botao, Busto, Faixa, Rubrica } from "./base";
 import { MARCA, PROMO, zap } from "@/dados";
 
 export default function Contato() {
   return (
     <>
-      <Faixa id="contato" className="py-10 sm:py-12">
+      {/* Contato e "A terra" eram os dois do papel do corpo, e emenda entre
+          cores iguais não aparece. Passando o contato para o creme, o rasgo
+          tem o que revelar: a falha abre no papel da seção de cima. É o mesmo
+          arranjo da seção do pedido, logo abaixo dos cafés. */}
+      <Faixa id="contato" fundo="creme" className="rasgo-cima py-12 sm:py-14">
         <Rubrica>Contato</Rubrica>
 
         <h2 className="reveal mt-6 max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
@@ -170,10 +174,14 @@ export default function Contato() {
         </div>
       </Faixa>
 
+      {/* o rasgo do rodapé revela o que está atrás dele, e o que está atrás é
+          o corpo da página; sem esta cor, a emenda com o contato creme voltaria
+          a mostrar três tons */}
+      <div style={{ background: "#f6eede" }}>
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            <Selo cor="#d8c3a0" className="h-14 w-14 shrink-0 sm:h-16 sm:w-16" />
+            <Busto cor="#d8c3a0" className="h-16 w-16 shrink-0 sm:h-[72px] sm:w-[72px]" />
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"
@@ -201,6 +209,7 @@ export default function Contato() {
           </div>
         </div>
       </footer>
+      </div>
     </>
   );
 }
