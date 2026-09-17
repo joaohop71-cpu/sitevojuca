@@ -1,0 +1,321 @@
+<!doctype html><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..700,0..100;1,9..144,400..600,0..100&family=Courier+Prime:wght@400;700&display=swap">
+<body style="background:#222;color:#ddd;font:13px monospace;margin:0;padding:16px">
+<pre id="log">preparando…</pre>
+<script type="module">
+const L = document.getElementById("log");
+const diz = (t) => (L.textContent += "\n" + t);
+
+/* ——— a paleta e as medidas da marca ——— */
+const W = 1080, H = 1350, M = 92;                 // 4:5, a proporção que o Instagram mostra maior
+const PAPEL = "#efe3cc", PAPEL_ALTO = "#f6eede";
+const TINTA = "#3a271b", ESCURO = "#2c1d14";
+const MARCA = "#8c3a20", DESTAQUE = "#e8b98d", CREME = "#f7efe0", APOIO = "#6f5b44";
+const SERIF = "Fraunces, Georgia, serif";
+const MONO = "'Courier Prime', monospace";
+
+const carrega = (u) => new Promise(async (ok, erro) => {
+  const im = new Image(); im.src = u;
+  try { await im.decode(); ok(im); } catch (e) { erro(new Error(u)); }
+});
+
+/* desenha a foto cobrindo a área, cortada pelo ponto de foco */
+function cobre(x, im, cx, cy, cw, ch, foco = 0.5) {
+  const e = Math.max(cw / im.naturalWidth, ch / im.naturalHeight);
+  const w = im.naturalWidth * e, h = im.naturalHeight * e;
+  x.save(); x.beginPath(); x.rect(cx, cy, cw, ch); x.clip();
+  x.drawImage(im, cx + (cw - w) / 2, cy + (ch - h) * foco, w, h);
+  x.restore();
+}
+
+/* o véu de tinta: é ele que faz a letra caber em cima de qualquer foto */
+function veu(x, forca = 1) {
+  const g = x.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, `rgba(24,15,10,${0.82 * forca})`);
+  g.addColorStop(0.42, `rgba(38,25,17,${0.58 * forca})`);
+  g.addColorStop(0.72, `rgba(32,20,14,${0.78 * forca})`);
+  g.addColorStop(1, `rgba(24,15,10,${0.94 * forca})`);
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+}
+
+/* grão de papel, para o fundo creme não sair chapado */
+function grao(x, n = 26000) {
+  x.save();
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * 0.05;
+    x.fillStyle = `rgba(58,39,27,${a})`;
+    x.fillRect(Math.random() * W, Math.random() * H, 1.6, 1.6);
+  }
+  x.restore();
+}
+
+/* quebra o texto na largura dada, respeitando a fonte já escolhida */
+function quebra(x, texto, larg) {
+  const out = [];
+  for (const par of texto.split("\n")) {
+    let linha = "";
+    for (const p of par.split(" ")) {
+      const t = linha ? linha + " " + p : p;
+      if (x.measureText(t).width > larg && linha) { out.push(linha); linha = p; }
+      else linha = t;
+    }
+    out.push(linha);
+  }
+  return out;
+}
+
+function escreve(x, texto, { xPos, y, larg, fonte, cor, lh, align = "left", esp = "0px" }) {
+  x.save();
+  x.font = fonte; x.fillStyle = cor; x.textAlign = align; x.letterSpacing = esp;
+  const ls = quebra(x, texto, larg);
+  ls.forEach((l, i) => x.fillText(l, xPos, y + i * lh));
+  x.restore();
+  return y + ls.length * lh;
+}
+
+/* a linha de máquina de escrever, em caixa alta e espaçada */
+function etiqueta(x, texto, { xPos, y, cor, tam = 26, align = "left", esp = "0.26em" }) {
+  x.save();
+  x.font = `400 ${tam}px ${MONO}`; x.fillStyle = cor; x.textAlign = align;
+  x.letterSpacing = esp;
+  x.fillText(texto.toUpperCase(), xPos, y);
+  x.restore();
+}
+
+/* o fio com o losango no meio, o divisor dos rótulos */
+function fio(x, cx, y, larg, cor) {
+  x.save(); x.strokeStyle = cor; x.fillStyle = cor; x.lineWidth = 1.6;
+  x.beginPath(); x.moveTo(cx - larg / 2, y); x.lineTo(cx - 12, y);
+  x.moveTo(cx + 12, y); x.lineTo(cx + larg / 2, y); x.stroke();
+  x.save(); x.translate(cx, y); x.rotate(Math.PI / 4); x.fillRect(-5, -5, 10, 10); x.restore();
+  x.restore();
+}
+
+/* o selo, no disco de papel, como ele aparece na capa do site */
+function selo(x, im, cx, cy, d) {
+  x.save(); x.beginPath(); x.arc(cx, cy, d / 2, 0, Math.PI * 2);
+  x.fillStyle = PAPEL_ALTO; x.fill(); x.clip();
+  x.drawImage(im, cx - d * 0.485, cy - d * 0.485, d * 0.97, d * 0.97);
+  x.restore();
+}
+
+/* a assinatura do pé: marca de um lado, número do slide do outro */
+function rodape(x, n, total, claro) {
+  const cor = claro ? "rgba(239,227,204,0.72)" : "rgba(111,91,68,0.9)";
+  etiqueta(x, "@cafevojuca · Sul de Minas", { xPos: M, y: H - 62, cor, tam: 23, esp: "0.2em" });
+  etiqueta(x, `${String(n).padStart(2, "0")}/${String(total).padStart(2, "0")}`,
+    { xPos: W - M, y: H - 62, cor, tam: 23, align: "right", esp: "0.2em" });
+}
+
+/* ——————————————————— os slides ——————————————————— */
+const TOTAL = 9;
+const slides = [];
+
+/* 01 · a capa: o gancho em uma frase */
+slides.push(async (x, im) => {
+  cobre(x, im.capa, 0, 0, W, H, 0.6); veu(x, 1);
+  selo(x, im.selo, W / 2, 330, 250);
+  etiqueta(x, "Cafés especiais artesanais", { xPos: W / 2, y: 540, cor: DESTAQUE, tam: 26, align: "center" });
+  let y = escreve(x, "Juca foi o meu bisavô.", {
+    xPos: W / 2, y: 680, larg: W - M * 2, fonte: `600 82px ${SERIF}`, cor: CREME, lh: 92, align: "center" });
+  escreve(x, "115 anos depois, estou aqui\npara contar a história dele.", {
+    xPos: W / 2, y: y + 30, larg: W - M * 2, fonte: `400 44px ${SERIF}`, cor: "#d6c3a8", lh: 62, align: "center" });
+  fio(x, W / 2, 1070, 300, "rgba(201,138,94,0.85)");
+  etiqueta(x, "Arraste →", { xPos: W / 2, y: 1140, cor: DESTAQUE, tam: 27, align: "center" });
+  rodape(x, 1, TOTAL, true);
+});
+
+/* 02 · o bisavô */
+slides.push(async (x, im) => {
+  x.fillStyle = PAPEL; x.fillRect(0, 0, W, H); grao(x);
+  etiqueta(x, "Capítulo um · o nome", { xPos: M, y: 150, cor: MARCA });
+  escreve(x, "Juca era o apelido do meu bisavô.", {
+    xPos: M, y: 240, larg: W - M * 2, fonte: `600 66px ${SERIF}`, cor: TINTA, lh: 76 });
+  const fw = 430, fh = 560, fx = W - M - fw;
+  x.fillStyle = "#fffcf4"; x.fillRect(fx - 14, 410 - 14, fw + 28, fh + 28);
+  x.strokeStyle = "#c0ab8c"; x.lineWidth = 1.5; x.strokeRect(fx - 14, 410 - 14, fw + 28, fh + 28);
+  cobre(x, im.juca, fx, 410, fw, fh, 0.08);
+  escreve(x, "Ele se chamava José Palma Chaves e nasceu em Santa Rita do Sapucaí, em 1887.\n\nFilho de portugueses, juntou terra no Sul de Minas e plantou café.",
+    { xPos: M, y: 470, larg: fx - M - 56, fonte: `400 34px ${SERIF}`, cor: "#5c4635", lh: 50 });
+  escreve(x, "O que ficou não foi o dinheiro. Foi o café e um apelido.", {
+    xPos: M, y: 1080, larg: W - M * 2, fonte: `italic 400 46px ${SERIF}`, cor: MARCA, lh: 60 });
+  rodape(x, 2, TOTAL, false);
+});
+
+/* 03 · o apelido volta */
+slides.push(async (x, im) => {
+  cobre(x, im.jh, 0, 0, W, H, 0.42); veu(x, 0.95);
+  etiqueta(x, "Capítulo dois · o apelido", { xPos: M, y: 150, cor: DESTAQUE });
+  escreve(x, "Nasci em 2002, 115 anos depois dele.", {
+    xPos: M, y: 250, larg: W - M * 2, fonte: `600 62px ${SERIF}`, cor: CREME, lh: 74 });
+  escreve(x, "Na infância meu irmão Pedro já me chamava de Juca. Na adolescência os amigos adotaram o apelido, sem imaginar que muito antes de mim já havia existido outro Juca na família.\n\nO nome ficou, atravessando gerações.",
+    { xPos: M, y: 980, larg: W - M * 2, fonte: `400 36px ${SERIF}`, cor: "#e3d2b8", lh: 52 });
+  rodape(x, 3, TOTAL, true);
+});
+
+/* 04 · a terra */
+slides.push(async (x, im) => {
+  cobre(x, im.cafezal, 0, 0, W, H, 0.5); veu(x, 0.92);
+  etiqueta(x, "A terra", { xPos: M, y: 150, cor: DESTAQUE });
+  escreve(x, "Uma lavoura só,\nhoje em nove talhões.", {
+    xPos: M, y: 260, larg: W - M * 2, fonte: `600 66px ${SERIF}`, cor: CREME, lh: 80 });
+  const nums = [["998", "metros acima do mar"], ["9", "talhões em produção"], ["4", "gerações no café"]];
+  nums.forEach(([n, r], i) => {
+    const y = 820 + i * 150;
+    x.save(); x.strokeStyle = "rgba(201,138,94,0.5)"; x.lineWidth = 1.4;
+    x.beginPath(); x.moveTo(M, y - 74); x.lineTo(W - M, y - 74); x.stroke(); x.restore();
+    x.save(); x.font = `600 64px ${SERIF}`; x.fillStyle = DESTAQUE; x.fillText(n, M, y); x.restore();
+    etiqueta(x, r, { xPos: W - M, y: y - 8, cor: "#d6c3a8", tam: 25, align: "right" });
+  });
+  rodape(x, 4, TOTAL, true);
+});
+
+/* 05 · o processo */
+slides.push(async (x, im) => {
+  cobre(x, im.terreiro, 0, 0, W, H, 0.55); veu(x, 0.95);
+  /* a metade de baixo e' toda cereja vermelha, e a lista de etapas some nela:
+     um segundo veu, so' do meio para baixo, devolve a leitura */
+  {
+    const g = x.createLinearGradient(0, H * 0.42, 0, H);
+    g.addColorStop(0, "rgba(26,16,11,0)"); g.addColorStop(0.45, "rgba(26,16,11,0.5)");
+    g.addColorStop(1, "rgba(26,16,11,0.72)");
+    x.fillStyle = g; x.fillRect(0, H * 0.42, W, H * 0.58);
+  }
+  etiqueta(x, "O processo", { xPos: M, y: 150, cor: DESTAQUE });
+  escreve(x, "Cinco etapas, todas\ndentro do sítio.", {
+    xPos: M, y: 260, larg: W - M * 2, fonte: `600 66px ${SERIF}`, cor: CREME, lh: 80 });
+  const etapas = [["01", "Colheita", "Na mão, pé por pé"], ["02", "Secagem", "No terreiro, ao sol"],
+    ["03", "Seleção", "Peneira, prova e nota"], ["04", "Torra", "Numa máquina do tempo dele"],
+    ["05", "Moagem", "Só na hora de enviar"]];
+  etapas.forEach(([n, t, c], i) => {
+    const y = 700 + i * 108;
+    x.save(); x.font = `400 30px ${MONO}`; x.fillStyle = "rgba(232,185,141,0.85)"; x.fillText(n, M, y); x.restore();
+    x.save(); x.font = `600 42px ${SERIF}`; x.fillStyle = CREME; x.fillText(t, M + 84, y); x.restore();
+    x.save(); x.font = `italic 400 30px ${SERIF}`; x.fillStyle = "#c9a678";
+    x.textAlign = "right"; x.fillText(c, W - M, y); x.restore();
+    x.save(); x.strokeStyle = "rgba(239,227,204,0.18)"; x.lineWidth = 1;
+    x.beginPath(); x.moveTo(M, y + 34); x.lineTo(W - M, y + 34); x.stroke(); x.restore();
+  });
+  rodape(x, 5, TOTAL, true);
+});
+
+/* 06 · quem faz */
+slides.push(async (x, im) => {
+  x.fillStyle = PAPEL; x.fillRect(0, 0, W, H); grao(x);
+  etiqueta(x, "Capítulo três · hoje", { xPos: M, y: 150, cor: MARCA });
+  escreve(x, "Um economista e um farmacêutico tocando uma lavoura de café.", {
+    xPos: M, y: 240, larg: W - M * 2, fonte: `600 60px ${SERIF}`, cor: TINTA, lh: 74 });
+  const cw = (W - M * 2 - 44) / 2, ch = 400;
+  [["jh", "João Henrique · Juca", "Daqui para fora"], ["fer", "Fernandinho", "Do pé à torra"]]
+    .forEach(([k, nome, papel], i) => {
+      const cx = M + i * (cw + 44), cy = 500;
+      x.fillStyle = "#fffcf4"; x.fillRect(cx - 10, cy - 10, cw + 20, ch + 20);
+      x.strokeStyle = "#c0ab8c"; x.lineWidth = 1.5; x.strokeRect(cx - 10, cy - 10, cw + 20, ch + 20);
+      cobre(x, im[k], cx, cy, cw, ch, k === "fer" ? 0.25 : 0.4);
+      x.save(); x.strokeStyle = TINTA; x.lineWidth = 3;
+      x.beginPath(); x.moveTo(cx, cy + ch + 56); x.lineTo(cx + cw, cy + ch + 56); x.stroke(); x.restore();
+      escreve(x, nome, { xPos: cx, y: cy + ch + 116, larg: cw, fonte: `600 38px ${SERIF}`, cor: TINTA, lh: 46 });
+      etiqueta(x, papel, { xPos: cx, y: cy + ch + 166, cor: MARCA, tam: 23 });
+    });
+  escreve(x, "Ele cuida dos nove talhões, da colheita à torra, e assina a classificação. Eu cuido da marca, do site e do seu pedido.",
+    { xPos: M, y: 1170, larg: W - M * 2, fonte: `400 33px ${SERIF}`, cor: "#5c4635", lh: 46 });
+  rodape(x, 6, TOTAL, false);
+});
+
+/* 07 · os cafés */
+slides.push(async (x, im) => {
+  x.fillStyle = PAPEL; x.fillRect(0, 0, W, H); grao(x);
+  etiqueta(x, "Os cafés", { xPos: W / 2, y: 148, cor: MARCA, align: "center" });
+  escreve(x, "Cinco rótulos, uma lavoura só.", {
+    xPos: W / 2, y: 236, larg: W - M * 2, fonte: `600 60px ${SERIF}`, cor: TINTA, lh: 72, align: "center" });
+  escreve(x, "Do café do dia a dia aos microlotes de edição limitada.", {
+    xPos: W / 2, y: 310, larg: W - M * 2, fonte: `italic 400 34px ${SERIF}`, cor: "#5c4635", lh: 46, align: "center" });
+
+  /* três em cima e dois embaixo, e não cinco numa fila: numa fila de cinco
+     cada rótulo fica com cento e sessenta pixels e vira mancha. Assim eles
+     chegam a duzentos e trinta e ainda dá para ver o desenho de cada um. */
+  const rw = 234, gap = 30, hMax = rw * (1446 / 874);
+  const fileiras = [["vojuca", "reserva998", "minassanta"], ["herancas_2sl", "herancas_24137"]];
+  fileiras.forEach((fila, fi) => {
+    const total = fila.length * rw + (fila.length - 1) * gap;
+    const x0 = (W - total) / 2, y0 = 400 + fi * (hMax + 28);
+    fila.forEach((k, i) => {
+      const r = im["rot_" + k];
+      const h = rw * (r.naturalHeight / r.naturalWidth);
+      x.drawImage(r, x0 + i * (rw + gap), y0, rw, h);
+    });
+  });
+  fio(x, W / 2, 1238, 340, "rgba(140,58,32,0.5)");
+  rodape(x, 7, TOTAL, false);
+});
+
+/* 08 · a promoção */
+slides.push(async (x) => {
+  x.fillStyle = MARCA; x.fillRect(0, 0, W, H);
+  x.save();
+  for (let i = 0; i < 18000; i++) { x.fillStyle = `rgba(0,0,0,${Math.random() * 0.05})`;
+    x.fillRect(Math.random() * W, Math.random() * H, 2, 2); }
+  x.restore();
+  etiqueta(x, "Preço de lançamento", { xPos: W / 2, y: 430, cor: "rgba(247,239,224,0.85)", align: "center", tam: 28 });
+  x.save(); x.font = `600 210px ${SERIF}`; x.fillStyle = CREME; x.textAlign = "center";
+  x.fillText("30%", W / 2, 620); x.restore();
+  x.save(); x.font = `600 96px ${SERIF}`; x.fillStyle = CREME; x.textAlign = "center";
+  x.fillText("de desconto", W / 2, 730); x.restore();
+  fio(x, W / 2, 810, 320, "rgba(247,239,224,0.7)");
+  escreve(x, "Em todos os cafés, por tempo limitado.\nJá aplicado no preço do site.", {
+    xPos: W / 2, y: 900, larg: W - M * 2, fonte: `400 40px ${SERIF}`, cor: "#f2e0c8", lh: 58, align: "center" });
+  rodape(x, 8, TOTAL, true);
+});
+
+/* 09 · o pedido */
+slides.push(async (x, im) => {
+  cobre(x, im.poente, 0, 0, W, H, 0.5); veu(x, 1);
+  selo(x, im.selo, W / 2, 290, 190);
+  escreve(x, "Já estamos aceitando pedidos.", {
+    xPos: W / 2, y: 520, larg: W - M * 2, fonte: `600 62px ${SERIF}`, cor: CREME, lh: 76, align: "center" });
+  escreve(x, "Você escolhe o café e a moagem, e o WhatsApp abre com o pedido já escrito. Sem formulário e sem cadastro: do outro lado sou eu.",
+    { xPos: W / 2, y: 638, larg: 840, fonte: `400 36px ${SERIF}`, cor: "#dbc8ad", lh: 52, align: "center" });
+  /* Nada de botão desenhado: numa imagem de Instagram ele parece clicável e
+     não é, e quem toca e não acontece nada desiste. O que existe de verdade
+     ali é o link da bio, então é ele que a imagem manda procurar. */
+  fio(x, W / 2, 880, 300, "rgba(201,138,94,0.8)");
+  escreve(x, "O link está na bio", {
+    xPos: W / 2, y: 985, larg: W - M * 2, fonte: `600 58px ${SERIF}`, cor: CREME, lh: 68, align: "center" });
+  etiqueta(x, "sitevojuca.vercel.app", { xPos: W / 2, y: 1055, cor: DESTAQUE, tam: 29, align: "center" });
+  escreve(x, "ou chame no WhatsApp (48) 99112-7997", {
+    xPos: W / 2, y: 1135, larg: W - M * 2, fonte: `400 33px ${SERIF}`, cor: "#c9b79c", lh: 44, align: "center" });
+  rodape(x, 9, TOTAL, true);
+});
+
+/* ——————————————————— montagem ——————————————————— */
+(async () => {
+  await document.fonts.load(`600 82px ${SERIF}`);
+  await document.fonts.load(`400 34px ${MONO}`);
+  await document.fonts.ready;
+  diz("fontes prontas");
+
+  const im = {};
+  const fotos = { capa: "capa-terra.webp", selo: "selo.png", juca: "juca-retrato-selo.jpg",
+    jh: "joao-henrique.jpg", fer: "fernandinho.jpg", cafezal: "linhas-cafezal.jpg",
+    terreiro: "terreiro-cerejas.jpg", poente: "cafe-poente.jpg" };
+  for (const [k, f] of Object.entries(fotos)) im[k] = await carrega("/foto/" + f);
+  for (const k of ["vojuca", "reserva998", "herancas_2sl", "herancas_24137", "minassanta"])
+    im["rot_" + k] = await carrega("/rotulo/rotulo_" + k + "_1x.webp");
+  diz("imagens prontas");
+
+  for (let i = 0; i < slides.length; i++) {
+    const c = document.createElement("canvas");
+    c.width = W; c.height = H;
+    const x = c.getContext("2d");
+    x.textBaseline = "alphabetic";
+    await slides[i](x, im);
+    const b = await new Promise(r => c.toBlob(r, "image/jpeg", 0.92));
+    await fetch(`/salvar/vojuca-carrossel-${String(i + 1).padStart(2, "0")}.jpg`, { method: "POST", body: b });
+    diz(`slide ${i + 1} · ${(b.size / 1024).toFixed(0)} KB`);
+    c.style.cssText = "width:216px;margin:4px;vertical-align:top";
+    document.body.appendChild(c);
+  }
+  diz("PRONTO");
+})().catch(e => diz("ERRO: " + e.message));
+</script></body>

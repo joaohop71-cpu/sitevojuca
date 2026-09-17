@@ -53,6 +53,22 @@ export default function Contato() {
               </div>
               <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
                 <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#6f5b44]">
+                  Instagram
+                </dt>
+                <dd className="m-0">
+                  <a
+                    href={`https://instagram.com/${MARCA.instagram}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-sublinhado alvo text-[19px]"
+                    style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
+                  >
+                    @{MARCA.instagram}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex flex-wrap items-baseline justify-between gap-3 border-b border-[rgba(58,39,27,0.2)] py-4">
+                <dt className="ficha text-[14px] uppercase tracking-[0.16em] text-[#6f5b44]">
                   Onde ficamos
                 </dt>
                 <dd className="ficha m-0 text-right text-[#3a271b]">
@@ -173,6 +189,14 @@ export default function Contato() {
               <p className="ficha mt-1.5 text-[14px] leading-relaxed tracking-[0.1em]">
                 {MARCA.descritor} · St. Rita do Sapucaí · {MARCA.regiao}
               </p>
+              <a
+                href={`https://instagram.com/${MARCA.instagram}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ficha alvo mt-0.5 inline-block text-[14px] tracking-[0.1em] text-[#efe3cc] underline-offset-4 hover:underline"
+              >
+                @{MARCA.instagram}
+              </a>
             </div>
           </div>
         </div>

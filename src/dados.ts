@@ -15,6 +15,7 @@ export const MARCA = {
   whatsapp: "5548991127997",
   whatsappVisivel: "(48) 99112-7997",
   email: "cafevojuca@gmail.com",
+  instagram: "cafevojuca",
   mapaLat: -22.2098652,
   mapaLng: -45.6187367,
   mapaLink:

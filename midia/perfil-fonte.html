@@ -1,0 +1,52 @@
+<!doctype html><meta charset="utf-8">
+<body style="background:#222;color:#ddd;font:13px monospace;margin:0;padding:16px">
+<pre id="log">…</pre>
+<script type="module">
+const L=document.getElementById("log"), diz=t=>L.textContent+="\n"+t;
+const D=1080, PAPEL="#efe3cc", PAPEL_ALTO="#f6eede";
+const carrega=u=>new Promise(async ok=>{const im=new Image();im.src=u;await im.decode();ok(im);});
+
+/* O Instagram recorta a foto de perfil num círculo e mostra ela a cento e dez
+   pixels no celular. Então tudo que importa fica dentro do círculo inscrito,
+   com folga, e nada de detalhe que só se veja em tamanho grande. */
+function fundo(x){
+  x.fillStyle=PAPEL; x.fillRect(0,0,D,D);
+  for(let i=0;i<22000;i++){x.fillStyle=`rgba(58,39,27,${Math.random()*0.045})`;
+    x.fillRect(Math.random()*D,Math.random()*D,2,2);}
+}
+
+(async()=>{
+  const selo=await carrega("/foto/selo.png");
+
+  /* 1 · o selo inteiro, que é a marca como ela existe */
+  {
+    const c=document.createElement("canvas"); c.width=c.height=D;
+    const x=c.getContext("2d"); x.imageSmoothingQuality="high";
+    fundo(x);
+    const d=Math.round(D*0.84);
+    x.drawImage(selo,(D-d)/2,(D-d)/2,d,d);
+    const b=await new Promise(r=>c.toBlob(r,"image/jpeg",0.94));
+    await fetch("/salvar/perfil-selo.jpg",{method:"POST",body:b});
+    diz("selo "+(b.size/1024).toFixed(0)+" KB");
+    c.style.cssText="width:200px;border-radius:50%;margin:6px"; document.body.appendChild(c);
+  }
+
+  /* 2 · só o busto, que é o que se lê a cento e dez pixels */
+  {
+    const c=document.createElement("canvas"); c.width=c.height=D;
+    const x=c.getContext("2d"); x.imageSmoothingQuality="high";
+    fundo(x);
+    x.filter="contrast(1.06)";
+    /* fechado o bastante para não entrar nenhum caco do anel do selo: o texto
+       "VÔ JUCA" termina por volta de y=128 e as folhas começam em y=390 */
+    const B={sx:122,sy:130,s:248}, m=0.02, d=Math.round(D*(1-2*m));
+    x.drawImage(selo,B.sx,B.sy,B.s,B.s,Math.round(D*m),Math.round(D*m),d,d);
+    x.filter="none";
+    const b=await new Promise(r=>c.toBlob(r,"image/jpeg",0.94));
+    await fetch("/salvar/perfil-busto.jpg",{method:"POST",body:b});
+    diz("busto "+(b.size/1024).toFixed(0)+" KB");
+    c.style.cssText="width:200px;border-radius:50%;margin:6px"; document.body.appendChild(c);
+  }
+  diz("PRONTO");
+})().catch(e=>diz("ERRO "+e.message));
+</script></body>
