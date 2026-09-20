@@ -1,6 +1,5 @@
-import { Botao, Brasao, Faixa, Rubrica } from "./base";
+import { Botao, Faixa, Rubrica } from "./base";
 import { MARCA, PROMO, zap } from "@/dados";
-import { busto } from "@/imagens";
 
 /* Ícones pequenos, de um traço só, na cor do texto do rodapé — o site não
    usa o verde do WhatsApp nem o gradiente do Instagram em lugar nenhum, e
@@ -211,7 +210,10 @@ export default function Contato() {
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            <Brasao src={busto} alt={MARCA.nome} className="h-14 w-14 sm:h-16 sm:w-16" />
+            {/* Aqui o busto ficou de fora: o rodapé é marrom, a arte é de
+                traço escuro, e sobre esse fundo ela só apareceria pintada de
+                claro — o negativo. Ele está na aba e no cabeçalho, que é
+                onde o fundo é papel. */}
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"

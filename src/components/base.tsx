@@ -5,46 +5,6 @@ import ramoDir from "@/assets/ramo-dir.webp";
 import ramoEsqCurto from "@/assets/ramo-esq-curto.webp";
 import ramoDirCurto from "@/assets/ramo-dir-curto.webp";
 
-/**
- * Uma ilustração de tinta única, carimbada no disco do papel da marca — como
- * ela sai impressa no rótulo.
- *
- * Antes essas artes entravam como máscara pintada numa cor sólida: isso
- * acendia todo o traço numa intensidade só e apagava o meio-tom, e o desenho
- * saía "em negativo" (o busto na capa tinha esse mesmo problema — ver o
- * comentário em Capa.tsx). Aqui a arte mantém a tinta original, gravada nela
- * mesma; o disco por baixo só existe para ela aparecer sobre qualquer fundo,
- * inclusive um escuro.
- */
-export function Brasao({
-  src,
-  alt,
-  papel = "#f2e7d3",
-  className = "",
-}: {
-  src: string;
-  /** um nome acessível transforma o carimbo em imagem; sem ele, é decoração */
-  alt?: string;
-  /** a cor do disco por baixo da arte */
-  papel?: string;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`relative shrink-0 rounded-full ${className}`}
-      style={{ backgroundColor: papel }}
-      {...(alt ? { role: "img", "aria-label": alt } : { "aria-hidden": true })}
-    >
-      <img
-        src={src}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-contain p-[8%]"
-      />
-    </div>
-  );
-}
-
 export function Faixa({
   children,
   className = "",

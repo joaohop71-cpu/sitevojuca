@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
-import { Brasao } from "./base";
 import { busto } from "@/imagens";
 
 const ITENS = [
@@ -100,10 +99,19 @@ export default function Navegacao() {
           onClick={() => setAberto(false)}
           className="flex shrink-0 items-center gap-2.5"
         >
-          {/* O busto vinha como máscara de cor sólida, e a 44 px o traço saía
-              achatado, em negativo. No disco do papel ele mantém a tinta
-              original — a mesma arte do ícone da aba e do rodapé. */}
-          <Brasao src={busto} alt={MARCA.nome} className="h-11 w-11 sm:h-[52px] sm:w-[52px]" />
+          {/* O busto sozinho, na tinta original, sem disco nenhum por baixo.
+              Por isso ele só aparece quando a barra já virou papel: a arte é
+              de traço escuro, e sobre a capa escura ela sumiria — pintá-la de
+              creme para aparecer é justamente o negativo que não queremos.
+              Fica no lugar de qualquer jeito, só invisível, senão o nome
+              pularia de posição no primeiro giro da rolagem. */}
+          <img
+            src={busto}
+            alt=""
+            aria-hidden="true"
+            className="h-14 w-auto transition-opacity duration-300 sm:h-[60px]"
+            style={{ opacity: claro ? 0 : 1 }}
+          />
           <span
             className="text-[24px] leading-none transition-colors duration-300 sm:text-[28px]"
             style={{

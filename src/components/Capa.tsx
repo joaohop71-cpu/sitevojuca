@@ -42,7 +42,13 @@ export default function Capa() {
             A largura fica no invólucro e a caixa por dentro ocupa 100% dela:
             é o que faz a reserva de altura por padding (o retrato de quem não
             tem aspect-ratio) medir contra a largura certa. */}
-        <div className="mx-auto w-[clamp(172px,30vw,236px)]">
+        {/* o descritor abre a página, como a linha de cima de um rótulo; o selo
+            vem depois dele, e não antes */}
+        <p className="eyebrow-cru leading-relaxed" style={{ color: "#d8c3a0" }}>
+          {MARCA.descritor} · {MARCA.regiao}
+        </p>
+
+        <div className="mx-auto mt-6 w-[clamp(172px,30vw,236px)]">
           <div
             className="caixa-brasao relative rounded-full"
             style={{ aspectRatio: "1 / 1", backgroundColor: "#f2e7d3" }}
@@ -57,10 +63,6 @@ export default function Capa() {
             />
           </div>
         </div>
-
-        <p className="eyebrow-cru mt-6 leading-relaxed" style={{ color: "#d8c3a0" }}>
-          {MARCA.descritor} · {MARCA.regiao}
-        </p>
 
         {/* A capa era um enigma: "o apelido pulou três" só fecha depois que a
             pessoa leu o "Sobre nós", lá embaixo. E era a única parte do site
