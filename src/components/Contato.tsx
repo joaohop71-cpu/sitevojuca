@@ -1,6 +1,6 @@
-import { Botao, Faixa, Rubrica } from "./base";
+import { Botao, Brasao, Faixa, Rubrica } from "./base";
 import { MARCA, PROMO, zap } from "@/dados";
-import { selo } from "@/imagens";
+import { busto } from "@/imagens";
 
 /* Ícones pequenos, de um traço só, na cor do texto do rodapé — o site não
    usa o verde do WhatsApp nem o gradiente do Instagram em lugar nenhum, e
@@ -211,20 +211,7 @@ export default function Contato() {
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            {/* O selo, na tinta original dele, sobre um disco do papel — o
-                mesmo tratamento da capa. A marca pintada de creme apagava o
-                rosto e o traço saía em negativo; aqui ele fica como é
-                impresso no rótulo. */}
-            <div
-              className="relative h-14 w-14 shrink-0 rounded-full sm:h-16 sm:w-16"
-              style={{ backgroundColor: "#f2e7d3" }}
-            >
-              <img
-                src={selo}
-                alt={MARCA.nome}
-                className="absolute left-1/2 top-1/2 w-[97%] -translate-x-1/2 -translate-y-1/2"
-              />
-            </div>
+            <Brasao src={busto} alt={MARCA.nome} className="h-14 w-14 sm:h-16 sm:w-16" />
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"

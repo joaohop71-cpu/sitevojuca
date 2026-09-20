@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
+import { Brasao } from "./base";
+import { busto } from "@/imagens";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
@@ -96,13 +98,14 @@ export default function Navegacao() {
         <a
           href="#topo"
           onClick={() => setAberto(false)}
-          className="flex shrink-0 items-center"
+          className="flex shrink-0 items-center gap-2.5"
         >
-          {/* O selo saiu daqui. Ele aparece grande na capa e é o ícone da aba;
-              no cabeçalho, a 44 px, virava um borrão de traços finos ao lado de
-              um nome pequeno. Sem ele, o nome ocupa o lugar dos dois. */}
+          {/* O busto vinha como máscara de cor sólida, e a 44 px o traço saía
+              achatado, em negativo. No disco do papel ele mantém a tinta
+              original — a mesma arte do ícone da aba e do rodapé. */}
+          <Brasao src={busto} alt={MARCA.nome} className="h-11 w-11 sm:h-[52px] sm:w-[52px]" />
           <span
-            className="text-[26px] leading-none transition-colors duration-300 sm:text-[30px]"
+            className="text-[24px] leading-none transition-colors duration-300 sm:text-[28px]"
             style={{
               fontFamily: "Fraunces, Georgia, serif",
               fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 24',
@@ -115,8 +118,13 @@ export default function Navegacao() {
           </span>
         </a>
 
-        {/* links inline — só no desktop */}
-        <div className="hidden min-w-0 flex-1 items-center justify-end gap-5 lg:flex lg:gap-6">
+        {/* links inline — só no desktop.
+            Antes o corte era em 1024 px (lg). Com o busto de volta ao lado do
+            nome, a marca ficou mais larga e os sete links mais o botão não
+            cabiam mais entre 1024 e ~1150 px: a linha inteira empurrava para
+            fora da caixa e ia parar embaixo do nome. 1280 (xl) é o primeiro
+            ponto com folga de sobra. */}
+        <div className="hidden min-w-0 flex-1 items-center justify-end gap-5 xl:flex xl:gap-6">
           {ITENS.map((i) => (
             <a
               key={i.href}
@@ -151,7 +159,7 @@ export default function Navegacao() {
         </div>
 
         {/* mobile: atalho de pedido + menu */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-2 xl:hidden">
           <a
             href={destino}
             onClick={() => registrarPedido(resumo)}
@@ -203,7 +211,7 @@ export default function Navegacao() {
       {aberto && (
         <div
           id="menu-mobile"
-          className="border-t border-[rgba(58,39,27,0.16)] lg:hidden"
+          className="border-t border-[rgba(58,39,27,0.16)] xl:hidden"
           style={{ background: "rgba(239,227,204,0.98)" }}
         >
           <div className="mx-auto w-[min(100%-2rem,1120px)] py-2">

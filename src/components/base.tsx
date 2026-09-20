@@ -1,81 +1,47 @@
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { busto, selo } from "@/imagens";
 import ramoEsq from "@/assets/ramo-esq.webp";
 import ramoDir from "@/assets/ramo-dir.webp";
 import ramoEsqCurto from "@/assets/ramo-esq-curto.webp";
 import ramoDirCurto from "@/assets/ramo-dir-curto.webp";
 
 /**
- * O selo pintado numa cor exata.
+ * Uma ilustração de tinta única, carimbada no disco do papel da marca — como
+ * ela sai impressa no rótulo.
  *
- * Antes ele era clareado por filtro (`brightness(0) invert(1)`), que só sabe
- * produzir branco puro — e branco não é uma cor desta marca. Como a arte é de
- * uma tinta só sobre transparência, ela serve de máscara: o que pinta é o
- * fundo, e aí a cor é escolhida, não calculada.
+ * Antes essas artes entravam como máscara pintada numa cor sólida: isso
+ * acendia todo o traço numa intensidade só e apagava o meio-tom, e o desenho
+ * saía "em negativo" (o busto na capa tinha esse mesmo problema — ver o
+ * comentário em Capa.tsx). Aqui a arte mantém a tinta original, gravada nela
+ * mesma; o disco por baixo só existe para ela aparecer sobre qualquer fundo,
+ * inclusive um escuro.
  */
-export function Selo({
-  cor,
+export function Brasao({
+  src,
+  alt,
+  papel = "#f2e7d3",
   className = "",
-  rotulo,
 }: {
-  cor: string;
+  src: string;
+  /** um nome acessível transforma o carimbo em imagem; sem ele, é decoração */
+  alt?: string;
+  /** a cor do disco por baixo da arte */
+  papel?: string;
   className?: string;
-  /** um nome acessível transforma o selo em imagem; sem ele, é decoração */
-  rotulo?: string;
 }) {
   return (
     <div
-      className={`transition-colors duration-300 ${className}`}
-      {...(rotulo ? { role: "img", "aria-label": rotulo } : { "aria-hidden": true })}
-      style={{
-        backgroundColor: cor,
-        maskImage: `url(${selo})`,
-        WebkitMaskImage: `url(${selo})`,
-        maskSize: "contain",
-        WebkitMaskSize: "contain",
-        maskRepeat: "no-repeat",
-        WebkitMaskRepeat: "no-repeat",
-        maskPosition: "center",
-        WebkitMaskPosition: "center",
-      }}
-    />
-  );
-}
-
-/**
- * O busto, pintado numa cor exata.
- *
- * Mesma técnica do <Selo>: a arte é de uma tinta só sobre transparência, então
- * ela serve de máscara e quem pinta é o fundo. É isso que deixa o desenho sair
- * no creme da marca sobre a capa escura e na tinta sobre o papel, sem filtro e
- * sem dois arquivos.
- */
-export function Busto({
-  cor,
-  className = "",
-  rotulo,
-}: {
-  cor: string;
-  className?: string;
-  rotulo?: string;
-}) {
-  return (
-    <div
-      className={`transition-colors duration-300 ${className}`}
-      {...(rotulo ? { role: "img", "aria-label": rotulo } : { "aria-hidden": true })}
-      style={{
-        backgroundColor: cor,
-        maskImage: `url(${busto})`,
-        WebkitMaskImage: `url(${busto})`,
-        maskSize: "contain",
-        WebkitMaskSize: "contain",
-        maskRepeat: "no-repeat",
-        WebkitMaskRepeat: "no-repeat",
-        maskPosition: "center",
-        WebkitMaskPosition: "center",
-      }}
-    />
+      className={`relative shrink-0 rounded-full ${className}`}
+      style={{ backgroundColor: papel }}
+      {...(alt ? { role: "img", "aria-label": alt } : { "aria-hidden": true })}
+    >
+      <img
+        src={src}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-contain p-[8%]"
+      />
+    </div>
   );
 }
 
