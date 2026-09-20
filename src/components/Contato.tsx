@@ -211,28 +211,22 @@ export default function Contato() {
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            {/* O busto no marrom do rodapé.
-                A arte é de traço escuro: sobre este fundo ela precisa ir
-                pintada no creme, que é o único jeito de um desenho de linha
-                aparecer sobre escuro. O que antes ficava ruim era o tamanho —
-                a 64 px o traço fino empastava e virava um borrão. Grande, o
-                desenho se lê, e o creme é o mesmo do nome ao lado, então ele
-                combina com o resto do rodapé em vez de parecer um decalque. */}
-            <div
-              aria-hidden="true"
-              className="h-20 w-[74px] shrink-0 sm:h-24 sm:w-[89px]"
-              style={{
-                backgroundColor: "#d8c3a0",
-                maskImage: `url(${busto})`,
-                WebkitMaskImage: `url(${busto})`,
-                maskSize: "contain",
-                WebkitMaskSize: "contain",
-                maskRepeat: "no-repeat",
-                WebkitMaskRepeat: "no-repeat",
-                maskPosition: "center",
-                WebkitMaskPosition: "center",
-              }}
-            />
+            {/* O busto vem com o papel dele.
+                Sobre o marrom, tinta escura não aparece, e pintar o desenho
+                de claro inverte o traço — é o negativo. A saída é trazer o
+                fundo junto, e o fundo desta casa não é um disco branco: é o
+                mesmo cartão de papel rasgado dos rótulos, aqui do tamanho de
+                um carimbo colado no rodapé. */}
+            <div className="rasgo-ambos shrink-0" style={{ background: "#f2e7d3" }}>
+              <div className="rasgo-lados" style={{ padding: "30px 20px" }}>
+                <img
+                  src={busto}
+                  alt=""
+                  aria-hidden="true"
+                  className="block h-[84px] w-auto sm:h-24"
+                />
+              </div>
+            </div>
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"
