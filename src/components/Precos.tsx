@@ -132,6 +132,37 @@ export default function Precos() {
               O frete é combinado na conversa, e o pagamento é em {PAGAMENTO.frase}.
               Para revenda e volume maior, o preço muda; pergunte.
             </p>
+
+            {/* O bitcoin já estava escrito na linha de cima, no meio das outras
+                formas de pagamento — e ali ninguém repara. Aqui ele vira selo,
+                que é o peso que o assunto tem para quem procura por isso. O
+                símbolo vai desenhado: o ₿ (U+20BF) é recente e nem a Fraunces
+                nem a Courier Prime o desenham, então cairia numa fonte de
+                sistema qualquer, com outro traço e outro tamanho. */}
+            <div
+              className="mt-4 inline-flex items-center gap-2.5 border px-3 py-2"
+              style={{ borderColor: "rgba(140,58,32,0.45)", color: "#8c3a20" }}
+            >
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+                className="shrink-0"
+              >
+                <circle cx="12" cy="12" r="9.1" stroke="currentColor" strokeWidth="1.5" />
+                <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9.6 7.6v8.8" />
+                  <path d="M9.6 7.6h3.3a2.2 2.2 0 0 1 0 4.4H9.6" />
+                  <path d="M9.6 12h3.7a2.2 2.2 0 0 1 0 4.4H9.6" />
+                  <path d="M11.2 6.1v1.5M13.3 6.1v1.5M11.2 16.4v1.5M13.3 16.4v1.5" />
+                </g>
+              </svg>
+              <span className="ficha text-[14px] uppercase tracking-[0.12em]">
+                Aceitamos Bitcoin
+              </span>
+            </div>
           </div>
         </div>
 
