@@ -12,6 +12,9 @@
 
 export { default as selo } from "@/assets/selo.png";
 export { default as busto } from "@/assets/busto.png";
+/* a mesma arte com o miolo preenchido de creme: é a versão que aparece sobre
+   fundo escuro, onde o desenho de linha sozinho sairia em negativo */
+export { default as bustoCheio } from "@/assets/busto-cheio.png";
 
 /* a lavoura hoje */
 export { default as jucaLavoura } from "@/assets/juca-lavoura.jpg";

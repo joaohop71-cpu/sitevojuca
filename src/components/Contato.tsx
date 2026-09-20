@@ -1,6 +1,6 @@
 import { Botao, Faixa, Rubrica } from "./base";
 import { MARCA, PROMO, zap } from "@/dados";
-import { busto } from "@/imagens";
+import { bustoCheio } from "@/imagens";
 
 /* Ícones pequenos, de um traço só, na cor do texto do rodapé — o site não
    usa o verde do WhatsApp nem o gradiente do Instagram em lugar nenhum, e
@@ -211,22 +211,19 @@ export default function Contato() {
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            {/* O busto vem com o papel dele.
-                Sobre o marrom, tinta escura não aparece, e pintar o desenho
-                de claro inverte o traço — é o negativo. A saída é trazer o
-                fundo junto, e o fundo desta casa não é um disco branco: é o
-                mesmo cartão de papel rasgado dos rótulos, aqui do tamanho de
-                um carimbo colado no rodapé. */}
-            <div className="rasgo-ambos shrink-0" style={{ background: "#f2e7d3" }}>
-              <div className="rasgo-lados" style={{ padding: "30px 20px" }}>
-                <img
-                  src={busto}
-                  alt=""
-                  aria-hidden="true"
-                  className="block h-[84px] w-auto sm:h-24"
-                />
-              </div>
-            </div>
+            {/* A cor vai na própria logo.
+                O desenho é de linha: o traço é tinta e o miolo é vazio, então
+                sobre o marrom o miolo escurecia e o traço tinha de clarear —
+                o negativo. Aqui o miolo do desenho já vem preenchido de creme
+                no próprio arquivo, e o traço fica na tinta original. O papel
+                tem o formato do busto, não de um disco: nada atrás dele. */}
+            <img
+              src={bustoCheio}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className="block h-[92px] w-auto shrink-0 sm:h-[104px]"
+            />
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"
