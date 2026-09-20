@@ -68,7 +68,7 @@ export default function Sobre() {
       <Capitulo
         num="um"
         nome="A ideia"
-        frase="Passei uma semana na fazenda. Voltei com uma marca na cabeça."
+        frase="Passei uma semana no sítio. Voltei com uma marca na cabeça."
       >
         <P>
           Foi em 2025. Meu primo Fernandinho me levou para ver o café de perto, do pé ao
