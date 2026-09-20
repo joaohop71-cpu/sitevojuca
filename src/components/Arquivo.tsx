@@ -6,7 +6,9 @@ type Retrato = {
   src: string;
   alt: string;
   legenda: string;
-  nota: string;
+  /** só quando há algo a dizer além da legenda; as datas ainda não estão
+      conferidas com a família, então nenhum retrato afirma uma */
+  nota?: string;
   /** a etiqueta curta, o que se lê sem clicar */
   gancho: string;
   historia: string;
@@ -22,7 +24,6 @@ const RETRATOS: Retrato[] = [
     src: jucaEstudio,
     alt: "Retrato de estúdio do Juca jovem, de terno escuro e gravata-borboleta",
     legenda: "Retrato de estúdio. Avenida Photo, Rio de Janeiro.",
-    nota: "sem data",
     gancho: "O nome que ninguém usava",
     historia: `Meu bisavô se chamava ${MARCA.fundador}. Ninguém o chamava assim: ele era o Juca Chaves. Filho de portugueses, nasceu em ${MARCA.local} em ${MARCA.fundadorNasc}.`,
   },
@@ -30,7 +31,6 @@ const RETRATOS: Retrato[] = [
     src: jucaLinho,
     alt: "Juca de pé, em terno de linho claro e chapéu de palha, em cenário de estúdio",
     legenda: "Terno de linho, chapéu de palha. Arthur Photo, Rio.",
-    nota: "sem data",
     gancho: "A mala que ficou no trem",
     historia:
       "Os pais vieram de Portugal para construir alguma coisa aqui e chegaram quase sem nada: a mala com as joias e boa parte do patrimônio ficou para trás no trem. Começaram do zero.",
@@ -39,7 +39,6 @@ const RETRATOS: Retrato[] = [
     src: jucaCavalo,
     alt: "Juca montado a cavalo na propriedade",
     legenda: "A cavalo, na propriedade.",
-    nota: "sem data",
     gancho: "Onde entrou o café",
     historia: `O pai morreu cedo, num naufrágio, mas deu tempo de levantar o que a família precisava para seguir. O Juca foi além: juntou terra no ${MARCA.regiao} e plantou café.`,
   },
@@ -145,15 +144,12 @@ export default function Arquivo() {
               {atual.historia}
             </p>
             <p className="ficha mt-3 text-[14px] leading-relaxed text-[#6f5b44]">
-              {atual.legenda} <span className="opacity-65">[{atual.nota}]</span>
+              {atual.legenda}{" "}
+              {atual.nota && <span className="opacity-65">[{atual.nota}]</span>}
             </p>
           </div>
         </div>
       </div>
-
-      <p className="ficha reveal mt-6 max-w-[58ch] text-[14px] leading-relaxed text-[#6f5b44]">
-        As datas e legendas ainda estão sendo conferidas com a família.
-      </p>
     </div>
   );
 }
