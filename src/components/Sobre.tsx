@@ -183,9 +183,11 @@ export default function Sobre() {
 
         <Dobra rotulo="Quem plantou a lavoura" className="mt-10">
           <p className="ficha mt-4 max-w-[64ch] text-[15px] leading-relaxed text-[#6b4526]">
-            A plantação foi coisa do meu tio Nando, neto do Juca. Ele passou a vida no
-            café, com armazém e cooperativa, e mais velho resolveu plantar. Hoje quem toca
-            é o filho dele, o Fernandinho, com as pessoas que trabalham no sítio.
+            A lavoura de hoje é obra do meu tio Nando, neto do Juca. A família já
+            entendia de plantação, mas no café ele começou do zero: abriu um armazém,
+            trabalhou com cooperativa e, mais tarde, replantou a lavoura do começo. Hoje
+            quem toca é o filho dele, o Fernandinho, com as pessoas que trabalham no
+            sítio.
           </p>
         </Dobra>
       </Capitulo>

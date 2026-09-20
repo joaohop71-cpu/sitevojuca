@@ -1,4 +1,4 @@
-import { PROMO, brl, centavos, zap } from "@/dados";
+import { PAGAMENTO, PROMO, brl, centavos, zap } from "@/dados";
 import { useResumo, ajustar } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
 import { Botao, Contador, Dobra, Faixa, Rubrica } from "./base";
@@ -129,8 +129,8 @@ export default function Precos() {
             )}
 
             <p className="ficha mt-4 text-[14px] leading-relaxed text-[#6f5b44]">
-              O frete é combinado na conversa. Para revenda e volume maior, o preço
-              muda; pergunte.
+              O frete é combinado na conversa, e o pagamento é em {PAGAMENTO.frase}.
+              Para revenda e volume maior, o preço muda; pergunte.
             </p>
           </div>
         </div>

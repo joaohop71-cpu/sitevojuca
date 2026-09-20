@@ -308,6 +308,17 @@ export const PROMO = {
 };
 
 /**
+ * As formas de pagamento, escritas uma vez só.
+ *
+ * Aparecem no pedido e na assinatura, e é o tipo de frase que, repetida à
+ * mão em dois lugares, um dia diverge.
+ */
+export const PAGAMENTO = {
+  frase: "Pix, cartão de crédito ou Bitcoin",
+  curto: "Pix, cartão ou Bitcoin",
+};
+
+/**
  * O preço já com a promoção aplicada.
  *
  * Em centavos inteiros, e não em reais com vírgula: somar float de dinheiro

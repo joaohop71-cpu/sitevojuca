@@ -1,4 +1,4 @@
-import { MARCA, PROMO, zap } from "@/dados";
+import { MARCA, PAGAMENTO, PROMO, zap } from "@/dados";
 import { Botao, Dobra, Faixa, Rubrica } from "./base";
 
 const PLANOS = [
@@ -7,14 +7,15 @@ const PLANOS = [
     eyebrow: "Para casa",
     titulo: "Assinatura",
     resumo:
-      "Você escolhe o café, o moído ou o grão e de quanto em quanto tempo quer receber. Eu torro perto da data de enviar, não antes.",
+      "Você escolhe o café e a moagem, e ele chega todo mês sem precisar pedir de novo. Eu torro perto da data de enviar, não antes.",
     itens: [
-      "Mensal, quinzenal ou do seu jeito",
+      "Envio mensal, na data que a gente combinar",
       "Troca de café a qualquer mês, sem taxa",
       "Torra feita para o seu envio",
+      `Pagamento em ${PAGAMENTO.frase}`,
       "Pausa ou cancelamento por mensagem, sem multa",
     ],
-    zap: "Olá, João Henrique! Quero saber da assinatura do Vô Juca: quais cafés, com que frequência e quanto fica.",
+    zap: "Olá, João Henrique! Quero saber da assinatura mensal do Vô Juca: quais cafés, quanto por mês e quanto fica.",
     botao: "Montar a minha assinatura",
   },
   {
@@ -26,9 +27,10 @@ const PLANOS = [
     itens: [
       "Preço por quilo, e não por pacote",
       "Moagem acertada para a sua máquina",
-      "Entrega programada, na frequência que você usa",
+      "Entrega mensal programada, no volume que você usa",
       "Rótulo com o seu nome, a partir de um volume combinado",
       "Nota fiscal e faturamento",
+      `Pagamento em ${PAGAMENTO.frase}`,
     ],
     zap: "Olá, João Henrique! Represento uma empresa e quero uma proposta de fornecimento do Vô Juca. Nosso consumo aproximado é de",
     botao: "Pedir uma proposta",
@@ -104,9 +106,8 @@ export default function Empresas() {
         <Dobra rotulo="Como eu calculo o preço" className="mt-3">
           <p className="mt-4 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
             Assinatura e fornecimento não têm um preço de prateleira porque dependem de
-            três coisas: qual café, quanto por mês e com que frequência. Quem responde e
-            faz a conta sou eu, e faço em cima do seu consumo de verdade, não de uma
-            faixa genérica.
+            duas coisas: qual café e quanto por mês. Quem responde e faz a conta sou eu,
+            e faço em cima do seu consumo de verdade, não de uma faixa genérica.
           </p>
           <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
             O que já dá para adiantar: quanto maior o volume, menor o preço por quilo, e
@@ -116,7 +117,8 @@ export default function Empresas() {
           </p>
           <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
             Me diga quanto café a sua casa ou a sua empresa consome por mês e eu volto
-            com número, prazo e forma de pagamento.
+            com número e prazo. O envio é mensal, e o pagamento é em{" "}
+            <strong className="font-semibold text-[#3a271b]">{PAGAMENTO.frase}</strong>.
           </p>
           <div className="mt-5 pb-1" data-print-hide>
             <Botao href={`mailto:${MARCA.email}?subject=Assinatura%20e%20fornecimento`} tom="vazio" largo>
