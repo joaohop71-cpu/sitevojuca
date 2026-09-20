@@ -73,10 +73,15 @@ export default function Capa() {
           style={{ color: "#f7efe0" }}
         >
           Juca foi o meu bisavô.{" "}
-          {/* o número não se separa da unidade: solto no fim da linha, o "115"
-              ficava colado na frase anterior e a segunda começava em "anos" */}
-          {MARCA.anosEntreOsJucas}
-          {"\u00A0anos depois, estou aqui para contar a história dele."}
+          {/* A segunda frase muda de voz sem mudar de letra: o itálico da
+              Fraunces é desenhado à parte, não é a romana inclinada, e o cobre
+              é o mesmo dos fios e das etiquetas da capa. O número não se
+              separa da unidade: solto no fim da linha, o "115" ficava colado
+              na frase anterior e a segunda começava em "anos". */}
+          <span className="italic" style={{ color: "#e8b98d", fontWeight: 400 }}>
+            {MARCA.anosEntreOsJucas}
+            {"\u00A0anos depois, estou aqui para contar a história dele."}
+          </span>
         </h1>
 
         <p
