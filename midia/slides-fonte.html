@@ -283,7 +283,7 @@ slides.push(async (x, im) => {
   escreve(x, "O link está na bio", {
     xPos: W / 2, y: 985, larg: W - M * 2, fonte: `600 58px ${SERIF}`, cor: CREME, lh: 68, align: "center" });
   etiqueta(x, "sitevojuca.vercel.app", { xPos: W / 2, y: 1055, cor: DESTAQUE, tam: 29, align: "center" });
-  escreve(x, "ou chame no WhatsApp (48) 99112-7997", {
+  escreve(x, "ou chame no WhatsApp (48) 99151-3871", {
     xPos: W / 2, y: 1135, larg: W - M * 2, fonte: `400 33px ${SERIF}`, cor: "#c9b79c", lh: 44, align: "center" });
   rodape(x, 9, TOTAL, true);
 });
@@ -304,7 +304,14 @@ slides.push(async (x, im) => {
     im["rot_" + k] = await carrega("/rotulo/rotulo_" + k + "_1x.webp");
   diz("imagens prontas");
 
+  /* ?so=9 ou ?so=8,9 refaz só as páginas pedidas, sem gerar o resto de novo —
+     o grão de fundo usa Math.random(), então rodar tudo de novo mudava até
+     as páginas que não tinham mudado. */
+  const so = new URLSearchParams(location.search).get("so");
+  const alvo = so ? new Set(so.split(",").map(Number)) : null;
+
   for (let i = 0; i < slides.length; i++) {
+    if (alvo && !alvo.has(i + 1)) continue;
     const c = document.createElement("canvas");
     c.width = W; c.height = H;
     const x = c.getContext("2d");

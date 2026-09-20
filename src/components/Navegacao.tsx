@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
-import { Busto } from "./base";
 import { registrarPedido } from "@/pedido";
 
 const ITENS = [
@@ -97,19 +96,13 @@ export default function Navegacao() {
         <a
           href="#topo"
           onClick={() => setAberto(false)}
-          className="flex shrink-0 items-center gap-2.5"
+          className="flex shrink-0 items-center"
         >
-          {/* O selo inteiro não cabia aqui: a 44 px o anel, o nome arqueado e os
-              ramos viravam um borrão de traços finos. O busto sozinho tem o
-              rosto grande o bastante para se ler nesse tamanho, e é a mesma
-              arte do ícone da aba. */}
-          <Busto
-            rotulo={MARCA.nome}
-            cor={claro ? "#efe3cc" : "#3a271b"}
-            className="h-11 w-11 sm:h-[52px] sm:w-[52px]"
-          />
+          {/* O selo saiu daqui. Ele aparece grande na capa e é o ícone da aba;
+              no cabeçalho, a 44 px, virava um borrão de traços finos ao lado de
+              um nome pequeno. Sem ele, o nome ocupa o lugar dos dois. */}
           <span
-            className="text-[24px] leading-none transition-colors duration-300 sm:text-[28px]"
+            className="text-[26px] leading-none transition-colors duration-300 sm:text-[30px]"
             style={{
               fontFamily: "Fraunces, Georgia, serif",
               fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 24',
