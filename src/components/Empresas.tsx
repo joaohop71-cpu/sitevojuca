@@ -56,7 +56,7 @@ export default function Empresas() {
     <Faixa id="empresas" fundo="creme" className="py-10 sm:py-12">
       <Rubrica>Sempre em casa</Rubrica>
 
-      <div className="reveal mt-6 max-w-[60ch]">
+      <div className="abertura reveal mt-6 max-w-[60ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)]">
           Para quem não quer ficar sem
         </h2>

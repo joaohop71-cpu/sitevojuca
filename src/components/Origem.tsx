@@ -6,7 +6,7 @@ export default function Origem() {
     <Faixa id="origem" className="py-10 sm:py-12">
       <Rubrica>A terra</Rubrica>
 
-      <h2 className="reveal mt-6 max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
+      <h2 className="abertura reveal mt-6 max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
         Por que a origem muda o que vai na xícara
       </h2>
 

@@ -41,16 +41,19 @@ export default function Contato() {
       <Faixa id="contato" fundo="creme" className="rasgo-cima py-12 sm:py-14">
         <Rubrica>Contato</Rubrica>
 
-        <h2 className="reveal mt-6 max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
-          Quem responde aqui sou eu
-        </h2>
-        <p className="mt-5 max-w-[54ch] text-[17px] text-[#5c4635]">
-          Escolha a linha, defina a moagem e feche o pedido no WhatsApp. Para empresas,
-          revenda e volume maior, o caminho é o e-mail, e respondo com uma proposta. Não
-          há revendedor nem central de atendimento no meio: do outro lado sou eu,{" "}
-          <strong className="font-semibold text-[#3a271b]">João Henrique, o Juca</strong>,
-          o bisneto!
-        </p>
+        <div className="abertura reveal mt-6">
+          <h2 className="max-w-[20ch] text-[clamp(30px,4.4vw,52px)]">
+            Quem responde aqui sou eu
+          </h2>
+          <p className="mt-5 max-w-[54ch] text-[17px] text-[#5c4635]">
+            Escolha a linha, defina a moagem e feche o pedido no WhatsApp. Para
+            empresas, revenda e volume maior, o caminho é o e-mail, e respondo com uma
+            proposta. Não há revendedor nem central de atendimento no meio: do outro
+            lado sou eu,{" "}
+            <strong className="font-semibold text-[#3a271b]">João Henrique, o Juca</strong>,
+            o bisneto!
+          </p>
+        </div>
 
         <div className="reveal mt-10 grid gap-x-16 gap-y-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>

@@ -91,7 +91,7 @@ export default function Processo() {
     >
       <Rubrica claro>O processo</Rubrica>
 
-      <div className="reveal mt-6 max-w-[58ch]">
+      <div className="abertura reveal mt-6 max-w-[58ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)] text-[#f2e7d3]">
           Cinco etapas, todas dentro do sítio
         </h2>

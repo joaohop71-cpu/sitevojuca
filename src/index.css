@@ -107,6 +107,26 @@
     text-transform: uppercase;
     color: #8c3a20;
   }
+  /* A ABERTURA DA SEÇÃO
+     A rubrica com os ramos é centrada, e logo abaixo dela o título e a linha
+     de apoio ficavam encostados na margem esquerda. Numa tela de 1440 isso
+     deixava quase quinhentos pixels de papel vazio à direita de cada
+     abertura, e a seção parecia torta debaixo do próprio título.
+     Só no computador: no celular a medida já ocupa a tela inteira, e centrar
+     não muda nada além de desalinhar o texto do resto do bloco. O miolo das
+     seções — listas, fichas, cartões, os capítulos longos — continua à
+     esquerda, que é onde se lê. */
+  @media (min-width: 1024px) {
+    .abertura,
+    .abertura :where(h2, p) {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .abertura {
+      text-align: center;
+    }
+  }
+
   /* so' na capa, sob o selo: la' ela concorre com uma foto de tela inteira e
      com um titulo de sessenta pixels, e a 15px sumia */
   .eyebrow-cru {

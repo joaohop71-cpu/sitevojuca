@@ -308,7 +308,7 @@ export default function Cafes() {
     <Faixa id="cafes" className="py-10 sm:py-12">
       <Rubrica>Os cafés</Rubrica>
 
-      <div className="reveal mt-6">
+      <div className="abertura reveal mt-6">
         <h2 className="max-w-[22ch] text-[clamp(30px,4.4vw,52px)]">
           Cinco rótulos, uma lavoura só
         </h2>

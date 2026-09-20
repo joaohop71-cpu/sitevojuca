@@ -23,7 +23,7 @@ export default function Precos() {
     <Faixa id="precos" fundo="creme" className="rasgo-cima py-10 sm:py-14">
       <Rubrica>O seu pedido</Rubrica>
 
-      <div className="reveal mt-6 max-w-[60ch]">
+      <div className="abertura reveal mt-6 max-w-[60ch]">
         <h2 className="text-[clamp(30px,4.4vw,52px)]">
           {itens.length ? "Confira e mande" : "Ainda não tem nada aqui"}
         </h2>

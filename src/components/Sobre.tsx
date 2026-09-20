@@ -57,7 +57,7 @@ export default function Sobre() {
     <Faixa id="sobre" fundo="creme" className="rasgo-baixo pb-12 pt-10 sm:pb-14 sm:pt-12">
       <Rubrica>Sobre nós</Rubrica>
 
-      <h2 className="reveal mt-6 max-w-[17ch] text-[clamp(32px,5vw,58px)]">
+      <h2 className="abertura reveal mt-6 max-w-[17ch] text-[clamp(32px,5vw,58px)]">
         Juca era o apelido do meu bisavô.{" "}
         <em className="block" style={{ fontStyle: "italic", color: "#6b4526" }}>
           115 anos depois, virou o meu.
