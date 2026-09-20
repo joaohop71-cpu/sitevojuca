@@ -80,7 +80,7 @@ export default function Capa() {
               na frase anterior e a segunda começava em "anos". */}
           <span className="italic" style={{ color: "#e8b98d", fontWeight: 400 }}>
             {MARCA.anosEntreOsJucas}
-            {"\u00A0anos depois, estou aqui para contar a história dele."}
+            {"\u00A0anos depois, estou aqui para continuar a história dele."}
           </span>
         </h1>
 
