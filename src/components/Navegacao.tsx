@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
-import { busto } from "@/imagens";
+import { bustoCheio } from "@/imagens";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
@@ -99,18 +99,15 @@ export default function Navegacao() {
           onClick={() => setAberto(false)}
           className="flex shrink-0 items-center gap-2.5"
         >
-          {/* O busto sozinho, na tinta original, sem disco nenhum por baixo.
-              Por isso ele só aparece quando a barra já virou papel: a arte é
-              de traço escuro, e sobre a capa escura ela sumiria — pintá-la de
-              creme para aparecer é justamente o negativo que não queremos.
-              Fica no lugar de qualquer jeito, só invisível, senão o nome
-              pularia de posição no primeiro giro da rolagem. */}
+          {/* O busto com o miolo preenchido: rosto no papel, traço na tinta.
+              Como ele carrega o próprio papel, aparece igual sobre a capa
+              escura e sobre a barra de papel — não precisa mais sumir no alto
+              da página nem trocar de cor no meio da rolagem. */}
           <img
-            src={busto}
+            src={bustoCheio}
             alt=""
             aria-hidden="true"
-            className="h-14 w-auto transition-opacity duration-300 sm:h-[60px]"
-            style={{ opacity: claro ? 0 : 1 }}
+            className="h-14 w-auto sm:h-[60px]"
           />
           <span
             className="text-[24px] leading-none transition-colors duration-300 sm:text-[28px]"
