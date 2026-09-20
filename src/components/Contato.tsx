@@ -1,5 +1,6 @@
 import { Botao, Faixa, Rubrica } from "./base";
 import { MARCA, PROMO, zap } from "@/dados";
+import { busto } from "@/imagens";
 
 /* Ícones pequenos, de um traço só, na cor do texto do rodapé — o site não
    usa o verde do WhatsApp nem o gradiente do Instagram em lugar nenhum, e
@@ -210,10 +211,28 @@ export default function Contato() {
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            {/* Aqui o busto ficou de fora: o rodapé é marrom, a arte é de
-                traço escuro, e sobre esse fundo ela só apareceria pintada de
-                claro — o negativo. Ele está na aba e no cabeçalho, que é
-                onde o fundo é papel. */}
+            {/* O busto no marrom do rodapé.
+                A arte é de traço escuro: sobre este fundo ela precisa ir
+                pintada no creme, que é o único jeito de um desenho de linha
+                aparecer sobre escuro. O que antes ficava ruim era o tamanho —
+                a 64 px o traço fino empastava e virava um borrão. Grande, o
+                desenho se lê, e o creme é o mesmo do nome ao lado, então ele
+                combina com o resto do rodapé em vez de parecer um decalque. */}
+            <div
+              aria-hidden="true"
+              className="h-20 w-[74px] shrink-0 sm:h-24 sm:w-[89px]"
+              style={{
+                backgroundColor: "#d8c3a0",
+                maskImage: `url(${busto})`,
+                WebkitMaskImage: `url(${busto})`,
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+              }}
+            />
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"
