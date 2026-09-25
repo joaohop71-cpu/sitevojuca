@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, estaEsgotado } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, esgotadoDeVez, estaEsgotado } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
 import type { Cafe } from "@/dados";
 import { Contador, Faixa, Rubrica, Visor } from "./base";
@@ -291,7 +291,9 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
               className="ficha mt-[0.5cqw] uppercase tracking-[0.14em]"
               style={{ color: cor, fontSize: "min(2.5cqw, 12px)" }}
             >
-              {cafe.semPromo
+              {esgotadoDeVez(cafe)
+                ? `Sem estoque · ${cafe.gramas} g`
+                : cafe.semPromo
                 ? `Preço de tabela · ${cafe.gramas} g`
                 : `${PROMO.rotulo} · ${PROMO.prazo} · ${cafe.gramas} g`}
             </div>
@@ -331,10 +333,22 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
   );
 }
 
-/** o que acabou, dito pelos dados e não à mão */
-const SEM_ESTOQUE = CAFES.flatMap((c) =>
-  (c.esgotado ?? []).map((m) => `${nomeCheio(c)} ${m === "grao" ? "em grão" : "moído"}`)
+/**
+ * O que acabou, dito pelos dados e não à mão.
+ *
+ * Quando as duas moagens de um café acabam, ele entra uma vez só, pelo nome:
+ * "Café Vô Juca em grão e Café Vô Juca moído" é a mesma notícia dita duas
+ * vezes. E a lista se fecha com "e", como se escreve em português, não com o
+ * "e" entre todos os itens.
+ */
+const SEM_ESTOQUE = CAFES.filter((c) => c.esgotado?.length).map((c) =>
+  esgotadoDeVez(c)
+    ? nomeCheio(c)
+    : `${nomeCheio(c)} ${c.esgotado![0] === "grao" ? "em grão" : "moído"}`
 );
+
+const emLista = (xs: string[]) =>
+  xs.length < 2 ? (xs[0] ?? "") : `${xs.slice(0, -1).join(", ")} e ${xs[xs.length - 1]}`;
 
 export default function Cafes() {
   const [aberto, setAberto] = useState<number | null>(null);
@@ -382,8 +396,8 @@ export default function Cafes() {
           não existe. */}
       {SEM_ESTOQUE.length > 0 && (
         <p className="ficha reveal mt-4 text-center text-[14.5px] leading-relaxed text-[#6b4526]">
-          Sem estoque no momento: {SEM_ESTOQUE.join(" e ")}. Os dois voltam; o resto
-          está disponível.
+          Sem estoque no momento: {emLista(SEM_ESTOQUE)}. {SEM_ESTOQUE.length > 1 ? "Voltam" : "Volta"}{" "}
+          assim que sair o próximo lote; o resto está disponível.
         </p>
       )}
 

@@ -122,7 +122,7 @@ export const CAFES: Cafe[] = [
     descricao:
       "Perfil suave, doce e floral. O rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
     preco: { grao: 43.08, moido: 45.48 },
-    esgotado: ["moido"],
+    esgotado: ["grao", "moido"],
   },
   {
     id: "reserva-998",
@@ -233,6 +233,12 @@ export const CAFES: Cafe[] = [
 
 /** o café acabou naquela moagem? */
 export const estaEsgotado = (c: Cafe, m: Moagem) => !!c.esgotado?.includes(m);
+
+/** acabou em todas as moagens que existem para este café */
+export const esgotadoDeVez = (c: Cafe) =>
+  (["grao", "moido"] as Moagem[])
+    .filter((m) => c.preco[m] !== null)
+    .every((m) => estaEsgotado(c, m));
 
 /**
  * A história em três capítulos: como a ideia nasceu, de onde vem o apelido e
