@@ -85,6 +85,16 @@ export type Cafe = {
   descricao: string;
   /** null nos dois quando o preço ainda não foi fechado */
   preco: { grao: number | null; moido: number | null };
+  /** fora da promoção de lançamento: o preço dele é o de tabela */
+  semPromo?: boolean;
+  /**
+   * As moagens que acabaram.
+   *
+   * O café continua no site, com o rótulo e a ficha: sumir com ele faria
+   * quem já conhece achar que a linha saiu de linha. O que muda é que
+   * aquela moagem não entra no carrinho enquanto não voltar.
+   */
+  esgotado?: Moagem[];
 };
 
 export const CAFES: Cafe[] = [
@@ -112,6 +122,7 @@ export const CAFES: Cafe[] = [
     descricao:
       "Perfil suave, doce e floral. O rótulo de quem já presta atenção no que vai na xícara, sem abrir mão de um café fácil de gostar.",
     preco: { grao: 43.08, moido: 45.48 },
+    esgotado: ["moido"],
   },
   {
     id: "reserva-998",
@@ -138,6 +149,7 @@ export const CAFES: Cafe[] = [
       "O nome é a altitude da lavoura. Doce de caramelo e rapadura, com fundo de chocolate e malte: um café de sobremesa que ainda funciona de manhã. Edição limitada.",
     /* R$ 160,00 e R$ 167,60 o QUILO; o campo é o preço do pacote, de 300 g */
     preco: { grao: 48.0, moido: 50.28 },
+    esgotado: ["grao"],
   },
   {
     id: "herancas-2sl",
@@ -215,8 +227,12 @@ export const CAFES: Cafe[] = [
     descricao:
       "O café da rotina, feito para quem preza qualidade em cada xícara. É o carro-chefe da casa, presente no dia de quem não abre mão de um bom café, em casa, no escritório ou a qualquer hora.",
     preco: { grao: null, moido: 55.0 },
+    semPromo: true,
   },
 ];
+
+/** o café acabou naquela moagem? */
+export const estaEsgotado = (c: Cafe, m: Moagem) => !!c.esgotado?.includes(m);
 
 /**
  * A história em três capítulos: como a ideia nasceu, de onde vem o apelido e
@@ -304,7 +320,10 @@ export const PROMO = {
   rotulo: "30% off",
   /* sem data inventada: o que se promete é que acaba, não quando */
   prazo: "por tempo limitado",
-  chamada: "30% de desconto em todos os cafés",
+  /* dizia "em todos os cafés", e não é mais verdade: o Minas Santa saiu da
+     promoção e fica no preço de tabela */
+  chamada: "30% de desconto de lançamento",
+  ressalva: "O Minas Santa está fora da promoção.",
 };
 
 /**
@@ -329,7 +348,8 @@ export function centavos(v: number) {
   return Math.round(v * 100);
 }
 
-export function comDesconto(v: number) {
+export function comDesconto(v: number, temPromo = true) {
+  if (!temPromo) return v;
   return Math.round(centavos(v) * (1 - PROMO.pct)) / 100;
 }
 

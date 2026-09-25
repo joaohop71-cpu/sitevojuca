@@ -1,6 +1,6 @@
 import { Botao, Faixa, Rubrica } from "./base";
 import { MARCA, PROMO, zap } from "@/dados";
-import { bustoCheio } from "@/imagens";
+import { selo } from "@/imagens";
 
 /* Ícones pequenos, de um traço só, na cor do texto do rodapé — o site não
    usa o verde do WhatsApp nem o gradiente do Instagram em lugar nenhum, e
@@ -135,6 +135,9 @@ export default function Contato() {
               <p className="mt-2 text-[18px] leading-snug" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
                 {PROMO.chamada}, já aplicado nos preços do site.
               </p>
+              <p className="ficha mt-2 text-[14px] leading-relaxed text-[#6f5b44]">
+                {PROMO.ressalva}
+              </p>
             </div>
           </div>
         </div>
@@ -214,19 +217,22 @@ export default function Contato() {
       <footer className="rasgo-cima" style={{ background: "#3a271b", color: "#c0ab8c" }}>
         <div className="mx-auto w-[min(100%-2rem,1120px)] py-12 sm:w-[min(100%-2.5rem,1120px)] sm:py-14">
           <div className="flex flex-wrap items-center gap-4 sm:gap-5">
-            {/* A cor vai na própria logo.
-                O desenho é de linha: o traço é tinta e o miolo é vazio, então
-                sobre o marrom o miolo escurecia e o traço tinha de clarear —
-                o negativo. Aqui o miolo do desenho já vem preenchido de creme
-                no próprio arquivo, e o traço fica na tinta original. O papel
-                tem o formato do busto, não de um disco: nada atrás dele. */}
-            <img
-              src={bustoCheio}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              className="block h-[92px] w-auto shrink-0 sm:h-[104px]"
-            />
+            {/* O selo, na tinta original, no disco do papel — o mesmo
+                tratamento da capa. Aqui o disco não é uma forma acrescentada:
+                o selo é redondo por desenho, e é assim que ele sai impresso no
+                rótulo. */}
+            <div
+              className="relative h-[88px] w-[88px] shrink-0 rounded-full sm:h-24 sm:w-24"
+              style={{ backgroundColor: "#f2e7d3" }}
+            >
+              <img
+                src={selo}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="absolute left-1/2 top-1/2 w-[97%] -translate-x-1/2 -translate-y-1/2"
+              />
+            </div>
             <div>
               <p
                 className="text-[22px] leading-none sm:text-[24px]"

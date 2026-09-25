@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, estaEsgotado } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
 import type { Cafe } from "@/dados";
 import { Contador, Faixa, Rubrica, Visor } from "./base";
@@ -94,6 +94,8 @@ function Preco({
   chave,
   qtd,
   nome,
+  promo = true,
+  esgotado = false,
 }: {
   rotulo: string;
   valor: number;
@@ -101,6 +103,9 @@ function Preco({
   chave: string;
   qtd: number;
   nome: string;
+  /** fora da promoção: mostra um preço só, o de tabela */
+  promo?: boolean;
+  esgotado?: boolean;
 }) {
   return (
     <div className="flex flex-col items-center">
@@ -109,7 +114,9 @@ function Preco({
         style={{ fontSize: "min(2.4cqw, 11.5px)" }}
       >
         {rotulo}
-        <span className="num line-through">{brl(valor)}</span>
+        {/* o risco só existe onde há desconto: riscar um preço que continua
+            valendo é anunciar uma promoção que não existe */}
+        {promo && !esgotado && <span className="num line-through">{brl(valor)}</span>}
       </div>
       <div
         className="num leading-none"
@@ -118,19 +125,38 @@ function Preco({
           fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 36',
           fontWeight: 600,
           fontSize: "min(5.8cqw, 29px)",
-          color: cor,
+          color: esgotado ? "#6f5b44" : cor,
+          opacity: esgotado ? 0.55 : 1,
         }}
       >
-        {brl(comDesconto(valor))}
+        {brl(comDesconto(valor, promo))}
       </div>
       <div className="mt-[1.3cqw]">
-        <Contador
-          valor={qtd}
-          aoMudar={(d) => ajustar(chave, d)}
-          rotulo={`${nome} ${rotulo.toLowerCase()}`}
-          cor={cor}
-          compacto
-        />
+        {/* Sem estoque, no lugar do contador vai a palavra. O preço fica, mais
+            apagado: some-lo faria a moagem parecer que nunca existiu, e o que
+            aconteceu é que ela volta. */}
+        {esgotado ? (
+          <div
+            className="ficha whitespace-nowrap border uppercase"
+            style={{
+              fontSize: "min(2.5cqw, 12px)",
+              letterSpacing: "0.12em",
+              color: "#8c3a20",
+              borderColor: "rgba(140,58,32,0.45)",
+              padding: "0.9cqw 2.2cqw",
+            }}
+          >
+            Sem estoque
+          </div>
+        ) : (
+          <Contador
+            valor={qtd}
+            aoMudar={(d) => ajustar(chave, d)}
+            rotulo={`${nome} ${rotulo.toLowerCase()}`}
+            cor={cor}
+            compacto
+          />
+        )}
       </div>
     </div>
   );
@@ -265,7 +291,9 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
               className="ficha mt-[0.5cqw] uppercase tracking-[0.14em]"
               style={{ color: cor, fontSize: "min(2.5cqw, 12px)" }}
             >
-              {PROMO.rotulo} · {PROMO.prazo} · {cafe.gramas} g
+              {cafe.semPromo
+                ? `Preço de tabela · ${cafe.gramas} g`
+                : `${PROMO.rotulo} · ${PROMO.prazo} · ${cafe.gramas} g`}
             </div>
             <div className="mt-[1cqw] flex items-start justify-center gap-[4cqw]">
               {cafe.preco.grao !== null && (
@@ -276,6 +304,8 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
                   chave={`${cafe.id}-grao`}
                   qtd={qtd[`${cafe.id}-grao`] ?? 0}
                   nome={nomeCheio(cafe)}
+                  promo={!cafe.semPromo}
+                  esgotado={estaEsgotado(cafe, "grao")}
                 />
               )}
               {cafe.preco.moido !== null && (
@@ -286,6 +316,8 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
                   chave={`${cafe.id}-moido`}
                   qtd={qtd[`${cafe.id}-moido`] ?? 0}
                   nome={nomeCheio(cafe)}
+                  promo={!cafe.semPromo}
+                  esgotado={estaEsgotado(cafe, "moido")}
                 />
               )}
             </div>
@@ -298,6 +330,11 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
     </article>
   );
 }
+
+/** o que acabou, dito pelos dados e não à mão */
+const SEM_ESTOQUE = CAFES.flatMap((c) =>
+  (c.esgotado ?? []).map((m) => `${nomeCheio(c)} ${m === "grao" ? "em grão" : "moído"}`)
+);
 
 export default function Cafes() {
   const [aberto, setAberto] = useState<number | null>(null);
@@ -336,9 +373,19 @@ export default function Cafes() {
           {PROMO.rotulo}
         </span>
         <span className="ficha text-[14.5px] uppercase tracking-[0.14em]">
-          Preço de lançamento, por tempo limitado, já aplicado abaixo
+          Preço de lançamento, já aplicado abaixo · exceto o Minas Santa
         </span>
       </div>
+
+      {/* O aviso de estoque sai da própria lista de cafés: escrito à mão, ele
+          continuaria no ar depois do lote voltar. Sem nada esgotado, a linha
+          não existe. */}
+      {SEM_ESTOQUE.length > 0 && (
+        <p className="ficha reveal mt-4 text-center text-[14.5px] leading-relaxed text-[#6b4526]">
+          Sem estoque no momento: {SEM_ESTOQUE.join(" e ")}. Os dois voltam; o resto
+          está disponível.
+        </p>
+      )}
 
       <div className="mt-7 grid gap-6 lg:grid-cols-2 lg:gap-7">
         {CAFES.map((c, i) => (

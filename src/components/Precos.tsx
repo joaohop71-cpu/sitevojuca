@@ -91,12 +91,16 @@ export default function Precos() {
                       {brl(subtotal)}
                     </dd>
                   </div>
-                  <div className="flex items-baseline justify-between">
-                    <dt className="ficha text-[15px] text-[#8c3a20]">{PROMO.chamada}</dt>
-                    <dd className="ficha num m-0 text-[15px] text-[#8c3a20]">
-                      -{brl(desconto)}
-                    </dd>
-                  </div>
+                  {/* um carrinho só com Minas Santa não tem desconto nenhum, e
+                      anunciar "-R$ 0,00" é pior do que não dizer nada */}
+                  {desconto > 0 && (
+                    <div className="flex items-baseline justify-between">
+                      <dt className="ficha text-[15px] text-[#8c3a20]">{PROMO.chamada}</dt>
+                      <dd className="ficha num m-0 text-[15px] text-[#8c3a20]">
+                        -{brl(desconto)}
+                      </dd>
+                    </div>
+                  )}
                   <div className="mt-2 flex items-end justify-between border-t border-[rgba(58,39,27,0.25)] pt-3">
                     <div>
                       <dt className="ficha text-[14px] uppercase tracking-[0.14em] text-[#6f5b44]">

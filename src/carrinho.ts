@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { CAFES, PROMO, TINTA_ROTULO, brl, centavos } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, centavos, estaEsgotado } from "@/dados";
 import type { Moagem } from "@/dados";
 
 export type Linha = {
@@ -13,6 +13,10 @@ export type Linha = {
   item: string;
   /** a tinta da linha do café, para o item aparecer com a cor dele */
   cor: string;
+  /** entra na promoção de lançamento? o Minas Santa não entra */
+  promo: boolean;
+  /** acabou: fica no site, mas não entra no carrinho */
+  esgotado: boolean;
 };
 
 /** nome cheio: as duas Heranças só se distinguem pelo lote */
@@ -22,7 +26,13 @@ function rotuloCafe(c: (typeof CAFES)[number]) {
 
 /** uma linha de pedido por café e moagem, que é a unidade que se compra */
 export const LINHAS: Linha[] = CAFES.flatMap((c) => {
-  const base = { id: c.id, nome: rotuloCafe(c), gramas: c.gramas, cor: TINTA_ROTULO[c.cor] };
+  const base = {
+    id: c.id,
+    nome: rotuloCafe(c),
+    gramas: c.gramas,
+    cor: TINTA_ROTULO[c.cor],
+    promo: !c.semPromo,
+  };
   const out: Linha[] = [];
   if (c.preco.grao !== null)
     out.push({
@@ -31,6 +41,7 @@ export const LINHAS: Linha[] = CAFES.flatMap((c) => {
       moagem: "grao",
       preco: c.preco.grao,
       item: `${c.planilha} · Grão`,
+      esgotado: estaEsgotado(c, "grao"),
     });
   if (c.preco.moido !== null)
     out.push({
@@ -39,6 +50,7 @@ export const LINHAS: Linha[] = CAFES.flatMap((c) => {
       moagem: "moido",
       preco: c.preco.moido,
       item: `${c.planilha} · Moído`,
+      esgotado: estaEsgotado(c, "moido"),
     });
   return out;
 });
@@ -100,8 +112,9 @@ function ler(): Record<string, number> {
       return {};
     }
     if (guardado.codigo) codigo = guardado.codigo;
-    /* só as linhas que ainda existem no catálogo, e só números sãos */
-    const validas = new Set(LINHAS.map((l) => l.chave));
+    /* só as linhas que ainda existem no catálogo e ainda têm estoque, e só
+       números sãos: um pedido salvo ontem pode trazer o que acabou hoje */
+    const validas = new Set(LINHAS.filter((l) => !l.esgotado).map((l) => l.chave));
     const limpo: Record<string, number> = {};
     for (const [k, n] of Object.entries(itens ?? {}))
       if (validas.has(k) && Number.isFinite(n) && n > 0)
@@ -137,6 +150,9 @@ function publicar(novo: Record<string, number>) {
 }
 
 export function ajustar(chave: string, d: number) {
+  /* tirar sempre pode; pôr, só o que existe em estoque — inclusive porque um
+     pedido salvo ontem pode trazer uma linha que acabou desde então */
+  if (d > 0 && LINHAS.find((l) => l.chave === chave)?.esgotado) return;
   const n = Math.max(0, Math.min(99, (estado[chave] ?? 0) + d));
   const novo = { ...estado, [chave]: n };
   if (!n) delete novo[chave];
@@ -175,7 +191,15 @@ export function useResumo() {
     (s, l) => s + centavos(l.preco) * (qtd[l.chave] ?? 0),
     0
   );
-  const totalC = Math.round(subtotalC * (1 - PROMO.pct));
+  /* O desconto não é mais uma porcentagem do carrinho inteiro: o Minas Santa
+     fica no preço de tabela. Some-se primeiro o que entra na promoção e só
+     depois arredonde, uma vez, senão cada linha traz o seu meio centavo. */
+  const comPromoC = itens.reduce(
+    (s, l) => s + (l.promo ? centavos(l.preco) * (qtd[l.chave] ?? 0) : 0),
+    0
+  );
+  const descontoC = Math.round(comPromoC * PROMO.pct);
+  const totalC = subtotalC - descontoC;
   const pacotes = itens.reduce((s, l) => s + (qtd[l.chave] ?? 0), 0);
   /* os pacotes têm pesos diferentes, então o peso vem de cada linha */
   const quilos = itens.reduce((s, l) => s + (l.gramas / 1000) * (qtd[l.chave] ?? 0), 0);
@@ -195,7 +219,7 @@ export function useResumo() {
           .join("\n"),
         "",
         `Subtotal (preço de tabela): ${brl(subtotalC / 100)}`,
-        `${PROMO.chamada}: -${brl((subtotalC - totalC) / 100)}`,
+        ...(descontoC ? [`${PROMO.chamada}: -${brl(descontoC / 100)}`] : []),
         `Total: ${brl(totalC / 100)}`,
         "",
         `Pedido ${codigo}`,
@@ -208,7 +232,7 @@ export function useResumo() {
     pacotes,
     quilos,
     subtotal: subtotalC / 100,
-    desconto: (subtotalC - totalC) / 100,
+    desconto: descontoC / 100,
     total: totalC / 100,
     mensagem,
   };

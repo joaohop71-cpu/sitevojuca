@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
-import { bustoCheio } from "@/imagens";
 
 const ITENS = [
   { href: "#cafes", rotulo: "Cafés" },
@@ -97,20 +96,13 @@ export default function Navegacao() {
         <a
           href="#topo"
           onClick={() => setAberto(false)}
-          className="flex shrink-0 items-center gap-2.5"
+          className="flex shrink-0 items-center"
         >
-          {/* O busto com o miolo preenchido: rosto no papel, traço na tinta.
-              Como ele carrega o próprio papel, aparece igual sobre a capa
-              escura e sobre a barra de papel — não precisa mais sumir no alto
-              da página nem trocar de cor no meio da rolagem. */}
-          <img
-            src={bustoCheio}
-            alt=""
-            aria-hidden="true"
-            className="h-14 w-auto sm:h-[60px]"
-          />
+          {/* Só o nome. O busto aparece grande na capa, no rodapé e no ícone
+              da aba; aqui ele disputava espaço com o nome e com os sete links,
+              e o nome sozinho ocupa melhor o lugar dos dois. */}
           <span
-            className="text-[24px] leading-none transition-colors duration-300 sm:text-[28px]"
+            className="text-[29px] leading-none transition-colors duration-300 sm:text-[34px]"
             style={{
               fontFamily: "Fraunces, Georgia, serif",
               fontVariationSettings: '"SOFT" 15, "WONK" 1, "opsz" 24',
@@ -124,11 +116,11 @@ export default function Navegacao() {
         </a>
 
         {/* links inline — só no desktop.
-            Antes o corte era em 1024 px (lg). Com o busto de volta ao lado do
-            nome, a marca ficou mais larga e os sete links mais o botão não
-            cabiam mais entre 1024 e ~1150 px: a linha inteira empurrava para
-            fora da caixa e ia parar embaixo do nome. 1280 (xl) é o primeiro
-            ponto com folga de sobra. */}
+            O corte era em 1024 px (lg) e não cabia: os sete links mais o botão
+            pedem cerca de 900 px, e ali sobram 840 depois do nome. Como o
+            conjunto não quebra linha, ele vazava da caixa para a esquerda e ia
+            parar por cima do nome. 1280 (xl) é o primeiro tamanho com folga de
+            sobra; abaixo disso vale o menu. */}
         <div className="hidden min-w-0 flex-1 items-center justify-end gap-5 xl:flex xl:gap-6">
           {ITENS.map((i) => (
             <a
