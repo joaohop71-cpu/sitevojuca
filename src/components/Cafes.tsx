@@ -50,6 +50,11 @@ function arte(c: Cafe) {
   return `/rotulos-web/rotulo_${c.banner}_web`;
 }
 
+/** o verso de cada linha, na tinta dela; os dois Heranças são o mesmo */
+function verso(c: Cafe) {
+  return `/rotulos/rotulo_verso_${c.banner.startsWith("herancas") ? "herancas" : c.banner}`;
+}
+
 /**
  * O rótulo em tamanho de verdade, dentro do visor.
  *
@@ -477,11 +482,12 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
           </div>
 
           {/* ————— o verso —————
-              É o verso do pacote, desenhado junto com os rótulos: o guia de
-              preparo e como guardar. Vai sem a caixa de lote e datas — numa
-              venda torrada sob encomenda, uma data impressa seria sempre
-              velha — e sem o rodapé, que ainda traz CNPJ e registro de
-              exemplo, marcados no próprio pacote como dados a substituir. */}
+              É o verso do pacote, desenhado junto com os rótulos, na tinta de
+              cada linha: o guia de preparo e como guardar. Vai sem a caixa de
+              lote e datas — numa venda torrada sob encomenda, uma data
+              impressa seria sempre velha — e sem o rodapé, que ainda traz
+              CNPJ, endereço e registro MAPA de exemplo. O papel impresso foi
+              tirado, para a tinta assentar no papel do cartão como a frente. */}
           <div className="cartao-face cartao-verso rasgo-ambos" inert={!virado}>
             <div
               className="rasgo-lados flex h-full flex-col"
@@ -491,14 +497,14 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
                 <picture className="block min-h-0 flex-1">
                   <source
                     type="image/webp"
-                    srcSet="/rotulos/rotulo_verso_1x.webp 874w, /rotulos/rotulo_verso_2x.webp 1181w"
+                    srcSet={`${verso(cafe)}_1x.webp 874w, ${verso(cafe)}_2x.webp 1289w`}
                     sizes="(min-width: 1024px) 540px, 92vw"
                   />
                   <img
-                    src="/rotulos/rotulo_verso_1x.png"
+                    src={`${verso(cafe)}_1x.png`}
                     alt="Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coado no filtro, 20 g de moagem média para 300 ml, em 3 a 4 minutos. Prensa francesa, 30 g de moagem grossa para 450 ml, em 4 minutos. Cafeteira italiana, 20 g de moagem média-fina para 140 ml. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias."
                     width={874}
-                    height={1280}
+                    height={1286}
                     decoding="async"
                     className="block h-full w-full object-contain object-top"
                   />

@@ -12,7 +12,7 @@ import { registrarPedido } from "@/pedido";
  */
 export default function BarraPedido() {
   const resumo = useResumo();
-  const { pacotes, quilos, total, mensagem } = resumo;
+  const { pacotes, quilos, total, desconto, mensagem } = resumo;
   /* com a lista do pedido na tela a barra não tem o que fazer, e ainda cobria
      o botão de fechar que já está ali */
   const [naLista, setNaLista] = useState(false);
@@ -71,9 +71,13 @@ export default function BarraPedido() {
             >
               {brl(total)}
             </span>
-            <span className="ficha hidden text-[12.5px] uppercase tracking-[0.12em] text-[#e8b98d] sm:inline">
-              {PROMO.rotulo} já aplicado
-            </span>
+            {/* só quando há desconto de fato: um pedido só de Minas Santa,
+                que está fora da promoção, anunciaria uma oferta que não houve */}
+            {desconto > 0 && (
+              <span className="ficha hidden text-[12.5px] uppercase tracking-[0.12em] text-[#e8b98d] sm:inline">
+                {PROMO.rotulo} já aplicado
+              </span>
+            )}
           </div>
         </div>
 

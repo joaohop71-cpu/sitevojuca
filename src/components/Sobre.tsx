@@ -17,26 +17,59 @@ const RETRATOS: Record<string, string> = { fernandinho, joaoHenrique };
  * capítulo abre com uma afirmação em corpo grande, e o corpo vem em blocos
  * curtos embaixo.
  */
+const TOTAL_CAPITULOS = 3;
+
 function Capitulo({
   num,
+  ordem,
   nome,
   frase,
+  gancho,
   children,
 }: {
   num: string;
+  /** 1, 2 ou 3: é o que acende as barrinhas */
+  ordem: number;
   nome: string;
   frase: string;
+  /** a linha que fecha o capítulo abrindo o próximo */
+  gancho?: string;
   children: ReactNode;
 }) {
   return (
     <section className="reveal mt-16 border-t-2 border-[#3a271b] pt-7 sm:mt-20">
-      <div className="eyebrow">
-        Capítulo {num} · {nome}
+      {/* Quem sabe que está no meio termina; quem não sabe o tamanho da
+          história abandona no primeiro parágrafo longo. As barrinhas são as
+          mesmas da intensidade impressa nos rótulos: cheia a que já se leu. */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="eyebrow">
+          Capítulo {num} de três · {nome}
+        </div>
+        <div className="flex gap-1" aria-hidden="true">
+          {Array.from({ length: TOTAL_CAPITULOS }, (_, i) => (
+            <span
+              key={i}
+              className="block h-[6px] w-[18px] border border-[#3a271b]"
+              style={{ background: i < ordem ? "#3a271b" : "transparent" }}
+            />
+          ))}
+        </div>
       </div>
       <h3 className="mt-4 max-w-[20ch] text-[clamp(28px,4.6vw,48px)] leading-[1.05]">
         {frase}
       </h3>
       <div className="mt-7">{children}</div>
+      {/* O gancho: a última coisa do capítulo é a primeira do próximo, como
+          em folhetim. Fica fora de qualquer dobra, porque o trabalho dele é
+          justamente puxar quem não abriu nada. */}
+      {gancho && (
+        <p
+          className="mt-9 max-w-[30ch] text-[clamp(20px,2.8vw,28px)] leading-snug text-[#8c3a20]"
+          style={{ fontFamily: "Fraunces, Georgia, serif", fontStyle: "italic" }}
+        >
+          {gancho}
+        </p>
+      )}
     </section>
   );
 }
@@ -67,6 +100,8 @@ export default function Sobre() {
       {/* ————— capítulo um ————— */}
       <Capitulo
         num="um"
+        ordem={1}
+        gancho="Faltava o nome. E ele estava guardado na família havia mais de cem anos."
         nome="A ideia"
         frase="Passei uma semana no sítio. Voltei com uma marca na cabeça."
       >
@@ -124,6 +159,8 @@ export default function Sobre() {
           em cada, e o que fica na página é a frase, as fotos e o fecho. */}
       <Capitulo
         num="dois"
+        ordem={2}
+        gancho="O café, hoje, está nas mãos de um farmacêutico."
         nome="O apelido"
         frase="Um apelido sumiu por três gerações e voltou sem avisar."
       >
@@ -146,6 +183,7 @@ export default function Sobre() {
       {/* ————— capítulo três ————— */}
       <Capitulo
         num="três"
+        ordem={3}
         nome="Hoje"
         frase="Um economista e um farmacêutico tocando uma lavoura de café."
       >

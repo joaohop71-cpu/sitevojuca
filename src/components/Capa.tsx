@@ -107,6 +107,23 @@ export default function Capa() {
           </Botao>
         </div>
 
+        {/* A capa promete a história ("para continuar a história dele") e
+            não dava o caminho até ela: a primeira linha do "Sobre nós" fica a
+            vinte telas de rolagem, depois dos cafés, do pedido, da assinatura
+            e do processo. Quem veio pela história desistia antes. O tempo vai
+            escrito porque é ele que faz a pessoa ir: três minutos parece
+            pouco, e é — são cerca de 450 palavras nos três capítulos, mais os
+            retratos. Link e não botão, para não disputar com os dois de cima. */}
+        <a
+          href="#sobre"
+          className="ficha mt-6 inline-flex items-center gap-2.5 py-2 text-[14.5px] uppercase tracking-[0.14em] underline decoration-[rgba(232,185,141,0.45)] underline-offset-[6px] transition-colors hover:decoration-[#e8b98d]"
+          style={{ color: "#e8b98d" }}
+          data-print-hide
+        >
+          Ler a história · 3 min
+          <span aria-hidden="true">↓</span>
+        </a>
+
         <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-4 border-t pt-7 text-left sm:mt-16 sm:grid-cols-4"
           style={{ borderColor: "rgba(239,227,204,0.28)" }}
         >
