@@ -317,7 +317,8 @@ export function Contador({
   compacto = false,
 }: {
   valor: number;
-  aoMudar: (d: number) => void;
+  /** o botão tocado vai junto, para quem quiser animar a partir dele */
+  aoMudar: (d: number, origem: HTMLElement) => void;
   /** o que o leitor de tela anuncia: "um Café Vô Juca em grão" */
   rotulo: string;
   /** a tinta da linha do café */
@@ -338,7 +339,7 @@ export function Contador({
     <div className="flex shrink-0 items-center" data-print-hide>
       <button
         type="button"
-        onClick={() => aoMudar(-1)}
+        onClick={(e) => aoMudar(-1, e.currentTarget)}
         aria-label={`Remover um ${rotulo}`}
         className={`${lado} flex ${compacto ? "" : "w-11"} items-center justify-center border text-[18px] transition-colors hover:bg-[rgba(58,39,27,0.07)]`}
         style={{ borderColor: borda, color: cor, ...larg }}
@@ -354,7 +355,7 @@ export function Contador({
       </span>
       <button
         type="button"
-        onClick={() => aoMudar(1)}
+        onClick={(e) => aoMudar(1, e.currentTarget)}
         aria-label={`Adicionar um ${rotulo}`}
         className={`${lado} flex ${compacto ? "" : "w-11"} items-center justify-center border text-[18px] transition-colors hover:bg-[rgba(58,39,27,0.07)]`}
         style={{ borderColor: borda, color: cor, ...larg }}

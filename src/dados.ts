@@ -75,6 +75,12 @@ export type Cafe = {
   /** frase em itálico sob o nome */
   chamada: string;
   notas: string[];
+  /**
+   * A ficha técnica exatamente como está impressa no rótulo, na ordem de
+   * leitura: esquerda e direita, linha a linha. É ela que vira os seis botões
+   * sobre a arte, então precisa bater com o que a pessoa vê — já esteve
+   * diferente (o Reserva dizia "Seleção" onde a arte diz "Categoria").
+   */
   fichas: { rotulo: string; valor: string }[];
   /** 1 a 5 */
   intensidade: number;
@@ -108,7 +114,7 @@ export const CAFES: Cafe[] = [
     chamada: "Da nossa lavoura, o sabor suave de sempre",
     notas: ["Frutado", "Doce", "Floral"],
     fichas: [
-      { rotulo: "Tipo", valor: "100% arábica" },
+      { rotulo: "Espécie", valor: "100% arábica" },
       { rotulo: "Seleção", valor: "Manual" },
       { rotulo: "Pontuação SCA", valor: "82 pontos +" },
       { rotulo: "Peneira", valor: "16 +" },
@@ -134,8 +140,8 @@ export const CAFES: Cafe[] = [
     chamada: "A altitude no nome, o caramelo na xícara",
     notas: ["Caramelo", "Chocolate", "Malte", "Rapadura"],
     fichas: [
-      { rotulo: "Tipo", valor: "100% arábica" },
-      { rotulo: "Seleção", valor: "Manual" },
+      { rotulo: "Espécie", valor: "100% arábica" },
+      { rotulo: "Categoria", valor: "Café especial" },
       { rotulo: "Pontuação SCA", valor: "82 pontos +" },
       { rotulo: "Peneira", valor: "15 +" },
       { rotulo: "Torra", valor: "Média" },
@@ -162,7 +168,7 @@ export const CAFES: Cafe[] = [
     chamada: "Coleção limitada de uma experiência sensorial única",
     notas: ["Mel", "Floral", "Capim-limão"],
     fichas: [
-      { rotulo: "Tipo", valor: "100% arábica" },
+      { rotulo: "Espécie", valor: "100% arábica" },
       { rotulo: "Seleção", valor: "Manual" },
       { rotulo: "Pontuação SCA", valor: "84 pontos +" },
       { rotulo: "Peneira", valor: "16 +" },
@@ -188,7 +194,7 @@ export const CAFES: Cafe[] = [
     chamada: "Coleção limitada de uma experiência sensorial única",
     notas: ["Floral", "Frutas amarelas", "Pêssego em calda"],
     fichas: [
-      { rotulo: "Tipo", valor: "100% arábica" },
+      { rotulo: "Espécie", valor: "100% arábica" },
       { rotulo: "Seleção", valor: "Manual" },
       { rotulo: "Pontuação SCA", valor: "84 pontos +" },
       { rotulo: "Peneira", valor: "16 +" },
@@ -213,7 +219,7 @@ export const CAFES: Cafe[] = [
     chamada: "Corpo e presença para o seu dia a dia",
     notas: ["Encorpado", "Sabor marcante", "Tradicional"],
     fichas: [
-      { rotulo: "Tipo", valor: "Blend 100% arábica" },
+      { rotulo: "Espécie", valor: "100% arábica" },
       { rotulo: "Peneira", valor: "14 +" },
       { rotulo: "Catação", valor: "10 %" },
       { rotulo: "Torra", valor: "Média" },

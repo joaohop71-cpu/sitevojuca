@@ -6,8 +6,8 @@ const PLANOS = [
     id: "assinatura",
     eyebrow: "Para casa",
     titulo: "Assinatura",
-    resumo:
-      "Você escolhe o café e a moagem, e ele chega todo mês sem precisar pedir de novo. Eu torro perto da data de enviar, não antes.",
+    resumo: "O café que você escolher, torrado perto da data e entregue todo mês.",
+    detalhe: "Você escolhe o café e a moagem uma vez, e ele chega sem precisar pedir de novo.",
     itens: [
       "Envio mensal, na data que a gente combinar",
       "Troca de café a qualquer mês, sem taxa",
@@ -22,8 +22,8 @@ const PLANOS = [
     id: "empresas",
     eyebrow: "Para empresas",
     titulo: "Fornecimento",
-    resumo:
-      "Escritório, cafeteria, restaurante, pousada ou revenda. Volume maior tem preço próprio, e quem faz a proposta sou eu, olhando o seu consumo.",
+    resumo: "Para escritório, cafeteria, restaurante, pousada ou revenda, com preço por quilo.",
+    detalhe: "Volume maior tem preço próprio, e quem faz a proposta sou eu, olhando o seu consumo.",
     itens: [
       "Preço por quilo, e não por pacote",
       "Moagem acertada para a sua máquina",
@@ -61,8 +61,7 @@ export default function Empresas() {
           Para quem não quer ficar sem
         </h2>
         <p className="mt-4 text-[#5c4635]">
-          Dá para receber todo mês sem precisar pedir de novo, e dá para abastecer
-          uma empresa inteira. São dois acertos diferentes, e os dois passam por mim.
+          Receber todo mês em casa, ou abastecer uma empresa inteira.
         </p>
       </div>
 
@@ -76,20 +75,27 @@ export default function Empresas() {
             <h3 className="mt-2 text-[clamp(24px,3.2vw,32px)] leading-tight">{p.titulo}</h3>
             <p className="mt-3 text-[16px] leading-relaxed text-[#5c4635]">{p.resumo}</p>
 
-            <ul className="mt-5 grid gap-2.5 border-t border-[rgba(58,39,27,0.22)] pt-4">
-              {p.itens.map((i) => (
-                <li key={i} className="ficha flex items-start gap-2.5 text-[15px] leading-snug">
-                  <span
-                    aria-hidden="true"
-                    className="mt-[9px] block h-[5px] w-[5px] shrink-0 rotate-45"
-                    style={{ background: "#8c3a20" }}
-                  />
-                  {i}
-                </li>
-              ))}
-            </ul>
+            {/* A lista das condições ficava sempre aberta: dois cartões de seis
+                linhas cada, para um assunto que interessa a poucos. Agora ela
+                abre para quem quiser saber; quem já decidiu vai direto ao
+                botão, que continua à vista. */}
+            <Dobra className="mt-2">
+              <p className="mt-2 text-[15.5px] leading-relaxed text-[#5c4635]">{p.detalhe}</p>
+              <ul className="mt-4 grid gap-2.5 border-t border-[rgba(58,39,27,0.22)] pt-4">
+                {p.itens.map((i) => (
+                  <li key={i} className="ficha flex items-start gap-2.5 text-[15px] leading-snug">
+                    <span
+                      aria-hidden="true"
+                      className="mt-[9px] block h-[5px] w-[5px] shrink-0 rotate-45"
+                      style={{ background: "#8c3a20" }}
+                    />
+                    {i}
+                  </li>
+                ))}
+              </ul>
+            </Dobra>
 
-            <div className="mt-6 pt-1" data-print-hide>
+            <div className="mt-auto pt-5" data-print-hide>
               <Botao href={zap(p.zap)} largo>
                 {p.botao}
               </Botao>
@@ -100,10 +106,7 @@ export default function Empresas() {
 
       <div className="reveal mt-8 border-l-2 border-[#8c3a20] pl-5 sm:pl-6">
         <div className="eyebrow">Preços e condições</div>
-        <h3 className="mt-2 max-w-[28ch] text-[clamp(21px,2.7vw,28px)] leading-tight">
-          O valor sai da conversa, e não de uma tabela
-        </h3>
-        <Dobra rotulo="Como eu calculo o preço" className="mt-3">
+        <Dobra className="mt-1">
           <p className="mt-4 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
             Assinatura e fornecimento não têm um preço de prateleira porque dependem de
             duas coisas: qual café e quanto por mês. Quem responde e faz a conta sou eu,

@@ -149,14 +149,18 @@ function publicar(novo: Record<string, number>) {
   ouvintes.forEach((f) => f());
 }
 
-export function ajustar(chave: string, d: number) {
+/** devolve se a quantidade mudou: no 99, ou numa linha esgotada, o + não faz nada */
+export function ajustar(chave: string, d: number): boolean {
   /* tirar sempre pode; pôr, só o que existe em estoque — inclusive porque um
      pedido salvo ontem pode trazer uma linha que acabou desde então */
-  if (d > 0 && LINHAS.find((l) => l.chave === chave)?.esgotado) return;
-  const n = Math.max(0, Math.min(99, (estado[chave] ?? 0) + d));
+  if (d > 0 && LINHAS.find((l) => l.chave === chave)?.esgotado) return false;
+  const antes = estado[chave] ?? 0;
+  const n = Math.max(0, Math.min(99, antes + d));
+  if (n === antes) return false;
   const novo = { ...estado, [chave]: n };
   if (!n) delete novo[chave];
   publicar(novo);
+  return true;
 }
 
 export function esvaziar() {

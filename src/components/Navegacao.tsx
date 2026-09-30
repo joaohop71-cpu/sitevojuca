@@ -140,6 +140,7 @@ export default function Navegacao() {
           <a
             href={destino}
             onClick={() => registrarPedido(resumo)}
+            data-alvo-pedido
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="inline-flex shrink-0 border px-4 py-2 transition-colors"
             style={{
@@ -160,6 +161,7 @@ export default function Navegacao() {
           <a
             href={destino}
             onClick={() => registrarPedido(resumo)}
+            data-alvo-pedido
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="inline-flex h-11 items-center border px-3.5 transition-colors"
             style={{

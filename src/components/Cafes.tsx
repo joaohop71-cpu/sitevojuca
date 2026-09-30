@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, esgotadoDeVez, estaEsgotado } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
 import type { Cafe } from "@/dados";
 import { Contador, Faixa, Rubrica, Visor } from "./base";
+import { explicaFicha } from "@/ficha";
+import { voarAtePedido } from "@/voo";
 
 /* a arte web traz uma faixa vazia no pé, reservada para o preço e o botão:
    874 x 1854 nos cinco produtos, faixa de 22,006% ancorada no pé */
@@ -151,7 +153,9 @@ function Preco({
         ) : (
           <Contador
             valor={qtd}
-            aoMudar={(d) => ajustar(chave, d)}
+            aoMudar={(d, origem) => {
+              if (ajustar(chave, d) && d > 0) voarAtePedido(origem);
+            }}
             rotulo={`${nome} ${rotulo.toLowerCase()}`}
             cor={cor}
             compacto
@@ -163,6 +167,28 @@ function Preco({
 }
 
 /**
+ * Onde a ficha técnica começa em cada arte, medido no arquivo web (874 × 1854):
+ * o centro da primeira linha. Os dois Heranças descem 48 px porque trazem a
+ * linha do lote sob o nome. As três linhas são separadas por 54 px, e as duas
+ * colunas vão de x = 84 a 422 e de 452 a 789 nos cinco rótulos.
+ */
+const FICHA_TOPO: Record<string, number> = {
+  vojuca: 1011,
+  reserva998: 1011,
+  minassanta: 1011,
+  herancas_2sl: 1059,
+  herancas_24137: 1059,
+};
+const FICHA_PASSO = 54;
+const FICHA_ALTURA = 48;
+const FICHA_COLUNAS: [number, number][] = [
+  [78, 430],
+  [446, 796],
+];
+const emX = (x: number) => (x / ARTE.largura) * 100;
+const emY = (y: number) => (y / ALTURA_COSTURADA) * 100;
+
+/**
  * O rótulo, com o preço e o botão dentro da faixa que a própria arte reserva.
  *
  * A arte web termina numa área vazia de 22% da altura, com o papel e a moldura
@@ -172,8 +198,12 @@ function Preco({
  * do cartão (cqw), e não em pixels: assim o pé continua cabendo em qualquer
  * largura de tela.
  *
- * A borda reta saiu. O papel do cartão é rasgado nos quatro lados, como o
- * resto do site.
+ * O rótulo responde de três jeitos, e em nenhum deles a arte é redesenhada:
+ * cada linha da ficha técnica é um botão que se explica; o cartão vira para
+ * mostrar o verso do pacote; e o + manda um pacotinho até o pedido.
+ *
+ * O papel rasgado fica em cada face, e não no cartão inteiro: máscara no
+ * elemento que gira achata o 3D e o cartão viraria de chapa, sem perspectiva.
  */
 function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) {
   const qtd = useCarrinho();
@@ -182,153 +212,332 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
   const cheio = cafe.preco.grao ?? cafe.preco.moido;
   const semPreco = cheio === null;
 
+  const eu = useRef<HTMLElement>(null);
+  const [virado, setVirado] = useState(false);
+  /* o verso só baixa na primeira vez que alguém vira: é a mesma imagem para
+     os cinco, mas 300 KB que a maioria nunca vai ver */
+  const [jaVirou, setJaVirou] = useState(false);
+  const [aberta, setAberta] = useState<number | null>(null);
+  const [passou, setPassou] = useState(false);
+  const topo = FICHA_TOPO[cafe.banner] ?? 1011;
+
+  /* a passada de luz pela ficha acontece uma vez, quando o rótulo entra na tela */
+  useEffect(() => {
+    const el = eu.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setPassou(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.45 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  /* a explicação fecha no Esc e em qualquer toque fora do rótulo */
+  useEffect(() => {
+    if (aberta === null) return;
+    const fora = (e: PointerEvent) => {
+      if (!eu.current?.contains(e.target as Node)) setAberta(null);
+    };
+    const tecla = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setAberta(null);
+    };
+    document.addEventListener("pointerdown", fora);
+    document.addEventListener("keydown", tecla);
+    return () => {
+      document.removeEventListener("pointerdown", fora);
+      document.removeEventListener("keydown", tecla);
+    };
+  }, [aberta]);
+
+  const virar = () => {
+    setAberta(null);
+    setJaVirou(true);
+    setVirado((v) => !v);
+  };
+
+  const ficha = aberta === null ? null : cafe.fichas[aberta];
+  const linhaAberta = aberta === null ? 0 : Math.floor(aberta / 2);
+  const colunaAberta = FICHA_COLUNAS[(aberta ?? 0) % 2];
+  const topoAberta = topo - FICHA_ALTURA / 2 + linhaAberta * FICHA_PASSO;
+
   return (
-    /* duas máscaras aninhadas: a de fora morde em cima e embaixo, a de dentro
-       nos lados, e a interseção das duas dá o canto rasgado de verdade */
     <article
+      ref={eu}
       id={cafe.id}
-      className="reveal rasgo-ambos"
+      className="reveal"
       style={{ containerType: "inline-size", scrollMarginTop: 96 }}
     >
-      <div
-        className="rasgo-lados"
-        style={{ background: "rgba(255,250,240,0.6)", padding: "20px 16px" }}
-      >
-        {/* A caixa de referência é a ARTE, e não o cartão: o cartão tem uma
-            folga de papel em volta, e a faixa medida contra ele saía uns quatro
-            pixels mais larga que a moldura impressa de cada lado.
-            A altura é a da peça costurada, sem o vão em branco, e é ela que dá
-            às duas metades uma porcentagem contra a qual se medir. */}
-        <div
-          className="relative"
-          style={{ aspectRatio: `${ARTE.largura} / ${ALTURA_COSTURADA}` }}
-        >
-      {/* a altura precisa descer até o botão: com ele em altura automática, a
-          porcentagem das duas metades não tem contra o que se medir e cada uma
-          mostra a arte inteira */}
+      <div className="cartao-giro" data-virado={virado}>
+        <div className="cartao-miolo">
+          {/* ————— a frente ————— */}
+          {/* duas máscaras aninhadas: a de fora morde em cima e embaixo, a de
+              dentro nos lados, e a interseção das duas dá o canto rasgado */}
+          <div className="cartao-face cartao-frente rasgo-ambos" inert={virado}>
+            <div
+              className="rasgo-lados"
+              style={{ background: "rgba(255,250,240,0.6)", padding: "20px 16px" }}
+            >
+              {/* A caixa de referência é a ARTE, e não o cartão: o cartão tem uma
+                  folga de papel em volta, e a faixa medida contra ele saía uns
+                  quatro pixels mais larga que a moldura impressa de cada lado.
+                  A altura é a da peça costurada, sem o vão em branco, e é ela
+                  que dá às duas metades uma porcentagem contra a qual se medir. */}
+              <div
+                className="relative"
+                style={{ aspectRatio: `${ARTE.largura} / ${ALTURA_COSTURADA}` }}
+              >
+          {/* a altura precisa descer até o botão: com ele em altura automática, a
+              porcentagem das duas metades não tem contra o que se medir e cada uma
+              mostra a arte inteira */}
+          <button
+            type="button"
+            onClick={aoVerRotulo}
+            aria-label={`Ver o rótulo do ${nomeCheio(cafe)} em tamanho grande`}
+            className="group block h-full w-full"
+          >
+            {/* duas metades da mesma imagem, encostadas: o navegador baixa um
+                arquivo só e o vão em branco fica de fora */}
+            <div style={{ height: `${(CORTE / ALTURA_COSTURADA) * 100}%`, overflow: "hidden" }}>
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
+                  sizes="(min-width: 1024px) 540px, 92vw"
+                />
+                <img
+                  src={`${base}_1x.png`}
+                  alt={descricaoArte(cafe)}
+                  width={ARTE.largura}
+                  height={ARTE.altura}
+                  loading="lazy"
+                  decoding="async"
+                  className="block w-full transition-opacity duration-200 group-hover:opacity-90"
+                />
+              </picture>
+            </div>
+            <div
+              style={{
+                height: `${((ARTE.altura - RETOMA) / ALTURA_COSTURADA) * 100}%`,
+                overflow: "hidden",
+              }}
+            >
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
+                  sizes="(min-width: 1024px) 540px, 92vw"
+                />
+                <img
+                  src={`${base}_1x.png`}
+                  alt=""
+                  aria-hidden="true"
+                  width={ARTE.largura}
+                  height={ARTE.altura}
+                  loading="lazy"
+                  decoding="async"
+                  className="block w-full transition-opacity duration-200 group-hover:opacity-90"
+                  style={{ marginTop: `-${(RETOMA / ARTE.largura) * 100}%` }}
+                />
+              </picture>
+            </div>
+          </button>
+
+
+                {/* A ficha técnica, linha por linha. Os botões ficam por cima
+                    da arte, irmãos do botão que amplia o rótulo, e não dentro
+                    dele: botão dentro de botão não existe, e o toque na ficha
+                    abriria o visor junto. */}
+                {cafe.fichas.map((f, i) => {
+                  const [x0, x1] = FICHA_COLUNAS[i % 2];
+                  const y0 = topo - FICHA_ALTURA / 2 + Math.floor(i / 2) * FICHA_PASSO;
+                  return (
+                    <button
+                      key={f.rotulo}
+                      type="button"
+                      className={`ficha-toque${passou ? " passa" : ""}`}
+                      style={{
+                        left: `${emX(x0)}%`,
+                        width: `${emX(x1 - x0)}%`,
+                        top: `${emY(y0)}%`,
+                        height: `${emY(FICHA_ALTURA)}%`,
+                        ["--i" as string]: i,
+                      }}
+                      aria-expanded={aberta === i}
+                      aria-controls={`${cafe.id}-ficha`}
+                      aria-label={`${f.rotulo}: ${f.valor}. O que isso quer dizer`}
+                      onClick={() => setAberta((a) => (a === i ? null : i))}
+                    />
+                  );
+                })}
+
+                {/* a explicação sobe acima da linha tocada: embaixo dela está o
+                    fim da ficha e o preço, e não há espaço */}
+                {ficha && (
+                  <div
+                    id={`${cafe.id}-ficha`}
+                    role="note"
+                    className="ficha-explica"
+                    style={{
+                      bottom: `calc(${100 - emY(topoAberta)}% + 10px)`,
+                      ["--seta" as string]: `${(emX((colunaAberta[0] + colunaAberta[1]) / 2) - 5) / 0.9}%`,
+                      ["--tinta" as string]: cor,
+                    }}
+                  >
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="ficha-explica-rotulo">{ficha.rotulo}</span>
+                      <button
+                        type="button"
+                        aria-label="Fechar"
+                        className="-my-2 -mr-2 grid h-9 w-9 place-items-center text-[20px] leading-none text-[#6f5b44]"
+                        onClick={() => setAberta(null)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                    <div className="ficha-explica-valor">{ficha.valor}</div>
+                    <p>{explicaFicha(ficha.rotulo, ficha.valor)}</p>
+                  </div>
+                )}
+
+          {/* a faixa reservada pela arte */}
+          <div
+            className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center"
+            /* A moldura impressa não é a borda da imagem: medindo o arquivo, as
+               duas linhas do quadro caem em x = 55 e 818 de 874, e as de baixo em
+               y = 1798 de 1854. O botão ia até 12% e passava por cima delas.
+               Os recuos abaixo são esses números, com uma folga: em CSS a
+               porcentagem de padding conta sempre a LARGURA, inclusive embaixo. */
+            style={{ height: `${FAIXA_COSTURADA}%`, padding: "1% 7% 8%" }}
+          >
+            {semPreco ? (
+              <p className="ficha text-center text-[#6b4526]" style={{ fontSize: "min(3.2cqw, 15px)" }}>
+                Lote novo, preço sendo fechado. Pergunte no WhatsApp.
+              </p>
+            ) : (
+              <>
+                {/* as notas ficavam só no alt da imagem e no rótulo ampliado, e os
+                    dois Heranças, que têm mesmo peso e mesmo preço, ficavam
+                    indistinguíveis pelo cartão */}
+                {/* uma linha só: no Heranças 24/137, que tem as notas mais longas,
+                    a segunda linha empurrava o contador para fora do quadro
+                    impresso no celular */}
+                <div
+                  className="ficha whitespace-nowrap uppercase text-[#3a271b]"
+                  style={{ fontSize: "min(2.4cqw, 12.5px)", letterSpacing: "0.05em" }}
+                >
+                  {cafe.notas.join(" · ")}
+                </div>
+                <div
+                  className="ficha mt-[0.5cqw] uppercase tracking-[0.14em]"
+                  style={{ color: cor, fontSize: "min(2.5cqw, 12px)" }}
+                >
+                  {esgotadoDeVez(cafe)
+                    ? `Sem estoque · ${cafe.gramas} g`
+                    : cafe.semPromo
+                    ? `Preço de tabela · ${cafe.gramas} g`
+                    : `${PROMO.rotulo} · ${PROMO.prazo} · ${cafe.gramas} g`}
+                </div>
+                <div className="mt-[1cqw] flex items-start justify-center gap-[4cqw]">
+                  {cafe.preco.grao !== null && (
+                    <Preco
+                      rotulo="Em grão"
+                      valor={cafe.preco.grao}
+                      cor={cor}
+                      chave={`${cafe.id}-grao`}
+                      qtd={qtd[`${cafe.id}-grao`] ?? 0}
+                      nome={nomeCheio(cafe)}
+                      promo={!cafe.semPromo}
+                      esgotado={estaEsgotado(cafe, "grao")}
+                    />
+                  )}
+                  {cafe.preco.moido !== null && (
+                    <Preco
+                      rotulo="Moído"
+                      valor={cafe.preco.moido}
+                      cor={cor}
+                      chave={`${cafe.id}-moido`}
+                      qtd={qtd[`${cafe.id}-moido`] ?? 0}
+                      nome={nomeCheio(cafe)}
+                      promo={!cafe.semPromo}
+                      esgotado={estaEsgotado(cafe, "moido")}
+                    />
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ————— o verso —————
+              É o verso do pacote, desenhado junto com os rótulos: o guia de
+              preparo e como guardar. Vai sem a caixa de lote e datas — numa
+              venda torrada sob encomenda, uma data impressa seria sempre
+              velha — e sem o rodapé, que ainda traz CNPJ e registro de
+              exemplo, marcados no próprio pacote como dados a substituir. */}
+          <div className="cartao-face cartao-verso rasgo-ambos" inert={!virado}>
+            <div
+              className="rasgo-lados flex h-full flex-col"
+              style={{ background: "rgba(255,250,240,0.92)", padding: "26px 18px 30px" }}
+            >
+              {jaVirou && (
+                <picture className="block min-h-0 flex-1">
+                  <source
+                    type="image/webp"
+                    srcSet="/rotulos/rotulo_verso_1x.webp 874w, /rotulos/rotulo_verso_2x.webp 1181w"
+                    sizes="(min-width: 1024px) 540px, 92vw"
+                  />
+                  <img
+                    src="/rotulos/rotulo_verso_1x.png"
+                    alt="Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coado no filtro, 20 g de moagem média para 300 ml, em 3 a 4 minutos. Prensa francesa, 30 g de moagem grossa para 450 ml, em 4 minutos. Cafeteira italiana, 20 g de moagem média-fina para 140 ml. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias."
+                    width={874}
+                    height={1280}
+                    decoding="async"
+                    className="block h-full w-full object-contain object-top"
+                  />
+                </picture>
+              )}
+              <div className="mt-4 border-t border-dashed pt-4 text-center" style={{ borderColor: `${cor}59` }}>
+                <div
+                  className="text-[clamp(19px,4.2cqw,24px)] leading-tight"
+                  style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600, color: cor }}
+                >
+                  {nomeCheio(cafe)}
+                </div>
+                <p className="mx-auto mt-2 max-w-[44ch] text-[clamp(14px,3cqw,15.5px)] leading-relaxed text-[#5c4635]">
+                  {cafe.descricao}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <button
         type="button"
-        onClick={aoVerRotulo}
-        aria-label={`Ver o rótulo do ${nomeCheio(cafe)} em tamanho grande`}
-        className="group block h-full w-full"
+        onClick={virar}
+        aria-pressed={virado}
+        className="cartao-virar ficha mt-3 flex w-full items-center justify-center gap-2.5 py-3 text-[14px] uppercase tracking-[0.14em]"
+        style={{ color: cor }}
       >
-        {/* duas metades da mesma imagem, encostadas: o navegador baixa um
-            arquivo só e o vão em branco fica de fora */}
-        <div style={{ height: `${(CORTE / ALTURA_COSTURADA) * 100}%`, overflow: "hidden" }}>
-          <picture>
-            <source
-              type="image/webp"
-              srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
-              sizes="(min-width: 1024px) 540px, 92vw"
-            />
-            <img
-              src={`${base}_1x.png`}
-              alt={descricaoArte(cafe)}
-              width={ARTE.largura}
-              height={ARTE.altura}
-              loading="lazy"
-              decoding="async"
-              className="block w-full transition-opacity duration-200 group-hover:opacity-90"
-            />
-          </picture>
-        </div>
-        <div
-          style={{
-            height: `${((ARTE.altura - RETOMA) / ALTURA_COSTURADA) * 100}%`,
-            overflow: "hidden",
-          }}
-        >
-          <picture>
-            <source
-              type="image/webp"
-              srcSet={`${base}_1x.webp 874w, ${base}_2x.webp 1748w`}
-              sizes="(min-width: 1024px) 540px, 92vw"
-            />
-            <img
-              src={`${base}_1x.png`}
-              alt=""
-              aria-hidden="true"
-              width={ARTE.largura}
-              height={ARTE.altura}
-              loading="lazy"
-              decoding="async"
-              className="block w-full transition-opacity duration-200 group-hover:opacity-90"
-              style={{ marginTop: `-${(RETOMA / ARTE.largura) * 100}%` }}
-            />
-          </picture>
-        </div>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4.5h-4.5"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        {virado ? "Ver a frente" : "Ver o verso · como preparar"}
       </button>
-
-      {/* a faixa reservada pela arte */}
-      <div
-        className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center"
-        /* A moldura impressa não é a borda da imagem: medindo o arquivo, as
-           duas linhas do quadro caem em x = 55 e 818 de 874, e as de baixo em
-           y = 1798 de 1854. O botão ia até 12% e passava por cima delas.
-           Os recuos abaixo são esses números, com uma folga: em CSS a
-           porcentagem de padding conta sempre a LARGURA, inclusive embaixo. */
-        style={{ height: `${FAIXA_COSTURADA}%`, padding: "1% 7% 8%" }}
-      >
-        {semPreco ? (
-          <p className="ficha text-center text-[#6b4526]" style={{ fontSize: "min(3.2cqw, 15px)" }}>
-            Lote novo, preço sendo fechado. Pergunte no WhatsApp.
-          </p>
-        ) : (
-          <>
-            {/* as notas ficavam só no alt da imagem e no rótulo ampliado, e os
-                dois Heranças, que têm mesmo peso e mesmo preço, ficavam
-                indistinguíveis pelo cartão */}
-            {/* uma linha só: no Heranças 24/137, que tem as notas mais longas,
-                a segunda linha empurrava o contador para fora do quadro
-                impresso no celular */}
-            <div
-              className="ficha whitespace-nowrap uppercase text-[#3a271b]"
-              style={{ fontSize: "min(2.4cqw, 12.5px)", letterSpacing: "0.05em" }}
-            >
-              {cafe.notas.join(" · ")}
-            </div>
-            <div
-              className="ficha mt-[0.5cqw] uppercase tracking-[0.14em]"
-              style={{ color: cor, fontSize: "min(2.5cqw, 12px)" }}
-            >
-              {esgotadoDeVez(cafe)
-                ? `Sem estoque · ${cafe.gramas} g`
-                : cafe.semPromo
-                ? `Preço de tabela · ${cafe.gramas} g`
-                : `${PROMO.rotulo} · ${PROMO.prazo} · ${cafe.gramas} g`}
-            </div>
-            <div className="mt-[1cqw] flex items-start justify-center gap-[4cqw]">
-              {cafe.preco.grao !== null && (
-                <Preco
-                  rotulo="Em grão"
-                  valor={cafe.preco.grao}
-                  cor={cor}
-                  chave={`${cafe.id}-grao`}
-                  qtd={qtd[`${cafe.id}-grao`] ?? 0}
-                  nome={nomeCheio(cafe)}
-                  promo={!cafe.semPromo}
-                  esgotado={estaEsgotado(cafe, "grao")}
-                />
-              )}
-              {cafe.preco.moido !== null && (
-                <Preco
-                  rotulo="Moído"
-                  valor={cafe.preco.moido}
-                  cor={cor}
-                  chave={`${cafe.id}-moido`}
-                  qtd={qtd[`${cafe.id}-moido`] ?? 0}
-                  nome={nomeCheio(cafe)}
-                  promo={!cafe.semPromo}
-                  esgotado={estaEsgotado(cafe, "moido")}
-                />
-              )}
-            </div>
-          </>
-        )}
-      </div>
-        </div>
-
-      </div>
     </article>
   );
 }
@@ -365,8 +574,9 @@ export default function Cafes() {
         </h2>
         <p className="mt-4 max-w-[58ch] text-[#5c4635]">
           Todos vêm da mesma lavoura, hoje repartida em nove talhões. O que muda é a
-          variedade, a seleção do grão e o ponto da torra. Escolha a quantidade aqui
-          mesmo, no rótulo que quiser; toque na arte para ler a letra miúda.
+          variedade, a seleção do grão e o ponto da torra. Toque numa linha da ficha
+          técnica para saber o que ela quer dizer, e vire o pacote para ver como
+          preparar.
         </p>
       </div>
 
