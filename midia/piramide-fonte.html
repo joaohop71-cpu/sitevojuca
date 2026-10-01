@@ -1,0 +1,244 @@
+<!doctype html><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..700,0..100;1,9..144,400..600,0..100&family=Courier+Prime:wght@400;700&display=swap">
+<body style="background:#222;color:#ddd;font:13px monospace;margin:0;padding:16px">
+<pre id="log">preparando…</pre>
+<script type="module">
+/* Série "Lendo o rótulo" · a pirâmide dos defeitos, em dois slides.
+ *
+ * A referência (perfil e2coffee) empilhava as categorias da ABIC — Tradicional,
+ * Superior, Gourmet — com um número de defeitos cada. Aqui a pirâmide é a mesma,
+ * mas os degraus são os TIPOS da classificação oficial do MAPA: o termo
+ * "Superior" está no rótulo do Minas Santa, e numa pirâmide ele cairia no degrau
+ * de 86 defeitos, que é dizer isso do próprio café. As categorias da ABIC também
+ * ficam de fora até se confirmar se o uso exige certificação.
+ *
+ * Os números saem das fontes, não da referência:
+ *   - MAPA, Instrução Normativa nº 8/2003, tabela 3 e item 11.5: tipo 4 = 26
+ *     defeitos, tipo 6 = 86, tipo 8 = 360, em amostra de 300 g; acima de 360 é
+ *     fora de tipo. Tabelas 1 e 2: o que vale como um defeito.
+ *   - SCA, como compilado pela ICO ("Existing definitions of specialty coffee"):
+ *     especial tem de 0 a 5 defeitos em 350 g e 80 pontos ou mais na prova.
+ * As duas amostras têm pesos diferentes, e a peça diz isso no pé.
+ */
+const L = document.getElementById("log");
+const diz = (t) => (L.textContent += "\n" + t);
+
+const W = 1080, H = 1350, M = 92;
+const PAPEL = "#efe3cc";
+const TINTA = "#3a271b";
+const MARCA = "#8c3a20", DESTAQUE = "#e8b98d", CREME = "#f7efe0", APOIO = "#6f5b44";
+const SERIF = "Fraunces, Georgia, serif";
+const MONO = "'Courier Prime', monospace";
+
+/* onload, e não decode(): com a janela em segundo plano o decode pode não voltar */
+const carrega = (u) => new Promise((ok, erro) => {
+  const im = new Image(); im.onload = () => ok(im); im.onerror = () => erro(new Error(u)); im.src = u;
+});
+
+function cobre(x, im, cx, cy, cw, ch, foco = 0.5) {
+  const e = Math.max(cw / im.naturalWidth, ch / im.naturalHeight);
+  const w = im.naturalWidth * e, h = im.naturalHeight * e;
+  x.save(); x.beginPath(); x.rect(cx, cy, cw, ch); x.clip();
+  x.drawImage(im, cx + (cw - w) / 2, cy + (ch - h) * foco, w, h);
+  x.restore();
+}
+function veu(x, forca = 1) {
+  const g = x.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, `rgba(24,15,10,${0.86 * forca})`);
+  g.addColorStop(0.3, `rgba(30,20,14,${0.62 * forca})`);
+  g.addColorStop(0.62, `rgba(32,20,14,${0.58 * forca})`);
+  g.addColorStop(1, `rgba(24,15,10,${0.92 * forca})`);
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+}
+function grao(x, n = 26000) {
+  x.save();
+  for (let i = 0; i < n; i++) {
+    x.fillStyle = `rgba(58,39,27,${Math.random() * 0.05})`;
+    x.fillRect(Math.random() * W, Math.random() * H, 1.6, 1.6);
+  }
+  x.restore();
+}
+function quebra(x, texto, larg) {
+  const out = [];
+  for (const par of texto.split("\n")) {
+    let linha = "";
+    for (const p of par.split(" ")) {
+      const t = linha ? linha + " " + p : p;
+      if (x.measureText(t).width > larg && linha) { out.push(linha); linha = p; } else linha = t;
+    }
+    out.push(linha);
+  }
+  return out;
+}
+function escreve(x, texto, { xPos, y, larg, fonte, cor, lh, align = "left", esp = "0px" }) {
+  x.save(); x.font = fonte; x.fillStyle = cor; x.textAlign = align; x.letterSpacing = esp;
+  const ls = quebra(x, texto, larg);
+  ls.forEach((l, i) => x.fillText(l, xPos, y + i * lh));
+  x.restore();
+  return y + ls.length * lh;
+}
+function etiqueta(x, texto, { xPos, y, cor, tam = 26, align = "left", esp = "0.26em", peso = 400 }) {
+  x.save(); x.font = `${peso} ${tam}px ${MONO}`; x.fillStyle = cor; x.textAlign = align;
+  x.letterSpacing = esp; x.fillText(texto.toUpperCase(), xPos, y); x.restore();
+}
+function fio(x, cx, y, larg, cor) {
+  x.save(); x.strokeStyle = cor; x.fillStyle = cor; x.lineWidth = 1.6;
+  x.beginPath(); x.moveTo(cx - larg / 2, y); x.lineTo(cx - 12, y);
+  x.moveTo(cx + 12, y); x.lineTo(cx + larg / 2, y); x.stroke();
+  x.save(); x.translate(cx, y); x.rotate(Math.PI / 4); x.fillRect(-5, -5, 10, 10); x.restore();
+  x.restore();
+}
+function rodape(x, n, total, claro) {
+  const cor = claro ? "rgba(239,227,204,0.72)" : "rgba(111,91,68,0.9)";
+  etiqueta(x, "@cafevojuca · Sul de Minas", { xPos: M, y: H - 62, cor, tam: 23, esp: "0.2em" });
+  etiqueta(x, `${String(n).padStart(2, "0")}/${String(total).padStart(2, "0")}`,
+    { xPos: W - M, y: H - 62, cor, tam: 23, align: "right", esp: "0.2em" });
+}
+function pontilhado(x, x0, y, x1, cor) {
+  x.save(); x.strokeStyle = cor; x.lineWidth = 1.4; x.setLineDash([3, 6]);
+  x.beginPath(); x.moveTo(x0, y); x.lineTo(x1, y); x.stroke(); x.restore();
+}
+/* seta vertical com ponta: para baixo (defeitos aumentam) ou para cima (qualidade) */
+function seta(x, xPos, y0, y1, cor) {
+  x.save(); x.strokeStyle = cor; x.fillStyle = cor; x.lineWidth = 1.6;
+  x.beginPath(); x.moveTo(xPos, y0); x.lineTo(xPos, y1); x.stroke();
+  const d = Math.sign(y1 - y0);
+  x.beginPath(); x.moveTo(xPos, y1); x.lineTo(xPos - 7, y1 - 14 * d); x.lineTo(xPos + 7, y1 - 14 * d);
+  x.closePath(); x.fill(); x.restore();
+}
+function vertical(x, texto, xPos, y, cor, fonte) {
+  x.save(); x.translate(xPos, y); x.rotate(-Math.PI / 2);
+  x.font = fonte; x.fillStyle = cor; x.textAlign = "center"; x.fillText(texto, 0, 0); x.restore();
+}
+
+const TOTAL = 2;
+const slides = [];
+
+/* 01 · a pirâmide, sobre a lavoura */
+slides.push(async (x, im) => {
+  cobre(x, im.cafezal, 0, 0, W, H, 0.55); veu(x, 0.95);
+
+  etiqueta(x, "Lendo o rótulo", { xPos: W / 2, y: 132, cor: DESTAQUE, tam: 25, align: "center" });
+  escreve(x, "Café se classifica\npelos defeitos.", {
+    xPos: W / 2, y: 228, larg: W - M * 2, fonte: `600 66px ${SERIF}`, cor: CREME, lh: 76, align: "center" });
+  escreve(x, "Contados um a um, numa amostra de café cru.", {
+    xPos: W / 2, y: 392, larg: W - M * 2, fonte: `italic 400 34px ${SERIF}`, cor: "#e3d2b8", lh: 44, align: "center" });
+
+  /* a pirâmide: um triângulo cortado em quatro degraus */
+  const cx = W / 2, AP = 452, BASE = 1062, A0 = 78, A1 = 330;
+  const meia = (y) => A0 + ((y - AP) / (BASE - AP)) * (A1 - A0);
+  const degraus = [
+    { y0: 480, y1: 606, nome: "Especial", num: "0 a 5", destaque: true },
+    { y0: 618, y1: 744, nome: "Tipo 4", num: "26" },
+    { y0: 756, y1: 882, nome: "Tipo 6", num: "86" },
+    { y0: 894, y1: 1020, nome: "Tipo 8", num: "360" },
+  ];
+  const linha = "rgba(247,239,224,0.85)";
+  for (const d of degraus) {
+    const a = meia(d.y0), b = meia(d.y1);
+    x.beginPath();
+    x.moveTo(cx - a, d.y0); x.lineTo(cx + a, d.y0); x.lineTo(cx + b, d.y1); x.lineTo(cx - b, d.y1); x.closePath();
+    x.fillStyle = d.destaque ? "rgba(232,185,141,0.26)" : "rgba(247,239,224,0.07)"; x.fill();
+    x.strokeStyle = d.destaque ? DESTAQUE : linha; x.lineWidth = d.destaque ? 2.4 : 1.6; x.stroke();
+    etiqueta(x, d.nome, { xPos: cx, y: (d.y0 + d.y1) / 2 + 9, cor: d.destaque ? CREME : "rgba(247,239,224,0.92)",
+      tam: 24, align: "center", esp: d.destaque ? "0.14em" : "0.18em", peso: d.destaque ? 700 : 400 });
+
+    /* à esquerda: o número de defeitos, no nível da borda de cima do degrau */
+    const yN = d.y0 + 2;
+    x.save(); x.font = `600 46px ${SERIF}`; x.fillStyle = d.destaque ? DESTAQUE : CREME; x.textAlign = "left";
+    x.fillText(d.num, 150, yN + 34); const wn = x.measureText(d.num).width; x.restore();
+    etiqueta(x, "defeitos", { xPos: 150, y: yN + 62, cor: "rgba(239,227,204,0.75)", tam: 17, esp: "0.14em" });
+    const xi = 150 + Math.max(wn, 96) + 16, xf = cx - a - 10;
+    if (xf - xi > 24) pontilhado(x, xi, yN + 22, xf, "rgba(247,239,224,0.55)");
+  }
+
+  /* os eixos, como na referência: defeitos crescem para baixo, qualidade para cima */
+  seta(x, 112, 482, 1024, "rgba(247,239,224,0.7)");
+  vertical(x, "defeitos", 84, 752, "rgba(247,239,224,0.85)", `italic 400 30px ${SERIF}`);
+  seta(x, 974, 1024, 482, "rgba(247,239,224,0.7)");
+  vertical(x, "qualidade", 1006, 752, "rgba(247,239,224,0.85)", `italic 400 30px ${SERIF}`);
+
+  /* a prova: onde estão os nossos */
+  const yP = 504, xR = cx + meia(yP) + 22;
+  pontilhado(x, xR, yP + 18, 948, "rgba(232,185,141,0.75)");
+  x.save(); x.font = `600 44px ${SERIF}`; x.fillStyle = CREME; x.textAlign = "right";
+  x.fillText("80+", 948, yP + 4); x.restore();
+  etiqueta(x, "pontos SCA", { xPos: 948, y: yP + 50, cor: "rgba(239,227,204,0.85)", tam: 17, align: "right", esp: "0.14em" });
+  escreve(x, "os nossos:\n82 a 84", {
+    xPos: 948, y: yP + 96, larg: 260, fonte: `italic 500 30px ${SERIF}`, cor: DESTAQUE, lh: 36, align: "right" });
+
+  /* o pé: de onde vêm os números, e o aviso de que as amostras não pesam igual */
+  escreve(x, "Tipos: classificação oficial do MAPA, amostra de 300 g.\nEspecial: padrão da SCA, amostra de 350 g.", {
+    xPos: W / 2, y: 1128, larg: W - M * 2, fonte: `400 21px ${MONO}`, cor: "rgba(239,227,204,0.78)", lh: 31, align: "center" });
+  rodape(x, 1, TOTAL, true);
+});
+
+/* 02 · o que vale como um defeito, na tabela oficial */
+slides.push(async (x) => {
+  x.fillStyle = PAPEL; x.fillRect(0, 0, W, H); grao(x);
+  etiqueta(x, "Lendo o rótulo · o defeito", { xPos: M, y: 150, cor: MARCA, tam: 24 });
+  const fimTitulo = escreve(x, "O que conta como um defeito", {
+    xPos: M, y: 246, larg: W - M * 2, fonte: `600 62px ${SERIF}`, cor: TINTA, lh: 72 });
+  const fimSub = escreve(x, "A tabela oficial, grão por grão.", {
+    xPos: M, y: fimTitulo - 6, larg: W - M * 2, fonte: `italic 400 36px ${SERIF}`, cor: APOIO, lh: 46 });
+
+  const linhas = [
+    ["1 grão preto", "1 defeito"],
+    ["2 grãos ardidos", "1 defeito"],
+    ["5 grãos verdes", "1 defeito"],
+    ["5 grãos quebrados", "1 defeito"],
+    ["2 a 5 grãos brocados", "1 defeito"],
+    ["1 pau, pedra ou torrão grande", "5 defeitos"],
+  ];
+  let y = fimSub + 56;
+  x.save(); x.strokeStyle = "rgba(58,39,27,0.85)"; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(M, y - 14); x.lineTo(W - M, y - 14); x.stroke(); x.restore();
+  for (const [a, b] of linhas) {
+    x.save(); x.font = `400 38px ${SERIF}`; x.fillStyle = TINTA; x.textAlign = "left";
+    x.fillText(a, M, y + 50); const wa = x.measureText(a).width; x.restore();
+    x.save(); x.font = `400 24px ${MONO}`; x.letterSpacing = "0.12em";
+    const wb = x.measureText(b.toUpperCase()).width; x.restore();
+    etiqueta(x, b, { xPos: W - M, y: y + 48, cor: MARCA, tam: 24, align: "right", esp: "0.12em" });
+    pontilhado(x, M + wa + 18, y + 40, W - M - wb - 18, "rgba(58,39,27,0.4)");
+    x.save(); x.strokeStyle = "rgba(58,39,27,0.16)"; x.lineWidth = 1;
+    x.beginPath(); x.moveTo(M, y + 78); x.lineTo(W - M, y + 78); x.stroke(); x.restore();
+    y += 78;
+  }
+
+  /* número e unidade não se separam na quebra: "80" sozinho no fim da linha
+     e "pontos" na de baixo não se lê como uma medida */
+  const yFio = y + 56;
+  fio(x, W / 2, yFio, 320, "rgba(140,58,32,0.55)");
+  const fimEsp = escreve(x, "Café especial: no máximo 5\u00A0defeitos em 350\u00A0g, e 80\u00A0pontos ou mais na prova.", {
+    xPos: W / 2, y: yFio + 66, larg: 860, fonte: `400 34px ${SERIF}`, cor: TINTA, lh: 46, align: "center" });
+  escreve(x, "Os nossos: 82 a 84\u00A0pontos SCA, na prova de Q\u00A0Graders.", {
+    xPos: W / 2, y: fimEsp + 14, larg: 860, fonte: `italic 500 32px ${SERIF}`, cor: MARCA, lh: 42, align: "center" });
+  etiqueta(x, "Fonte: MAPA, IN nº 8/2003, tabelas 1 a 3", { xPos: W / 2, y: H - 132, cor: APOIO, tam: 18, align: "center", esp: "0.14em" });
+  rodape(x, 2, TOTAL, false);
+});
+
+/* ——————————————————— montagem ——————————————————— */
+(async () => {
+  await document.fonts.load(`600 66px ${SERIF}`);
+  await document.fonts.load(`italic 400 34px ${SERIF}`);
+  await document.fonts.load(`400 24px ${MONO}`);
+  await document.fonts.load(`700 24px ${MONO}`);
+  await document.fonts.ready;
+  diz("fontes prontas");
+  const im = { cafezal: await carrega("/foto/linhas-cafezal.jpg") };
+  diz("imagens prontas");
+  const so = new URLSearchParams(location.search).get("so");
+  const alvo = so ? new Set(so.split(",").map(Number)) : null;
+  for (let i = 0; i < slides.length; i++) {
+    if (alvo && !alvo.has(i + 1)) continue;
+    const c = document.createElement("canvas"); c.width = W; c.height = H;
+    const x = c.getContext("2d"); x.textBaseline = "alphabetic";
+    await slides[i](x, im);
+    const b = await new Promise((r) => c.toBlob(r, "image/jpeg", 0.92));
+    await fetch(`/salvar/vojuca-piramide-${String(i + 1).padStart(2, "0")}.jpg`, { method: "POST", body: b });
+    diz(`slide ${i + 1} · ${(b.size / 1024).toFixed(0)} KB`);
+  }
+  diz("PRONTO");
+})().catch((e) => diz("ERRO: " + e.message));
+</script></body>
