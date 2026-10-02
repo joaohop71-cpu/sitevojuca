@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { selo } from "@/imagens";
 import capaTerra from "@/assets/capa-terra.webp";
 import { Botao } from "./base";
+import { voarAtePedido } from "@/voo";
 import { MARCA, SELOS, zap } from "@/dados";
 
 /* quanto dura a abertura, até a última camada da revelação sumir */
@@ -34,6 +35,29 @@ function useProfundidade() {
     const t = window.setTimeout(() => setRevelando(false), ABERTURA);
     return () => window.clearTimeout(t);
   }, [revelando]);
+
+  /* Logo depois do carimbo, um pacote sai do selo e voa até o canto do
+     cabeçalho, onde o botão do pedido se cola como etiqueta (a entrada dele é
+     CSS, no mesmo relógio). Quem chega no meio da página, por um link com
+     âncora ou recarregando lá embaixo, não vê a capa: o cabeçalho aparece
+     pronto. */
+  useEffect(() => {
+    const raiz = document.documentElement;
+    const fim = () => raiz.classList.remove("abertura");
+    if (semMovimento() || window.scrollY > 40 || window.location.hash.length > 1) {
+      fim();
+      return;
+    }
+    const voo = window.setTimeout(() => {
+      if (brasao.current && window.scrollY < 200) voarAtePedido(brasao.current, false);
+    }, 1500);
+    /* o brilho da etiqueta termina em 3,6 s */
+    const acabou = window.setTimeout(fim, 3700);
+    return () => {
+      window.clearTimeout(voo);
+      window.clearTimeout(acabou);
+    };
+  }, []);
 
   useEffect(() => {
     if (revelando || semMovimento()) return;

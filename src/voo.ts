@@ -30,10 +30,17 @@ function bate(el: HTMLElement) {
   el.classList.add("pedido-bate");
 }
 
-export function voarAtePedido(origem: HTMLElement) {
+/**
+ * `bater` desligado serve à abertura da capa: lá o botão ainda vai aparecer,
+ * com a entrada própria dele, e a batida por cima cortaria essa entrada.
+ */
+export function voarAtePedido(origem: HTMLElement, bater = true) {
   const destino = alvo();
   if (!destino) return;
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return bate(destino);
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (bater) bate(destino);
+    return;
+  }
 
   const a = origem.getBoundingClientRect();
   const z = destino.getBoundingClientRect();
@@ -68,7 +75,7 @@ export function voarAtePedido(origem: HTMLElement) {
     if (pousou) return;
     pousou = true;
     el.remove();
-    bate(destino);
+    if (bater) bate(destino);
   };
   voo.onfinish = pousa;
   setTimeout(pousa, 800);

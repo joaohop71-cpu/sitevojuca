@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import { MARCA, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
@@ -96,7 +97,8 @@ export default function Navegacao() {
         <a
           href="#topo"
           onClick={() => setAberto(false)}
-          className="flex shrink-0 items-center"
+          className="nav-chega flex shrink-0 items-center"
+          style={{ "--d": "1.15s" } as CSSProperties}
         >
           {/* Só o nome. O busto aparece grande na capa, no rodapé e no ícone
               da aba; aqui ele disputava espaço com o nome e com os sete links,
@@ -122,17 +124,18 @@ export default function Navegacao() {
             parar por cima do nome. 1280 (xl) é o primeiro tamanho com folga de
             sobra; abaixo disso vale o menu. */}
         <div className="hidden min-w-0 flex-1 items-center justify-end gap-5 xl:flex xl:gap-6">
-          {ITENS.map((i) => (
+          {ITENS.map((i, k) => (
             <a
               key={i.href}
               href={i.href}
-              className="whitespace-nowrap py-2 transition-colors"
+              className="nav-chega whitespace-nowrap py-2 transition-colors"
               style={{
+                "--d": `${1.25 + k * 0.06}s`,
                 ...rotulo,
                 fontSize: 14.5,
                 color: ativo === i.href ? destaque : tinta,
                 borderBottom: `1px solid ${ativo === i.href ? destaque : "transparent"}`,
-              }}
+              } as CSSProperties}
             >
               {i.rotulo}
             </a>
@@ -142,7 +145,7 @@ export default function Navegacao() {
             onClick={() => registrarPedido(resumo)}
             data-alvo-pedido
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            className="inline-flex shrink-0 border px-4 py-2 transition-colors"
+            className="nav-etiqueta relative inline-flex shrink-0 overflow-hidden border px-4 py-2 transition-colors"
             style={{
               ...rotulo,
               fontSize: 15,
@@ -163,7 +166,7 @@ export default function Navegacao() {
             onClick={() => registrarPedido(resumo)}
             data-alvo-pedido
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            className="inline-flex h-11 items-center border px-3.5 transition-colors"
+            className="nav-etiqueta relative inline-flex h-11 items-center overflow-hidden border px-3.5 transition-colors"
             style={{
               ...rotulo,
               fontSize: 14.5,
@@ -181,8 +184,11 @@ export default function Navegacao() {
             aria-expanded={aberto}
             aria-controls="menu-mobile"
             aria-label={aberto ? "Fechar menu" : "Abrir menu"}
-            className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] border transition-colors"
-            style={{ borderColor: claro ? "rgba(239,227,204,0.5)" : "rgba(58,39,27,0.35)" }}
+            className="nav-chega flex h-11 w-11 flex-col items-center justify-center gap-[5px] border transition-colors"
+            style={{
+              "--d": "1.3s",
+              borderColor: claro ? "rgba(239,227,204,0.5)" : "rgba(58,39,27,0.35)",
+            } as CSSProperties}
           >
             <span
               className="block h-px w-5 transition-transform duration-200"

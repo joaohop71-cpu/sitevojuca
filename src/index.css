@@ -242,8 +242,35 @@
   @keyframes capa-sobe { from { opacity: 0; transform: translateY(16px); } }
   @media (prefers-reduced-motion: reduce) {
     .capa-carimbo, .capa-sobe { animation: none; }
-    .capa-tinta { display: none; }
+    .capa-tinta, .abertura .nav-etiqueta::after { display: none; }
+    .abertura .nav-chega, .abertura .nav-etiqueta { animation: none; }
   }
+  /* O cabeçalho espera a capa: o nome e o menu entram com o texto, e o botão
+     do pedido só aparece quando o pacote que saiu do selo chega nele. Ele se
+     cola como uma etiqueta: abre do meio para as pontas, torto, assenta, e um
+     brilho passa por cima.
+     Tudo preso à classe "abertura", que o <html> já traz do servidor (para o
+     botão não piscar antes) e que a capa tira quando a abertura acaba. Sem
+     ela, o botão volta a ser um botão comum, e a batida de quando um café
+     entra no pedido não briga com a entrada. */
+  .abertura .nav-chega { animation: nav-desce 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) both; }
+  @keyframes nav-desce { from { opacity: 0; transform: translateY(-8px); } }
+  .abertura .nav-etiqueta { animation: nav-etiqueta 0.75s cubic-bezier(0.3, 1.3, 0.5, 1) 2.15s both; }
+  @keyframes nav-etiqueta {
+    0% { opacity: 0; clip-path: inset(0 50% 0 50%); transform: rotate(-5deg) scale(0.9); }
+    55% { opacity: 1; clip-path: inset(0 0 0 0); transform: rotate(1.5deg) scale(1.05); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); transform: none; }
+  }
+  .abertura .nav-etiqueta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(100deg, transparent 30%, rgba(255, 252, 240, 0.6) 50%, transparent 70%);
+    transform: translateX(-120%);
+    animation: nav-brilho 0.9s ease-out 2.7s both;
+  }
+  @keyframes nav-brilho { to { transform: translateX(120%); } }
 
   /* A MESA DAS FOTOS
      As cópias são posicionadas pelo script; aqui fica o papel, a sombra e
