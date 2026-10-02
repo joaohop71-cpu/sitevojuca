@@ -50,6 +50,15 @@ function arte(c: Cafe) {
   return `/rotulos-web/rotulo_${c.banner}_web`;
 }
 
+/* o verso descrito por extenso: os especiais têm o mesmo guia, e o Minas
+   Santa, que vai moído fino, traz receitas próprias */
+const ALT_VERSO = {
+  especial:
+    "Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coado no filtro, 20 g de moagem média para 300 ml, em 3 a 4 minutos. Prensa francesa, 30 g de moagem grossa para 450 ml, em 4 minutos. Cafeteira italiana, 20 g de moagem média-fina para 140 ml. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias.",
+  minassanta:
+    "Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coador tradicional, de Melitta ou de pano, com 8 a 10 g de pó para cada 100 ml. Cafeteira elétrica, na mesma proporção, sem fazer grandes volumes de uma vez para não amargar. Cafeteira italiana, 20 g para 140 ml, em fogo baixo ou médio. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias.",
+};
+
 /** o verso de cada linha, na tinta dela; os dois Heranças são o mesmo */
 function verso(c: Cafe) {
   return `/rotulos/rotulo_verso_${c.banner.startsWith("herancas") ? "herancas" : c.banner}`;
@@ -497,14 +506,14 @@ function Cartao({ cafe, aoVerRotulo }: { cafe: Cafe; aoVerRotulo: () => void }) 
                 <picture className="block min-h-0 flex-1">
                   <source
                     type="image/webp"
-                    srcSet={`${verso(cafe)}_1x.webp 874w, ${verso(cafe)}_2x.webp 1289w`}
+                    srcSet={`${verso(cafe)}_1x.webp 874w, ${verso(cafe)}_2x.webp 1748w`}
                     sizes="(min-width: 1024px) 540px, 92vw"
                   />
                   <img
                     src={`${verso(cafe)}_1x.png`}
-                    alt="Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coado no filtro, 20 g de moagem média para 300 ml, em 3 a 4 minutos. Prensa francesa, 30 g de moagem grossa para 450 ml, em 4 minutos. Cafeteira italiana, 20 g de moagem média-fina para 140 ml. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias."
+                    alt={ALT_VERSO[cafe.banner === "minassanta" ? "minassanta" : "especial"]}
                     width={874}
-                    height={1286}
+                    height={1388}
                     decoding="async"
                     className="block h-full w-full object-contain object-top"
                   />

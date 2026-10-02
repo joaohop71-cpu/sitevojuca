@@ -38,6 +38,8 @@ export { default as capelaPoente } from "@/assets/capela-poente.jpg";
 /* os dois primos, e a lavoura de hoje */
 export { default as joaoHenrique } from "@/assets/joao-henrique.jpg";
 export { default as fernandinho } from "@/assets/fernandinho.jpg";
+/* a foto antiga dele, no viveiro, foi para o monte de fotos da propriedade */
+export { default as fernandinhoViveiro } from "@/assets/fernandinho-viveiro.jpg";
 export { default as lavouraMudas } from "@/assets/lavoura-mudas.jpg";
 export { default as cafePoente } from "@/assets/cafe-poente.jpg";
 export { default as casaSitio } from "@/assets/casa-sitio.jpg";

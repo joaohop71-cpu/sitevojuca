@@ -7,6 +7,7 @@ import {
   casaSitio,
   cerejaGota,
   cerejasSerra,
+  fernandinhoViveiro,
   jucaLavoura,
   lavouraMudas,
   linhasCafezal,
@@ -60,6 +61,12 @@ const FOTOS: Foto[] = [
     alt: "Gota de orvalho escorrendo de uma folha sobre frutos de café, dentro do talhão",
     legenda: "Dentro do talhão",
     ficha: "Orvalho, cedo da manhã",
+  },
+  {
+    src: fernandinhoViveiro,
+    alt: "Fernandinho, de chapéu camuflado e camiseta do Sítio JR, faz sinal de positivo ao lado das mudas de café, em sacolinhas e caixas, no viveiro",
+    legenda: "O Fernandinho no viveiro",
+    ficha: "As mudas esperando a vez de ir para a lavoura",
   },
   {
     src: lavouraMudas,

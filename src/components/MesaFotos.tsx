@@ -17,7 +17,8 @@ export type FotoMesa = { src: string; alt: string; legenda: string; ficha: strin
  */
 
 /* a inclinação de cada cópia é dela, e não do lugar no monte */
-const GIRO = [-3.2, 2.4, -1.6, 3.6, -2.4, 1.4, -3.8, 2.8, -1.2, 3.1, -2.1, 1.9];
+const GIROS = [-3.2, 2.4, -1.6, 3.6, -2.4, 1.4, -3.8, 2.8, -1.2, 3.1, -2.1, 1.9, -2.7];
+const giro = (i: number) => GIROS[i % GIROS.length];
 /* quanto cada camada escapa da de cima: é o que dá espessura ao monte */
 const ESCAPE = [
   [0, 0], [7, 3], [-9, 5], [11, 6], [-6, 8], [4, 9],
@@ -68,7 +69,7 @@ const tf = (p: Pos) =>
 function noMonte(i: number, k: number, g: Geo): Pos {
   const e = ESCAPE[Math.min(k, ESCAPE.length - 1)];
   /* a de cima fica mais reta, para a foto ser lida */
-  return { x: g.x0 + e[0], y: g.topo + e[1], r: GIRO[i] * (k === 0 ? 0.5 : 1) };
+  return { x: g.x0 + e[0], y: g.topo + e[1], r: giro(i) * (k === 0 ? 0.5 : 1) };
 }
 
 /** as doze em linhas, na ordem dos números, cada uma ainda um pouco torta */
@@ -83,7 +84,7 @@ function naMesa(i: number, n: number, g: Geo) {
   const pos: Pos = {
     x: c * (cw + gap) + cw / 2 - g.w / 2,
     y: 10 + r * (linha + gap) + (g.h * s) / 2 - g.h / 2,
-    r: GIRO[i] * 0.45,
+    r: giro(i) * 0.45,
     s,
   };
   return { pos, s, altura: 10 + Math.ceil(n / cols) * (linha + gap) };
@@ -197,7 +198,7 @@ export default function MesaFotos({
       const x = lado > 0 ? window.innerWidth - r.left + 40 : -r.left - g.w - 40;
       el.classList.remove("no-ar", "mola");
       el.classList.add("voando");
-      el.style.transform = tf({ x, y: g.topo + dy * 0.5 - 24, r: GIRO[i] + lado * 22 });
+      el.style.transform = tf({ x, y: g.topo + dy * 0.5 - 24, r: giro(i) + lado * 22 });
       arrumar(i);
       window.setTimeout(() => {
         el.classList.remove("voando");
@@ -274,9 +275,9 @@ export default function MesaFotos({
     h.rastro.push({ x: ev.clientX, y: ev.clientY, t: agora });
     while (h.rastro.length > 2 && agora - h.rastro[0].t > 90) h.rastro.shift();
     /* pegou por cima, gira para o lado do arrasto; por baixo, gira ao contrário */
-    const giro = h.base.r + (dx / g.w) * (5 + 16 * h.alavanca);
+    const inclina = h.base.r + (dx / g.w) * (5 + 16 * h.alavanca);
     const el = cartas.current[ordem.current[0]];
-    if (el) el.style.transform = tf({ x: h.base.x + dx, y: h.base.y + dy, r: giro, s: 1.035 });
+    if (el) el.style.transform = tf({ x: h.base.x + dx, y: h.base.y + dy, r: inclina, s: 1.035 });
   };
 
   const soltar = (ev: PointerEvent<HTMLDivElement>) => {
