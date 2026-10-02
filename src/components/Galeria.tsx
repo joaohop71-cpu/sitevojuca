@@ -1,6 +1,6 @@
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { Visor } from "./base";
-import RodaFotos from "./RodaFotos";
+import MesaFotos from "./MesaFotos";
 import {
   cafePoente,
   capelaPoente,
@@ -132,21 +132,6 @@ function Lightbox({
   );
 }
 
-/* Quem pediu menos movimento recebe a grade: a roda é toda feita de
-   movimento, e desligar só a animação deixaria fotos tortas e desfocadas. */
-const MENOS_MOVIMENTO = "(prefers-reduced-motion: reduce)";
-function useMenosMovimento() {
-  return useSyncExternalStore(
-    (avisar) => {
-      const m = window.matchMedia(MENOS_MOVIMENTO);
-      m.addEventListener("change", avisar);
-      return () => m.removeEventListener("change", avisar);
-    },
-    () => window.matchMedia(MENOS_MOVIMENTO).matches,
-    () => false,
-  );
-}
-
 function Cabeca({ dica }: { dica: string }) {
   return (
     <>
@@ -164,7 +149,7 @@ function Cabeca({ dica }: { dica: string }) {
   );
 }
 
-/** a grade de sempre: para quem pediu menos movimento, e para a impressão */
+/** a grade de sempre, para a impressão: papel não tem monte para arrastar */
 function Grade({ abrir, className = "" }: { abrir: (i: number) => void; className?: string }) {
   return (
     <div className={className}>
@@ -202,25 +187,16 @@ function Grade({ abrir, className = "" }: { abrir: (i: number) => void; classNam
 /** bloco de fotos — usado dentro da seção "Sobre nós" */
 export default function Galeria() {
   const [aberta, setAberta] = useState<number | null>(null);
-  const menosMovimento = useMenosMovimento();
   const ir = (d: number) =>
     setAberta((a) => (a === null ? null : (a + d + FOTOS.length) % FOTOS.length));
 
   return (
     <>
-      {menosMovimento ? (
-        <div id="fotos" className="reveal mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
-          <Cabeca dica="toque para ampliar" />
-          <Grade abrir={setAberta} />
-        </div>
-      ) : (
-        <>
-          {/* sem margem em cima: o respiro é o alto do próprio painel, que
-              precisa dele de qualquer jeito para passar por baixo do menu */}
-          <RodaFotos fotos={FOTOS} cabeca={<Cabeca dica="role para girar" />} aoAbrir={setAberta} />
-          <Grade abrir={setAberta} className="hidden print:block" />
-        </>
-      )}
+      <div id="fotos" className="reveal mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
+        <Cabeca dica="arraste a de cima" />
+        <MesaFotos fotos={FOTOS} aoAbrir={setAberta} />
+        <Grade abrir={setAberta} className="hidden print:block" />
+      </div>
 
       {aberta !== null && (
         <Lightbox i={aberta} fechar={() => setAberta(null)} ir={ir} />

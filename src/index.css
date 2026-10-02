@@ -203,24 +203,136 @@
   .pedido-bate { animation: pedido-bate 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
   @keyframes pedido-bate { 40% { transform: scale(1.12); } }
 
-  /* A RODA DAS FOTOS
-     Os cartões são posicionados a cada quadro pelo script; aqui fica só o que
-     não muda com a rolagem. */
-  .roda-cartao {
-    will-change: transform, filter;
+  /* A MESA DAS FOTOS
+     As cópias são posicionadas pelo script; aqui fica o papel, a sombra e
+     o jeito de cada movimento. */
+  .copia {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    padding: 0;
     transform-origin: 50% 50%;
+    will-change: transform;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: grab;
+    transition: transform 0.55s cubic-bezier(0.2, 0.75, 0.25, 1);
   }
-  /* com a barra do pedido aberta, a régua sobe para não ficar por baixo dela */
-  html:has([data-barra-pedido]) .roda-painel {
-    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+  .copia:focus-visible { outline: none; }
+  .copia:focus-visible .copia-papel { box-shadow: inset 0 0 0 2px #8c3a20; }
+  /* na mão: segue o dedo sem atraso, e sobe da mesa */
+  .copia.no-ar { transition: none; cursor: grabbing; }
+  /* solta antes da hora: volta para o monte com um quique */
+  .copia.mola { transition: transform 0.5s cubic-bezier(0.3, 1.45, 0.5, 1); }
+  .copia.voando { transition: transform 0.34s cubic-bezier(0.3, 0.5, 0.4, 1); }
+  .mesa[data-espalhada] .copia { cursor: zoom-in; }
+
+  /* a sombra fica fora do papel porque a máscara da serrilha cortaria ela */
+  .copia-sombra {
+    position: absolute;
+    inset: 5px 6px 3px;
+    box-shadow: 0 1px 2px rgba(44, 29, 20, 0.16), 0 14px 26px -16px rgba(44, 29, 20, 0.5);
+    transition: box-shadow 0.25s ease-out;
   }
-  .roda-sobe { animation: roda-sobe 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-  @keyframes roda-sobe { from { opacity: 0; transform: translateY(10px); } }
-  .roda-letra {
-    display: inline-block;
-    animation: roda-letra 0.42s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  .copia.no-ar .copia-sombra {
+    box-shadow: 0 2px 4px rgba(44, 29, 20, 0.1), 0 36px 46px -22px rgba(44, 29, 20, 0.55);
   }
-  @keyframes roda-letra { from { opacity: 0; transform: translateY(-0.55em); } }
+  .copia-papel {
+    position: absolute;
+    inset: 0;
+    display: block;
+    padding: 10px 10px 14px;
+    background: linear-gradient(160deg, #fcf8ef 0%, #f6efdf 60%, #f1e7d3 100%);
+    -webkit-mask: var(--serrilha) 0 0 / 100% 100% no-repeat;
+    mask: var(--serrilha) 0 0 / 100% 100% no-repeat;
+  }
+  .copia-foto {
+    position: relative;
+    display: block;
+    height: 100%;
+    overflow: hidden;
+  }
+  .copia-foto img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  /* o brilho do papel fotográfico, parado: muda só a luz, não a foto */
+  .copia-foto::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(118deg, rgba(255, 250, 236, 0.24) 0%, rgba(255, 250, 236, 0) 34%, rgba(255, 250, 236, 0) 72%, rgba(255, 250, 236, 0.1) 100%);
+    box-shadow: inset 0 0 0 1px rgba(58, 39, 27, 0.1);
+  }
+  /* a legenda de cada cópia só aparece com as fotos espalhadas; a letra
+     compensa a escala, para sair sempre no mesmo tamanho */
+  .copia-leg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-top: calc(9px / var(--s, 1));
+    font-size: calc(13.5px / var(--s, 1));
+    line-height: 1.3;
+    color: #5c4635;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .mesa[data-espalhada] .copia-leg { opacity: 1; transition: opacity 0.3s 0.3s; }
+  .mesa { transition: height 0.5s cubic-bezier(0.2, 0.75, 0.25, 1); }
+
+  /* o envelope do laboratório: papel pardo, impresso em cobre */
+  .envelope {
+    position: absolute;
+    z-index: 0;
+    transform: rotate(1.8deg);
+    background:
+      repeating-linear-gradient(94deg, rgba(92, 60, 28, 0.035) 0 1px, transparent 1px 3px),
+      linear-gradient(172deg, #dcc59d 0%, #d2b98c 100%);
+    box-shadow: 0 1px 2px rgba(44, 29, 20, 0.16), 0 16px 26px -18px rgba(44, 29, 20, 0.5);
+    transition: opacity 0.35s, transform 0.55s cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+  .envelope::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(140, 58, 32, 0.5);
+    outline: 1px solid rgba(140, 58, 32, 0.3);
+    outline-offset: -4px;
+  }
+  .envelope-impresso {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 15px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    color: #8c3a20;
+    mix-blend-mode: multiply;
+  }
+  .envelope-campo {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    border-bottom: 1px solid rgba(140, 58, 32, 0.55);
+    padding: 0 2px 2px;
+  }
+  .mesa[data-espalhada] .envelope { opacity: 0; transform: translateY(28px) rotate(1.8deg); pointer-events: none; }
+
+  .mesa-sobe { animation: mesa-sobe 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  @keyframes mesa-sobe { from { opacity: 0; transform: translateY(8px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .copia, .copia.mola, .copia.voando, .envelope, .mesa { transition: none; }
+    .mesa-sobe { animation: none; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .cartao-miolo, .cartao-face, .cartao-virar svg { transition: none; }
