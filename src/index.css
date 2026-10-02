@@ -203,6 +203,48 @@
   .pedido-bate { animation: pedido-bate 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
   @keyframes pedido-bate { 40% { transform: scale(1.12); } }
 
+  /* A CAPA QUE REVELA
+     A abertura é só opacidade, que o navegador anima sem redesenhar a foto:
+     o papel some devagar no começo e depressa no fim, como imagem que aparece
+     na bandeja; a sépia clara some depois, e fica a foto com o véu. */
+  .capa-papel {
+    background: #efe3cc;
+    animation: capa-some 1.25s cubic-bezier(0.55, 0, 0.75, 0.35) 0.1s both;
+  }
+  .capa-sepia {
+    filter: sepia(1) saturate(0.55) brightness(1.55) contrast(0.62);
+    animation: capa-some 1.5s cubic-bezier(0.4, 0, 0.6, 1) 0.7s both;
+  }
+  @keyframes capa-some { to { opacity: 0; } }
+  .capa-fundo, .capa-camada { will-change: transform; }
+  .capa-carimbo { animation: capa-carimbo 0.62s cubic-bezier(0.3, 1.4, 0.5, 1) 0.95s both; }
+  @keyframes capa-carimbo {
+    0% { opacity: 0; transform: scale(1.45) rotate(-8deg); }
+    55% { opacity: 1; transform: scale(0.96) rotate(1deg); }
+    100% { opacity: 1; transform: none; }
+  }
+  .capa-tinta {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid #e8b98d;
+    pointer-events: none;
+    animation: capa-tinta 1s ease-out 1.25s both;
+  }
+  /* começa invisível: com o atraso, o primeiro quadro fica valendo até o
+     carimbo bater */
+  @keyframes capa-tinta {
+    0% { opacity: 0; transform: scale(0.92); }
+    8% { opacity: 0.8; }
+    100% { opacity: 0; transform: scale(1.35); }
+  }
+  .capa-sobe { animation: capa-sobe 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) both; }
+  @keyframes capa-sobe { from { opacity: 0; transform: translateY(16px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .capa-carimbo, .capa-sobe { animation: none; }
+    .capa-tinta { display: none; }
+  }
+
   /* A MESA DAS FOTOS
      As cópias são posicionadas pelo script; aqui fica o papel, a sombra e
      o jeito de cada movimento. */
