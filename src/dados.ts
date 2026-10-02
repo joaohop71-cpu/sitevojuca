@@ -365,6 +365,17 @@ export function comDesconto(v: number, temPromo = true) {
   return Math.round(centavos(v) * (1 - PROMO.pct)) / 100;
 }
 
+/** os links do cabeçalho, na ordem da página */
+export const MENU = [
+  { href: "#cafes", rotulo: "Cafés" },
+  { href: "#precos", rotulo: "Pedido" },
+  { href: "#empresas", rotulo: "Assinatura" },
+  { href: "#processo", rotulo: "Processo" },
+  { href: "#sobre", rotulo: "Sobre nós" },
+  { href: "#origem", rotulo: "A terra" },
+  { href: "#contato", rotulo: "Contato" },
+];
+
 export const SELOS = [
   "100% arábica",
   "Quatro gerações",

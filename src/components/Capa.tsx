@@ -4,6 +4,7 @@ import { selo } from "@/imagens";
 import capaTerra from "@/assets/capa-terra.webp";
 import { Botao } from "./base";
 import { voarAtePedido } from "@/voo";
+import { DEPOIS_DA_ETIQUETA, ETIQUETA, VOO, ehComputador } from "@/abertura";
 import { MARCA, SELOS, zap } from "@/dados";
 
 /* quanto dura a abertura, até a última camada da revelação sumir */
@@ -48,11 +49,12 @@ function useProfundidade() {
       fim();
       return;
     }
+    /* no computador o botão espera o cabeçalho ser datilografado */
+    const etiqueta = ehComputador() ? ETIQUETA.computador : ETIQUETA.celular;
     const voo = window.setTimeout(() => {
       if (brasao.current && window.scrollY < 200) voarAtePedido(brasao.current, false);
-    }, 1500);
-    /* o brilho da etiqueta termina em 3,6 s */
-    const acabou = window.setTimeout(fim, 3700);
+    }, (etiqueta - VOO + 0.05) * 1000);
+    const acabou = window.setTimeout(fim, (etiqueta + DEPOIS_DA_ETIQUETA) * 1000);
     return () => {
       window.clearTimeout(voo);
       window.clearTimeout(acabou);

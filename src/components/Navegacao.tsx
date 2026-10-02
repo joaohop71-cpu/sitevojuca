@@ -1,18 +1,10 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties } from "react";
-import { MARCA, zap } from "@/dados";
+import { MARCA, MENU as ITENS, zap } from "@/dados";
+import { DATILOGRAFIA, ETIQUETA } from "@/abertura";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
 
-const ITENS = [
-  { href: "#cafes", rotulo: "Cafés" },
-  { href: "#precos", rotulo: "Pedido" },
-  { href: "#empresas", rotulo: "Assinatura" },
-  { href: "#processo", rotulo: "Processo" },
-  { href: "#sobre", rotulo: "Sobre nós" },
-  { href: "#origem", rotulo: "A terra" },
-  { href: "#contato", rotulo: "Contato" },
-];
 
 export default function Navegacao() {
   const [rolou, setRolou] = useState(false);
@@ -124,20 +116,26 @@ export default function Navegacao() {
             parar por cima do nome. 1280 (xl) é o primeiro tamanho com folga de
             sobra; abaixo disso vale o menu. */}
         <div className="hidden min-w-0 flex-1 items-center justify-end gap-5 xl:flex xl:gap-6">
+          {/* No computador o cabeçalho é datilografado na abertura: um link
+              depois do outro, letra a letra, com o cursor correndo, até o
+              botão do pedido. Um gesto só para os sete, em vez de sete
+              entradas disputando o olho. */}
           {ITENS.map((i, k) => (
             <a
               key={i.href}
               href={i.href}
-              className="nav-chega whitespace-nowrap py-2 transition-colors"
+              className="nav-tecla relative whitespace-nowrap py-2 transition-colors"
               style={{
-                "--d": `${1.25 + k * 0.06}s`,
+                "--n": DATILOGRAFIA[k].n,
+                "--d": `${DATILOGRAFIA[k].d}s`,
+                "--t": `${DATILOGRAFIA[k].dur.toFixed(3)}s`,
                 ...rotulo,
                 fontSize: 14.5,
                 color: ativo === i.href ? destaque : tinta,
                 borderBottom: `1px solid ${ativo === i.href ? destaque : "transparent"}`,
               } as CSSProperties}
             >
-              {i.rotulo}
+              <span className="nav-datilo">{i.rotulo}</span>
             </a>
           ))}
           <a
@@ -147,13 +145,14 @@ export default function Navegacao() {
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="nav-etiqueta relative inline-flex shrink-0 overflow-hidden border px-4 py-2 transition-colors"
             style={{
+              "--etiqueta": `${ETIQUETA.computador}s`,
               ...rotulo,
               fontSize: 15,
               letterSpacing: "0.14em",
               background: claro ? "#efe3cc" : "#3a271b",
               borderColor: claro ? "#efe3cc" : "#3a271b",
               color: claro ? "#2c1d14" : "#efe3cc",
-            }}
+            } as CSSProperties}
           >
             {temPedido ? `Fechar pedido (${pacotes})` : "Ver os cafés"}
           </a>
