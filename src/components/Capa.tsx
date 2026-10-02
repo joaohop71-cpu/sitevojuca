@@ -225,19 +225,9 @@ export default function Capa() {
           style={{ color: "#d6c3a8", ...linha(1.5) }}
         >
           O café vem da terra que a minha família planta há mais de cem anos:{" "}
-          {/* O dado vem datilografado, como na ficha dos rótulos: no meio da
-              frase em primeira pessoa, ele parece um carimbo de ficha técnica.
-              A máquina de escrever é mais larga e tem o olho maior que a
-              Karla; um pouco menor, as duas assentam na mesma linha. */}
-          <strong
-            className="font-bold"
-            style={{
-              color: "#f2e7d3",
-              fontFamily: '"Courier Prime", monospace',
-              fontSize: "0.94em",
-              letterSpacing: "0.01em",
-            }}
-          >
+          {/* O dado em destaque, no itálico de verdade da Karla (e não a
+              romana inclinada pelo navegador): muda o tom sem mudar de voz. */}
+          <strong className="font-semibold italic" style={{ color: "#f2e7d3" }}>
             {"arábica colhido à mão a 998\u00A0metros"}
           </strong>
           , seco no terreiro e torrado em lotes pequenos, aqui dentro, por nós mesmos.
