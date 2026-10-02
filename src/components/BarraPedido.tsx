@@ -52,6 +52,7 @@ export default function BarraPedido() {
         boxShadow: "0 -10px 30px rgba(28,18,12,0.28)",
       }}
       data-print-hide
+      data-barra-pedido
     >
       <div className="mx-auto flex w-[min(100%-1.5rem,1120px)] items-center justify-between gap-3 py-2.5 sm:gap-6 sm:py-3">
         <div className="min-w-0">

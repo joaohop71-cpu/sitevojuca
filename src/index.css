@@ -203,6 +203,25 @@
   .pedido-bate { animation: pedido-bate 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
   @keyframes pedido-bate { 40% { transform: scale(1.12); } }
 
+  /* A RODA DAS FOTOS
+     Os cartões são posicionados a cada quadro pelo script; aqui fica só o que
+     não muda com a rolagem. */
+  .roda-cartao {
+    will-change: transform, filter;
+    transform-origin: 50% 50%;
+  }
+  /* com a barra do pedido aberta, a régua sobe para não ficar por baixo dela */
+  html:has([data-barra-pedido]) .roda-painel {
+    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+  }
+  .roda-sobe { animation: roda-sobe 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  @keyframes roda-sobe { from { opacity: 0; transform: translateY(10px); } }
+  .roda-letra {
+    display: inline-block;
+    animation: roda-letra 0.42s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  @keyframes roda-letra { from { opacity: 0; transform: translateY(-0.55em); } }
+
   @media (prefers-reduced-motion: reduce) {
     .cartao-miolo, .cartao-face, .cartao-virar svg { transition: none; }
     .ficha-toque.passa, .ficha-explica { animation: none; }

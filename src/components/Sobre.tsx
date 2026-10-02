@@ -231,9 +231,7 @@ export default function Sobre() {
       </Capitulo>
 
 
-      <div id="fotos" className="reveal mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
-        <Galeria />
-      </div>
+      <Galeria />
     </Faixa>
   );
 }

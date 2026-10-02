@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Visor } from "./base";
+import RodaFotos from "./RodaFotos";
 import {
   cafePoente,
   capelaPoente,
@@ -131,31 +132,48 @@ function Lightbox({
   );
 }
 
-/** bloco de fotos — usado dentro da seção "Sobre nós" */
-export default function Galeria() {
-  const [aberta, setAberta] = useState<number | null>(null);
-  const ir = (d: number) =>
-    setAberta((a) => (a === null ? null : (a + d + FOTOS.length) % FOTOS.length));
+/* Quem pediu menos movimento recebe a grade: a roda é toda feita de
+   movimento, e desligar só a animação deixaria fotos tortas e desfocadas. */
+const MENOS_MOVIMENTO = "(prefers-reduced-motion: reduce)";
+function useMenosMovimento() {
+  return useSyncExternalStore(
+    (avisar) => {
+      const m = window.matchMedia(MENOS_MOVIMENTO);
+      m.addEventListener("change", avisar);
+      return () => m.removeEventListener("change", avisar);
+    },
+    () => window.matchMedia(MENOS_MOVIMENTO).matches,
+    () => false,
+  );
+}
 
+function Cabeca({ dica }: { dica: string }) {
   return (
-    <div>
-      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+    <>
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
         <h3 className="text-[clamp(22px,3vw,30px)]">A propriedade, sem produção</h3>
         <span className="ficha num text-[14.5px] text-[#6f5b44]">
-          {String(FOTOS.length).padStart(2, "0")} imagens · toque para ampliar
+          {String(FOTOS.length).padStart(2, "0")} imagens · {dica}
         </span>
       </div>
-      <p className="mt-3 max-w-[52ch] text-[#5c4635]">
+      <p className="mt-3 hidden max-w-[52ch] text-[#5c4635] sm:block">
         Fotos feitas no sítio, em Santa Rita do Sapucaí. Sem estúdio e sem cenário
         montado; é o que se vê de lá.
       </p>
+    </>
+  );
+}
 
+/** a grade de sempre: para quem pediu menos movimento, e para a impressão */
+function Grade({ abrir, className = "" }: { abrir: (i: number) => void; className?: string }) {
+  return (
+    <div className={className}>
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
         {FOTOS.map((f, i) => (
           <figure key={f.legenda} className="m-0">
             <button
               type="button"
-              onClick={() => setAberta(i)}
+              onClick={() => abrir(i)}
               className="group block w-full overflow-hidden border border-[rgba(58,39,27,0.22)] p-1.5 text-left transition-colors hover:border-[#8c3a20]"
               aria-label={`Ampliar: ${f.legenda}`}
             >
@@ -177,10 +195,36 @@ export default function Galeria() {
           </figure>
         ))}
       </div>
+    </div>
+  );
+}
+
+/** bloco de fotos — usado dentro da seção "Sobre nós" */
+export default function Galeria() {
+  const [aberta, setAberta] = useState<number | null>(null);
+  const menosMovimento = useMenosMovimento();
+  const ir = (d: number) =>
+    setAberta((a) => (a === null ? null : (a + d + FOTOS.length) % FOTOS.length));
+
+  return (
+    <>
+      {menosMovimento ? (
+        <div id="fotos" className="reveal mt-12 sm:mt-14" style={{ scrollMarginTop: 84 }}>
+          <Cabeca dica="toque para ampliar" />
+          <Grade abrir={setAberta} />
+        </div>
+      ) : (
+        <>
+          {/* sem margem em cima: o respiro é o alto do próprio painel, que
+              precisa dele de qualquer jeito para passar por baixo do menu */}
+          <RodaFotos fotos={FOTOS} cabeca={<Cabeca dica="role para girar" />} aoAbrir={setAberta} />
+          <Grade abrir={setAberta} className="hidden print:block" />
+        </>
+      )}
 
       {aberta !== null && (
         <Lightbox i={aberta} fechar={() => setAberta(null)} ir={ir} />
       )}
-    </div>
+    </>
   );
 }
