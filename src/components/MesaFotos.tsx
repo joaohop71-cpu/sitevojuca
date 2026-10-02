@@ -111,9 +111,12 @@ export default function MesaFotos({
   const [espalhada, setEspalhada] = useState(false);
   const espalhadaRef = useRef(false);
 
-  /* põe cada cópia no seu lugar; `fora` fica onde está (é a que está voando) */
+  /* cópias no meio de uma troca: o arrumar não mexe nelas */
+  const soltas = useRef(new Set<number>());
+
+  /* põe cada cópia no seu lugar */
   const arrumar = useCallback(
-    (fora?: number) => {
+    () => {
       const g = geoRef.current;
       const m = mesa.current;
       if (!g || !m) return;
@@ -132,7 +135,7 @@ export default function MesaFotos({
       }
       ordem.current.forEach((i, k) => {
         const el = cartas.current[i];
-        if (!el || i === fora) return;
+        if (!el || soltas.current.has(i)) return;
         el.style.zIndex = String(n - k);
         el.style.transform = tf(noMonte(i, k, g));
       });
@@ -177,7 +180,14 @@ export default function MesaFotos({
     }
   };
 
-  /** a de cima sai pelo lado e volta para baixo do monte */
+  /* As duas metades de cada troca. A cópia não voa para fora da tela: sai
+     só até a beira do monte, como quem puxa a foto com os dedos, e dali
+     escorrega para baixo (ou, voltando, para cima). Enquanto faz isso, ela
+     fica fora do arrumar, para outra troca no meio não a puxar de volta. */
+  const SAIDA = 520;
+  const ENTRADA = 820;
+
+  /** a de cima sai pelo lado e entra por baixo do monte */
   const jogar = useCallback(
     (lado: number, dy = 0) => {
       const g = geoRef.current;
@@ -194,21 +204,28 @@ export default function MesaFotos({
         arrumar();
         return;
       }
-      const r = m.getBoundingClientRect();
-      const x = lado > 0 ? window.innerWidth - r.left + 40 : -r.left - g.w - 40;
-      el.classList.remove("no-ar", "mola");
-      el.classList.add("voando");
-      el.style.transform = tf({ x, y: g.topo + dy * 0.5 - 24, r: giro(i) + lado * 22 });
-      arrumar(i);
+      soltas.current.add(i);
+      el.classList.remove("no-ar", "mola", "guardando");
+      el.classList.add("saindo");
+      el.style.zIndex = String(n + 2);
+      el.style.transform = tf({
+        x: g.x0 + lado * g.w * 0.92,
+        y: g.topo - 10 + dy * 0.25,
+        r: giro(i) + lado * 9,
+        s: 1.03,
+      });
+      arrumar();
       window.setTimeout(() => {
-        el.classList.remove("voando");
+        el.classList.replace("saindo", "guardando");
+        soltas.current.delete(i);
         arrumar();
-      }, 330);
+        window.setTimeout(() => el.classList.remove("guardando"), ENTRADA);
+      }, SAIDA - 90);
     },
-    [arrumar],
+    [arrumar, n],
   );
 
-  /** a de baixo volta para cima, entrando pelo lado de onde saiu */
+  /** a de baixo sai pelo lado e volta para cima do monte */
   const voltar = useCallback(() => {
     const g = geoRef.current;
     const m = mesa.current;
@@ -220,16 +237,23 @@ export default function MesaFotos({
     setTopo(i);
     focarTopo(i);
     const el = cartas.current[i];
-    if (el && !semMovimento()) {
-      const r = m.getBoundingClientRect();
-      el.classList.add("no-ar");
-      el.style.zIndex = String(n + 1);
-      el.style.transform = tf({ x: -r.left - g.w - 40, y: g.topo - 24, r: -20 });
-      el.getBoundingClientRect();
-      el.classList.remove("no-ar");
+    if (!el || semMovimento()) {
+      arrumar();
+      return;
     }
+    soltas.current.add(i);
+    el.classList.remove("no-ar", "mola", "guardando");
+    el.classList.add("saindo");
+    el.style.zIndex = "0";
+    el.style.transform = tf({ x: g.x0 - g.w * 0.92, y: g.topo - 10, r: giro(i) - 9, s: 1.03 });
     arrumar();
-  }, [arrumar, n]);
+    window.setTimeout(() => {
+      el.classList.replace("saindo", "guardando");
+      soltas.current.delete(i);
+      arrumar();
+      window.setTimeout(() => el.classList.remove("guardando"), ENTRADA);
+    }, SAIDA - 90);
+  }, [arrumar]);
 
   /* ————— o arrasto ————— */
   const mao = useRef<{
@@ -260,7 +284,7 @@ export default function MesaFotos({
       rastro: [{ x: ev.clientX, y: ev.clientY, t: performance.now() }],
     };
     el.setPointerCapture(ev.pointerId);
-    el.classList.remove("mola", "voando");
+    el.classList.remove("mola", "saindo", "guardando");
     el.classList.add("no-ar");
     mexeu.current = true;
   };

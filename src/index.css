@@ -219,7 +219,7 @@
     -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
     cursor: grab;
-    transition: transform 0.55s cubic-bezier(0.2, 0.75, 0.25, 1);
+    transition: transform 0.7s cubic-bezier(0.22, 0.72, 0.26, 1);
   }
   .copia:focus-visible { outline: none; }
   .copia:focus-visible .copia-papel { box-shadow: inset 0 0 0 2px #8c3a20; }
@@ -227,7 +227,10 @@
   .copia.no-ar { transition: none; cursor: grabbing; }
   /* solta antes da hora: volta para o monte com um quique */
   .copia.mola { transition: transform 0.5s cubic-bezier(0.3, 1.45, 0.5, 1); }
-  .copia.voando { transition: transform 0.34s cubic-bezier(0.3, 0.5, 0.4, 1); }
+  /* a troca em duas metades: sai devagar até a beira do monte, e dali
+     escorrega para baixo dele, acelerando no meio e assentando no fim */
+  .copia.saindo { transition: transform 0.52s cubic-bezier(0.22, 0.7, 0.3, 1); }
+  .copia.guardando { transition: transform 0.82s cubic-bezier(0.45, 0.05, 0.25, 1); }
   .mesa[data-espalhada] .copia { cursor: zoom-in; }
 
   /* a sombra fica fora do papel porque a máscara da serrilha cortaria ela */
@@ -330,7 +333,7 @@
   @keyframes mesa-sobe { from { opacity: 0; transform: translateY(8px); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .copia, .copia.mola, .copia.voando, .envelope, .mesa { transition: none; }
+    .copia, .copia.mola, .copia.saindo, .copia.guardando, .envelope, .mesa { transition: none; }
     .mesa-sobe { animation: none; }
   }
 
