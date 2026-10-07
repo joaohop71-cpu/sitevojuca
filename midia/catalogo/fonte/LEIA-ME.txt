@@ -1,0 +1,10 @@
+Catálogo Vô Juca em PDF, uma página, feito para ler no celular.
+
+Para refazer depois de mudar preço ou texto em catalogo.html:
+
+  cd midia/catalogo/fonte
+  swiftc -O html2pdf.swift -o /tmp/html2pdf
+  /tmp/html2pdf catalogo.html ../catalogo-vojuca.pdf
+
+O html2pdf usa o motor do Safari: as fontes vêm do Google Fonts (precisa de
+internet), e todo <a data-link> vira um botão clicável no PDF.

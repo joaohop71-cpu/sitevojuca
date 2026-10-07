@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Catálogo Vô Juca</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..700,0..100,0..1;1,9..144,400..600,0..100,0..1&family=Karla:ital,wght@0,400..700;1,400..700&family=Courier+Prime:wght@400;700&display=block">
+<style>
+/* uma página só, estreita, pensada para ser lida no celular sem zoom */
+:root{--papel:#efe3cc;--creme:#f6eede;--tinta:#3a271b;--tinta2:#2c1d14;--cobre:#8c3a20;--destaque:#e8b98d;--apoio:#5c4635;--miudo:#6f5b44;--fio:rgba(58,39,27,.22)}
+*{box-sizing:border-box;margin:0}
+html,body{width:430px;background:var(--papel);color:var(--tinta);-webkit-font-smoothing:antialiased}
+body{font:14px/1.55 Karla,system-ui,sans-serif}
+.mono{font-family:"Courier Prime",monospace}
+.serif{font-family:Fraunces,Georgia,serif;font-variation-settings:"SOFT" 15,"WONK" 1,"opsz" 72}
+
+.capa{position:relative;overflow:hidden;color:#f7efe0;text-align:center;padding:34px 28px 30px}
+.capa img.fundo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 62%;z-index:0}
+.capa .veu{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(24,15,10,.88),rgba(44,29,20,.78) 45%,rgba(28,18,12,.94))}
+.capa > *:not(.fundo):not(.veu){position:relative;z-index:2}
+.olho{font:400 10.5px/1.6 "Courier Prime",monospace;letter-spacing:.22em;text-transform:uppercase;color:#d8c3a0}
+.disco{width:128px;height:128px;border-radius:50%;background:#f2e7d3;margin:16px auto 0;display:grid;place-items:center}
+.disco img{width:124px;height:124px}
+.capa h1{font:600 26px/1.15 Fraunces,Georgia,serif;font-variation-settings:"SOFT" 15,"WONK" 1,"opsz" 72;margin-top:18px}
+.capa h1 em{display:block;font-style:italic;font-weight:400;color:var(--destaque)}
+.capa .data{margin-top:14px;font:400 10px "Courier Prime",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--destaque)}
+
+.miolo{padding:0 26px}
+.historia{padding:26px 0 22px;border-bottom:2px solid var(--tinta)}
+.historia p{color:var(--apoio);font-size:14.5px}
+.historia p + p{margin-top:8px}
+.historia strong{color:var(--tinta);font-weight:600}
+.assina{margin-top:10px;font:italic 400 15px Fraunces,Georgia,serif;color:var(--cobre)}
+
+.secao{display:flex;align-items:baseline;justify-content:space-between;margin-top:20px}
+.secao h2{font:600 22px/1.1 Fraunces,Georgia,serif}
+.secao span{font:400 10px "Courier Prime",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--miudo)}
+
+.cafe{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--fio)}
+.cafe:last-of-type{border-bottom:0}
+/* o rótulo impresso: a arte é transparente, então ganha o papel dela */
+.cafe img{width:96px;display:block;background:#fbf6ea;padding:4px;border:1px solid rgba(58,39,27,.18);box-shadow:0 8px 14px -8px rgba(44,29,20,.45)}
+.tarja{font:700 9.5px "Courier Prime",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--cobre)}
+.cafe h3{font:600 20px/1.12 Fraunces,Georgia,serif;font-variation-settings:"SOFT" 15,"WONK" 1,"opsz" 48;margin-top:3px}
+.cafe h3 small{font-size:15px;font-weight:500;color:var(--apoio)}
+.notas{margin-top:4px;font:400 11.5px/1.4 "Courier Prime",monospace;color:var(--tinta)}
+.desc{margin-top:5px;font-size:13px;line-height:1.45;color:var(--apoio)}
+.precos{margin-top:8px;display:grid;gap:3px}
+.preco{display:flex;align-items:baseline;gap:6px;font:400 12px "Courier Prime",monospace;font-variant-numeric:tabular-nums}
+.preco i{flex:1;border-bottom:1px dotted rgba(58,39,27,.4);transform:translateY(-3px)}
+.preco b{font-weight:700}
+
+.compra{margin-top:6px;background:var(--creme);border:1px solid var(--fio);padding:14px 16px;display:grid;gap:7px}
+.compra p{font-size:13px;line-height:1.45;color:var(--apoio);display:grid;grid-template-columns:14px 1fr;gap:8px}
+.compra p::before{content:"";width:6px;height:6px;margin-top:6px;background:var(--cobre);transform:rotate(45deg)}
+.compra strong{color:var(--tinta);font-weight:600}
+
+.botoes{margin-top:20px;display:grid;gap:10px}
+.botao{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;border:1.5px solid var(--tinta);color:var(--tinta);padding:13px 12px;min-height:52px}
+.botao .t{font:700 13px "Courier Prime",monospace;letter-spacing:.12em;text-transform:uppercase}
+.botao .s{display:block;font:400 11px "Courier Prime",monospace;letter-spacing:.04em;text-transform:none;opacity:.85;margin-top:1px}
+.botao svg{flex:none}
+.zap{background:var(--cobre);border-color:var(--cobre);color:#f7efe0;min-height:62px}
+.dupla{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dupla .botao{flex-direction:column;gap:4px;text-align:center}
+
+.pe{margin-top:22px;padding:16px 0 24px;border-top:1px solid var(--fio);display:flex;align-items:center;gap:12px}
+.pe img{width:46px;height:46px}
+.pe p{font:400 10.5px/1.5 "Courier Prime",monospace;letter-spacing:.06em;color:var(--miudo)}
+</style>
+</head>
+<body>
+<header class="capa">
+  <img class="fundo" src="capa.jpg" alt="">
+  <div class="veu"></div>
+  <p class="olho">Cafés especiais artesanais · Sul de Minas</p>
+  <div class="disco"><img src="selo.png" alt="Vô Juca"></div>
+  <h1>Juca foi o meu bisavô. <em>115 anos depois, estou aqui para continuar a história dele.</em></h1>
+  <p class="data">Catálogo · outubro de 2026</p>
+</header>
+
+<main class="miolo">
+  <section class="historia">
+    <p>O café vem do <strong>Sítio JR, em Santa Rita do Sapucaí (MG), a 998 metros</strong>. A lavoura foi replantada pelo meu tio Nando, neto do Juca, e hoje é cuidada pelo meu primo Fernandinho.</p>
+    <p>Colhemos à mão, secamos no terreiro e torramos em lotes pequenos. É café de família, do pé à embalagem.</p>
+    <p class="assina">João Henrique, o Juca de hoje</p>
+  </section>
+
+  <div class="secao"><h2>Os cafés</h2><span>100% arábica</span></div>
+
+  <article class="cafe">
+    <img src="r_vojuca.png" alt="Rótulo do Café Vô Juca">
+    <div>
+      <p class="tarja">Seleção especial</p>
+      <h3>Café Vô Juca</h3>
+      <p class="notas">Frutado · Doce · Floral</p>
+      <p class="desc">Perfil suave e fácil de gostar, para quem presta atenção na xícara.</p>
+      <div class="precos">
+        <p class="preco">300 g em grão<i></i><b>R$ 43,08</b></p>
+        <p class="preco">300 g moído<i></i><b>R$ 45,48</b></p>
+      </div>
+    </div>
+  </article>
+
+  <article class="cafe">
+    <img src="r_reserva998.png" alt="Rótulo do Reserva 998">
+    <div>
+      <p class="tarja">Edição limitada</p>
+      <h3>Reserva 998</h3>
+      <p class="notas">Caramelo · Chocolate · Malte · Rapadura</p>
+      <p class="desc">O nome é a altitude da lavoura. Um café de sobremesa que funciona de manhã.</p>
+      <div class="precos">
+        <p class="preco">300 g em grão<i></i><b>R$ 48,00</b></p>
+        <p class="preco">300 g moído<i></i><b>R$ 50,28</b></p>
+      </div>
+    </div>
+  </article>
+
+  <article class="cafe">
+    <img src="r_herancas_2sl.png" alt="Rótulo do Heranças 2 SL">
+    <div>
+      <p class="tarja">Coleção limitada · microlote</p>
+      <h3>Heranças <small>2 SL</small></h3>
+      <p class="notas">Mel · Floral · Capim-limão</p>
+      <p class="desc">Catucaí 2SL colhido à mão. Corpo licoroso e final longo e doce.</p>
+      <div class="precos">
+        <p class="preco">300 g em grão<i></i><b>R$ 49,80</b></p>
+        <p class="preco">300 g moído<i></i><b>R$ 52,20</b></p>
+      </div>
+    </div>
+  </article>
+
+  <article class="cafe">
+    <img src="r_herancas_24137.png" alt="Rótulo do Heranças 24/137">
+    <div>
+      <p class="tarja">Coleção limitada · microlote</p>
+      <h3>Heranças <small>24 / 137</small></h3>
+      <p class="notas">Floral · Frutas amarelas · Pêssego em calda</p>
+      <p class="desc">Catucaí 24-137 colhido à mão. Encorpado, com final longo e doce.</p>
+      <div class="precos">
+        <p class="preco">300 g em grão<i></i><b>R$ 49,80</b></p>
+        <p class="preco">300 g moído<i></i><b>R$ 52,20</b></p>
+      </div>
+    </div>
+  </article>
+
+  <article class="cafe">
+    <img src="r_minassanta.png" alt="Rótulo do Minas Santa">
+    <div>
+      <p class="tarja">Para o dia a dia</p>
+      <h3>Minas Santa</h3>
+      <p class="notas">Encorpado · Sabor marcante · Tradicional</p>
+      <p class="desc">O café da rotina da casa, para o coador, a cafeteira e a italiana.</p>
+      <div class="precos">
+        <p class="preco">500 g moído fino<i></i><b>R$ 55,00</b></p>
+      </div>
+    </div>
+  </article>
+
+  <div class="compra">
+    <p><span>Pagamento em <strong>Pix, cartão de crédito ou Bitcoin</strong>.</span></p>
+    <p><span><strong>Assinatura mensal</strong> e <strong>fornecimento para empresas</strong>, com preço por quilo: é só pedir.</span></p>
+    <p><span>Estoque e preços podem mudar. Confirme pelo WhatsApp antes de pagar.</span></p>
+  </div>
+
+  <nav class="botoes">
+    <a class="botao zap" data-link href="https://wa.me/5548991513871?text=Ol%C3%A1!%20Vi%20o%20cat%C3%A1logo%20do%20V%C3%B4%20Juca%20e%20quero%20fazer%20um%20pedido.">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4.2 19.8l1.1-3.9A8.4 8.4 0 1 1 8.4 19z"/><path fill="currentColor" d="M9.2 7.6c.3-.6.6-.6.9-.6h.6c.2 0 .4.1.5.4l.8 1.9c.1.2 0 .4-.1.6l-.6.7c-.1.2-.1.4 0 .5.6 1 1.4 1.8 2.5 2.4.2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.2.1.3.3.3.5 0 .6-.3 1.4-1 1.7-.7.4-1.6.4-3.4-.4a10 10 0 0 1-4.4-4.3c-.7-1.4-.6-2.5-.7-3.3z"/></svg>
+      <span><span class="t">Pedir pelo WhatsApp</span><span class="s">(48) 99151-3871</span></span>
+    </a>
+    <div class="dupla">
+      <a class="botao" data-link href="https://sitevojuca.vercel.app/#cafes">
+        <span class="t">Ver o site</span><span class="s">sitevojuca.vercel.app</span>
+      </a>
+      <a class="botao" data-link href="https://instagram.com/cafevojuca">
+        <span class="t">Instagram</span><span class="s">@cafevojuca</span>
+      </a>
+    </div>
+  </nav>
+
+  <footer class="pe">
+    <img src="selo.png" alt="">
+    <p>Sítio JR · Santa Rita do Sapucaí, MG · 998 m<br>cafevojuca@gmail.com</p>
+  </footer>
+</main>
+</body>
+</html>
