@@ -34,6 +34,11 @@ export function explicaFicha(rotulo: string, valor: string): string {
     case "Catação":
       return "Catação é a separação à mão dos grãos com defeito — quebrados, verdes, brocados — antes da torra.";
 
+    case "Tipo":
+      return valor.toLowerCase().startsWith("bica")
+        ? "Bica corrida é o café que não passa pela peneira: os grãos vão juntos, dos maiores aos menores, como saem do beneficiamento. É o jeito tradicional do café de todo dia, e por isso esta linha não tem número de peneira."
+        : "O tipo diz como o café foi separado depois de colhido e beneficiado.";
+
     case "Categoria":
       return "Café especial é a categoria do café que passa dos 80 pontos na prova da Specialty Coffee Association, numa escala de 0 a 100. Abaixo disso ficam o tradicional e o superior.";
 

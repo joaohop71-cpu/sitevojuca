@@ -107,97 +107,171 @@
     text-transform: uppercase;
     color: #8c3a20;
   }
-  /* O RÓTULO QUE VIRA
-     O papel rasgado mora em cada face, não no cartão: máscara no elemento
-     que gira obriga o navegador a achatar o 3D, e o cartão viraria de chapa.
-     O backface-visibility esconde a face de trás, mas nem todo Safari o
-     respeita numa face mascarada; por isso cada face também some no meio do
-     giro, quando está de perfil, por um visibility com atraso de meia volta. */
-  .cartao-giro { perspective: 2200px; }
-  .cartao-miolo {
+  /* A VITRINE DOS CAFÉS
+     Uma prateleira de empório desenhada pelo ilustrador: os pacotes em pé na
+     tábua, a etiqueta pendurada na frente dela, e o rótulo aberto preso numa
+     prancheta. A tábua é um desenho só, em três pedaços pela border-image: as
+     pontas ficam inteiras e o meio estica no comprimento, onde o veio, que é
+     horizontal, não denuncia o esticão. As mãos-francesas vão na mesma escala
+     da tábua (0,26 do desenho). */
+  .vt-estante {
+    margin: 26px calc(50% - 50vw) 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .vt-estante::-webkit-scrollbar { display: none; }
+  .vt-estante-in { width: 1000px; max-width: 100%; margin-inline: auto; padding: 40px 1rem 0; }
+  .vt-fileira, .vt-etiquetas {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 14px;
+    padding: 0 26px;
+  }
+  .vt-fileira { position: relative; z-index: 2; }
+  .vt-pac, .vt-etq { flex: 0 0 auto; width: clamp(150px, 16vw, 176px); }
+  .vt-pac {
     position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+    scroll-snap-align: center;
+    transform-origin: 50% 100%;
+    filter: drop-shadow(0 10px 9px rgba(30, 18, 10, 0.3));
+    transition: transform 0.45s cubic-bezier(0.2, 0.75, 0.25, 1), opacity 0.35s;
   }
-  .cartao-giro[data-virado="true"] .cartao-miolo { transform: rotateY(180deg); }
-  .cartao-face {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transition: visibility 0s linear 0.4s;
+  .vt-pac img { display: block; width: 100%; height: auto; margin-bottom: -4%; pointer-events: none; }
+  .vt-pac:hover { transform: translateY(-10px); }
+  .vt-pac[aria-pressed="true"] { transform: translateY(-22px) scale(1.04); }
+  .vt-fileira[data-escolheu] .vt-pac:not([aria-pressed="true"]) { opacity: 0.74; }
+  .vt-prateleira { position: relative; z-index: 1; margin: -4px -4px 0; filter: drop-shadow(0 12px 10px rgba(30, 18, 10, 0.22)); }
+  .vt-tabua {
+    height: 20px;
+    border-style: solid;
+    border-width: 0 10px;
+    border-image: url("/vitrine/tabua.webp") 0 40 0 40 fill / 0 10px 0 10px stretch;
   }
-  .cartao-verso { position: absolute; inset: 0; transform: rotateY(180deg); }
-  .cartao-giro[data-virado="true"] .cartao-frente,
-  .cartao-giro:not([data-virado="true"]) .cartao-verso { visibility: hidden; }
-  .cartao-virar { transition: opacity 0.15s; }
-  .cartao-virar:hover { opacity: 0.75; }
-  .cartao-virar svg { transition: transform 0.6s; }
-  .cartao-virar[aria-pressed="true"] svg { transform: rotate(-180deg); }
+  .vt-mao { position: absolute; top: 18px; height: 60px; width: auto; pointer-events: none; }
+  .vt-m1 { left: 18%; }
+  .vt-m2 { right: 18%; }
+  /* a etiqueta fica na frente da tábua, com o laço passando por cima dela */
+  .vt-etiquetas { position: relative; z-index: 4; margin-top: -16px; }
+  .vt-etq { display: flex; justify-content: center; cursor: pointer; }
+  @media (max-width: 760px) {
+    .vt-estante-in { width: max-content; max-width: none; padding-inline: 0; }
+    .vt-fileira, .vt-etiquetas { padding-inline: calc(50vw - 78px); }
+    /* no celular a fileira começa no meio da tela: as mãos-francesas vão no
+       vão entre o 1º e o 2º pacote (e o 4º e o 5º), contadas a partir daí */
+    .vt-m1 { left: calc(50vw + 57px); }
+    .vt-m2 { right: calc(50vw + 57px); }
+  }
+  /* o preço vai escrito no corpo da etiqueta, que começa a 25% da altura do
+     desenho; em código, para mudar sem refazer a imagem */
+  .vt-tag { position: relative; display: block; width: 60px; transform-origin: 50% 4px; }
+  .vt-tag img { display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 6px rgba(30, 18, 10, 0.22)); }
+  .vt-tag-txt {
+    position: absolute;
+    left: 11%;
+    right: 11%;
+    top: 40%;
+    bottom: 9%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.05;
+  }
+  .vt-tag small { font: 400 8px "Courier Prime", monospace; letter-spacing: 0.1em; color: #4b3424; }
+  .vt-tag b { font: 600 15.5px Fraunces, Georgia, serif; color: #3a271b; margin: 1px 0 4px; white-space: nowrap; }
+  .vt-tag b.vt-tag-acabou { font-size: 13px; color: #8c3a20; }
+  .vt-tag em { font: normal 400 8px/1.35 "Courier Prime", monospace; color: #4b3424; white-space: nowrap; }
+  .vt-tag i { display: block; width: 20px; height: 2.5px; margin-top: 5px; }
+  .vt-tag.vt-balancando { animation: vt-balanca 1.1s ease-out; }
+  @keyframes vt-balanca {
+    20% { transform: rotate(7deg); }
+    45% { transform: rotate(-5deg); }
+    70% { transform: rotate(2.5deg); }
+  }
 
-  /* A FICHA QUE SE EXPLICA
-     Nada é desenhado por cima da arte: um losango em cada linha caía no vão
-     entre as colunas e colava no rótulo do lado. O aviso é uma veladura
-     quase invisível em cada linha e uma passada de luz, linha a linha, na
-     primeira vez que o rótulo aparece — é o que diz "isto se toca" sem
-     sujar a peça. */
-  .ficha-toque {
+  /* o rótulo aberto: a folha (a arte da gráfica, no papel do designer) presa
+     na prancheta. A garra do grampo acaba a 17,9% da altura do desenho: a
+     folha começa logo acima, e a garra só morde a margem do papel. O grampo
+     é um recorte à parte, por cima da folha, e só a folha vira. */
+  .vt-gaveta { margin-top: 44px; display: grid; gap: 30px; align-items: start; }
+  @media (min-width: 860px) {
+    .vt-gaveta { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 52px; }
+  }
+  .vt-palco { position: relative; max-width: 380px; width: 100%; margin-inline: auto; touch-action: pan-y; }
+  .vt-prancheta { position: relative; }
+  .vt-prancheta-tabua { display: block; width: 100%; height: auto; }
+  .vt-papel { position: absolute; left: 16%; width: 68%; top: 16.8%; perspective: 1400px; }
+  .vt-virador { position: relative; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.2, 1); }
+  .vt-virador[data-virado="true"] { transform: rotateY(180deg); }
+  .vt-lado { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .vt-costas { position: absolute; inset: 0; transform: rotateY(180deg); }
+  .vt-folha { background: #ecd6bd; box-shadow: 0 2px 2px rgba(30, 18, 10, 0.32), 0 12px 16px -8px rgba(30, 18, 10, 0.38); }
+  .vt-folha img { display: block; width: 100%; height: auto; }
+  /* o verso é mais curto que a frente: o resto da folha é o mesmo papel, com
+     a beira um pouco mais escura, como na impressão */
+  .vt-costas .vt-folha {
+    height: 100%;
+    background: linear-gradient(90deg, #e1ccb0 0%, #ecd6bd 18%, #edd7be 50%, #ecd6bd 82%, #e2cdb1 100%);
+  }
+  .vt-grampo { position: absolute; left: 0; top: 0; width: 100%; height: auto; z-index: 2; pointer-events: none; }
+  .vt-lupa {
     position: absolute;
-    border-radius: 2px;
-    background: rgba(58, 39, 27, 0.04);
-    transition: background-color 0.15s, box-shadow 0.15s;
+    left: 0;
+    top: 0;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.18s, transform 0.18s;
+    background-repeat: no-repeat;
+    background-color: #f6eede;
+    box-shadow: 0 0 0 5px #b08d57, 0 0 0 7px #7d6036, 0 18px 30px -8px rgba(44, 29, 20, 0.55), inset 0 0 18px rgba(58, 39, 27, 0.18);
+    z-index: 9;
   }
-  .ficha-toque:hover,
-  .ficha-toque[aria-expanded="true"] { background: rgba(58, 39, 27, 0.1); }
-  .ficha-toque[aria-expanded="true"] { box-shadow: inset 0 -2px 0 currentColor; }
-  .ficha-toque.passa {
-    animation: ficha-passa 1.1s ease-in-out both;
-    animation-delay: calc(var(--i) * 120ms + 350ms);
+  .vt-lupa.ativa { opacity: 1; transform: scale(1); }
+  .vt-linha-preco {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(58, 39, 27, 0.18);
   }
-  @keyframes ficha-passa { 35% { background: rgba(140, 58, 32, 0.2); } }
-
-  .ficha-explica {
-    position: absolute;
-    left: 5%;
-    right: 5%;
-    z-index: 5;
-    background: #fffaf1;
-    border: 1px solid rgba(58, 39, 27, 0.28);
-    box-shadow: 0 12px 34px rgba(58, 39, 27, 0.22);
-    padding: 14px 16px 15px;
-    animation: ficha-surge 0.22s ease-out;
-  }
-  .ficha-explica::after {
-    content: "";
-    position: absolute;
-    bottom: -7px;
-    left: var(--seta, 50%);
-    width: 12px;
-    height: 12px;
-    background: #fffaf1;
-    border-right: 1px solid rgba(58, 39, 27, 0.28);
-    border-bottom: 1px solid rgba(58, 39, 27, 0.28);
-    transform: translateX(-50%) rotate(45deg);
-  }
-  .ficha-explica-rotulo {
-    font-family: "Courier Prime", monospace;
-    font-size: 12.5px;
-    letter-spacing: 0.14em;
+  /* a ficha técnica, em texto, com o pontilhado do rótulo entre o nome e o valor */
+  .vt-tecnica { display: grid; gap: 2px 28px; }
+  @media (min-width: 560px) { .vt-tecnica { grid-template-columns: 1fr 1fr; } }
+  .vt-tecnica-linha {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 0;
+    text-align: left;
+    font: 400 13.5px "Courier Prime", monospace;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--tinta);
+    color: #6f5b44;
   }
-  .ficha-explica-valor {
-    font-family: Fraunces, Georgia, serif;
-    font-weight: 600;
-    font-size: 21px;
-    line-height: 1.15;
-    color: #3a271b;
-  }
-  .ficha-explica p {
-    margin-top: 7px;
+  .vt-tecnica-linha i { flex: 1; border-bottom: 1px dotted rgba(58, 39, 27, 0.45); transform: translateY(-4px); }
+  .vt-tecnica-linha b { font-weight: 700; white-space: nowrap; }
+  .vt-tecnica-linha:hover span, .vt-tecnica-linha[aria-expanded="true"] span { color: #3a271b; text-decoration: underline; text-underline-offset: 4px; }
+  .vt-explica {
+    margin-top: 8px;
+    padding: 12px 14px;
+    border-left: 2px solid #8c3a20;
+    background: rgba(255, 250, 240, 0.7);
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: #5c4635;
+    animation: vt-surge 0.22s ease-out;
   }
-  @keyframes ficha-surge { from { opacity: 0; transform: translateY(6px) scale(0.98); } }
+  .vt-explica strong { color: #3a271b; font-weight: 600; }
+  @keyframes vt-surge { from { opacity: 0; transform: translateY(6px); } }
 
   /* o botão do pedido pulsa quando o pacote chega */
   .pedido-bate { animation: pedido-bate 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
@@ -434,8 +508,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cartao-miolo, .cartao-face, .cartao-virar svg { transition: none; }
-    .ficha-toque.passa, .ficha-explica { animation: none; }
+    .vt-pac, .vt-virador, .vt-lupa { transition: none; }
+    .vt-tag.vt-balancando, .vt-explica { animation: none; }
   }
 
   /* A ABERTURA DA SEÇÃO

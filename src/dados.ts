@@ -56,7 +56,7 @@ export const TINTA_ROTULO: Record<CorRotulo, string> = {
 export type Cafe = {
   id: string;
   nome: string;
-  /** nome-base dos arquivos de rótulo em /public/rotulos-web e /public/rotulos */
+  /** nome-base dos arquivos da vitrine em /public/vitrine (pacote, rótulo e verso) */
   banner: string;
   /**
    * O nome do produto na planilha de controle, que não é o nome do rótulo.
@@ -115,10 +115,10 @@ export const CAFES: Cafe[] = [
     notas: ["Frutado", "Doce", "Floral"],
     fichas: [
       { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Seleção", valor: "Manual" },
       { rotulo: "Pontuação SCA", valor: "82 pontos +" },
       { rotulo: "Peneira", valor: "16 +" },
       { rotulo: "Variedade", valor: "Arara" },
+      { rotulo: "Torra", valor: "Média" },
       { rotulo: "Altitude", valor: "998 m" },
     ],
     intensidade: 3,
@@ -141,9 +141,9 @@ export const CAFES: Cafe[] = [
     notas: ["Caramelo", "Chocolate", "Malte", "Rapadura"],
     fichas: [
       { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Categoria", valor: "Café especial" },
       { rotulo: "Pontuação SCA", valor: "82 pontos +" },
       { rotulo: "Peneira", valor: "15 +" },
+      { rotulo: "Variedade", valor: "Arara" },
       { rotulo: "Torra", valor: "Média" },
       { rotulo: "Altitude", valor: "998 m" },
     ],
@@ -169,10 +169,10 @@ export const CAFES: Cafe[] = [
     notas: ["Mel", "Floral", "Capim-limão"],
     fichas: [
       { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Seleção", valor: "Manual" },
       { rotulo: "Pontuação SCA", valor: "84 pontos +" },
       { rotulo: "Peneira", valor: "16 +" },
       { rotulo: "Variedade", valor: "Catucaí Amarelo" },
+      { rotulo: "Torra", valor: "Média" },
       { rotulo: "Altitude", valor: "998 m" },
     ],
     intensidade: 3,
@@ -195,10 +195,10 @@ export const CAFES: Cafe[] = [
     notas: ["Floral", "Frutas amarelas", "Pêssego em calda"],
     fichas: [
       { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Seleção", valor: "Manual" },
       { rotulo: "Pontuação SCA", valor: "84 pontos +" },
       { rotulo: "Peneira", valor: "16 +" },
       { rotulo: "Variedade", valor: "Catucaí Amarelo" },
+      { rotulo: "Torra", valor: "Média" },
       { rotulo: "Altitude", valor: "998 m" },
     ],
     intensidade: 3,
@@ -220,10 +220,10 @@ export const CAFES: Cafe[] = [
     notas: ["Encorpado", "Sabor marcante", "Tradicional"],
     fichas: [
       { rotulo: "Espécie", valor: "100% arábica" },
-      { rotulo: "Peneira", valor: "14 +" },
       { rotulo: "Catação", valor: "10 %" },
-      { rotulo: "Torra", valor: "Média" },
+      { rotulo: "Tipo", valor: "Bica corrida" },
       { rotulo: "Variedade", valor: "Arara" },
+      { rotulo: "Torra", valor: "Média" },
       { rotulo: "Altitude", valor: "998 m" },
     ],
     intensidade: 4,
