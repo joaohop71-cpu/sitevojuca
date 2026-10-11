@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { CAFES, PROMO, TINTA_ROTULO, brl, centavos, estaEsgotado } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, centavos, descontoDe, estaEsgotado } from "@/dados";
 import type { Moagem } from "@/dados";
 
 export type Linha = {
@@ -13,8 +13,8 @@ export type Linha = {
   item: string;
   /** a tinta da linha do café, para o item aparecer com a cor dele */
   cor: string;
-  /** entra na promoção de lançamento? o Minas Santa não entra */
-  promo: boolean;
+  /** o desconto desta linha: 30% nos especiais, 15% no Minas Santa */
+  pct: number;
   /** acabou: fica no site, mas não entra no carrinho */
   esgotado: boolean;
 };
@@ -31,7 +31,7 @@ export const LINHAS: Linha[] = CAFES.flatMap((c) => {
     nome: rotuloCafe(c),
     gramas: c.gramas,
     cor: TINTA_ROTULO[c.cor],
-    promo: !c.semPromo,
+    pct: descontoDe(c),
   };
   const out: Linha[] = [];
   if (c.preco.grao !== null)
@@ -195,14 +195,15 @@ export function useResumo() {
     (s, l) => s + centavos(l.preco) * (qtd[l.chave] ?? 0),
     0
   );
-  /* O desconto não é mais uma porcentagem do carrinho inteiro: o Minas Santa
-     fica no preço de tabela. Some-se primeiro o que entra na promoção e só
-     depois arredonde, uma vez, senão cada linha traz o seu meio centavo. */
-  const comPromoC = itens.reduce(
-    (s, l) => s + (l.promo ? centavos(l.preco) * (qtd[l.chave] ?? 0) : 0),
-    0
-  );
-  const descontoC = Math.round(comPromoC * PROMO.pct);
+  /* O desconto não é uma porcentagem do carrinho inteiro: os especiais têm
+     30% e o Minas Santa, 15%. Soma-se cada faixa e só então se arredonda,
+     uma vez por faixa, senão cada linha traz o seu meio centavo. */
+  const porFaixa = new Map<number, number>();
+  for (const l of itens) {
+    if (!l.pct) continue;
+    porFaixa.set(l.pct, (porFaixa.get(l.pct) ?? 0) + centavos(l.preco) * (qtd[l.chave] ?? 0));
+  }
+  const descontoC = [...porFaixa].reduce((s, [pct, c]) => s + Math.round(c * pct), 0);
   const totalC = subtotalC - descontoC;
   const pacotes = itens.reduce((s, l) => s + (qtd[l.chave] ?? 0), 0);
   /* os pacotes têm pesos diferentes, então o peso vem de cada linha */
@@ -223,7 +224,7 @@ export function useResumo() {
           .join("\n"),
         "",
         `Subtotal (preço de tabela): ${brl(subtotalC / 100)}`,
-        ...(descontoC ? [`${PROMO.chamada}: -${brl(descontoC / 100)}`] : []),
+        ...(descontoC ? [`${PROMO.linha}: -${brl(descontoC / 100)}`] : []),
         `Total: ${brl(totalC / 100)}`,
         "",
         `Pedido ${codigo}`,

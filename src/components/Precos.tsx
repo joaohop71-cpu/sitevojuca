@@ -95,7 +95,7 @@ export default function Precos() {
                       anunciar "-R$ 0,00" é pior do que não dizer nada */}
                   {desconto > 0 && (
                     <div className="flex items-baseline justify-between">
-                      <dt className="ficha text-[15px] text-[#8c3a20]">{PROMO.chamada}</dt>
+                      <dt className="ficha text-[15px] text-[#8c3a20]">{PROMO.linha}</dt>
                       <dd className="ficha num m-0 text-[15px] text-[#8c3a20]">
                         -{brl(desconto)}
                       </dd>

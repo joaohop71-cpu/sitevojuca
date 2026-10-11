@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PROMO, brl, zap } from "@/dados";
+import { brl, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
 
@@ -71,11 +71,11 @@ export default function BarraPedido() {
             >
               {brl(total)}
             </span>
-            {/* só quando há desconto de fato: um pedido só de Minas Santa,
-                que está fora da promoção, anunciaria uma oferta que não houve */}
+            {/* só quando há desconto de fato; e sem dizer a porcentagem, porque
+                o pedido pode somar os 30% dos especiais e os 15% do Minas Santa */}
             {desconto > 0 && (
               <span className="ficha hidden text-[12.5px] uppercase tracking-[0.12em] text-[#e8b98d] sm:inline">
-                {PROMO.rotulo} já aplicado
+                Desconto já aplicado
               </span>
             )}
           </div>

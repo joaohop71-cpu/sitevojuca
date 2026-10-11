@@ -91,8 +91,11 @@ export type Cafe = {
   descricao: string;
   /** null nos dois quando o preço ainda não foi fechado */
   preco: { grao: number | null; moido: number | null };
-  /** fora da promoção de lançamento: o preço dele é o de tabela */
-  semPromo?: boolean;
+  /**
+   * O desconto deste café, quando não é o da promoção geral (PROMO.pct):
+   * o Minas Santa tem o dele. Zero quer dizer preço de tabela.
+   */
+  desconto?: number;
   /**
    * As moagens que acabaram.
    *
@@ -155,7 +158,7 @@ export const CAFES: Cafe[] = [
       "O nome é a altitude da lavoura. Doce de caramelo e rapadura, com fundo de chocolate e malte: um café de sobremesa que ainda funciona de manhã. Edição limitada.",
     /* R$ 160,00 e R$ 167,60 o QUILO; o campo é o preço do pacote, de 300 g */
     preco: { grao: 48.0, moido: 50.28 },
-    esgotado: ["grao"],
+    esgotado: ["grao", "moido"],
   },
   {
     id: "herancas-2sl",
@@ -182,6 +185,7 @@ export const CAFES: Cafe[] = [
     descricao:
       "Notas florais e aroma de mel, com sabor de mel e capim-limão. Corpo licoroso, acidez cítrica e finalização longa e doce. Microlote de Catucaí 2SL colhido à mão.",
     preco: { grao: 49.8, moido: 52.2 },
+    esgotado: ["moido"],
   },
   {
     id: "herancas-24-137",
@@ -208,6 +212,7 @@ export const CAFES: Cafe[] = [
     descricao:
       "Notas florais e aroma de frutas cítricas, com sabor de frutas amarelas e pêssego em calda. Corpo encorpado, acidez cítrica e finalização longa e doce. Microlote de Catucaí 24-137.",
     preco: { grao: 49.8, moido: 52.2 },
+    esgotado: ["moido"],
   },
   {
     id: "minas-santa",
@@ -233,7 +238,7 @@ export const CAFES: Cafe[] = [
     descricao:
       "O café da rotina, feito para quem preza qualidade em cada xícara. É o carro-chefe da casa, presente no dia de quem não abre mão de um bom café, em casa, no escritório ou a qualquer hora.",
     preco: { grao: null, moido: 55.0 },
-    semPromo: true,
+    desconto: 0.15,
   },
 ];
 
@@ -332,11 +337,21 @@ export const PROMO = {
   rotulo: "30% off",
   /* sem data inventada: o que se promete é que acaba, não quando */
   prazo: "por tempo limitado",
-  /* dizia "em todos os cafés", e não é mais verdade: o Minas Santa saiu da
-     promoção e fica no preço de tabela */
+  /* dizia "em todos os cafés", e não é mais verdade: o Minas Santa tem
+     desconto próprio, menor */
   chamada: "30% de desconto de lançamento",
-  ressalva: "O Minas Santa está fora da promoção.",
+  ressalva: "No Minas Santa, o desconto é de 15%.",
+  /* o nome da linha do desconto no pedido, que pode somar os dois */
+  linha: "Desconto de lançamento",
 };
+
+/** o desconto que vale para este café: o dele, ou o da promoção geral */
+export function descontoDe(c: { desconto?: number }) {
+  return c.desconto ?? PROMO.pct;
+}
+
+/** "30% off", "15% off" */
+export const rotuloDesconto = (pct: number) => `${Math.round(pct * 100)}% off`;
 
 /**
  * As formas de pagamento, escritas uma vez só.
@@ -360,9 +375,9 @@ export function centavos(v: number) {
   return Math.round(v * 100);
 }
 
-export function comDesconto(v: number, temPromo = true) {
-  if (!temPromo) return v;
-  return Math.round(centavos(v) * (1 - PROMO.pct)) / 100;
+export function comDesconto(v: number, pct: number) {
+  if (!pct) return v;
+  return Math.round(centavos(v) * (1 - pct)) / 100;
 }
 
 /** os links do cabeçalho, na ordem da página */

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
-import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, esgotadoDeVez, estaEsgotado } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, descontoDe, esgotadoDeVez, estaEsgotado, rotuloDesconto } from "@/dados";
 import type { Cafe, Moagem } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
 import { Contador, Faixa, Rubrica, Visor } from "./base";
@@ -59,7 +59,7 @@ function etiquetaDe(c: Cafe) {
   const m = comPreco.find((x) => !estaEsgotado(c, x)) ?? comPreco[0];
   if (!m) return null;
   return {
-    valor: comDesconto(c.preco[m]!, !c.semPromo),
+    valor: comDesconto(c.preco[m]!, descontoDe(c)),
     moagem: nomeMoagem(c, m),
     esgotado: esgotadoDeVez(c),
   };
@@ -193,7 +193,8 @@ function useLupa(caixa: RefObject<HTMLDivElement | null>, alvo: () => HTMLImageE
 /** uma moagem: o preço, riscado só onde há desconto, e o contador do pedido */
 function LinhaPreco({ cafe, m, qtd }: { cafe: Cafe; m: Moagem; qtd: number }) {
   const valor = cafe.preco[m]!;
-  const promo = !cafe.semPromo;
+  const pct = descontoDe(cafe);
+  const promo = pct > 0;
   const esgotado = estaEsgotado(cafe, m);
   const cor = TINTA_ROTULO[cafe.cor];
   const chave = `${cafe.id}-${m}`;
@@ -217,7 +218,7 @@ function LinhaPreco({ cafe, m, qtd }: { cafe: Cafe; m: Moagem; qtd: number }) {
             opacity: esgotado ? 0.55 : 1,
           }}
         >
-          {brl(comDesconto(valor, promo))}
+          {brl(comDesconto(valor, pct))}
         </div>
       </div>
       {/* sem estoque, no lugar do contador vai a palavra; o preço fica, mais
@@ -370,9 +371,9 @@ function Gaveta({ cafe, aoAmpliar }: { cafe: Cafe; aoAmpliar: (verso: boolean) =
         <div className="ficha mt-5 text-[12.5px] uppercase tracking-[0.14em]" style={{ color: cor }}>
           {esgotadoDeVez(cafe)
             ? "Sem estoque no momento"
-            : cafe.semPromo
-            ? "Preço de tabela"
-            : `${PROMO.rotulo} · ${PROMO.prazo}`}
+            : descontoDe(cafe) > 0
+            ? `${rotuloDesconto(descontoDe(cafe))} · ${PROMO.prazo}`
+            : "Preço de tabela"}
         </div>
         <div className="mt-2 grid gap-3">
           {cafe.preco.grao === null && cafe.preco.moido === null ? (
@@ -422,6 +423,11 @@ const SEM_ESTOQUE = CAFES.filter((c) => c.esgotado?.length).map((c) =>
     ? nomeCheio(c)
     : `${nomeCheio(c)} ${c.esgotado![0] === "grao" ? "em grão" : "moído"}`
 );
+
+/* quem tem desconto diferente do geral, dito pelos dados: " · 15% no Minas Santa" */
+const OUTROS_DESCONTOS = CAFES.filter((c) => descontoDe(c) !== PROMO.pct)
+  .map((c) => ` · ${descontoDe(c) ? `${Math.round(descontoDe(c) * 100)}% no ${nomeCheio(c)}` : `${nomeCheio(c)} sem desconto`}`)
+  .join("");
 
 const emLista = (xs: string[]) =>
   xs.length < 2 ? (xs[0] ?? "") : `${xs.slice(0, -1).join(", ")} e ${xs[xs.length - 1]}`;
@@ -485,7 +491,7 @@ export default function Cafes() {
           {PROMO.rotulo}
         </span>
         <span className="ficha text-[14.5px] uppercase tracking-[0.14em]">
-          Preço de lançamento, já aplicado abaixo · exceto o Minas Santa
+          Preço de lançamento, já aplicado abaixo{OUTROS_DESCONTOS}
         </span>
       </div>
 
