@@ -241,7 +241,35 @@ function primeiraLivre(aba) {
 
 /* ──────────────────  lançamento rápido pelo celular  ─────────────────────── */
 
+/**
+ * O formulário escreve direto em Vendas, então só o dono da planilha pode usar.
+ *
+ * O endereço deste aplicativo está dentro do JavaScript do site, porque é
+ * para lá que o pedido é enviado; qualquer um que abrir o código-fonte o
+ * encontra. Sem esta verificação, abrir o endereço no navegador mostraria o
+ * formulário a um estranho, e ele poderia lançar vendas falsas. O site não é
+ * afetado: ele só usa o doPost, que grava na aba de espera e nunca em Vendas.
+ *
+ * Com "Executar como: eu", o Google só revela o e-mail de quem está acessando
+ * quando essa pessoa é você. Para todo o resto ele vem vazio.
+ */
+function ehDono() {
+  var quem = Session.getActiveUser().getEmail();
+  return !!quem && quem === Session.getEffectiveUser().getEmail();
+}
+
+function exigeDono() {
+  if (!ehDono()) throw new Error('Só o dono da planilha pode lançar vendas.');
+}
+
 function doGet() {
+  if (!ehDono()) {
+    return HtmlService.createHtmlOutput(
+      '<p style="font-family:Georgia,serif;padding:24px;color:#3a271b">' +
+      'Este endereço é de uso interno do Vô Juca. ' +
+      'Se você é o dono, entre na sua conta Google neste navegador e abra de novo.</p>'
+    ).setTitle('Vô Juca');
+  }
   return HtmlService.createTemplateFromFile('Lancar').evaluate()
     .setTitle('Vô Juca — lançar venda')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
@@ -249,10 +277,12 @@ function doGet() {
 
 /** o formulário pergunta o que existe hoje, em vez de trazer a lista congelada */
 function catalogo() {
+  exigeDono();
   return itensDoCatalogo();
 }
 
 function clientes() {
+  exigeDono();
   var aba = SpreadsheetApp.getActive().getSheetByName(ABA_VENDAS);
   var n = aba.getLastRow() - PRIMEIRA_LINHA + 1;
   if (n < 1) return [];
@@ -265,6 +295,7 @@ function clientes() {
 }
 
 function lancarVenda(d) {
+  exigeDono();
   var lock = LockService.getScriptLock();
   try {
     lock.waitLock(20000);
@@ -283,6 +314,23 @@ function lancarVenda(d) {
   } finally {
     lock.releaseLock();
   }
+}
+
+
+/* ────────────────────────────────  teste  ────────────────────────────────── */
+
+/**
+ * Simula um pedido do site sem precisar do site. Rode pelo editor (escolha
+ * "testarPedido" na barra de cima e clique em Executar): se aparecer uma linha
+ * VJ-TESTE na aba Pedidos, a metade da planilha está funcionando. Depois é só
+ * apagar a linha.
+ */
+function testarPedido() {
+  var r = doPost({ postData: { contents: JSON.stringify({
+    senha: SENHA, codigo: 'VJ-TESTE', origem: 'teste', promo: 0.3,
+    itens: [{ item: 'Reserva 998 · Moído', qtd: 1, gramas: 300, tabela: 5028 }],
+  }) } });
+  Logger.log(r.getContent());
 }
 
 
