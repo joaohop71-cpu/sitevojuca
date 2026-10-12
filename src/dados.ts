@@ -391,12 +391,6 @@ export const MENU = [
   { href: "#contato", rotulo: "Contato" },
 ];
 
-export const SELOS = [
-  "100% arábica",
-  "Quatro gerações",
-  "Torra própria",
-  "Atendimento direto",
-];
 
 export function brl(v: number) {
   return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

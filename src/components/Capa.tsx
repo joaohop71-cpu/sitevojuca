@@ -5,7 +5,8 @@ import capaTerra from "@/assets/capa-terra.webp";
 import { Botao } from "./base";
 import { voarAtePedido } from "@/voo";
 import { DEPOIS_DA_ETIQUETA, ETIQUETA, VOO, ehComputador } from "@/abertura";
-import { MARCA, SELOS, zap } from "@/dados";
+import { MARCA, zap } from "@/dados";
+import Carimbos from "./Carimbos";
 
 /* quanto dura a abertura, até a última camada da revelação sumir */
 const ABERTURA = 2300;
@@ -263,21 +264,9 @@ export default function Capa() {
           <span aria-hidden="true">↓</span>
         </a>
 
-        <dl className="capa-sobe mt-14 grid grid-cols-2 gap-x-8 gap-y-4 border-t pt-7 text-left sm:mt-16 sm:grid-cols-4"
-          style={{ borderColor: "rgba(239,227,204,0.28)", ...linha(1.95) }}
-        >
-          {SELOS.map((s) => (
-            <div key={s} className="flex items-start gap-2.5">
-              <span
-                className="mt-[10px] inline-block h-px w-4 shrink-0"
-                style={{ background: "#c98a5e" }}
-              />
-              <dt className="ficha leading-snug" style={{ color: "#d6c3a8" }}>
-                {s}
-              </dt>
-            </div>
-          ))}
-        </dl>
+        {/* os selos da casa, como carimbos: os quatro numa linha só, também
+            no celular, para a faixa não crescer */}
+        <Carimbos className="capa-sobe mt-12 sm:mt-14" style={linha(1.95)} />
       </div>
       </div>
 

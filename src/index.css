@@ -107,6 +107,31 @@
     text-transform: uppercase;
     color: #8c3a20;
   }
+  /* OS CARIMBOS DA CAPA
+     Os quatro sempre numa linha: o carimbo encolhe com a tela (de 72 a 112
+     px), e a faixa ocupa no celular a mesma altura de antes. Cada um vem
+     torto do seu jeito e endireita sob o mouse. */
+  .carimbos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(6px, 2.4vw, 30px);
+    justify-items: center;
+    max-width: 600px;
+    margin-inline: auto;
+    padding: 0;
+    list-style: none;
+  }
+  .carimbo {
+    width: clamp(72px, 20vw, 112px);
+    aspect-ratio: 1;
+    color: #e8b98d;
+    transform: rotate(var(--giro, 0deg));
+    transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1), opacity 0.2s;
+  }
+  .carimbo:hover { transform: none; }
+  .carimbo svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  @media (prefers-reduced-motion: reduce) { .carimbo { transition: none; } }
+
   /* A VITRINE DOS CAFÉS
      Uma prateleira de empório desenhada pelo ilustrador: os pacotes em pé na
      tábua, a etiqueta pendurada na frente dela, e o rótulo aberto preso numa
@@ -217,6 +242,34 @@
     height: 100%;
     background: linear-gradient(90deg, #e1ccb0 0%, #ecd6bd 18%, #edd7be 50%, #ecd6bd 82%, #e2cdb1 100%);
   }
+  /* o botão do verso, no vão de baixo da prancheta: a folha acaba a 90,6% da
+     altura da tábua e a borda dela começa perto de 97% */
+  .vt-virar {
+    position: absolute;
+    left: 50%;
+    bottom: 3.1%;
+    z-index: 3;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font: 700 11px "Courier Prime", monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #3a271b;
+    background: rgba(246, 238, 222, 0.88);
+    border: 1.5px solid #3a271b;
+    border-radius: 2px;
+    box-shadow: 0 2px 0 rgba(58, 39, 27, 0.25);
+    transition: background 0.15s, transform 0.15s;
+  }
+  .vt-virar:hover { background: #f6eede; }
+  .vt-virar:active { transform: translateX(-50%) translateY(1px); }
+  .vt-virar svg { transition: transform 0.6s; }
+  .vt-virar[aria-pressed="true"] svg { transform: rotate(-180deg); }
+  @media (max-width: 400px) { .vt-virar { font-size: 10px; padding: 5px 9px; letter-spacing: 0.08em; } }
   .vt-grampo { position: absolute; left: 0; top: 0; width: 100%; height: auto; z-index: 2; pointer-events: none; }
   /* o zoom: um quadro largo, e não uma lente pequena, para ler uma linha
      inteira da ficha de uma vez, com aumento moderado */

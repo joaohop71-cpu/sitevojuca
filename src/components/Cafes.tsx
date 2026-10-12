@@ -3,7 +3,7 @@ import type { RefObject } from "react";
 import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, descontoDe, esgotadoDeVez, estaEsgotado, rotuloDesconto } from "@/dados";
 import type { Cafe, Moagem } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
-import { Contador, Faixa, Rubrica, Visor } from "./base";
+import { Contador, Faixa, Rubrica } from "./base";
 import { explicaFicha } from "@/ficha";
 import { voarAtePedido } from "@/voo";
 
@@ -282,7 +282,7 @@ function FichaTecnica({ cafe }: { cafe: Cafe }) {
 }
 
 /** o rótulo aberto: preso na prancheta, com a compra ao lado */
-function Gaveta({ cafe, aoAmpliar }: { cafe: Cafe; aoAmpliar: (verso: boolean) => void }) {
+function Gaveta({ cafe }: { cafe: Cafe }) {
   const qtd = useCarrinho();
   const cor = TINTA_ROTULO[cafe.cor];
   const [virado, setVirado] = useState(false);
@@ -343,6 +343,14 @@ function Gaveta({ cafe, aoAmpliar }: { cafe: Cafe; aoAmpliar: (verso: boolean) =
               </div>
             </div>
             <img className="vt-grampo" src={`${V}/grampo.webp`} alt="" width={760} height={1260} decoding="async" />
+            {/* o botão do verso mora na própria prancheta, no vão entre o pé
+                da folha e a borda da tábua: perto do que ele vira */}
+            <button type="button" className="vt-virar" onClick={virar} aria-pressed={virado} data-print-hide>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4.5h-4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {virado ? "Ver a frente" : "Ver o verso · como preparar"}
+            </button>
           </div>
           <div ref={lupa} className="vt-lupa" aria-hidden="true" />
         </div>
@@ -391,24 +399,6 @@ function Gaveta({ cafe, aoAmpliar }: { cafe: Cafe; aoAmpliar: (verso: boolean) =
 
         <FichaTecnica cafe={cafe} />
 
-        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-1" data-print-hide>
-          <button
-            type="button"
-            onClick={virar}
-            aria-pressed={virado}
-            className="ficha py-2 text-[13.5px] uppercase tracking-[0.12em] underline underline-offset-[6px]"
-            style={{ color: cor }}
-          >
-            {virado ? "Ver a frente do rótulo" : "Ver o verso · como preparar"}
-          </button>
-          <button
-            type="button"
-            onClick={() => aoAmpliar(virado)}
-            className="ficha py-2 text-[13.5px] uppercase tracking-[0.12em] text-[#6b4526] underline underline-offset-[6px]"
-          >
-            Ampliar o rótulo
-          </button>
-        </div>
       </div>
     </div>
   );
@@ -442,7 +432,6 @@ export default function Cafes() {
   const [escolhido, setEscolhido] = useState(0);
   const [marcado, setMarcado] = useState(false);
   const [mexidas, setMexidas] = useState<number[]>(() => CAFES.map(() => 0));
-  const [visor, setVisor] = useState<{ i: number; verso: boolean } | null>(null);
   const gaveta = useRef<HTMLDivElement>(null);
 
   const mexe = (i: number) => setMexidas((b) => b.map((n, k) => (k === i ? n + 1 : n)));
@@ -461,8 +450,6 @@ export default function Cafes() {
     });
   };
   const cafe = CAFES[escolhido];
-  const irVisor = (d: number) =>
-    setVisor((v) => (v === null ? null : { i: (v.i + d + CAFES.length) % CAFES.length, verso: v.verso }));
 
   return (
     <Faixa id="cafes" className="py-10 sm:py-12">
@@ -549,32 +536,9 @@ export default function Cafes() {
 
       {/* ————— o rótulo aberto ————— */}
       <div ref={gaveta} className="reveal" style={{ scrollMarginTop: 90 }}>
-        <Gaveta key={cafe.id} cafe={cafe} aoAmpliar={(verso) => setVisor({ i: escolhido, verso })} />
+        <Gaveta key={cafe.id} cafe={cafe} />
       </div>
 
-      {visor !== null && (
-        <Visor
-          rotulo={`${visor.verso ? "Verso" : "Rótulo"} do ${nomeCheio(CAFES[visor.i])}`}
-          aoFechar={() => setVisor(null)}
-          aoIr={irVisor}
-        >
-          <img
-            src={visor.verso ? `${V}/verso_${versoDe(CAFES[visor.i])}.jpg` : `${V}/rotulo_${CAFES[visor.i].banner}.jpg`}
-            alt={visor.verso ? ALT_VERSO[CAFES[visor.i].banner === "minassanta" ? "minassanta" : "especial"] : descricaoArte(CAFES[visor.i])}
-            className="block max-h-[76vh] w-auto object-contain"
-            style={{ boxShadow: "0 18px 50px rgba(0,0,0,0.45)" }}
-          />
-          <p
-            className="mt-4 text-center text-[17px] text-[#efe3cc]"
-            style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
-          >
-            {nomeCheio(CAFES[visor.i])}
-            <span className="ficha num ml-3 text-[14px] text-[#bda88d]">
-              {String(visor.i + 1).padStart(2, "0")} / 0{CAFES.length}
-            </span>
-          </p>
-        </Visor>
-      )}
     </Faixa>
   );
 }
