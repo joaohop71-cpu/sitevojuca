@@ -1,12 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { MARCA, MENU as ITENS, zap } from "@/dados";
-import { DATILOGRAFIA, ETIQUETA } from "@/abertura";
+import { DATILOGRAFIA, ETIQUETA, TECLA } from "@/abertura";
 import { useResumo } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
 
 
+/**
+ * A datilografia do cabeçalho na abertura, letra a letra, em JavaScript.
+ *
+ * Era uma animação em CSS, em degraus, e em alguns navegadores ela parava um
+ * degrau antes do fim: os links ficavam "PEDID", "A TERR" até a abertura
+ * acabar. Aqui cada link mostra quantas letras o relógio manda, contado em
+ * segundos desde que a página abriu (o mesmo relógio das animações da capa),
+ * e no fim mostra tudo, sempre. Devolve null quando não há abertura.
+ */
+function useDatilografia(): number[] | null {
+  const [agora, setAgora] = useState<number | null>(() =>
+    typeof document !== "undefined" &&
+    document.documentElement.classList.contains("abrindo") &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? 0
+      : null
+  );
+  const comecou = useRef(agora !== null);
+  useEffect(() => {
+    if (!comecou.current) return;
+    const u = DATILOGRAFIA[DATILOGRAFIA.length - 1];
+    const fim = u.d + u.dur + 0.05;
+    let raf = 0;
+    const passo = () => {
+      const t = performance.now() / 1000;
+      /* quem chega no meio da página não tem abertura: a capa tira a classe */
+      if (t >= fim || !document.documentElement.classList.contains("abrindo")) {
+        setAgora(null);
+        return;
+      }
+      setAgora(t);
+      raf = requestAnimationFrame(passo);
+    };
+    raf = requestAnimationFrame(passo);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  if (agora === null) return null;
+  return DATILOGRAFIA.map((x) =>
+    agora < x.d ? 0 : Math.min(x.n, Math.floor((agora - x.d) / TECLA) + 1)
+  );
+}
+
 export default function Navegacao() {
+  const letras = useDatilografia();
   const [rolou, setRolou] = useState(false);
   const [ativo, setAtivo] = useState("");
   const [aberto, setAberto] = useState(false);
@@ -124,18 +167,30 @@ export default function Navegacao() {
             <a
               key={i.href}
               href={i.href}
-              className="nav-tecla relative whitespace-nowrap py-2 transition-colors"
+              aria-label={i.rotulo}
+              className="relative whitespace-nowrap py-2 transition-colors"
               style={{
-                "--n": DATILOGRAFIA[k].n,
-                "--d": `${DATILOGRAFIA[k].d}s`,
-                "--t": `${DATILOGRAFIA[k].dur.toFixed(3)}s`,
                 ...rotulo,
                 fontSize: 14.5,
                 color: ativo === i.href ? destaque : tinta,
                 borderBottom: `1px solid ${ativo === i.href ? destaque : "transparent"}`,
               } as CSSProperties}
             >
-              <span className="nav-datilo">{i.rotulo}</span>
+              {letras === null ? (
+                i.rotulo
+              ) : (
+                <>
+                  {/* o que falta bater ocupa o lugar, invisível: o link não
+                      muda de largura enquanto é escrito */}
+                  {Array.from(i.rotulo).slice(0, letras[k]).join("")}
+                  {letras[k] > 0 && letras[k] < DATILOGRAFIA[k].n && (
+                    <span className="nav-cursor" aria-hidden="true" />
+                  )}
+                  <span style={{ visibility: "hidden" }} aria-hidden="true">
+                    {Array.from(i.rotulo).slice(letras[k]).join("")}
+                  </span>
+                </>
+              )}
             </a>
           ))}
           <a

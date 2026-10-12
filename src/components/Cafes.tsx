@@ -106,9 +106,9 @@ function Etiqueta({ cafe, mexidas }: { cafe: Cafe; mexidas: number }) {
 }
 
 /**
- * A lupa de classificador: segue o mouse sobre o rótulo; no toque, aparece
- * depois de segurar o dedo um instante, um pouco acima dele, para o dedo não
- * tapar o que ela mostra.
+ * O zoom do rótulo: um quadro que segue o mouse e mostra, aumentado, o trecho
+ * embaixo dele; no toque, aparece depois de segurar o dedo um instante, um
+ * pouco acima dele, para o dedo não tapar o que ele mostra.
  */
 function useLupa(caixa: RefObject<HTMLDivElement | null>, alvo: () => HTMLImageElement | null) {
   const lupa = useRef<HTMLDivElement>(null);
@@ -121,7 +121,7 @@ function useLupa(caixa: RefObject<HTMLDivElement | null>, alvo: () => HTMLImageE
     const c = caixa.current;
     const l = lupa.current;
     if (!c || !l) return;
-    const ZOOM = 1.8;
+    const ZOOM = 1.6;
     let segurando = 0;
     let toque = false;
     let timer = 0;
@@ -347,7 +347,7 @@ function Gaveta({ cafe, aoAmpliar }: { cafe: Cafe; aoAmpliar: (verso: boolean) =
           <div ref={lupa} className="vt-lupa" aria-hidden="true" />
         </div>
         <p className="ficha mt-3 text-center text-[12.5px] uppercase tracking-[0.12em] text-[#6f5b44]" data-print-hide>
-          {toque ? "Segure o dedo no rótulo para ler de perto" : "Passe o mouse no rótulo para ler de perto"}
+          {toque ? "Segure o dedo no rótulo para aumentar" : "Passe o mouse no rótulo para aumentar"}
         </p>
       </div>
 

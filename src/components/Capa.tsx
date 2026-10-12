@@ -44,7 +44,7 @@ function useProfundidade() {
      pronto. */
   useEffect(() => {
     const raiz = document.documentElement;
-    const fim = () => raiz.classList.remove("abertura");
+    const fim = () => raiz.classList.remove("abrindo");
     if (semMovimento() || window.scrollY > 40 || window.location.hash.length > 1) {
       fim();
       return;

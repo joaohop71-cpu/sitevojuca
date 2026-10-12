@@ -10,7 +10,7 @@ import { MENU } from "@/dados";
 /** o cabeçalho começa a aparecer junto com a primeira linha da capa */
 const INICIO = 1.15;
 /** uma tecla, e a pausa entre uma palavra e a seguinte, em segundos */
-const TECLA = 0.022;
+export const TECLA = 0.022;
 const PAUSA = 0.07;
 
 /** quando cada link começa a ser batido, e quantas letras tem */
