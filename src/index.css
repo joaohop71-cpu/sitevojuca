@@ -222,11 +222,11 @@
      folha começa logo acima, e a garra só morde a margem do papel. O grampo
      é um recorte à parte, por cima da folha, e só a folha vira. */
   .vt-gaveta { margin-top: 44px; display: grid; gap: 30px; align-items: start; }
-  /* o rótulo grande o bastante para ler sem ajuda; o zoom é um extra */
+  /* a prancheta à esquerda e a compra à direita; o rótulo se lê de perto no visor */
   @media (min-width: 900px) {
     .vt-gaveta { grid-template-columns: minmax(0, 470px) minmax(0, 1fr); gap: 48px; }
   }
-  .vt-palco { position: relative; max-width: 470px; width: 100%; margin-inline: auto; touch-action: pan-y; }
+  .vt-palco { position: relative; max-width: 470px; width: 100%; margin-inline: auto; }
   .vt-prancheta { position: relative; }
   .vt-prancheta-tabua { display: block; width: 100%; height: auto; }
   .vt-papel { position: absolute; left: 16%; width: 68%; top: 16.8%; perspective: 1400px; }
@@ -236,12 +236,26 @@
   .vt-costas { position: absolute; inset: 0; transform: rotateY(180deg); }
   .vt-folha { background: #ecd6bd; box-shadow: 0 2px 2px rgba(30, 18, 10, 0.32), 0 12px 16px -8px rgba(30, 18, 10, 0.38); }
   .vt-folha img { display: block; width: 100%; height: auto; }
-  /* o verso é mais curto que a frente: o resto da folha é o mesmo papel, com
-     a beira um pouco mais escura, como na impressão */
-  .vt-costas .vt-folha {
-    height: 100%;
-    background: linear-gradient(90deg, #e1ccb0 0%, #ecd6bd 18%, #edd7be 50%, #ecd6bd 82%, #e2cdb1 100%);
+  .vt-folha { transition: box-shadow 0.2s; }
+  /* a folha toda é o botão que abre o rótulo de perto; sob o mouse ela se
+     solta um pouco da tábua */
+  .vt-ampliar { position: absolute; inset: 0; z-index: 1; padding: 0; border: 0; background: none; cursor: zoom-in; }
+  .vt-ampliar:focus-visible { outline: 2px solid #3a271b; outline-offset: 3px; }
+  @media (hover: hover) {
+    .vt-papel:hover .vt-folha { box-shadow: 0 3px 3px rgba(30, 18, 10, 0.3), 0 18px 24px -8px rgba(30, 18, 10, 0.45); }
   }
+  .vt-aviso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    font: 700 12.5px "Courier Prime", monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6f5b44;
+  }
+  .vt-aviso svg { flex: none; color: #3a271b; }
   /* o botão do verso, no vão de baixo da prancheta: a folha acaba a 90,6% da
      altura da tábua e a borda dela começa perto de 97% */
   .vt-virar {
@@ -271,27 +285,45 @@
   .vt-virar[aria-pressed="true"] svg { transform: rotate(-180deg); }
   @media (max-width: 400px) { .vt-virar { font-size: 10px; padding: 5px 9px; letter-spacing: 0.08em; } }
   .vt-grampo { position: absolute; left: 0; top: 0; width: 100%; height: auto; z-index: 2; pointer-events: none; }
-  /* o zoom: um quadro largo, e não uma lente pequena, para ler uma linha
-     inteira da ficha de uma vez, com aumento moderado */
-  .vt-lupa {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 250px;
-    height: 250px;
-    border-radius: 4px;
-    pointer-events: none;
-    opacity: 0;
-    transform: scale(0.94);
-    transition: opacity 0.16s, transform 0.16s;
-    background-repeat: no-repeat;
-    background-color: #ecd6bd;
-    border: 2px solid #3a271b;
-    box-shadow: 0 2px 0 rgba(255, 250, 240, 0.4) inset, 0 20px 34px -12px rgba(44, 29, 20, 0.55);
-    z-index: 9;
+  /* O RÓTULO DE PERTO
+     Larga o bastante para ler o verso sem aumentar (520 px no computador, a
+     tela toda no celular); o que não cabe na altura desce rolando. Tocada, a
+     folha fica duas vezes maior dentro do mesmo quadro. */
+  .vt-visor {
+    --larg: min(92vw, 520px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .vt-lupa.ativa { opacity: 1; transform: none; }
-  @media (max-width: 480px) { .vt-lupa { width: 210px; height: 210px; } }
+  .vt-visor-folha {
+    width: var(--larg);
+    height: min(calc(var(--larg) * 1.8), 74vh);
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(58, 39, 27, 0.45) transparent;
+    background: #ecd6bd;
+    box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  }
+  .vt-visor-zoom { display: block; padding: 0; border: 0; background: none; cursor: zoom-in; }
+  .vt-visor-zoom { width: 100%; }
+  .vt-visor-zoom img { display: block; width: 100%; max-width: none; height: auto; background-size: 100% 100%; }
+  .vt-visor-folha[data-perto="true"] .vt-visor-zoom { cursor: zoom-out; }
+  .vt-visor-folha[data-perto="true"] .vt-visor-zoom { width: calc(var(--larg) * 2); }
+  .vt-visor-pe { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; margin-top: 14px; }
+  .vt-visor-nome { font: 600 18px Fraunces, Georgia, serif; color: #efe3cc; }
+  .vt-visor-virar {
+    padding: 7px 12px;
+    font: 700 11px "Courier Prime", monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #efe3cc;
+    border: 1.5px solid rgba(239, 227, 204, 0.5);
+    border-radius: 2px;
+    transition: background 0.15s;
+  }
+  .vt-visor-virar:hover { background: rgba(239, 227, 204, 0.14); }
+  .vt-visor-dica { margin-top: 8px; font: 400 12px "Courier Prime", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #bda88d; }
   .vt-linha-preco {
     display: flex;
     align-items: center;
@@ -544,7 +576,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .vt-pac, .vt-virador, .vt-lupa { transition: none; }
+    .vt-pac, .vt-virador, .vt-folha { transition: none; }
     .vt-tag.vt-balancando, .vt-explica { animation: none; }
   }
 

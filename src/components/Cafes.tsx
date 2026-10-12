@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import type { RefObject } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, descontoDe, esgotadoDeVez, estaEsgotado, rotuloDesconto } from "@/dados";
 import type { Cafe, Moagem } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
-import { Contador, Faixa, Rubrica } from "./base";
+import { Contador, Faixa, Rubrica, Visor } from "./base";
 import { explicaFicha } from "@/ficha";
 import { voarAtePedido } from "@/voo";
 
@@ -43,11 +43,12 @@ const ALT_VERSO = {
 
 /* As artes do rótulo saem de dentro dos PDFs da gráfica, no papel do
    designer, sem a sangria; o papel foi levado para o tom do kraft da
-   prancheta. O verso vem sem a caixa de lote e validade (numa venda torrada
-   sob encomenda, uma data impressa estaria sempre velha) e sem o rodapé,
-   que ainda traz CNPJ, endereço e registro MAPA de exemplo. */
+   prancheta. O verso é o de tela que o designer fez, com a letra ampliada e
+   sem lote, validade e rodapé, assentado sobre o mesmo papel (tirado de todos
+   os rótulos da gráfica, onde nenhum tinha tinta); as duas Heranças têm o
+   mesmo verso. Cada arte tem uma versão grande (_g), que só baixa quando
+   alguém abre o rótulo de perto. */
 const versoDe = (c: Cafe) => (c.banner.startsWith("herancas") ? "herancas" : c.banner);
-const ALTURA_VERSO: Record<string, number> = { vojuca: 1122, reserva998: 1122, herancas: 1122, minassanta: 1095 };
 
 const MOAGENS: Moagem[] = ["grao", "moido"];
 const nomeMoagem = (c: Cafe, m: Moagem) =>
@@ -106,88 +107,75 @@ function Etiqueta({ cafe, mexidas }: { cafe: Cafe; mexidas: number }) {
 }
 
 /**
- * O zoom do rótulo: um quadro que segue o mouse e mostra, aumentado, o trecho
- * embaixo dele; no toque, aparece depois de segurar o dedo um instante, um
- * pouco acima dele, para o dedo não tapar o que ele mostra.
+ * O rótulo de perto, por cima da página: a folha larga, que se lê rolando, e
+ * um toque (ou clique) aproxima mais, bem no ponto tocado; outro toque afasta. Enquanto a versão grande baixa, a pequena,
+ * que já está na prancheta, fica de fundo.
  */
-function useLupa(caixa: RefObject<HTMLDivElement | null>, alvo: () => HTMLImageElement | null) {
-  const lupa = useRef<HTMLDivElement>(null);
-  /* o alvo muda quando a folha vira; guardado aqui, não refaz os eventos */
-  const alvoRef = useRef(alvo);
-  useEffect(() => {
-    alvoRef.current = alvo;
-  });
-  useEffect(() => {
+function VisorRotulo({
+  cafe,
+  verso,
+  aoVirar,
+  aoFechar,
+}: {
+  cafe: Cafe;
+  verso: boolean;
+  aoVirar: () => void;
+  aoFechar: () => void;
+}) {
+  const [perto, setPerto] = useState(false);
+  const caixa = useRef<HTMLDivElement>(null);
+  const ponto = useRef<{ x: number; y: number } | null>(null);
+  const toque = window.matchMedia("(hover: none)").matches;
+  /* depois de aproximar, rola até deixar o ponto tocado no meio */
+  useLayoutEffect(() => {
     const c = caixa.current;
-    const l = lupa.current;
-    if (!c || !l) return;
-    const ZOOM = 1.6;
-    let segurando = 0;
-    let toque = false;
-    let timer = 0;
-    const mover = (x: number, y: number) => {
-      const img = alvoRef.current();
-      if (!img) return;
-      const r = img.getBoundingClientRect();
-      const b = c.getBoundingClientRect();
-      const L = l.offsetWidth;
-      const px = x - r.left;
-      const py = y - r.top;
-      const cy = toque ? y - L * 0.75 : y;
-      l.style.backgroundImage = `url("${img.currentSrc || img.src}")`;
-      l.style.left = `${x - b.left - L / 2}px`;
-      l.style.top = `${cy - b.top - L / 2}px`;
-      l.style.backgroundSize = `${r.width * ZOOM}px ${r.height * ZOOM}px`;
-      l.style.backgroundPosition = `${-(px * ZOOM - L / 2)}px ${-(py * ZOOM - L / 2)}px`;
-      l.classList.toggle("ativa", px >= 0 && py >= 0 && px <= r.width && py <= r.height);
-    };
-    const anda = (e: PointerEvent) => {
-      if (e.pointerType === "mouse" || segurando === 2) {
-        toque = e.pointerType !== "mouse";
-        mover(e.clientX, e.clientY);
-      }
-    };
-    const sai = (e: PointerEvent) => {
-      if (e.pointerType === "mouse") l.classList.remove("ativa");
-    };
-    const desce = (e: PointerEvent) => {
-      if (e.pointerType === "mouse") return;
-      segurando = 1;
-      const x = e.clientX;
-      const y = e.clientY;
-      timer = window.setTimeout(() => {
-        segurando = 2;
-        c.style.touchAction = "none";
-        toque = true;
-        mover(x, y);
-      }, 260);
-    };
-    const solta = () => {
-      window.clearTimeout(timer);
-      segurando = 0;
-      c.style.touchAction = "";
-      if (toque) l.classList.remove("ativa");
-    };
-    const menu = (e: Event) => {
-      if (segurando) e.preventDefault();
-    };
-    c.addEventListener("pointermove", anda);
-    c.addEventListener("pointerleave", sai);
-    c.addEventListener("pointerdown", desce);
-    c.addEventListener("pointerup", solta);
-    c.addEventListener("pointercancel", solta);
-    c.addEventListener("contextmenu", menu);
-    return () => {
-      c.removeEventListener("pointermove", anda);
-      c.removeEventListener("pointerleave", sai);
-      c.removeEventListener("pointerdown", desce);
-      c.removeEventListener("pointerup", solta);
-      c.removeEventListener("pointercancel", solta);
-      c.removeEventListener("contextmenu", menu);
-      window.clearTimeout(timer);
-    };
-  }, [caixa]);
-  return lupa;
+    const p = ponto.current;
+    if (!c || !p) return;
+    c.scrollLeft = p.x * c.scrollWidth - c.clientWidth / 2;
+    c.scrollTop = p.y * c.scrollHeight - c.clientHeight / 2;
+    ponto.current = null;
+  }, [perto]);
+  const aproximar = (e: MouseEvent<HTMLButtonElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    /* pelo teclado não há ponto: aproxima no meio */
+    ponto.current = e.detail === 0 ? { x: 0.5, y: 0.5 } : { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height };
+    setPerto((v) => !v);
+  };
+  const pequena = verso ? `${V}/verso_${versoDe(cafe)}.jpg` : `${V}/rotulo_${cafe.banner}.jpg`;
+  return (
+    <Visor rotulo={`${verso ? "Verso" : "Rótulo"} do ${nomeCheio(cafe)}`} aoFechar={aoFechar}>
+      <div className="vt-visor">
+        <div ref={caixa} className="vt-visor-folha" data-perto={perto}>
+          <button type="button" className="vt-visor-zoom" onClick={aproximar} aria-pressed={perto} aria-label={perto ? "Afastar" : "Aproximar"}>
+            <img
+              key={pequena}
+              src={verso ? `${V}/verso_${versoDe(cafe)}_g.jpg` : `${V}/rotulo_${cafe.banner}_g.jpg`}
+              alt={verso ? ALT_VERSO[cafe.banner === "minassanta" ? "minassanta" : "especial"] : descricaoArte(cafe)}
+              width={1180}
+              height={2124}
+              style={{ backgroundImage: `url("${pequena}")` }}
+            />
+          </button>
+        </div>
+        <div className="vt-visor-pe">
+          <span className="vt-visor-nome">{nomeCheio(cafe)}</span>
+          <button
+            type="button"
+            className="vt-visor-virar"
+            onClick={() => {
+              setPerto(false);
+              aoVirar();
+            }}
+          >
+            {verso ? "Ver a frente" : "Ver o verso · como preparar"}
+          </button>
+        </div>
+        <p className="vt-visor-dica">
+          {perto ? `${toque ? "Toque" : "Clique"} de novo para afastar` : `${toque ? "Toque" : "Clique"} na folha para aproximar`}
+        </p>
+      </div>
+    </Visor>
+  );
 }
 
 /** uma moagem: o preço, riscado só onde há desconto, e o contador do pedido */
@@ -288,20 +276,12 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
   const [virado, setVirado] = useState(false);
   /* o verso só baixa na primeira vez que alguém vira */
   const [jaVirou, setJaVirou] = useState(false);
-  const palco = useRef<HTMLDivElement>(null);
-  const frente = useRef<HTMLImageElement>(null);
-  const costas = useRef<HTMLImageElement>(null);
-  const viradoRef = useRef(false);
-  useEffect(() => {
-    viradoRef.current = virado;
-  }, [virado]);
-  const lupa = useLupa(palco, () => (viradoRef.current ? costas.current : frente.current));
+  const [perto, setPerto] = useState(false);
   const toque = typeof window !== "undefined" && window.matchMedia("(hover: none)").matches;
 
   const virar = () => {
     setJaVirou(true);
     setVirado((v) => !v);
-    lupa.current?.classList.remove("ativa");
   };
 
   return (
@@ -309,7 +289,7 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
       <div>
         {/* só a folha vira: a tábua e o grampo ficam parados, e o grampo
             continua por cima da folha enquanto ela gira */}
-        <div ref={palco} className="vt-palco">
+        <div className="vt-palco">
           <div className="vt-prancheta">
             <img className="vt-prancheta-tabua" src={`${V}/prancheta.webp`} alt="" width={760} height={1260} decoding="async" />
             <div className="vt-papel">
@@ -317,7 +297,6 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
                 <div className="vt-lado" inert={virado}>
                   <div className="vt-folha">
                     <img
-                      ref={frente}
                       src={`${V}/rotulo_${cafe.banner}.jpg`}
                       alt={descricaoArte(cafe)}
                       width={760}
@@ -330,17 +309,24 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
                   <div className="vt-folha">
                     {jaVirou && (
                       <img
-                        ref={costas}
                         src={`${V}/verso_${versoDe(cafe)}.jpg`}
                         alt={ALT_VERSO[cafe.banner === "minassanta" ? "minassanta" : "especial"]}
                         width={760}
-                        height={ALTURA_VERSO[versoDe(cafe)]}
+                        height={1368}
                         decoding="async"
                       />
                     )}
                   </div>
                 </div>
               </div>
+              {/* a folha inteira abre o rótulo de perto, do lado que estiver virado */}
+              <button
+                type="button"
+                className="vt-ampliar"
+                onClick={() => setPerto(true)}
+                aria-label={`Ver ${virado ? "o verso" : "o rótulo"} do ${nomeCheio(cafe)} de perto`}
+                data-print-hide
+              />
             </div>
             <img className="vt-grampo" src={`${V}/grampo.webp`} alt="" width={760} height={1260} decoding="async" />
             {/* o botão do verso mora na própria prancheta, no vão entre o pé
@@ -352,11 +338,15 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
               {virado ? "Ver a frente" : "Ver o verso · como preparar"}
             </button>
           </div>
-          <div ref={lupa} className="vt-lupa" aria-hidden="true" />
         </div>
-        <p className="ficha mt-3 text-center text-[12.5px] uppercase tracking-[0.12em] text-[#6f5b44]" data-print-hide>
-          {toque ? "Segure o dedo no rótulo para aumentar" : "Passe o mouse no rótulo para aumentar"}
+        <p className="vt-aviso" data-print-hide>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" />
+            <path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          Para ler de perto, {toque ? "toque" : "clique"} no rótulo
         </p>
+        {perto && <VisorRotulo cafe={cafe} verso={virado} aoVirar={virar} aoFechar={() => setPerto(false)} />}
       </div>
 
       <div className="min-w-0">
