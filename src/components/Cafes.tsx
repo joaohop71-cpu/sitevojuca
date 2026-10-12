@@ -355,9 +355,13 @@ function Gaveta({ cafe, aoAmpliar }: { cafe: Cafe; aoAmpliar: (verso: boolean) =
         <div className="ficha text-[12.5px] font-bold uppercase tracking-[0.16em]" style={{ color: cor }}>
           {cafe.tarja}
         </div>
-        <h3 className="mt-1 text-[clamp(28px,3.4vw,36px)] leading-tight">
+        {/* o nome como está no rótulo: em caixa alta, na tinta da linha */}
+        <h3
+          className="mt-1 text-[clamp(28px,3.4vw,36px)] uppercase leading-tight tracking-[0.02em]"
+          style={{ color: cor }}
+        >
           {cafe.nome}
-          {cafe.lote && <span className="ml-2 text-[0.62em] font-medium text-[#5c4635]">{cafe.lote}</span>}
+          {cafe.lote && <span className="ml-2 text-[0.62em] font-medium opacity-80">{cafe.lote}</span>}
         </h3>
         <ul className="mt-3 flex flex-wrap gap-1.5">
           {cafe.notas.map((n) => (
