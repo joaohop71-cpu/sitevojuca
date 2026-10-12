@@ -24,7 +24,7 @@ const CARIMBOS: { nome: string; anel: string; giro: number; meio: ReactNode }[] 
     meio: (
       <>
         <text x="100" y="106" fontSize="44" textAnchor="middle" style={FR}>100%</text>
-        <text x="100" y="131" fontSize="14" textAnchor="middle" letterSpacing="2" style={MONO}>ARÁBICA</text>
+        <text x="100" y="126" fontSize="14" textAnchor="middle" letterSpacing="2" style={MONO}>ARÁBICA</text>
       </>
     ),
   },
@@ -34,8 +34,8 @@ const CARIMBOS: { nome: string; anel: string; giro: number; meio: ReactNode }[] 
     giro: 4,
     meio: (
       <>
-        <text x="100" y="118" fontSize="66" textAnchor="middle" style={FR}>4</text>
-        <text x="100" y="140" fontSize="14" textAnchor="middle" letterSpacing="2" style={MONO}>GERAÇÕES</text>
+        <text x="100" y="113" fontSize="66" textAnchor="middle" style={FR}>4</text>
+        <text x="100" y="133" fontSize="14" textAnchor="middle" letterSpacing="2" style={MONO}>GERAÇÕES</text>
       </>
     ),
   },
@@ -45,11 +45,11 @@ const CARIMBOS: { nome: string; anel: string; giro: number; meio: ReactNode }[] 
     giro: -3,
     meio: (
       <>
-        <g fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
-          <ellipse cx="100" cy="92" rx="18" ry="26" transform="rotate(28 100 92)" />
-          <path d="M90 72 C104 83 96 101 110 113" />
-        </g>
-        <text x="100" y="140" fontSize="14" textAnchor="middle" letterSpacing="2" style={MONO}>PRÓPRIA</text>
+        <mask id="carimbo-grao" maskUnits="userSpaceOnUse" x="78" y="62" width="44" height="58">
+          <image href="/carimbo-grao.png" x="79.3" y="62" width="41.4" height="58" />
+        </mask>
+        <rect x="78" y="62" width="44" height="58" fill="currentColor" mask="url(#carimbo-grao)" />
+        <text x="100" y="137" fontSize="14" textAnchor="middle" letterSpacing="2" style={MONO}>PRÓPRIA</text>
       </>
     ),
   },
@@ -58,7 +58,7 @@ const CARIMBOS: { nome: string; anel: string; giro: number; meio: ReactNode }[] 
     anel: "ATENDIMENTO DIRETO · FALE COM O JUCA · ",
     giro: 7,
     meio: (
-      <>
+      <g transform="translate(0 -9)">
         <path
           d="M74 76 H126 Q132 76 132 82 V106 Q132 112 126 112 H97 L84 123 L86 112 H74 Q68 112 68 106 V82 Q68 76 74 76 Z"
           fill="none"
@@ -70,7 +70,7 @@ const CARIMBOS: { nome: string; anel: string; giro: number; meio: ReactNode }[] 
         <circle cx="100" cy="94" r="4" fill="currentColor" />
         <circle cx="113" cy="94" r="4" fill="currentColor" />
         <text x="100" y="142" fontSize="14" textAnchor="middle" letterSpacing="2" style={MONO}>DIRETO</text>
-      </>
+      </g>
     ),
   },
 ];
@@ -92,13 +92,13 @@ export default function Carimbos({ className = "", style }: { className?: string
           <li key={c.nome} className="carimbo" style={{ ["--giro" as string]: `${c.giro}deg` }}>
             <svg viewBox="0 0 200 200" role="img" aria-label={c.nome}>
               <defs>
-                <path id={`carimbo-anel-${i}`} d="M100,100 m-79,0 a79,79 0 1,1 158,0 a79,79 0 1,1 -158,0" />
+                <path id={`carimbo-anel-${i}`} d="M100,100 m-72.5,0 a72.5,72.5 0 1,1 145,0 a72.5,72.5 0 1,1 -145,0" />
               </defs>
-              <g filter="url(#carimbo-tinta)">
+              <g filter="url(#carimbo-tinta)" fill="currentColor">
                 <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" strokeWidth="5" />
                 <circle cx="100" cy="100" r="63" fill="none" stroke="currentColor" strokeWidth="2" />
                 <text fontSize="17" style={MONO}>
-                  <textPath href={`#carimbo-anel-${i}`} textLength="492" lengthAdjust="spacing">
+                  <textPath href={`#carimbo-anel-${i}`} textLength="451" lengthAdjust="spacing">
                     {c.anel}
                   </textPath>
                 </text>
