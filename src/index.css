@@ -132,6 +132,124 @@
   .carimbo svg { display: block; width: 100%; height: 100%; overflow: visible; }
   @media (prefers-reduced-motion: reduce) { .carimbo { transition: none; } }
 
+  /* A CADERNETA E A NOTA DE PEDIDO (assinatura e fornecimento)
+     Dois papéis do balcão do empório no lugar de dois retângulos: a
+     caderneta de capa de pano, com a pauta e os meses riscados, e o talão
+     de pedido picotado em cima. Tortos só a partir do tablet: no celular,
+     girar um quadro da largura da tela empurra a página para o lado. */
+  .cad, .ped { box-shadow: 0 2px 2px rgba(44, 29, 20, 0.16), 0 22px 30px -18px rgba(44, 29, 20, 0.5); }
+  @media (min-width: 640px) {
+    .cad { transform: rotate(-0.6deg); }
+    .ped { transform: rotate(0.7deg); }
+  }
+  .cad { display: grid; grid-template-columns: 20px minmax(0, 1fr); }
+  .cad-lombada { position: relative; background: linear-gradient(90deg, #24170f, #4a3324 55%, #2c1d14); }
+  .cad-lombada::after { content: ""; position: absolute; top: 12px; bottom: 12px; left: 9px; border-left: 2px dashed rgba(232, 185, 141, 0.55); }
+  .cad-folha {
+    min-width: 0;
+    padding: 20px 22px 24px 40px;
+    background:
+      linear-gradient(90deg, transparent 24px, rgba(140, 58, 32, 0.4) 24px 25px, transparent 25px),
+      repeating-linear-gradient(180deg, transparent 0 29px, rgba(58, 39, 27, 0.09) 29px 30px),
+      #f8efde;
+  }
+  .cad-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3a271b;
+    font: 700 11.5px "Courier Prime", monospace;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3a271b;
+  }
+  .cad-topo img { width: 42px; height: 42px; flex: none; opacity: 0.85; }
+  .cad-meses {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin: 18px 0 6px;
+    border-top: 1px solid rgba(58, 39, 27, 0.3);
+    border-left: 1px solid rgba(58, 39, 27, 0.3);
+  }
+  @media (min-width: 1180px) { .cad-meses { grid-template-columns: repeat(12, minmax(0, 1fr)); } }
+  .cad-meses li {
+    position: relative;
+    height: 46px;
+    padding-top: 3px;
+    border-right: 1px solid rgba(58, 39, 27, 0.3);
+    border-bottom: 1px solid rgba(58, 39, 27, 0.3);
+    font: 700 10.5px "Courier Prime", monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    color: #6f5b44;
+  }
+  .cad-meses svg { position: absolute; left: 50%; bottom: 4px; width: 26px; height: 22px; transform: translateX(-50%) rotate(-6deg); color: #8c3a20; }
+
+  .ped { position: relative; padding: 32px 26px 20px; background: #fbf6ec; }
+  /* o picote: meia-lua da cor da seção mordendo a beira de cima */
+  .ped::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 8px;
+    background: radial-gradient(circle at 7px 0, #f6eede 4.2px, transparent 4.8px) 0 0 / 14px 8px repeat-x;
+  }
+  .ped-topo {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 3px double #3a271b;
+    font-family: "Courier Prime", monospace;
+  }
+  .ped-topo b { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .ped-topo span { font-size: 15px; font-weight: 700; color: #8c3a20; }
+  .ped-casa { margin-top: 4px; font: 400 11.5px "Courier Prime", monospace; letter-spacing: 0.08em; color: #6f5b44; }
+  .ped-campos { display: grid; gap: 12px; margin-top: 16px; font: 400 14.5px/1.4 "Courier Prime", monospace; color: #3a271b; }
+  .ped-campo { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 10px; align-items: start; }
+  .ped-campo > label, .ped-campo > span:first-child {
+    padding-top: 3px;
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6f5b44;
+  }
+  .ped-caixas { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+  .ped-caixas label { position: relative; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+  .ped-caixas input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .ped-caixas i { position: relative; width: 13px; height: 13px; flex: none; border: 1.5px solid #3a271b; }
+  .ped-caixas input:focus-visible + i { outline: 2px solid #8c3a20; outline-offset: 2px; }
+  /* o xis à mão, na tinta de cobre */
+  .ped-caixas input:checked + i::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    background:
+      linear-gradient(45deg, transparent 44%, #8c3a20 44% 58%, transparent 58%),
+      linear-gradient(-45deg, transparent 42%, #8c3a20 42% 56%, transparent 56%);
+  }
+  .ped-preencher { display: inline-flex; align-items: baseline; gap: 8px; border-bottom: 1px solid #3a271b; padding: 0 6px; }
+  .ped-preencher input {
+    width: 3.2em;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: italic 600 22px/1.1 Fraunces, Georgia, serif;
+    color: #8c3a20;
+    text-align: center;
+  }
+  .ped-preencher input::placeholder { color: rgba(140, 58, 32, 0.35); }
+  .ped-preencher input:focus { outline: none; }
+  .ped-preencher:focus-within { border-bottom-color: #8c3a20; box-shadow: 0 1px 0 #8c3a20; }
+  .ped-via { margin-top: 18px; padding-top: 6px; border-top: 1px dashed rgba(58, 39, 27, 0.4); font: 400 10.5px "Courier Prime", monospace; letter-spacing: 0.14em; text-transform: uppercase; color: #6f5b44; }
+
   /* A VITRINE DOS CAFÉS
      Uma prateleira de empório desenhada pelo ilustrador: os pacotes em pé na
      tábua, a etiqueta pendurada na frente dela, e o rótulo aberto preso numa

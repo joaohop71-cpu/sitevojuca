@@ -376,7 +376,7 @@ export function Botao({
 }: {
   href?: string;
   children: ReactNode;
-  tom?: "cheio" | "vazio" | "claro" | "contorno";
+  tom?: "cheio" | "cobre" | "vazio" | "claro" | "contorno";
   onClick?: () => void;
   type?: "button";
   /** ocupa a linha inteira no mobile — alvo de toque maior */
@@ -387,6 +387,7 @@ export function Botao({
   }`;
   const estilos = {
     cheio: "bg-[#3a271b] text-[#efe3cc] border-[#3a271b] hover:bg-[#8c3a20] hover:border-[#8c3a20]",
+    cobre: "bg-[#8c3a20] text-[#efe3cc] border-[#8c3a20] hover:bg-[#3a271b] hover:border-[#3a271b]",
     vazio:
       "bg-transparent text-[#3a271b] border-[rgba(58,39,27,0.4)] hover:border-[#3a271b] hover:bg-[rgba(58,39,27,0.05)]",
     claro:
