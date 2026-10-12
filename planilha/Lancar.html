@@ -67,6 +67,13 @@
         </div>
       </div>
 
+      <label for="status">Status</label>
+      <select id="status">
+        <option>À embalar</option>
+        <option>Embalado</option>
+        <option>Entregue</option>
+      </select>
+
       <label for="obs">Observação</label>
       <input id="obs" placeholder="opcional" />
 
@@ -139,6 +146,7 @@
             tipo: document.getElementById('tipo').value,
             desconto: document.getElementById('desconto').value,
             obs: document.getElementById('obs').value,
+            status: document.getElementById('status').value,
             pago: document.getElementById('pago').checked
           });
       };

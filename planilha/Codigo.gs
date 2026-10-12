@@ -34,6 +34,9 @@ const COL = { codigo: 1, quando: 2, status: 3, cliente: 4, item: 5, gramas: 6,
 
 const STATUS = ['Aguardando', 'Confirmado', 'Lançado', 'Perdido'];
 
+/* as colunas digitáveis da aba Vendas que não são as cinco primeiras */
+const VENDAS = { desconto: 8, status: 14, pago: 15, obs: 16 };
+
 
 /* ────────────────────────────────  o site escreve aqui  ──────────────────── */
 
@@ -198,14 +201,15 @@ function lancar(linha) {
     var obs = 'Pedido ' + v[COL.codigo - 1];
 
     /* só as colunas digitáveis: F, G, I, J, K, L e M são fórmulas que já estão
-       na linha em branco e sabem se virar sozinhas */
+       na linha em branco e sabem se virar sozinhas. Pedido confirmado ainda
+       não foi embalado nem pago: entra como À embalar e com Pago? em branco */
     vendas.getRange(destino, 1, 1, 5).setValues([[
       new Date(quando.getFullYear(), quando.getMonth(), quando.getDate()),
       cliente, v[COL.item - 1], 'Venda', v[COL.gramas - 1],
     ]]);
-    vendas.getRange(destino, 8).setValue(v[COL.desconto - 1] || 0);
-    vendas.getRange(destino, 14).setValue('Não');
-    vendas.getRange(destino, 15).setValue(obs);
+    vendas.getRange(destino, VENDAS.desconto).setValue(v[COL.desconto - 1] || 0);
+    vendas.getRange(destino, VENDAS.status).setValue('À embalar');
+    vendas.getRange(destino, VENDAS.obs).setValue(obs);
 
     aba.getRange(linha, COL.status).setValue('Lançado');
     aba.getRange(linha, COL.obs).setValue('Vendas linha ' + destino);
@@ -271,9 +275,10 @@ function lancarVenda(d) {
       new Date(data.getFullYear(), data.getMonth(), data.getDate()),
       String(d.cliente || '').trim(), d.item, d.tipo || 'Venda', Number(d.gramas) || 0,
     ]]);
-    vendas.getRange(linha, 8).setValue((Number(d.desconto) || 0) / 100);
-    vendas.getRange(linha, 14).setValue(d.pago ? 'Sim' : 'Não');
-    vendas.getRange(linha, 15).setValue(String(d.obs || ''));
+    vendas.getRange(linha, VENDAS.desconto).setValue((Number(d.desconto) || 0) / 100);
+    vendas.getRange(linha, VENDAS.status).setValue(d.status || 'À embalar');
+    vendas.getRange(linha, VENDAS.pago).setValue(d.pago ? 'Sim' : '');
+    vendas.getRange(linha, VENDAS.obs).setValue(String(d.obs || ''));
     return 'Lançado na linha ' + linha + '.';
   } finally {
     lock.releaseLock();
