@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { CAFES, PROMO, TINTA_ROTULO, brl, centavos, descontoDe, estaEsgotado } from "@/dados";
 import type { Moagem } from "@/dados";
+import { cepComTraco, ondeFica, useEntrega } from "@/frete";
 
 export type Linha = {
   chave: string;
@@ -190,6 +191,7 @@ export function useCarrinho() {
  */
 export function useResumo() {
   const qtd = useCarrinho();
+  const entrega = useEntrega();
   const itens = LINHAS.filter((l) => (qtd[l.chave] ?? 0) > 0);
   const subtotalC = itens.reduce(
     (s, l) => s + centavos(l.preco) * (qtd[l.chave] ?? 0),
@@ -208,6 +210,19 @@ export function useResumo() {
   const pacotes = itens.reduce((s, l) => s + (qtd[l.chave] ?? 0), 0);
   /* os pacotes têm pesos diferentes, então o peso vem de cada linha */
   const quilos = itens.reduce((s, l) => s + (l.gramas / 1000) * (qtd[l.chave] ?? 0), 0);
+  /* a entrega entra no total só quando tem preço; sob consulta, ou sem CEP,
+     o total é o dos cafés e a mensagem diz o que falta combinar */
+  const freteC = entrega && entrega.valor !== null && !entrega.longe ? centavos(entrega.valor) : 0;
+  const linhaEntrega = !entrega
+    ? ["Meu CEP para a entrega: "]
+    : entrega.longe
+      ? [`Entrega: fora da Grande Florianópolis, CEP ${cepComTraco(entrega.cep)} (${ondeFica(entrega)})`]
+      : entrega.valor === null
+        ? [`Entrega por motoboy: sob consulta, CEP ${cepComTraco(entrega.cep)} (${ondeFica(entrega)})`]
+        : [
+            `Entrega por motoboy: ${brl(entrega.valor)}, CEP ${cepComTraco(entrega.cep)} (${ondeFica(entrega)})`,
+            `Total com a entrega: ${brl((totalC + freteC) / 100)}`,
+          ];
 
   const mensagem = !itens.length
     ? "Olá! Quero montar um pedido dos cafés do Vô Juca."
@@ -225,7 +240,8 @@ export function useResumo() {
         "",
         `Subtotal (preço de tabela): ${brl(subtotalC / 100)}`,
         ...(descontoC ? [`${PROMO.linha}: -${brl(descontoC / 100)}`] : []),
-        `Total: ${brl(totalC / 100)}`,
+        `${freteC ? "Total dos cafés" : "Total"}: ${brl(totalC / 100)}`,
+        ...linhaEntrega,
         "",
         `Pedido ${codigo}`,
       ].join("\n");
@@ -239,6 +255,8 @@ export function useResumo() {
     subtotal: subtotalC / 100,
     desconto: descontoC / 100,
     total: totalC / 100,
+    entrega,
+    frete: freteC / 100,
     mensagem,
   };
 }

@@ -2,6 +2,7 @@ import { PAGAMENTO, PROMO, brl, centavos, zap } from "@/dados";
 import { useResumo, ajustar } from "@/carrinho";
 import { registrarPedido } from "@/pedido";
 import { Botao, Contador, Dobra, Faixa, Rubrica } from "./base";
+import Entrega from "./Entrega";
 
 /**
  * O pedido.
@@ -14,7 +15,7 @@ import { Botao, Contador, Dobra, Faixa, Rubrica } from "./base";
  */
 export default function Precos() {
   const resumo = useResumo();
-  const { qtd, itens, pacotes, quilos, subtotal, desconto, total, mensagem } = resumo;
+  const { qtd, itens, pacotes, quilos, subtotal, desconto, total, entrega, frete, mensagem } = resumo;
 
   return (
     /* rasgo em cima: a emenda com a seção dos cafés era um corte reto, o único
@@ -29,7 +30,7 @@ export default function Precos() {
         </h2>
         <p className="mt-4 text-[#5c4635]">
           {itens.length
-            ? "O WhatsApp abre com o pedido já escrito, com o preço de tabela, o desconto e o total. Sem formulário e sem cadastro; o frete a gente combina na conversa."
+            ? "O WhatsApp abre com o pedido já escrito, com o preço de tabela, o desconto e o total. Sem formulário e sem cadastro; com o seu CEP, a entrega já entra na conta."
             : "Escolha a quantidade no rótulo do café que quiser, aqui em cima, e o pedido aparece nesta lista. O WhatsApp abre depois com tudo escrito, sem formulário e sem cadastro."}
         </p>
       </div>
@@ -49,6 +50,7 @@ export default function Precos() {
                     Ver os cafés
                   </Botao>
                 </div>
+                <Entrega />
               </>
             ) : (
               <div className="mt-4">
@@ -84,6 +86,8 @@ export default function Precos() {
                   </div>
                 ))}
 
+                <Entrega />
+
                 <dl className="mt-5 grid gap-1.5 border-t-2 border-[#3a271b] pt-4">
                   <div className="flex items-baseline justify-between">
                     <dt className="ficha text-[15px] text-[#6f5b44]">Preço de tabela</dt>
@@ -101,10 +105,22 @@ export default function Precos() {
                       </dd>
                     </div>
                   )}
+                  <div className="flex items-baseline justify-between">
+                    <dt className="ficha text-[15px] text-[#6f5b44]">Entrega</dt>
+                    <dd className="ficha num m-0 text-[15px] text-[#6f5b44]">
+                      {frete > 0
+                        ? brl(frete)
+                        : !entrega
+                          ? "pelo CEP, acima"
+                          : entrega.longe
+                            ? "a combinar"
+                            : "sob consulta"}
+                    </dd>
+                  </div>
                   <div className="mt-2 flex items-end justify-between border-t border-[rgba(58,39,27,0.25)] pt-3">
                     <div>
                       <dt className="ficha text-[14px] uppercase tracking-[0.14em] text-[#6f5b44]">
-                        Total
+                        {frete > 0 ? "Total com entrega" : "Total"}
                       </dt>
                       <dd className="ficha num m-0 text-[14px] text-[#6f5b44]">
                         {pacotes} {pacotes === 1 ? "pacote" : "pacotes"} ·{" "}
@@ -119,7 +135,7 @@ export default function Precos() {
                         fontWeight: 600,
                       }}
                     >
-                      {brl(total)}
+                      {brl(total + frete)}
                     </dd>
                   </div>
                 </dl>
@@ -133,7 +149,8 @@ export default function Precos() {
             )}
 
             <p className="ficha mt-4 text-[14px] leading-relaxed text-[#6f5b44]">
-              O frete é combinado na conversa, e o pagamento é em {PAGAMENTO.frase}.
+              A entrega por motoboy é na Grande Florianópolis; para outros lugares, o
+              envio a gente combina na conversa. O pagamento é em {PAGAMENTO.frase}.
               Para revenda e volume maior, o preço muda; pergunte.
             </p>
 

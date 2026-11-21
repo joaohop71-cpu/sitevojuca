@@ -132,6 +132,51 @@
   .carimbo svg { display: block; width: 100%; height: 100%; overflow: visible; }
   @media (prefers-reduced-motion: reduce) { .carimbo { transition: none; } }
 
+  /* A ENTREGA NO CARRINHO: o CEP, o preço calculado e a tabela à vista */
+  .ent { margin-top: 20px; padding-top: 16px; border-top: 1px dashed rgba(58, 39, 27, 0.35); }
+  .ent-topo { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+  .ent-topo .eyebrow { font-size: 13px; }
+  .ent-regiao { font: 400 12.5px "Courier Prime", monospace; letter-spacing: 0.08em; color: #6f5b44; }
+  .ent-form { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+  .ent-form label { flex-basis: 100%; font: 700 12.5px "Courier Prime", monospace; letter-spacing: 0.12em; text-transform: uppercase; color: #6f5b44; }
+  .ent-form input {
+    flex: 1 1 140px;
+    min-width: 0;
+    height: 46px;
+    padding: 0 12px;
+    border: 1.5px solid rgba(58, 39, 27, 0.45);
+    background: #fffaf0;
+    font: 400 18px "Courier Prime", monospace;
+    letter-spacing: 0.08em;
+    color: #3a271b;
+  }
+  .ent-form input::placeholder { color: rgba(58, 39, 27, 0.35); }
+  .ent-form input:focus-visible { outline: 2px solid #8c3a20; outline-offset: 1px; border-color: #8c3a20; }
+  .ent-form button, .ent-resultado button {
+    height: 46px;
+    padding: 0 16px;
+    border: 1px solid #3a271b;
+    font: 400 14px "Courier Prime", monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #efe3cc;
+    background: #3a271b;
+    transition: background 0.15s;
+  }
+  .ent-form button:hover:not(:disabled) { background: #8c3a20; border-color: #8c3a20; }
+  .ent-form button:disabled { opacity: 0.45; cursor: default; }
+  .ent-resultado { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 12px; }
+  .ent-resultado b { display: block; font: 600 24px/1.1 Fraunces, Georgia, serif; color: #3a271b; }
+  .ent-resultado span { display: block; margin-top: 3px; font: 400 14px "Courier Prime", monospace; color: #6f5b44; }
+  .ent-resultado button { color: #3a271b; background: transparent; border-color: rgba(58, 39, 27, 0.45); }
+  .ent-resultado button:hover { background: rgba(58, 39, 27, 0.06); }
+  .ent-nota:empty { display: none; }
+  .ent-nota { margin-top: 10px; font: 400 14px/1.45 "Courier Prime", monospace; color: #8c3a20; }
+  .ent-tabela { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 2px 18px; margin-top: 14px; font: 400 13px "Courier Prime", monospace; color: #6f5b44; }
+  .ent-tabela li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; border-bottom: 1px dotted rgba(58, 39, 27, 0.25); }
+  .ent-tabela b { font-weight: 700; color: #3a271b; }
+  .ent-como { margin-top: 8px; font: 400 12.5px/1.45 "Courier Prime", monospace; color: #6f5b44; }
+
   /* A CADERNETA E A NOTA DE PEDIDO (assinatura e fornecimento)
      Dois papéis do balcão do empório no lugar de dois retângulos: a
      caderneta de capa de pano, com a pauta e os meses riscados, e o talão
