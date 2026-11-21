@@ -2,6 +2,9 @@ import { useState } from "react";
 import { brl } from "@/dados";
 import { FAIXAS, calcularEntrega, cepComTraco, guardarEntrega, ondeFica, useEntrega } from "@/frete";
 
+/* "2,5", com vírgula, como se escreve aqui */
+const km = (n: number) => n.toLocaleString("pt-BR");
+
 /**
  * O CEP e o frete, dentro do carrinho.
  *
@@ -97,7 +100,7 @@ export default function Entrega() {
             : entrega && !comCampo && entrega.longe
               ? `Esse CEP fica fora da entrega por motoboy (${entrega.cidade}/${entrega.uf}). O envio a gente combina na conversa.`
               : entrega && !comCampo && entrega.valor === null
-                ? `Acima de ${FAIXAS[FAIXAS.length - 1].ate} km o valor é combinado na conversa.`
+                ? `Acima de ${km(FAIXAS[FAIXAS.length - 1].ate)} km o valor é combinado na conversa.`
                 : null}
       </p>
 
@@ -106,12 +109,12 @@ export default function Entrega() {
       <ul className="ent-tabela" aria-label="Preço da entrega por distância">
         {FAIXAS.map((f, i) => (
           <li key={f.ate}>
-            <span>{i === 0 ? `até ${f.ate} km` : `${FAIXAS[i - 1].ate} a ${f.ate} km`}</span>
+            <span>{i === 0 ? `até ${km(f.ate)} km` : `${km(FAIXAS[i - 1].ate)} a ${km(f.ate)} km`}</span>
             <b className="num">{brl(f.valor)}</b>
           </li>
         ))}
         <li>
-          <span>acima de {FAIXAS[FAIXAS.length - 1].ate} km</span>
+          <span>acima de {km(FAIXAS[FAIXAS.length - 1].ate)} km</span>
           <b>sob consulta</b>
         </li>
       </ul>

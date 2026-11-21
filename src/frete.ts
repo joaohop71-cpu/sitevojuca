@@ -21,10 +21,12 @@ const ORIGEM = { lat: -27.590925, lng: -48.5520883 };
 
 /** até quantos km (inclusive) vale cada preço; acima do último, sob consulta */
 export const FAIXAS = [
-  { ate: 3, valor: 5 },
+  { ate: 2.5, valor: 5 },
   { ate: 5, valor: 8 },
   { ate: 8, valor: 12 },
-  { ate: 12, valor: 18 },
+  { ate: 12, valor: 17 },
+  { ate: 15, valor: 23 },
+  { ate: 20, valor: 29 },
 ];
 
 /** acima disto não é mais a Grande Florianópolis, e o motoboy não vai */
