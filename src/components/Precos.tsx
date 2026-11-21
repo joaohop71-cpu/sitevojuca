@@ -154,10 +154,10 @@ export default function Precos() {
               Para revenda e volume maior, o preço muda; pergunte.
             </p>
 
-            {/* O bitcoin já estava escrito na linha de cima, no meio das outras
+            {/* A cripto já estava escrita na linha de cima, no meio das outras
                 formas de pagamento — e ali ninguém repara. Aqui ele vira selo,
                 que é o peso que o assunto tem para quem procura por isso. O
-                símbolo vai desenhado: o ₿ (U+20BF) é recente e nem a Fraunces
+                símbolo é o do bitcoin, desenhado: o ₿ (U+20BF) é recente e nem a Fraunces
                 nem a Courier Prime o desenham, então cairia numa fonte de
                 sistema qualquer, com outro traço e outro tamanho. */}
             <div
@@ -181,7 +181,7 @@ export default function Precos() {
                 </g>
               </svg>
               <span className="ficha text-[14px] uppercase tracking-[0.12em]">
-                Aceitamos Bitcoin
+                Aceitamos cripto
               </span>
             </div>
           </div>

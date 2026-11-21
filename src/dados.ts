@@ -360,8 +360,8 @@ export const rotuloDesconto = (pct: number) => `${Math.round(pct * 100)}% off`;
  * mão em dois lugares, um dia diverge.
  */
 export const PAGAMENTO = {
-  frase: "Pix, cartão de crédito ou Bitcoin",
-  curto: "Pix, cartão ou Bitcoin",
+  frase: "Pix, dinheiro, cartão de crédito ou cripto",
+  curto: "Pix, dinheiro, cartão ou cripto",
 };
 
 /**
