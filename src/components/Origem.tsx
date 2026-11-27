@@ -18,7 +18,7 @@ export default function Origem() {
           sentir qualquer outra coisa.
         </p>
         <p className="text-[17px] text-[#5c4635]">
-          O resto é a variedade e o ano. Arara nos lotes de mesa, Catucaí amarelo nos
+          O resto é a variedade e o ano. Mundo Novo nos lotes de mesa, Catucaí amarelo nos
           microlotes, e uma safra que nunca repete a anterior. Por isso cada Heranças sai
           com o número do lote impresso: aquele café existiu uma vez só.
         </p>

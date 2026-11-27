@@ -33,7 +33,7 @@ function descricaoArte(c: Cafe) {
 }
 
 /* o verso descrito por extenso: os especiais têm o mesmo guia, e o Minas
-   Santa, que vai moído fino, traz receitas próprias */
+   Santa, que vai moído, traz receitas de coador e cafeteira */
 const ALT_VERSO = {
   especial:
     "Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coado no filtro, 20 g de moagem média para 300 ml, em 3 a 4 minutos. Prensa francesa, 30 g de moagem grossa para 450 ml, em 4 minutos. Cafeteira italiana, 20 g de moagem média-fina para 140 ml. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias.",
@@ -51,8 +51,8 @@ const ALT_VERSO = {
 const versoDe = (c: Cafe) => (c.banner.startsWith("herancas") ? "herancas" : c.banner);
 
 const MOAGENS: Moagem[] = ["grao", "moido"];
-const nomeMoagem = (c: Cafe, m: Moagem) =>
-  m === "grao" ? "em grão" : c.banner === "minassanta" ? "moído fino" : "moído";
+const nomeMoagem = (_c: Cafe, m: Moagem) =>
+  m === "grao" ? "em grão" : "moído";
 
 /** o preço da etiqueta: a primeira moagem que ainda tem estoque, já com o desconto */
 function etiquetaDe(c: Cafe) {
@@ -263,6 +263,7 @@ function FichaTecnica({ cafe }: { cafe: Cafe }) {
             {f.rotulo}: {f.valor}.
           </strong>{" "}
           {explicaFicha(f.rotulo, f.valor)}
+          {f.sobre && ` ${f.sobre}`}
         </p>
       )}
     </div>
@@ -450,9 +451,12 @@ export default function Cafes() {
           Cinco rótulos, uma lavoura só
         </h2>
         <p className="mt-4 max-w-[58ch] text-[#5c4635]">
-          Todos vêm da mesma lavoura, hoje repartida em nove talhões. O que muda é a
-          variedade, a seleção do grão e o ponto da torra. Toque num pacote para abrir
-          o rótulo inteiro; na ficha técnica, cada linha explica o que quer dizer.
+          O Minas Santa, o Vô Juca e o Reserva 998 saem do mesmo lote, o 2611, torrado
+          em 25/11/2026. O que muda é a peneira: os grãos maiores e mais uniformes viram o
+          Reserva, os da peneira seguinte viram o Vô Juca, e o café inteiro, sem separação,
+          vira o Minas Santa. Os Heranças são microlotes à parte, de Catucaí amarelo.
+          Toque num pacote para abrir o rótulo; na ficha técnica, cada linha explica o
+          que quer dizer.
         </p>
       </div>
 

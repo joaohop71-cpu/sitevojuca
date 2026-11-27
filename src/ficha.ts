@@ -17,6 +17,8 @@ const mm = (peneira: number) =>
 const VARIEDADES: Record<string, string> = {
   "Catucaí Amarelo":
     "Nasceu do cruzamento do Icatu com o Catuaí, duas variedades de arábica. O “amarelo” é a cor do fruto maduro, no lugar do vermelho mais comum.",
+  "Mundo Novo":
+    "Uma das variedades de arábica mais tradicionais do Brasil, nascida do cruzamento natural do Sumatra com o Bourbon Vermelho. Planta alta e vigorosa, de xícara doce e encorpada.",
   Arara:
     "Variedade brasileira de arábica, lançada pela Fundação Procafé. Tem fruto amarelo e resiste à ferrugem, a doença que mais castiga o cafezal.",
 };
@@ -53,6 +55,28 @@ export function explicaFicha(rotulo: string, valor: string): string {
         : "";
       return `${escala} ${onde}`.trim();
     }
+
+    case "Pontuação": {
+      const escala =
+        "A nota vai de 0 a 100, na escala de prova da Specialty Coffee Association, a mesma usada no mundo inteiro. A partir de 80 o café é considerado especial.";
+      return Number.isFinite(n) && n >= 80 ? `${escala} Com ${valor.replace(/\s*pts?$/, "")}, este passa da linha.` : escala;
+    }
+
+    case "Processo":
+      return valor.toLowerCase().startsWith("natural")
+        ? "No processo natural o fruto seca inteiro, com a casca, no terreiro. O açúcar da polpa fica perto do grão durante a secagem, e é daí que vêm mais doçura e mais corpo na xícara."
+        : "O processo é como o fruto vira grão seco depois da colheita.";
+
+    case "Safra":
+      return "O ano da colheita. Café é fruto: cada safra tem o seu clima, e nenhuma repete a anterior.";
+
+    case "Torrado em":
+      return "A data em que este lote saiu da torra. O café vale por 12 meses a partir dela; depois de aberto, o melhor é tomar em até 40 dias.";
+
+    case "Moagem":
+      return valor.toLowerCase().startsWith("média")
+        ? "Moagem média é a do coador de papel ou de pano e da cafeteira elétrica, o jeito mais comum de passar café em casa."
+        : "O tamanho do pó, que precisa combinar com o jeito de preparar.";
 
     case "Peneira":
       return Number.isFinite(n)
