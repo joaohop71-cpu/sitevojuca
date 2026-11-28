@@ -84,6 +84,13 @@ function Etiqueta({ cafe, mexidas }: { cafe: Cafe; mexidas: number }) {
   return (
     <span ref={ref} className="vt-tag">
       <img src={`${V}/etiqueta.webp`} alt="" width={152} height={360} loading="lazy" decoding="async" />
+      {/* em promoção: um adesivo redondo colado torto no topo da etiqueta */}
+      {e && !e.esgotado && descontoDe(cafe) > 0 && (
+        <span className="vt-tag-promo">
+          <b>{Math.round(descontoDe(cafe) * 100)}%</b>
+          off
+        </span>
+      )}
       <span className="vt-tag-txt">
         {!e ? (
           <em>em breve</em>
@@ -450,12 +457,8 @@ export default function Cafes() {
           Cinco rótulos, uma lavoura só
         </h2>
         <p className="mt-4 max-w-[58ch] text-[#5c4635]">
-          O Minas Santa, o Vô Juca e o Reserva 998 saem do mesmo lote, o 2611, torrado
-          em 25/11/2026. O que muda é a peneira: os grãos maiores e mais uniformes viram o
-          Reserva, os da peneira seguinte viram o Vô Juca, e o café inteiro, sem separação,
-          vira o Minas Santa. Os Heranças são microlotes à parte, de Catucaí amarelo.
-          Toque num pacote para abrir o rótulo; na ficha técnica, cada linha explica o
-          que quer dizer.
+          Tudo da mesma lavoura. O que muda é a variedade e a peneira, que separa o
+          grão pelo tamanho. Toque num pacote para abrir o rótulo.
         </p>
       </div>
 
@@ -499,13 +502,19 @@ export default function Cafes() {
                 type="button"
                 className="vt-pac"
                 aria-pressed={marcado && i === escolhido}
-                aria-label={`Abrir o rótulo do ${nomeCheio(c)}`}
+                aria-label={`Abrir o rótulo do ${nomeCheio(c)}: ${[c.destaque, c.aviso].filter(Boolean).join(", ").toLowerCase()}`}
                 onClick={() => escolher(i)}
                 onPointerEnter={(e) => {
                   if (e.pointerType === "mouse") mexe(i);
                 }}
                 style={{ scrollMarginTop: 96 }}
               >
+                {/* a faixa que resume o café, presa em cima do pacote: sobe junto
+                    quando ele é escolhido */}
+                <span className="vt-faixa" aria-hidden="true">
+                  <b style={{ background: TINTA_ROTULO[c.cor] }}>{c.destaque}</b>
+                  {c.aviso && <em>{c.aviso}</em>}
+                </span>
                 <img src={`${V}/pacote_${c.banner}.webp`} alt="" width={360} height={540} loading="lazy" decoding="async" />
               </button>
             ))}

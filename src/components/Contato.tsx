@@ -223,15 +223,18 @@ export default function Contato() {
                 o selo é redondo por desenho, e é assim que ele sai impresso no
                 rótulo. */}
             <div
-              className="relative h-[88px] w-[88px] shrink-0 rounded-full sm:h-24 sm:w-24"
+              className="relative h-[104px] w-[104px] shrink-0 rounded-full sm:h-[120px] sm:w-[120px]"
               style={{ backgroundColor: "#f2e7d3" }}
             >
               <img
                 src={selo}
                 alt=""
                 aria-hidden="true"
+                width={768}
+                height={768}
                 loading="lazy"
-                className="absolute left-1/2 top-1/2 w-[97%] -translate-x-1/2 -translate-y-1/2"
+                decoding="async"
+                className="absolute left-1/2 top-1/2 h-auto w-[94%] -translate-x-1/2 -translate-y-1/2"
               />
             </div>
             <div>

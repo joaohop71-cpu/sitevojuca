@@ -70,6 +70,10 @@ export type Cafe = {
   lote?: string;
   /** tarja do canto superior direito do rótulo */
   tarja: string;
+  /** a palavra que resume o café, na faixa em cima do pacote da prateleira */
+  destaque: string;
+  /** uma linha miúda sob a faixa, quando há algo a avisar (o lote anterior) */
+  aviso?: string;
   /** linhas de qualificação acima do nome */
   qualificacao: string[];
   /** frase em itálico sob o nome */
@@ -113,6 +117,7 @@ export const CAFES: Cafe[] = [
     nome: "Café Vô Juca",
     banner: "vojuca",
     tarja: "Seleção especial",
+    destaque: "Carro-chefe",
     qualificacao: ["Café especial · 100% arábica", "Lote 2611 · Torra média"],
     chamada: "Para os momentos que pedem algo a mais",
     notas: ["Chocolate ao leite", "Melaço", "Adocicado"],
@@ -141,6 +146,7 @@ export const CAFES: Cafe[] = [
     nome: "Reserva 998",
     banner: "reserva998",
     tarja: "Edição limitada",
+    destaque: "Edição limitada",
     qualificacao: ["Café especial · 100% arábica", "Lote 2611 · Torra média"],
     chamada: "Para pessoas e momentos especiais",
     notas: ["Frutas cítricas e amarelas", "Damasco", "Suave"],
@@ -171,6 +177,8 @@ export const CAFES: Cafe[] = [
     lote: "2 SL",
     banner: "herancas_2sl",
     tarja: "Coleção limitada",
+    destaque: "Edição limitada",
+    aviso: "Lote anterior",
     qualificacao: ["Café especial · Microlote", "100% arábica · Colheita manual"],
     chamada: "Coleção limitada de uma experiência sensorial única",
     notas: ["Mel", "Floral", "Capim-limão"],
@@ -198,6 +206,8 @@ export const CAFES: Cafe[] = [
     lote: "24 / 137",
     banner: "herancas_24137",
     tarja: "Coleção limitada",
+    destaque: "Edição limitada",
+    aviso: "Lote anterior",
     qualificacao: ["Café especial · Microlote", "100% arábica · Colheita manual"],
     chamada: "Coleção limitada de uma experiência sensorial única",
     notas: ["Floral", "Frutas amarelas", "Pêssego em calda"],
@@ -224,6 +234,7 @@ export const CAFES: Cafe[] = [
     nome: "Minas Santa",
     banner: "minassanta",
     tarja: "Para o dia a dia",
+    destaque: "Custo-benefício",
     qualificacao: ["Café da nossa lavoura · 100% arábica", "Lote 2611 · Torra média"],
     chamada: "Para o dia a dia, sem abrir mão da qualidade",
     notas: ["Açúcar mascavo", "Encorpado", "Intenso"],
