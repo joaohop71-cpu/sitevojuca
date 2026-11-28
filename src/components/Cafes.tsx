@@ -36,9 +36,9 @@ function descricaoArte(c: Cafe) {
    Santa, que vai moído, traz receitas de coador e cafeteira */
 const ALT_VERSO = {
   especial:
-    "Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coado no filtro, 20 g de moagem média para 300 ml, em 3 a 4 minutos. Prensa francesa, 30 g de moagem grossa para 450 ml, em 4 minutos. Cafeteira italiana, 20 g de moagem média-fina para 140 ml. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias.",
+    "Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coado no filtro, 20 g de moagem média para 300 ml, em 3 a 4 minutos. Prensa francesa, 30 g de moagem grossa para 450 ml, em 4 minutos. Cafeteira italiana, 20 g de moagem média-fina para 140 ml. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 40 dias.",
   minassanta:
-    "Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coador tradicional, de Melitta ou de pano, com 8 a 10 g de pó para cada 100 ml. Cafeteira elétrica, na mesma proporção, sem fazer grandes volumes de uma vez para não amargar. Cafeteira italiana, 20 g para 140 ml, em fogo baixo ou médio. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 30 dias.",
+    "Como aproveitar o melhor do seu café: água entre 92 e 96 °C e o café pesado em balança. Coador tradicional, de Melitta ou de pano, com 8 a 10 g de pó para cada 100 ml. Cafeteira elétrica, na mesma proporção, sem fazer grandes volumes de uma vez para não amargar. Cafeteira italiana, 20 g para 140 ml, em fogo baixo ou médio. Guarde em lugar seco e arejado, longe da luz e do calor, e feche bem o pacote; depois de aberto, consuma em até 40 dias.",
 };
 
 /* As artes do rótulo saem de dentro dos PDFs da gráfica, no papel do

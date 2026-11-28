@@ -260,7 +260,7 @@ export default function Capa() {
           style={{ color: "#e8b98d", ...linha(1.8) }}
           data-print-hide
         >
-          Ler a história · 3 min
+          Nossa história e fotos da propriedade · 3 min
           <span aria-hidden="true">↓</span>
         </a>
 
