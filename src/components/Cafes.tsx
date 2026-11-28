@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import type { MouseEvent } from "react";
+import type { MouseEvent, TouchEvent } from "react";
 import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, descontoDe, esgotadoDeVez, estaEsgotado, porQuilo, rotuloDesconto } from "@/dados";
 import type { Cafe, Moagem } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
@@ -277,7 +277,17 @@ function FichaTecnica({ cafe }: { cafe: Cafe }) {
 }
 
 /** o rótulo aberto: preso na prancheta, com a compra ao lado */
-function Gaveta({ cafe }: { cafe: Cafe }) {
+function Gaveta({
+  cafe,
+  anterior,
+  proximo,
+  aoIr,
+}: {
+  cafe: Cafe;
+  anterior: Cafe;
+  proximo: Cafe;
+  aoIr: (d: number) => void;
+}) {
   const qtd = useCarrinho();
   const cor = TINTA_ROTULO[cafe.cor];
   const [virado, setVirado] = useState(false);
@@ -291,12 +301,45 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
     setVirado((v) => !v);
   };
 
+  /* os rótulos dos vizinhos já baixam agora: quando a pessoa passar para o
+     lado, a folha entra pronta, sem piscar vazia */
+  useEffect(() => {
+    for (const c of [anterior, proximo]) {
+      const img = new Image();
+      img.src = `${V}/rotulo_${c.banner}.jpg`;
+    }
+  }, [anterior, proximo]);
+
+  /* arrastar a prancheta para o lado troca de café, como folhear: só conta
+     o gesto mais horizontal que vertical, para não brigar com a rolagem */
+  const inicio = useRef<{ x: number; y: number } | null>(null);
+  const tocou = (e: TouchEvent<HTMLDivElement>) => {
+    const t = e.touches[0];
+    inicio.current = { x: t.clientX, y: t.clientY };
+  };
+  const soltou = (e: TouchEvent<HTMLDivElement>) => {
+    const i = inicio.current;
+    inicio.current = null;
+    if (!i) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - i.x;
+    const dy = t.clientY - i.y;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) aoIr(dx < 0 ? 1 : -1);
+  };
+
   return (
     <div className="vt-gaveta">
       <div>
         {/* só a folha vira: a tábua e o grampo ficam parados, e o grampo
             continua por cima da folha enquanto ela gira */}
-        <div className="vt-palco">
+        <div className="vt-palco" onTouchStart={tocou} onTouchEnd={soltou}>
+          {/* as setas dos lados: o café anterior e o próximo, sem voltar à prateleira */}
+          <button type="button" className="vt-seta vt-seta-esq" onClick={() => aoIr(-1)} aria-label={`Café anterior: ${nomeCheio(anterior)}`} data-print-hide>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg>
+          </button>
+          <button type="button" className="vt-seta vt-seta-dir" onClick={() => aoIr(1)} aria-label={`Próximo café: ${nomeCheio(proximo)}`} data-print-hide>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          </button>
           <div className="vt-prancheta">
             <img className="vt-prancheta-tabua" src={`${V}/prancheta.webp`} alt="" width={760} height={1260} decoding="async" />
             <div className="vt-papel">
@@ -351,7 +394,7 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
             <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" />
             <path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
-          Para ler de perto, {toque ? "toque" : "clique"} no rótulo
+          {toque ? "Toque no rótulo para ler de perto · arraste para o lado para trocar de café" : "Para ler de perto, clique no rótulo"}
         </p>
         {perto && <VisorRotulo cafe={cafe} verso={virado} aoVirar={virar} aoFechar={() => setPerto(false)} />}
       </div>
@@ -421,13 +464,19 @@ const emLista = (xs: string[]) =>
 export default function Cafes() {
   /* a gaveta já abre no primeiro café, mas nenhum pacote sai da fileira até
      a pessoa escolher: a prateleira começa simétrica */
-  const [escolhido, setEscolhido] = useState(0);
+  /* a prateleira vai do café de todo dia aos microlotes, mas a gaveta abre
+     no carro-chefe */
+  const [escolhido, setEscolhido] = useState(() => Math.max(0, CAFES.findIndex((c) => c.id === "cafe-vo-juca")));
+  /* de que lado o café novo entra: 1 pela direita, -1 pela esquerda, 0 só aparece */
+  const [lado, setLado] = useState(0);
+  const estante = useRef<HTMLDivElement>(null);
   const [marcado, setMarcado] = useState(false);
   const [mexidas, setMexidas] = useState<number[]>(() => CAFES.map(() => 0));
   const gaveta = useRef<HTMLDivElement>(null);
 
   const mexe = (i: number) => setMexidas((b) => b.map((n, k) => (k === i ? n + 1 : n)));
   const escolher = (i: number) => {
+    setLado(i === escolhido ? 0 : i > escolhido ? 1 : -1);
     setEscolhido(i);
     setMarcado(true);
     mexe(i);
@@ -442,6 +491,22 @@ export default function Cafes() {
     });
   };
   const cafe = CAFES[escolhido];
+  const n = CAFES.length;
+
+  /* pelas setas ou pelo arrasto: troca o café sem sair da gaveta, e a
+     prateleira de cima acompanha, com o pacote certo erguido */
+  const ir = (d: number) => {
+    const i = (escolhido + d + n) % n;
+    setLado(d);
+    setEscolhido(i);
+    setMarcado(true);
+    mexe(i);
+    const e = estante.current;
+    const pac = document.getElementById(CAFES[i].id);
+    if (e && pac && e.scrollWidth > e.clientWidth) {
+      e.scrollTo({ left: pac.offsetLeft - (e.clientWidth - pac.offsetWidth) / 2, behavior: "smooth" });
+    }
+  };
 
   return (
     <Faixa id="cafes" className="py-10 sm:py-12">
@@ -487,7 +552,7 @@ export default function Cafes() {
       )}
 
       {/* ————— a prateleira ————— */}
-      <div className="vt-estante">
+      <div ref={estante} className="vt-estante">
         <div className="vt-estante-in">
           <div className="vt-fileira" data-escolheu={marcado || undefined}>
             {CAFES.map((c, i) => (
@@ -533,7 +598,14 @@ export default function Cafes() {
 
       {/* ————— o rótulo aberto ————— */}
       <div ref={gaveta} className="reveal" style={{ scrollMarginTop: 90 }}>
-        <Gaveta key={cafe.id} cafe={cafe} />
+        <div key={cafe.id} className="vt-troca" data-lado={lado}>
+          <Gaveta
+            cafe={cafe}
+            anterior={CAFES[(escolhido - 1 + n) % n]}
+            proximo={CAFES[(escolhido + 1) % n]}
+            aoIr={ir}
+          />
+        </div>
       </div>
 
     </Faixa>

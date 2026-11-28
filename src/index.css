@@ -480,6 +480,44 @@
     .vt-gaveta { grid-template-columns: minmax(0, 470px) minmax(0, 1fr); gap: 48px; }
   }
   .vt-palco { position: relative; max-width: 470px; width: 100%; margin-inline: auto; }
+  /* as setas da prancheta: pequenas na borda, no celular; maiores e com
+     folga, no computador */
+  .vt-seta {
+    position: absolute;
+    top: 46%;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(251, 246, 236, 0.94);
+    color: #3a271b;
+    box-shadow: 0 2px 8px rgba(30, 18, 10, 0.28);
+    transition: transform 0.2s, background-color 0.2s, color 0.2s;
+  }
+  .vt-seta svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .vt-seta-esq { left: -6px; }
+  .vt-seta-dir { right: -6px; }
+  .vt-seta:hover { background: #3a271b; color: #f7efe0; }
+  .vt-seta-esq:hover { transform: translateX(-3px); }
+  .vt-seta-dir:hover { transform: translateX(3px); }
+  .vt-seta:focus-visible { outline: 2px solid #8c3a20; outline-offset: 3px; }
+  @media (min-width: 900px) {
+    .vt-seta { width: 48px; height: 48px; }
+    .vt-seta svg { width: 22px; height: 22px; }
+    .vt-seta-esq { left: -30px; }
+    .vt-seta-dir { right: -30px; }
+  }
+  /* a troca de café: o novo desliza de leve do lado de onde veio */
+  .vt-troca { animation: vt-aparece 0.45s ease-out; }
+  .vt-troca[data-lado="1"] { animation: vt-da-direita 0.5s cubic-bezier(0.2, 0.75, 0.25, 1); }
+  .vt-troca[data-lado="-1"] { animation: vt-da-esquerda 0.5s cubic-bezier(0.2, 0.75, 0.25, 1); }
+  @keyframes vt-aparece { from { opacity: 0; } }
+  @keyframes vt-da-direita { from { opacity: 0; transform: translateX(40px); } }
+  @keyframes vt-da-esquerda { from { opacity: 0; transform: translateX(-40px); } }
+  @media (prefers-reduced-motion: reduce) { .vt-troca, .vt-troca[data-lado] { animation: vt-aparece 0.2s; } }
   .vt-prancheta { position: relative; }
   .vt-prancheta-tabua { display: block; width: 100%; height: auto; }
   .vt-papel { position: absolute; left: 16%; width: 68%; top: 16.8%; perspective: 1400px; }
