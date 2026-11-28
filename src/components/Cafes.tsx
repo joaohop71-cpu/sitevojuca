@@ -409,11 +409,6 @@ const SEM_ESTOQUE = CAFES.filter((c) => c.esgotado?.length).map((c) =>
     : `${nomeCheio(c)} ${c.esgotado![0] === "grao" ? "em grão" : "moído"}`
 );
 
-/* quem tem desconto diferente do geral, dito pelos dados: " · 15% no Minas Santa" */
-const OUTROS_DESCONTOS = CAFES.filter((c) => descontoDe(c) !== PROMO.pct)
-  .map((c) => ` · ${descontoDe(c) ? `${Math.round(descontoDe(c) * 100)}% no ${nomeCheio(c)}` : `${nomeCheio(c)} sem desconto`}`)
-  .join("");
-
 const emLista = (xs: string[]) =>
   xs.length < 2 ? (xs[0] ?? "") : `${xs.slice(0, -1).join(", ")} e ${xs[xs.length - 1]}`;
 
@@ -476,7 +471,7 @@ export default function Cafes() {
           {PROMO.rotulo}
         </span>
         <span className="ficha text-[14.5px] uppercase tracking-[0.14em]">
-          Preço de lançamento, já aplicado abaixo{OUTROS_DESCONTOS}
+          nos Heranças, até acabar · já aplicado abaixo
         </span>
       </div>
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MARCA, PAGAMENTO, PROMO, zap } from "@/dados";
+import { MARCA, PAGAMENTO, zap } from "@/dados";
 import { selo } from "@/imagens";
 import { Botao, Dobra, Faixa, Rubrica } from "./base";
 
@@ -222,9 +222,7 @@ export default function Empresas() {
           </p>
           <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
             O que já dá para adiantar: quanto maior o volume, menor o preço por quilo, e
-            quem assina paga menos do que quem compra avulso. Enquanto a promoção de{" "}
-            <strong className="font-semibold text-[#3a271b]">{PROMO.chamada}</strong>{" "}
-            estiver de pé, ela vale também para o primeiro envio da assinatura.
+            quem assina paga menos do que quem compra avulso.
           </p>
           <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-[#5c4635]">
             Me diga quanto café a sua casa ou a sua empresa consome por mês e eu volto

@@ -109,7 +109,7 @@ export type Cafe = {
 export const CAFES: Cafe[] = [
   {
     id: "cafe-vo-juca",
-    planilha: "Café Vô Juca",
+    planilha: "Café Vô Juca lote 2",
     nome: "Café Vô Juca",
     banner: "vojuca",
     tarja: "Seleção especial",
@@ -132,11 +132,12 @@ export const CAFES: Cafe[] = [
     cor: "verde",
     descricao:
       "O café da casa. Especial de verdade, com grãos da peneira 15 e uma xícara suave, doce e redonda, mas sem cerimônia: é o café que a gente serve quando quer que o momento seja um pouco melhor. Leva o nome do bisavô, que deu nome à marca.",
-    preco: { grao: 43.08, moido: 45.48 },
+    preco: { grao: 47.9, moido: 48.9 },
+    desconto: 0,
   },
   {
     id: "reserva-998",
-    planilha: "Reserva 998",
+    planilha: "Reserva 998 lote 2",
     nome: "Reserva 998",
     banner: "reserva998",
     tarja: "Edição limitada",
@@ -159,8 +160,9 @@ export const CAFES: Cafe[] = [
     cor: "marrom",
     descricao:
       "O que a lavoura tem de mais bonito: só os grãos da peneira 17 para cima, graúdos e uniformes a ponto de a diferença aparecer quando você abre o pacote. Na boca, um café delicado, com acidez de frutas e final suave. Para quem faz questão dos detalhes, e um presente que diz muito sobre quem dá.",
-    /* R$ 160,00 e R$ 167,60 o QUILO; o campo é o preço do pacote, de 300 g */
-    preco: { grao: 48.0, moido: 50.28 },
+    /* R$ 194,67 e R$ 198,00 o QUILO; o campo é o preço do pacote, de 300 g */
+    preco: { grao: 58.4, moido: 59.4 },
+    desconto: 0,
   },
   {
     id: "herancas-2sl",
@@ -218,7 +220,7 @@ export const CAFES: Cafe[] = [
   },
   {
     id: "minas-santa",
-    planilha: "Minas Santa",
+    planilha: "Minas Santa lote 3",
     nome: "Minas Santa",
     banner: "minassanta",
     tarja: "Para o dia a dia",
@@ -242,7 +244,7 @@ export const CAFES: Cafe[] = [
     descricao:
       "O café de todo dia para quem se importa com o que bebe. Não tenta ser um especial: entrega corpo, sabor firme e uma doçura que aparece no final, com origem conhecida e preço justo. Para a garrafa térmica da manhã, o cafezinho depois do almoço e a visita que chega sem avisar.",
     preco: { grao: null, moido: 55.0 },
-    desconto: 0.15,
+    desconto: 0,
   },
 ];
 
@@ -341,12 +343,12 @@ export const PROMO = {
   rotulo: "30% off",
   /* sem data inventada: o que se promete é que acaba, não quando */
   prazo: "por tempo limitado",
-  /* dizia "em todos os cafés", e não é mais verdade: o Minas Santa tem
-     desconto próprio, menor */
-  chamada: "30% de desconto de lançamento",
-  ressalva: "No Minas Santa, o desconto é de 15%.",
-  /* o nome da linha do desconto no pedido, que pode somar os dois */
-  linha: "Desconto de lançamento",
+  /* desde o lote 2 o desconto ficou só nos Heranças, até acabarem; os
+     outros cafés estão a preço cheio */
+  chamada: "30% de desconto nos Heranças",
+  ressalva: "Vale até acabar o estoque. Os outros cafés estão com preço cheio.",
+  /* o nome da linha do desconto no pedido */
+  linha: "Desconto nos Heranças",
 };
 
 /** o desconto que vale para este café: o dele, ou o da promoção geral */

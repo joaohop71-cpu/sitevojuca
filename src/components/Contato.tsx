@@ -131,7 +131,7 @@ export default function Contato() {
             </div>
 
             <div className="mt-6 border border-[#8c3a20] bg-[rgba(140,58,32,0.06)] p-5">
-              <div className="eyebrow">Promoção de lançamento</div>
+              <div className="eyebrow">Promoção</div>
               <p className="mt-2 text-[18px] leading-snug" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
                 {PROMO.chamada}, já aplicado nos preços do site.
               </p>
