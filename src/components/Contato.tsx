@@ -146,68 +146,64 @@ export default function Contato() {
             era um selo de endereço. Em linha própria, com a largura da seção,
             vira o que de fato é, a lavoura vista do alto. O convite para a
             visita anda ao lado dele, que é onde a vontade aparece. */}
-        <div className="reveal mt-12 grid gap-8 lg:grid-cols-[1.7fr_1fr] lg:items-end">
-          {/* O MAPA
-              Ele levava o mesmo filtro sépia das fotos, para assentar no
-              papel. Só que aqui a imagem não é ilustração: é a lavoura vista
-              de cima, de verdade, e o sépia justamente apagava o que ela tem
-              de interessante, que é o contraste entre o verde dos renques e a
-              terra. Sai o filtro, e a imagem quase dobra de altura: é o único
-              lugar do site onde dá para ver o tamanho da coisa. */}
-          <div className="mt-8" data-print-hide>
-            <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
-              <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">
-                A lavoura vista de cima
-              </h3>
-              <a
-                href={MARCA.mapaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-sublinhado alvo ficha text-[14px] uppercase tracking-[0.1em] text-[#6b4526]"
-              >
-                Abrir no Google Maps →
-              </a>
-            </div>
-            <p className="ficha mt-2 max-w-[62ch] text-[14.5px] leading-relaxed text-[#6f5b44]">
-              Imagem de satélite, sem filtro nenhum. O marcador está na entrada do
-              sítio; arraste o mapa para subir a estrada de terra e ver a serra em
-              volta.
+        {/* O mapa como uma foto de satélite impressa: a imagem, e embaixo a
+            legenda com o endereço, as coordenadas e o atalho para o Google
+            Maps. O convite da visita vem apoiado no canto da foto, que é onde
+            a vontade de ir aparece. */}
+        <div className="mapa-mesa reveal mt-14" data-print-hide>
+          <div className="mapa-cabeca">
+            <h3 className="text-[clamp(24px,3vw,32px)] leading-tight">A lavoura vista de cima</h3>
+            <p className="mt-2 max-w-[56ch] text-[16px] leading-relaxed text-[#5c4635]">
+              Imagem de satélite, sem filtro. O marcador está na entrada do sítio;
+              arraste o mapa para subir a estrada de terra e ver a serra em volta.
             </p>
-            <div className="moldura mt-4 p-2.5">
-              <iframe
-                title={`Mapa: ${MARCA.sitio}`}
-                src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=16&output=embed&t=h`}
-                className="block h-[300px] w-full sm:h-[420px]"
-                style={{ border: 0 }}
-                loading="lazy"
-                referrerPolicy="no-referrer"
-              />
-            </div>
           </div>
 
-            <div
-              className="convite"
-              data-print-hide
-            >
-              <img className="convite-selo" src="/selo-vojuca.webp" alt="" width={600} height={600} loading="lazy" decoding="async" />
-              <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">
-                Venha nos conhecer!
-              </h3>
-              <p className="mt-2.5 text-[15.5px] leading-relaxed text-[#5c4635]">
-                A visita é combinada antes, para eu conseguir receber e mostrar a
-                lavoura, a torra e o resto com calma.
-              </p>
-              <div className="mt-5">
-                <Botao
-                  href={zap(
-                    "Olá! Gostaria de conhecer as instalações do Vô Juca, em Santa Rita do Sapucaí. Quando seria possível uma visita?"
-                  )}
-                  largo
-                >
-                  Agendar visita
-                </Botao>
-              </div>
+          <figure className="mapa-foto">
+            <iframe
+              title={`Mapa: ${MARCA.sitio}`}
+              src={`https://maps.google.com/maps?q=${MARCA.mapaLat},${MARCA.mapaLng}&z=16&output=embed&t=h`}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
+            <figcaption className="mapa-legenda">
+              <svg className="mapa-pino" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" fill="currentColor" />
+                <circle cx="12" cy="10" r="2.6" fill="#fbf6ec" />
+              </svg>
+              <span className="min-w-0">
+                <b>{MARCA.sitio}</b>
+                <span>
+                  {MARCA.local}, MG · 22°12′35″ S, 45°37′07″ O
+                </span>
+              </span>
+              <a href={MARCA.mapaLink} target="_blank" rel="noopener noreferrer" className="mapa-abrir">
+                Abrir no Google Maps
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                  <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </figcaption>
+          </figure>
+
+          <div className="convite">
+            <img className="convite-selo" src="/selo-vojuca.webp" alt="" width={600} height={600} loading="lazy" decoding="async" />
+            <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">Venha nos conhecer!</h3>
+            <p className="mt-2.5 text-[15.5px] leading-relaxed text-[#5c4635]">
+              A visita é combinada antes, para eu conseguir receber e mostrar a
+              lavoura, a torra e o resto com calma.
+            </p>
+            <div className="mt-5">
+              <Botao
+                href={zap(
+                  "Olá! Gostaria de conhecer as instalações do Vô Juca, em Santa Rita do Sapucaí. Quando seria possível uma visita?"
+                )}
+                largo
+              >
+                Agendar visita
+              </Botao>
             </div>
+          </div>
         </div>
       </Faixa>
 
