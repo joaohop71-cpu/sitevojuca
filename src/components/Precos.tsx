@@ -37,8 +37,11 @@ export default function Precos() {
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
         <div className="reveal">
-          <div className="border border-[rgba(58,39,27,0.3)] bg-[rgba(255,250,240,0.6)] p-6">
-            <div className="eyebrow">Seu carrinho</div>
+          <div className="comanda">
+            <div className="comanda-topo">
+              <span className="eyebrow">Seu carrinho</span>
+              <span className="comanda-casa">Vô Juca · Cafés</span>
+            </div>
 
             {itens.length === 0 ? (
               <>

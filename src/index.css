@@ -234,6 +234,37 @@
   }
   .cad-meses svg { position: absolute; left: 50%; bottom: 4px; width: 26px; height: 22px; transform: translateX(-50%) rotate(-6deg); color: #8c3a20; }
 
+  /* As notas de sabor, como no rótulo: caixa alta de máquina de escrever, na
+     tinta do café, separadas por um losango. */
+  .vt-notas { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; font: 700 13px/1.5 "Courier Prime", monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+  .vt-notas li { display: inline-flex; align-items: center; }
+  .vt-notas li + li::before { content: ""; width: 6px; height: 6px; margin: 0 12px; background: currentColor; opacity: 0.6; transform: rotate(45deg); }
+
+  /* O carrinho como comanda de balcão: papel claro, picotado em cima e
+     embaixo, com sombra de folha solta. O picote é recorte (máscara), e não
+     tinta da cor do fundo, para valer sobre qualquer seção. */
+  .comanda { position: relative; filter: drop-shadow(0 10px 14px rgba(58, 39, 27, 0.16)) drop-shadow(0 1px 1px rgba(58, 39, 27, 0.12)); }
+  .comanda::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #fbf6ec;
+    -webkit-mask: radial-gradient(circle 5px at 50% 0, #0000 96%, #000) 0 0 / 14px 51% repeat-x, radial-gradient(circle 5px at 50% 100%, #0000 96%, #000) 0 100% / 14px 51% repeat-x;
+            mask: radial-gradient(circle 5px at 50% 0, #0000 96%, #000) 0 0 / 14px 51% repeat-x, radial-gradient(circle 5px at 50% 100%, #0000 96%, #000) 0 100% / 14px 51% repeat-x; }
+  .comanda { isolation: isolate; padding: 30px 24px 26px; }
+  .comanda-topo { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 8px; border-bottom: 3px double #3a271b; }
+  .comanda-casa { font: 400 11.5px "Courier Prime", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #6f5b44; }
+
+  /* O convite da visita: um cartão de papel, com o selo da casa carimbado
+     torto no canto, como num envelope. */
+  .convite { position: relative; overflow: hidden; padding: 24px 22px 22px; background: #fbf6ec; box-shadow: 0 1px 1px rgba(58, 39, 27, 0.12), 0 12px 26px -14px rgba(58, 39, 27, 0.45); }
+  .convite > :not(.convite-selo) { position: relative; }
+  .convite h3 { padding-right: 84px; }
+  .convite-selo { position: absolute; top: -6px; right: -8px; width: 104px; height: auto; opacity: 0.5; transform: rotate(-12deg); mix-blend-mode: multiply; pointer-events: none; }
+
+  /* A promoção como vale recortado: dois dentes de meia-lua nas laterais e a
+     linha tracejada por dentro, de cortar com tesoura. */
+  .vale { position: relative; padding: 22px 26px; background: #fbf6ec;
+    -webkit-mask: radial-gradient(circle 11px at 0 50%, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 97%, #000) right / 51% 100% no-repeat;
+            mask: radial-gradient(circle 11px at 0 50%, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 11px at 100% 50%, #0000 97%, #000) right / 51% 100% no-repeat; }
+  .vale::after { content: ""; position: absolute; inset: 7px; border: 1.5px dashed rgba(140, 58, 32, 0.55); pointer-events: none; }
+
   .ped { position: relative; padding: 32px 26px 20px; background: #fbf6ec; }
   /* o picote: meia-lua da cor da seção mordendo a beira de cima */
   .ped::before {

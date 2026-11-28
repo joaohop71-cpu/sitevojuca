@@ -130,7 +130,7 @@ export default function Contato() {
               </Botao>
             </div>
 
-            <div className="mt-6 border border-[#8c3a20] bg-[rgba(140,58,32,0.06)] p-5">
+            <div className="vale mt-6">
               <div className="eyebrow">Promoção</div>
               <p className="mt-2 text-[18px] leading-snug" style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}>
                 {PROMO.chamada}, já aplicado nos preços do site.
@@ -186,9 +186,10 @@ export default function Contato() {
           </div>
 
             <div
-              className="border border-[rgba(58,39,27,0.3)] bg-[rgba(255,250,240,0.6)] p-5"
+              className="convite"
               data-print-hide
             >
+              <img className="convite-selo" src="/selo-vojuca.webp" alt="" width={600} height={600} loading="lazy" decoding="async" />
               <h3 className="text-[clamp(21px,2.6vw,26px)] leading-tight">
                 Venha nos conhecer!
               </h3>

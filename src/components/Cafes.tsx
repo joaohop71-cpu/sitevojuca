@@ -366,11 +366,11 @@ function Gaveta({ cafe }: { cafe: Cafe }) {
           {cafe.nome}
           {cafe.lote && <span className="ml-2 text-[0.62em] font-medium opacity-80">{cafe.lote}</span>}
         </h3>
-        <ul className="mt-3 flex flex-wrap gap-1.5">
+        {/* as notas como saem impressas no rótulo: uma linha só, na tinta do
+            café, separadas pelo losango do carimbo */}
+        <ul className="vt-notas mt-3" style={{ color: cor }} aria-label="Notas de sabor">
           {cafe.notas.map((n) => (
-            <li key={n} className="ficha border border-[rgba(58,39,27,0.22)] bg-[rgba(255,250,240,0.6)] px-2 py-0.5 text-[13px]">
-              {n}
-            </li>
+            <li key={n}>{n}</li>
           ))}
         </ul>
         <p className="mt-3 max-w-[48ch] text-[16px] leading-relaxed text-[#5c4635]">{cafe.descricao}</p>
