@@ -480,43 +480,60 @@
     .vt-gaveta { grid-template-columns: minmax(0, 470px) minmax(0, 1fr); gap: 48px; }
   }
   .vt-palco { position: relative; max-width: 470px; width: 100%; margin-inline: auto; }
-  /* as setas da prancheta: pequenas na borda, no celular; maiores e com
-     folga, no computador */
-  .vt-seta {
-    position: absolute;
-    top: 46%;
-    z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(251, 246, 236, 0.94);
-    color: #3a271b;
-    box-shadow: 0 2px 8px rgba(30, 18, 10, 0.28);
-    transition: transform 0.2s, background-color 0.2s, color 0.2s;
+  /* As setas: só no computador, finas e sem fundo, na borda de fora da
+     gaveta (a da esquerda ao lado da prancheta, a da direita ao lado da
+     ficha). No celular quem troca é o dedo. */
+  .vt-gaveta { position: relative; }
+  .vt-seta { display: none; }
+  @media (min-width: 900px) and (hover: hover) {
+    .vt-seta {
+      position: absolute;
+      top: 300px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 72px;
+      color: rgba(58, 39, 27, 0.4);
+      transition: color 0.2s, transform 0.25s;
+    }
+    .vt-seta svg { width: 12px; height: 32px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .vt-seta-esq { left: -34px; }
+    .vt-seta-dir { right: -34px; }
+    .vt-seta:hover { color: #3a271b; }
+    .vt-seta-esq:hover { transform: translateX(-4px); }
+    .vt-seta-dir:hover { transform: translateX(4px); }
+    .vt-seta:focus-visible { outline: 2px solid #8c3a20; outline-offset: 2px; }
   }
-  .vt-seta svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-  .vt-seta-esq { left: -6px; }
-  .vt-seta-dir { right: -6px; }
-  .vt-seta:hover { background: #3a271b; color: #f7efe0; }
-  .vt-seta-esq:hover { transform: translateX(-3px); }
-  .vt-seta-dir:hover { transform: translateX(3px); }
-  .vt-seta:focus-visible { outline: 2px solid #8c3a20; outline-offset: 3px; }
-  @media (min-width: 900px) {
-    .vt-seta { width: 48px; height: 48px; }
-    .vt-seta svg { width: 22px; height: 22px; }
-    .vt-seta-esq { left: -30px; }
-    .vt-seta-dir { right: -30px; }
-  }
+  @media (min-width: 900px) and (max-width: 1199px) { .vt-seta-esq { left: -26px; } .vt-seta-dir { right: -26px; } .vt-seta { width: 24px; } }
+
+  /* um traço por café, sob a prancheta; o de agora, cheio na tinta dele */
+  .vt-pontos { display: flex; justify-content: center; gap: 4px; margin-top: 14px; }
+  .vt-pontos button { width: 22px; height: 24px; background: transparent; position: relative; }
+  .vt-pontos button::after { content: ""; position: absolute; left: 3px; right: 3px; top: 11px; height: 2px; background: rgba(58, 39, 27, 0.25); transition: background-color 0.3s; }
+  .vt-pontos button[aria-current]::after { background: var(--cor); height: 3px; top: 10px; }
+  .vt-pontos button:focus-visible { outline: 2px solid #8c3a20; outline-offset: 1px; }
+
+  /* o ensaio do arrasto, no celular: a prancheta vai de leve para o lado e
+     volta, e duas setinhas finas aparecem nas bordas e somem */
+  .vt-ensaio-setas { display: none; }
+  .vt-ensaio .vt-prancheta { animation: vt-ensaia 1.6s ease-in-out 0.3s; }
+  .vt-ensaio .vt-ensaio-setas { position: absolute; inset: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 0 2px; pointer-events: none; opacity: 0; animation: vt-pisca 2.4s ease-in-out 0.2s; }
+  .vt-ensaio-setas svg { width: 10px; height: 28px; fill: none; stroke: #3a271b; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes vt-ensaia { 0%, 100% { transform: none; } 30% { transform: translateX(-22px); } 55% { transform: translateX(6px); } 75% { transform: none; } }
+  @keyframes vt-pisca { 0%, 100% { opacity: 0; } 20%, 70% { opacity: 0.7; } }
+
   /* a troca de café: o novo desliza de leve do lado de onde veio */
   .vt-troca { animation: vt-aparece 0.45s ease-out; }
   .vt-troca[data-lado="1"] { animation: vt-da-direita 0.5s cubic-bezier(0.2, 0.75, 0.25, 1); }
   .vt-troca[data-lado="-1"] { animation: vt-da-esquerda 0.5s cubic-bezier(0.2, 0.75, 0.25, 1); }
   @keyframes vt-aparece { from { opacity: 0; } }
-  @keyframes vt-da-direita { from { opacity: 0; transform: translateX(40px); } }
-  @keyframes vt-da-esquerda { from { opacity: 0; transform: translateX(-40px); } }
+  @keyframes vt-da-direita { from { opacity: 0; transform: translateX(28px); } }
+  @keyframes vt-da-esquerda { from { opacity: 0; transform: translateX(-28px); } }
+  /* no celular, o café que entra deslizando não pode alargar a página nem
+     por um instante: é isso que fazia a tela "pular" na troca */
+  @media (max-width: 899px) { .vt-gaveta-moldura { overflow-x: clip; } }
   @media (prefers-reduced-motion: reduce) { .vt-troca, .vt-troca[data-lado] { animation: vt-aparece 0.2s; } }
   .vt-prancheta { position: relative; }
   .vt-prancheta-tabua { display: block; width: 100%; height: auto; }
