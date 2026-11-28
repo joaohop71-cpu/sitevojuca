@@ -373,11 +373,14 @@ export function Botao({
   onClick,
   type,
   largo = false,
+  carimbo = false,
 }: {
   href?: string;
   children: ReactNode;
-  tom?: "cheio" | "cobre" | "vazio" | "claro" | "contorno";
+  tom?: "cheio" | "cobre" | "vazio" | "claro" | "contorno" | "traco";
   onClick?: (e: EventoMouse<HTMLElement>) => void;
+  /** o contorno de carimbo, afastado do botão: para as ações principais */
+  carimbo?: boolean;
   type?: "button";
   /** ocupa a linha inteira no mobile — alvo de toque maior */
   largo?: boolean;
@@ -395,8 +398,10 @@ export function Botao({
     /* para fundo escuro: só o contorno, em creme */
     contorno:
       "bg-transparent text-[#efe3cc] border-[rgba(239,227,204,0.5)] hover:border-[#efe3cc] hover:bg-[rgba(239,227,204,0.1)]",
+    /* para fundo escuro: sem caixa, só o texto com o traço tracejado embaixo */
+    traco: "traco-link border-transparent",
   }[tom];
-  const cls = `${base} ${estilos}`;
+  const cls = `${base} ${estilos}${carimbo ? " botao-carimbo" : ""}`;
   if (href) {
     /* mailto entrega o endereço ao programa de e-mail e não navega: numa aba
        nova ela ficaria em branco, aberta, sem nada dentro */

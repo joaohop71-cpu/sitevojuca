@@ -239,11 +239,11 @@ export default function Capa() {
           style={linha(1.65)}
           data-print-hide
         >
-          <Botao href={zap("Olá! Quero conhecer os cafés do Vô Juca.")} tom="claro" largo>
+          <Botao href={zap("Olá! Quero conhecer os cafés do Vô Juca.")} tom="claro" carimbo largo>
             Pedir pelo WhatsApp
           </Botao>
-          <Botao href="#cafes" tom="contorno" largo>
-            Ver os cafés
+          <Botao href="#cafes" tom="traco" largo>
+            Ver os cafés ↓
           </Botao>
         </div>
 

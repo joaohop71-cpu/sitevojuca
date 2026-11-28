@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { MARCA, MENU as ITENS, zap } from "@/dados";
 import { DATILOGRAFIA, ETIQUETA, TECLA } from "@/abertura";
 import { useResumo } from "@/carrinho";
-import { registrarPedido } from "@/pedido";
+import { usePerguntaEntrega } from "./PerguntaEntrega";
 
 
 /**
@@ -57,6 +57,8 @@ export default function Navegacao() {
      com o pedido montado. Agora ele responde ao que existe: sem itens, leva
      aos cafés; com itens, fecha o pedido e diz quantos são. */
   const resumo = useResumo();
+  /* o botão de cima também pergunta da entrega quando falta o CEP */
+  const { aoFechar, pergunta } = usePerguntaEntrega(resumo);
   const { pacotes, mensagem } = resumo;
   const temPedido = pacotes > 0;
   const destino = temPedido ? zap(mensagem) : "#cafes";
@@ -195,10 +197,10 @@ export default function Navegacao() {
           ))}
           <a
             href={destino}
-            onClick={() => registrarPedido(resumo)}
+            onClick={temPedido ? aoFechar : undefined}
             data-alvo-pedido
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            className="nav-etiqueta relative inline-flex shrink-0 overflow-hidden border px-4 py-2 transition-colors"
+            className="nav-etiqueta botao-carimbo botao-carimbo-fino relative inline-flex whitespace-nowrap shrink-0 overflow-hidden border px-4 py-2 transition-colors"
             style={{
               "--etiqueta": `${ETIQUETA.computador}s`,
               ...rotulo,
@@ -207,6 +209,7 @@ export default function Navegacao() {
               background: claro ? "#efe3cc" : "#3a271b",
               borderColor: claro ? "#efe3cc" : "#3a271b",
               color: claro ? "#2c1d14" : "#efe3cc",
+              "--botao-carimbo": claro ? "#efe3cc" : "#3a271b",
             } as CSSProperties}
           >
             {temPedido ? `Fechar pedido (${pacotes})` : "Ver os cafés"}
@@ -217,10 +220,10 @@ export default function Navegacao() {
         <div className="flex items-center gap-2 xl:hidden">
           <a
             href={destino}
-            onClick={() => registrarPedido(resumo)}
+            onClick={temPedido ? aoFechar : undefined}
             data-alvo-pedido
             {...(externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            className="nav-etiqueta relative inline-flex h-11 items-center overflow-hidden border px-3.5 transition-colors"
+            className="nav-etiqueta botao-carimbo botao-carimbo-fino relative inline-flex whitespace-nowrap h-11 items-center overflow-hidden border px-3.5 transition-colors"
             style={{
               ...rotulo,
               fontSize: 14.5,
@@ -228,7 +231,8 @@ export default function Navegacao() {
               background: claro ? "#efe3cc" : "#3a271b",
               borderColor: claro ? "#efe3cc" : "#3a271b",
               color: claro ? "#2c1d14" : "#efe3cc",
-            }}
+              "--botao-carimbo": claro ? "#efe3cc" : "#3a271b",
+            } as CSSProperties}
           >
             {temPedido ? `Pedido (${pacotes})` : "Cafés"}
           </a>
@@ -295,6 +299,7 @@ export default function Navegacao() {
           </div>
         </div>
       )}
+      {pergunta}
     </nav>
   );
 }

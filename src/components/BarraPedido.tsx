@@ -94,12 +94,13 @@ export default function BarraPedido() {
             onClick={aoFechar}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center whitespace-nowrap border px-4 py-3 text-[13.5px] uppercase tracking-[0.1em] transition-colors sm:px-6"
+            className="botao-carimbo botao-carimbo-fino inline-flex items-center justify-center whitespace-nowrap border px-4 py-3 text-[13.5px] uppercase tracking-[0.1em] transition-colors sm:px-6"
             style={{
               fontFamily: '"Courier Prime", monospace',
               background: "#efe3cc",
               borderColor: "#efe3cc",
               color: "#2c1d14",
+              ["--botao-carimbo" as string]: "#efe3cc",
             }}
           >
             Fechar pedido
