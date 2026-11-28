@@ -84,13 +84,6 @@ function Etiqueta({ cafe, mexidas }: { cafe: Cafe; mexidas: number }) {
   return (
     <span ref={ref} className="vt-tag">
       <img src={`${V}/etiqueta.webp`} alt="" width={152} height={360} loading="lazy" decoding="async" />
-      {/* em promoção: um adesivo redondo colado torto no topo da etiqueta */}
-      {e && !e.esgotado && descontoDe(cafe) > 0 && (
-        <span className="vt-tag-promo">
-          <b>{Math.round(descontoDe(cafe) * 100)}%</b>
-          off
-        </span>
-      )}
       <span className="vt-tag-txt">
         {!e ? (
           <em>em breve</em>
@@ -103,6 +96,8 @@ function Etiqueta({ cafe, mexidas }: { cafe: Cafe; mexidas: number }) {
           <>
             <small>R$</small>
             <b className="num">{valorSemCifrao(e.valor)}</b>
+            {/* em promoção, o desconto escrito na própria etiqueta, em vermelho */}
+            {descontoDe(cafe) > 0 && <em className="vt-tag-off">{Math.round(descontoDe(cafe) * 100)}% off</em>}
             <em>{cafe.gramas} g</em>
             <em>{e.moagem}</em>
           </>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type MouseEvent as EventoMouse, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import ramoEsq from "@/assets/ramo-esq.webp";
 import ramoDir from "@/assets/ramo-dir.webp";
@@ -377,7 +377,7 @@ export function Botao({
   href?: string;
   children: ReactNode;
   tom?: "cheio" | "cobre" | "vazio" | "claro" | "contorno";
-  onClick?: () => void;
+  onClick?: (e: EventoMouse<HTMLElement>) => void;
   type?: "button";
   /** ocupa a linha inteira no mobile — alvo de toque maior */
   largo?: boolean;

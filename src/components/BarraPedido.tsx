@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { brl, zap } from "@/dados";
 import { useResumo } from "@/carrinho";
-import { registrarPedido } from "@/pedido";
+import { usePerguntaEntrega } from "./PerguntaEntrega";
 
 /**
  * A barra do pedido, presa no pé da tela.
@@ -13,6 +13,7 @@ import { registrarPedido } from "@/pedido";
 export default function BarraPedido() {
   const resumo = useResumo();
   const { pacotes, quilos, total, desconto, frete, mensagem } = resumo;
+  const { aoFechar, pergunta } = usePerguntaEntrega(resumo);
   /* com a lista do pedido na tela a barra não tem o que fazer, e ainda cobria
      o botão de fechar que já está ali */
   const [naLista, setNaLista] = useState(false);
@@ -90,7 +91,7 @@ export default function BarraPedido() {
           </a>
           <a
             href={zap(mensagem)}
-            onClick={() => registrarPedido(resumo)}
+            onClick={aoFechar}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center whitespace-nowrap border px-4 py-3 text-[13.5px] uppercase tracking-[0.1em] transition-colors sm:px-6"
@@ -103,6 +104,7 @@ export default function BarraPedido() {
           >
             Fechar pedido
           </a>
+          {pergunta}
         </div>
       </div>
     </div>
