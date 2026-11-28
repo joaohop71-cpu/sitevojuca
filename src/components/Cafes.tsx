@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
-import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, descontoDe, esgotadoDeVez, estaEsgotado, rotuloDesconto } from "@/dados";
+import { CAFES, PROMO, TINTA_ROTULO, brl, comDesconto, descontoDe, esgotadoDeVez, estaEsgotado, porQuilo, rotuloDesconto } from "@/dados";
 import type { Cafe, Moagem } from "@/dados";
 import { ajustar, useCarrinho } from "@/carrinho";
 import { Contador, Faixa, Rubrica, Visor } from "./base";
@@ -207,6 +207,10 @@ function LinhaPreco({ cafe, m, qtd }: { cafe: Cafe; m: Moagem; qtd: number }) {
           }}
         >
           {brl(comDesconto(valor, pct))}
+          {/* o quilo ao lado: os pacotes têm 300 g e 500 g, e é assim que se compara */}
+          <span className="ficha ml-2 whitespace-nowrap text-[13px] font-normal tracking-normal text-[#6f5b44]">
+            {porQuilo(comDesconto(valor, pct), cafe.gramas)}/kg
+          </span>
         </div>
       </div>
       {/* sem estoque, no lugar do contador vai a palavra; o preço fica, mais
